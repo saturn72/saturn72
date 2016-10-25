@@ -22,4 +22,4 @@ Either way we recomend you refer to our wiki knowledge base [developer-must-know
 - Reducing the development time 
 - Focusing on your business logic and not on infrastructure creation and adjustments
 - You are not really dependant on Saturn72 - your modules and applications has specific integrationpoints with Saturn72 codebase that can easily replaced.
-- Many (many-many-many) more features
+- Many (many-many-many) more cool features
