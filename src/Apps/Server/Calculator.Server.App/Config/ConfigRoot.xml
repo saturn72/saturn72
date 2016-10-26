@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
-  <assemblies/>
+  <assemblies>
+    <assembly Path="Calculator.WebApi.dll"/>
+  </assemblies>
   <env>
     <!--This section contains the environment data-->
     <modules Directory ="Modules" ShadowCopyDirectory="bin" DeleteShadowDirectoryOnStartup="True"/>

@@ -64,6 +64,10 @@
       <Project>{D8803E7D-BB0C-4BED-9127-1DB4FCA217AF}</Project>
       <Name>Calculator.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Calculator\Server\Calculator.WebApi\Calculator.WebApi.csproj">
+      <Project>{06D80C3C-3FA7-4763-9944-599407B15251}</Project>
+      <Name>Calculator.WebApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\ConfigMaps.xml">
