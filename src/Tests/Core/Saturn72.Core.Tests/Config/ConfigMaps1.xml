@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configMaps>
+  <configMap Name="ConfigMap1" Path="\Config\ConfigMap1.xml" ParserType="Saturn72.Core.Configuration.Maps.KeyValueConfigMap, Saturn72.Core"/>
+  <configMap Name="ConfigMap2" Path="\Config\ConfigMap2.xml" ParserType="Saturn72.Core.Configuration.Maps.KeyValueConfigMap, Saturn72.Core"/>
+</configMaps>
+

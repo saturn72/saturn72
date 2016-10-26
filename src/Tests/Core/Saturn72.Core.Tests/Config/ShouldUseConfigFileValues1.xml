@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <assemblies>
+    <assembly Path="Assemblies\ShouldBeLoaded.dll" />
+  </assemblies>
+  <env>
+    <modules Directory ="ModulesRootDir" ShadowCopyDirectory="ModulesShadowCopy" DeleteShadowDirectoryOnStartup="False"/>
+    <plugins Directory ="PluginsRootDir" ShadowCopyDirectory="PluginsShadowCopy" DeleteShadowDirectoryOnStartup="False"/>
+  </env>
+  <modules>
+    <module Type="MyModuleType1" Active="True" StartupOrder="30" StopOrder="130"/>
+    <module Type="MyModuleType2" Active="False" StartupOrder="0" StopOrder="0"/>
+    <module Type="MyModuleType3" Active="True" />
+  </modules>
+  
+  <configMaps Path="\Config\ConfigMaps1.xml"/>
+</config>

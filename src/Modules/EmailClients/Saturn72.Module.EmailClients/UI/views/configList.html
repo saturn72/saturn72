@@ -1,0 +1,26 @@
+
+
+<div class="col-xs-8" ng-controller="configController" ng-hide="data.error">
+
+    <div class="data" ng-hide="data.error">
+        <div class="well" ng-repeat="cc in data.configs">
+            <h3>
+                <strong>{{cc.name}}</string>
+                <span class="pull-right label label-primary">
+                    {{cc.username}}
+                </span>
+            </h3>
+            <span class="lead">Username:
+                {{cc.username}}</span>
+            <span class="lead">{{cc.password}}</span>
+            <span class="lead">Active:
+                {{cc.active}}</span>
+            <span class="lead">Copy to:
+                {{cc.copyTo}}</span>
+            <span class="lead">Host:
+                {{cc.host}}</span>
+            <span class="lead">Port:
+                {{cc.port}}</span>
+        </div>
+    </div>
+</div>

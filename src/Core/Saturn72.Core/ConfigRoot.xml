@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <appdomain>
+    <modules Directory ="Modules" ShadowCopyDirectory="bin" DeleteShadowDirectoryOnStartup="True"/>
+    <plugins Directory ="Modules" ShadowCopyDirectory="bin" DeleteShadowDirectoryOnStartup="True"/>
+  </appdomain>
+<modules>
+  <module Type="{full type name}, [assembly name}" Active="True"></module>
+</modules>
+</config>

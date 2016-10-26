@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D92341E7-6B28-4CDC-A024-A204D0ED670E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Saturn72.Core.Services</RootNamespace>
+    <AssemblyName>Saturn72.Core.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mimas_Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Mimas_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Saturn72.Extensions.1.1.9\lib\net45\Saturn72.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Authentication\IClientAppService.cs" />
+    <Compile Include="Authentication\IAuthenticationService.cs" />
+    <Compile Include="Configuration\ISettingsService.cs" />
+    <Compile Include="Data\Repositories\IBackgroundTaskExecutionDataRepository.cs" />
+    <Compile Include="Data\Repositories\IClientAppRepository.cs" />
+    <Compile Include="Data\Repositories\ILocaleResourceRespository.cs" />
+    <Compile Include="Data\Repositories\INotificationRepository.cs" />
+    <Compile Include="Extensibility\IPluginManager.cs" />
+    <Compile Include="Data\Repositories\IRefreshTokenRepository.cs" />
+    <Compile Include="Data\Repositories\IBackgroundTaskRepository.cs" />
+    <Compile Include="Data\Repositories\ISettingEntryRepository.cs" />
+    <Compile Include="Data\Repositories\IUserRepository.cs" />
+    <Compile Include="Events\CrudEventBase.cs" />
+    <Compile Include="Events\DeletedEvent.cs" />
+    <Compile Include="Events\UpdatedEvent.cs" />
+    <Compile Include="Events\CreatedEvent.cs" />
+    <Compile Include="Events\EventBase.cs" />
+    <Compile Include="Events\EventPublisherExtensions.cs" />
+    <Compile Include="Events\IConsumer.cs" />
+    <Compile Include="Events\IEventPublisher.cs" />
+    <Compile Include="Events\ISubscriptionService.cs" />
+    <Compile Include="Extensibility\IPluginService.cs" />
+    <Compile Include="Extensibility\PluginLoadMode.cs" />
+    <Compile Include="Localization\ILocaleService.cs" />
+    <Compile Include="Localization\LocaleServiceExtensions.cs" />
+    <Compile Include="Media\IUploadService.cs" />
+    <Compile Include="Media\UploadRequest.cs" />
+    <Compile Include="Media\UploadResponse.cs" />
+    <Compile Include="Media\UploadStatus.cs" />
+    <Compile Include="NotificationModule.cs" />
+    <Compile Include="Notifications\INotificationService.cs" />
+    <Compile Include="Notifications\INotifier.cs" />
+    <Compile Include="Notifications\NotificationMessage.cs" />
+    <Compile Include="Notifications\NotificationSubscriber.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resolver.cs" />
+    <Compile Include="ResolverBase.cs" />
+    <Compile Include="Security\FileContent.cs" />
+    <Compile Include="Security\FileValidationRequest.cs" />
+    <Compile Include="Security\FileValidationResult.cs" />
+    <Compile Include="Security\FileValidationResultCode.cs" />
+    <Compile Include="Security\IEncryptionService.cs" />
+    <Compile Include="Security\IFileValidationManager.cs" />
+    <Compile Include="Security\ISecurityService.cs" />
+    <Compile Include="Tasks\IBackgroundTaskExecutionService.cs" />
+    <Compile Include="Tasks\IBackgroundTaskService.cs" />
+    <Compile Include="User\IUserRegistrationService.cs" />
+    <Compile Include="User\IUserService.cs" />
+    <Compile Include="User\UserRegistrationRequest.cs" />
+    <Compile Include="User\UserRegistrationResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Saturn72.Core\Saturn72.Core.csproj">
+      <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
+      <Name>Saturn72.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
