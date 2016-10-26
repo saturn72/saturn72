@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configMap>
+  <config Key="Key1" Value="Value1"/>
+  <config Key="Key2" Value="Value2"/>
+</configMap>
+

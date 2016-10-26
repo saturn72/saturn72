@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configMaps>
+  <configMap Name="OwinConfigMap" Path="\Config\ConfigMaps\OwinConfigMap.xml" ParserType="Saturn72.Module.Owin.OwinConfigMap, Saturn72.Module.Owin"/>
+</configMaps>

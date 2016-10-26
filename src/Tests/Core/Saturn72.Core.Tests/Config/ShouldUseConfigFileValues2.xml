@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <assemblies>
+    <assembly Path="Assemblies\ShouldBeLoaded.dll" />
+  </assemblies>
+  <env>
+    <modules Directory ="." ShadowCopyDirectory="ModulesShadowCopy" DeleteShadowDirectoryOnStartup="False"/>
+    <plugins Directory ="." ShadowCopyDirectory="PluginsShadowCopy" DeleteShadowDirectoryOnStartup="False"/>
+  </env>
+</config>

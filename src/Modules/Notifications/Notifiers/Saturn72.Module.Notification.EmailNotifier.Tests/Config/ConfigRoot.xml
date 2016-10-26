@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+  <assemblies>
+    <!--This section contains assemblies that need to be loaded as prerequisite to the app domain-->
+  </assemblies>
+  <env>
+    <!--This section contains the environment data-->
+  </env>
+  
+  <modules>
+    <!--This section contains Modules to be loaded to the appdomain-->
+  </modules>
+
+  <!--this element contains the configuration mapping file relative path-->
+  <configMaps Path="Config\ConfigMaps.xml"/>
+</config>

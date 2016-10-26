@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="imapAgentApp">
+    <head>
+        <title>Imap Agent Console</title>
+        <script src="js/angular.min.js"></script>
+        <link href="content/css/bootstrap/bootstrap.css" rel="stylesheet"/>
+        <link href="content/css/bootstrap/bootstrap-theme.css" rel="stylesheet"/>
+        <script src="js/bootstrap-checkbox.min.js" defer></script>
+        <script>
+            var app = angular.module("imapAgentApp", []);
+        </script>
+        <script src="controllers/AppController.js"></script>
+        <script src="controllers/ConfigController.js"></script>
+        <script src="controllers/NavBarController.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse">
+            <a class="navbar-brand" href="/">IMAP Agent Console</a>
+        </div>
+        <div class="panel panel-default row" ng-controller="NavBarController">
+            <div class="col-xs-3">
+                <a ng-repeat="mi in menuItems" ng-click="setMenuItem(mi)" class=" btn btn-block btn-default btn-lg" ng-class="getMenuItemClass(mi)">
+                    {{mi.name}}
+                </a>
+            </div>
+
+            <div class="col-xs-8" ng-controller="ConfigController">
+                <div class="info">
+                    <h3>
+                        <span class="label label-info" ng-class="warningLevel()">
+                            Active clients:
+                            {{activeConfigurationCount()}}
+                        </span>
+                    </h3>
+                </div>
+                <div class="col-xs-8">
+                    <div class="well" ng-repeat="cc in data.configs">
+                        <h3>
+                            <strong>{{cc.username}}</strong>
+                            <span class="pull-right label label-primary">{{cc.name}}</span>
+                        </h3>
+
+                        <span class="lead">Username:
+                            {{cc.username}}<br/></span>
+                        <span class="lead">Password:
+                            {{cc.password}}<br/></span>
+                        <span class="lead">Password Confirm:
+                            {{cc.password}}<br/></span>
+                        <span class="lead">Active:
+                            <input type="checkbox" disabled checked data-group-cls="btn-group-sm" ng-checked="{{cc.active}}"/>
+                            <br/>
+                        </span>
+                        <span class="lead">Copy to:
+                            {{cc.copyTo}}<br/></span>
+                        <span class="lead">Host:
+                            {{cc.host}}<br/></span>
+                        <span class="lead">Port:
+                            {{cc.port}}<br/></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
