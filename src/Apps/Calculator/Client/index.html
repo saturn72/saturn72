@@ -1,27 +1,40 @@
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html>
 
-    <head>
-    </head>
+<head>
+</head>
 
-    <body ng-app="calculatorApp">
-        <!-- Vendor: Javascripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <!-- Vendor: Angular, followed by our custom Javascripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+<body ng-app="calculatorApp">
+    <!-- Vendor: Javascripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Vendor: Angular, followed by our custom Javascripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
 
-        <!-- Our Website Javascripts -->
-        <script src="js/app.js"></script>
-        <div id="add" ng-controller="CalculatorController">
+    <!-- Our Website Javascripts -->
+    <script src="js/app.js"></script>
+    <div ng-init="add()" ng-controller="CalculatorController">
+        <div id="add">
             X Value <br>
             <input type="number" name="x" ng-value="{{x}}" ng-model="x">
             <br> Y Value <br>
-            <input type="number" name="y"  ng-value="{{y}}" ng-model="y">
+            <input type="number" name="y" ng-value="{{y}}" ng-model="y">
             <br><br>
 
             <button ng-click="add()">ADD</button>
             <h3>The result is: {{result}} </h3>
             <br>
-    </body>
+        </div>
 
-    </html>
+        <div id="exp">
+            <h3>All your expressions</h3>
+
+            <ul>
+                <li ng-repeat="ex in expressions">{{ex}}</li>
+
+            </ul>
+           
+        </div>
+    </div>
+</body>
+
+</html>

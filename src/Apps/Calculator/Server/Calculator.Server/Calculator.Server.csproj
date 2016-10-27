@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{06D80C3C-3FA7-4763-9944-599407B15251}</ProjectGuid>
+    <ProjectGuid>{E2736069-2055-4156-A2E5-1D3EF31C15BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Calculator.WebApi</RootNamespace>
-    <AssemblyName>Calculator.WebApi</AssemblyName>
+    <RootNamespace>Calculator.Server</RootNamespace>
+    <AssemblyName>Calculator.Server</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,25 +32,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\bitbucket_repos\Rhea\src\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\Saturn72.Common.WebApi\Saturn72.Common.WebApi.csproj">
-      <Project>{71B3565D-1351-4978-9877-724E05103A08}</Project>
-      <Name>Saturn72.Common.WebApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Calculator.Server\Calculator.Server.csproj">
-      <Project>{E2736069-2055-4156-A2E5-1D3EF31C15BD}</Project>
-      <Name>Calculator.Server</Name>
-    </ProjectReference>
+    <Compile Include="Services\Calculation\CalculationService.cs" />
+    <Compile Include="Services\Calculation\ICalculationService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
