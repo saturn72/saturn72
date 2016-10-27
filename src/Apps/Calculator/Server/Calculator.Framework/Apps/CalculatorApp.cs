@@ -1,48 +1,48 @@
-﻿    #region
+﻿#region
 
-    using System.Collections.Generic;
-    using System.Linq;
-    using Saturn72.Common.App;
-    using Saturn72.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using Saturn72.Common.App;
+using Saturn72.Extensions;
 
-    #endregion
+#endregion
 
-    namespace Calculator.Framework.Apps
+namespace Calculator.Framework.Apps
+{
+    public class CalculatorApp : Saturn72AppBase
     {
-        public class CalculatorApp : Saturn72AppBase
+        private const string AppName = "calculator_server";
+        private readonly IEnumerable<IAppVersion> _versions;
+
+        public CalculatorApp() : base(AppName)
         {
-            private const string AppName = "calculator_server";
-            private readonly IEnumerable<IAppVersion> _versions;
+            _versions = LoadVersions();
+            LatestVersion = _versions.First(v => v.IsLatest);
+        }
 
-            public CalculatorApp() : base(AppName)
+        public override string Name
+        {
+            get { return AppName; }
+        }
+
+        public override IEnumerable<IAppVersion> Versions
+        {
+            get { return _versions; }
+        }
+
+        public override IAppVersion LatestVersion { get; }
+
+        private IEnumerable<IAppVersion> LoadVersions()
+        {
+            var versions = new IAppVersion[]
             {
-                _versions = LoadVersions();
-                LatestVersion = _versions.First(v => v.IsLatest);
-            }
+                new CalculatorVersion1()
+            };
 
-            public override string Name
-            {
-                get { return AppName; }
-            }
+            Guard.MustFollow(() => versions.Count(v => v.IsLatest) == 1,
+                "Multiple versions marked as latest, Or noversion is marked as latest");
 
-            public override IEnumerable<IAppVersion> Versions
-            {
-                get { return _versions; }
-            }
-
-            public override IAppVersion LatestVersion { get; }
-
-            private IEnumerable<IAppVersion> LoadVersions()
-            {
-                var versions = new IAppVersion[]
-                {
-                    new CalculatorVersion1()
-                };
-
-                Guard.MustFollow(() => versions.Count(v => v.IsLatest) == 1,
-                    "Multiple versions marked as latest, Or noversion is marked as latest");
-
-                return versions;
-            }
+            return versions;
         }
     }
+}

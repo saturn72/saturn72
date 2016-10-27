@@ -25,7 +25,7 @@ namespace Calculator.Server.Services.Calculation
         public async Task<IEnumerable<string>> GetExpressionsAsync()
         {
             var query = await Task.FromResult(_expressionRepository.GetAll());
-            return query.OrderBy(e => e.Id).Take(MaxRecords).Select(x => x.Message).ToArray();
+            return query.OrderByDescending(e => e.Id).Take(MaxRecords).Select(x => x.Message).ToArray();
         }
 
         public Task<int> AddAsync(int x, int y)

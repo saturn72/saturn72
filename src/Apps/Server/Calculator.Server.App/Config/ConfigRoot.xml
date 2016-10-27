@@ -2,6 +2,7 @@
 <config>
   <assemblies>
     <assembly Path="Calculator.WebApi.dll"/>
+    <assembly Path="EntityFramework.SqlServer.dll"/>
   </assemblies>
   <env>
     <!--This section contains the environment data-->

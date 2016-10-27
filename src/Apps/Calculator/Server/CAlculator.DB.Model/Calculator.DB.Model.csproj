@@ -66,6 +66,7 @@
       <DependentUpon>Calculator.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ExpressionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Calculator.edmx">
@@ -94,6 +95,20 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common\Saturn72.Common.Data\Saturn72.Common.Data.csproj">
+      <Project>{D839AC0D-B328-4D7B-B94C-B50C0E960428}</Project>
+      <Name>Saturn72.Common.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
+      <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
+      <Name>Saturn72.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
+      <Project>{F732B9E8-6BC9-4CA4-B123-C09B4694F7F8}</Project>
+      <Name>Calculator.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
