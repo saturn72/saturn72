@@ -57,5 +57,13 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Comparisons" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Expression.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Comparisons\SqlSchemaCompare.scmp" />
   </ItemGroup>
 </Project>

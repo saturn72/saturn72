@@ -129,6 +129,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Server", "Apps\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Server.Tests", "Apps\Calculator\Server\Tests\Calculator.Server.Tests\Calculator.Server.Tests.csproj", "{F8F48F67-3B03-4DD6-9FAF-B4BB44F0089C}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Calculator.DB", "Apps\Calculator\Server\Calculator.DB\Calculator.DB.sqlproj", "{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.DB.Model", "Apps\Calculator\Server\CAlculator.DB.Model\Calculator.DB.Model.csproj", "{83188D7F-68DC-4ED2-94B2-391BC874EB1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -327,6 +331,21 @@ Global
 		{F8F48F67-3B03-4DD6-9FAF-B4BB44F0089C}.Mimas_Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8F48F67-3B03-4DD6-9FAF-B4BB44F0089C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8F48F67-3B03-4DD6-9FAF-B4BB44F0089C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Mimas_Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Mimas_Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Mimas_Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E}.Mimas_Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E}.Mimas_Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -384,5 +403,7 @@ Global
 		{C9005BF1-0497-4A99-9B72-F7ACD325C22D} = {60A5D4A1-021E-4235-A8BF-F31F0F013A23}
 		{E2736069-2055-4156-A2E5-1D3EF31C15BD} = {CE839F0B-CC12-4CA2-92CD-EEBC44A99D7A}
 		{F8F48F67-3B03-4DD6-9FAF-B4BB44F0089C} = {057DFA1F-E293-4073-9DB2-83A7E0DE0BAB}
+		{4B5E0E93-EA15-4631-AB74-AFEBA4D12B5F} = {CE839F0B-CC12-4CA2-92CD-EEBC44A99D7A}
+		{83188D7F-68DC-4ED2-94B2-391BC874EB1E} = {CE839F0B-CC12-4CA2-92CD-EEBC44A99D7A}
 	EndGlobalSection
 EndGlobal
