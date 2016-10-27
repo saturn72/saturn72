@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Calculator.Common.Domain.Calculations;
+using Saturn72.Core.Data;
 
 #endregion
 
@@ -10,20 +13,19 @@ namespace Calculator.Server.Services.Calculation
 {
     public class CalculationService : ICalculationService
     {
-        private const int MaxSize = 10;
+        private const int MaxRecords = 10;
         private const string InsertionMessageFormat = "Perform {0} Expression with X: {1} and Y: {2}";
+        private readonly IRepository<ExpressionDomainModel, long> _expressionRepository;
 
-        private static string[] AllExpressions;
-
-        private static int InsertionIndex;
-
-        static  CalculationService()
+        public CalculationService(IRepository<ExpressionDomainModel, long> expressionRepository)
         {
-            CreateOrResetMessageCollection();
+            _expressionRepository = expressionRepository;
         }
-        public Task<IEnumerable<string>> GetExpressionsAsync()
+
+        public async Task<IEnumerable<string>> GetExpressionsAsync()
         {
-            return Task.FromResult(AllExpressions as IEnumerable<string>);
+            var query = await Task.FromResult(_expressionRepository.GetAll());
+            return query.OrderBy(e => e.Id).Take(MaxRecords).Select(x => x.Message).ToArray();
         }
 
         public Task<int> AddAsync(int x, int y)
@@ -53,20 +55,13 @@ namespace Calculator.Server.Services.Calculation
             return AddExpressionAndCalculate(message, () => x/y);
         }
 
-        public static void CreateOrResetMessageCollection()
-        {
-            InsertionIndex = 0;
-            AllExpressions = new string[MaxSize];
-        }
-
         #region Utilities
 
         private Task<T> AddExpressionAndCalculate<T>(string message, Func<T> exp)
         {
             return Task.Run(() =>
             {
-                AllExpressions[InsertionIndex] = message;
-                InsertionIndex = ++InsertionIndex%10;
+                _expressionRepository.Create(new ExpressionDomainModel {Message = message});
                 return exp();
             });
         }
