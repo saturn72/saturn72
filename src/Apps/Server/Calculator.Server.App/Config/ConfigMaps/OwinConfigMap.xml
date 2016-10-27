@@ -1,11 +1,11 @@
-﻿<configMap>
-  <serverUri>http://localhost:3131</serverUri>
-  <useExternalCookies>true</useExternalCookies>
-  <useOAuth>false</useOAuth>
-  <useCors>false</useCors>
-  <enableVersioning>true</enableVersioning>
-  <oAuthProviders>
-    <provider name="google" appId ="googleAppId" appSecret="googleAppSecret"/>
-    <provider name="facebook" appId ="facebookAppId" appSecret="facebookAppSecret"/>
-  </oAuthProviders>
-</configMap>
+﻿  <configMap>
+    <serverUri>http://localhost:3000</serverUri>
+    <useExternalCookies>true</useExternalCookies>
+    <useOAuth>false</useOAuth>
+    <useCors>true</useCors>
+    <enableVersioning>true</enableVersioning>
+    <oAuthProviders>
+      <provider name="google" appId ="googleAppId" appSecret="googleAppSecret"/>
+      <provider name="facebook" appId ="facebookAppId" appSecret="facebookAppSecret"/>
+    </oAuthProviders>
+  </configMap>
