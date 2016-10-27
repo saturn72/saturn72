@@ -68,6 +68,8 @@
     <Compile Include="Extensibility\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App\Saturn72AppBase.cs" />
+    <Compile Include="Data\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Data\Repositories\RepositoryBase.cs" />
     <Compile Include="Tasks\FullTrustBackgroundTask.cs" />
     <Compile Include="Tasks\FullTrustBackgroundTaskType.cs" />
     <Compile Include="Tasks\ICronValidator.cs" />

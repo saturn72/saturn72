@@ -66,10 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\Saturn72.Common.Data\Saturn72.Common.Data.csproj">
-      <Project>{D839AC0D-B328-4D7B-B94C-B50C0E960428}</Project>
-      <Name>Saturn72.Common.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Common\Saturn72.Common.WebApi\Saturn72.Common.WebApi.csproj">
       <Project>{71B3565D-1351-4978-9877-724E05103A08}</Project>
       <Name>Saturn72.Common.WebApi</Name>
