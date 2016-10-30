@@ -51,7 +51,7 @@ namespace Calculator.Server.Tests.Services.Calculation
             for (var i = 0; i < maxIndex; i++)
             {
                 var expectedMessage =string.Format("Perform {0} Expression with X: {1} and Y: {2}", "Add", i, i + 1);
-                exps.ElementAt(i).ShouldEqual(expectedMessage);
+                exps.ElementAt(maxIndex-1-i).ShouldEqual(expectedMessage);
             }
 
             ExpressionList.Clear();
@@ -66,7 +66,7 @@ namespace Calculator.Server.Tests.Services.Calculation
             for (var i = 0; i < maxIndex; i++)
             {
                 var expectedMessage = string.Format("Perform {0} Expression with X: {1} and Y: {2}", "Add", i, i + 1);
-                exps.ElementAt(i).ShouldEqual(expectedMessage);
+                exps.ElementAt(maxIndex - 1 - i).ShouldEqual(expectedMessage);
             }
 
 
@@ -82,10 +82,7 @@ namespace Calculator.Server.Tests.Services.Calculation
             exps.Count().ShouldEqual(maxIndex);
             for (var i = 0; i < maxIndex; i++)
             {
-                var expectedMessage = i < maxIndex - curIndex
-                    ? string.Format("Perform {0} Expression with X: {1} and Y: {2}", "Add", 10 + i, 11 + i)
-                    : string.Format("Perform {0} Expression with X: {1} and Y: {2}", "Add", i, i + 1);
-
+                var expectedMessage =  string.Format("Perform {0} Expression with X: {1} and Y: {2}", "Add", curIndex-1-i, curIndex-  i);
                 exps.ElementAt(i).ShouldEqual(expectedMessage);
             }
             ExpressionList.Clear();
