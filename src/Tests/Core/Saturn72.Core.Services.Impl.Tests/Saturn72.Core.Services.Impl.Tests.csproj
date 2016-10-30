@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\SettingServiceTests.cs" />
+    <Compile Include="Events\EventPublisherTests.cs" />
     <Compile Include="Localization\LocaleServiceTests.cs" />
     <Compile Include="Media\UploadServiceTests.cs" />
     <Compile Include="Notifications\NotificationServiceTests.cs" />
