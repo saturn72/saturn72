@@ -24,4 +24,4 @@ Either way we recomend you refer to our wiki knowledge base [developer-must-know
 - You are not really dependant on Saturn72 - your modules and applications has specific integrationpoints with Saturn72 codebase that can easily replaced.
 - Many (many-many-many) more cool features
 
-<h2>Checkout out (wiki)[/saturn72/wiki] for more details</h2>
+<h3>Checkout out [wiki](https://github.com/saturn72/saturn72/wiki) for more details</h3>
