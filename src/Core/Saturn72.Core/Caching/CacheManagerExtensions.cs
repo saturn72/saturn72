@@ -4,13 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 #endregion
 
 namespace Saturn72.Core.Caching
 {
-    public static class CachManagerExtensions
+    public static class CacheManagerExtensions
     {
+        public static Task SetAsync(this ICacheManager cacheManager, string key, object data, int cacheTime)
+        {
+            return Task.Run(() => cacheManager.Set(key, data, cacheTime));
+        }
+
         /// <summary>
         ///     Get a cached item. If it's not in the cache yet, then load and cache it
         /// </summary>
@@ -45,6 +51,13 @@ namespace Saturn72.Core.Caching
                 cacheManager.Set(key, result, cacheTime);
             return result;
         }
+
+        public static async Task<T> GetAsync<T>(this ICacheManager cacheManager, string key, int cacheTime,
+            Func<T> acquire)
+        {
+            return await Task.FromResult(Get(cacheManager, key, cacheTime, acquire));
+        }
+
 
         /// <summary>
         ///     Removes items by pattern

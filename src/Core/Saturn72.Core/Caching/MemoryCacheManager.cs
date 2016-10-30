@@ -42,7 +42,7 @@ namespace Saturn72.Core.Caching
 
             var policy = new CacheItemPolicy();
             policy.AbsoluteExpiration = DateTime.Now + TimeSpan.FromMinutes(cacheTime);
-            Cache.Add(new CacheItem(key, data), policy);
+            Cache.Set(new CacheItem(key, data), policy);
         }
 
         /// <summary>
