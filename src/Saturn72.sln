@@ -14,10 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{4F874EF3-BC87-4FDA-B038-0E27A2BBF699}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NUnit", "NUnit", "{315598AF-EBD5-4B56-AF00-196C57D4EC66}"
-	ProjectSection(SolutionItems) = preProject
-		libs\NUnit\nunit.core.dll = libs\NUnit\nunit.core.dll
-		libs\NUnit\nunit.core.interfaces.dll = libs\NUnit\nunit.core.interfaces.dll
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{AB0201BC-9C43-4B4E-AE62-85D25708F51D}"
 EndProject
