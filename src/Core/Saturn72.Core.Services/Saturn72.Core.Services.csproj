@@ -59,15 +59,7 @@
     <Compile Include="Authentication\IClientAppService.cs" />
     <Compile Include="Authentication\IAuthenticationService.cs" />
     <Compile Include="Configuration\ISettingsService.cs" />
-    <Compile Include="Data\Repositories\IBackgroundTaskExecutionDataRepository.cs" />
-    <Compile Include="Data\Repositories\IClientAppRepository.cs" />
-    <Compile Include="Data\Repositories\ILocaleResourceRespository.cs" />
-    <Compile Include="Data\Repositories\INotificationRepository.cs" />
     <Compile Include="Extensibility\IPluginManager.cs" />
-    <Compile Include="Data\Repositories\IRefreshTokenRepository.cs" />
-    <Compile Include="Data\Repositories\IBackgroundTaskRepository.cs" />
-    <Compile Include="Data\Repositories\ISettingEntryRepository.cs" />
-    <Compile Include="Data\Repositories\IUserRepository.cs" />
     <Compile Include="Events\CrudEventBase.cs" />
     <Compile Include="Events\DeletedEvent.cs" />
     <Compile Include="Events\UpdatedEvent.cs" />
@@ -116,6 +108,9 @@
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Permissions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

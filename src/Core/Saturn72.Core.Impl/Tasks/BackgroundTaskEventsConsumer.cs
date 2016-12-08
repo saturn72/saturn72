@@ -1,11 +1,10 @@
 ﻿#region
 
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Tasks;
 using Saturn72.Core.Infrastructure;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Events;
-using Saturn72.Core.Services.Tasks;
 using Saturn72.Extensions;
 
 #endregion

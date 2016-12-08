@@ -60,7 +60,6 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
         }
 
         [Test]
-        [Ignore("Wait until upload service is developed")]
         public void UploadService_UploadFile_Uploads()
         {
             var fvManager = new Mock<IFileValidationManager>();

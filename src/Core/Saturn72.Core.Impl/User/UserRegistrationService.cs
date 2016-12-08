@@ -3,9 +3,9 @@
 using System;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Security;
 using Saturn72.Core.Services.User;
@@ -17,17 +17,11 @@ namespace Saturn72.Core.Services.Impl.User
 {
     public class UserRegistrationService : DomainModelCrudServiceBase<UserDomainModel, long>, IUserRegistrationService
     {
-        #region Fields
-
-        private readonly IEncryptionService _encryptionService;
-        private readonly IUserService _userService;
-        private readonly UserSettings _userSettings;
-
-        #endregion
-
         #region ctor
 
-        public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService, UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService, ICacheManager cacheManager, ITypeFinder typeFinder) :
+        public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
+            UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
+            ICacheManager cacheManager, ITypeFinder typeFinder) :
             base(userRepository, eventPublisher, cacheManager, typeFinder)
         {
             _encryptionService = encryptionService;
@@ -61,7 +55,7 @@ namespace Saturn72.Core.Services.Impl.User
                 LastIpAddress = request.ClientIp
             };
 
-            await CreateAsync( user);
+            await CreateAsync(user);
             EventPublisher.DomainModelCreated<UserDomainModel, long>(user);
 
             return response;
@@ -94,7 +88,7 @@ namespace Saturn72.Core.Services.Impl.User
                     return user.Password ==
                            _encryptionService.CreatePasswordHash(password, user.PasswordSalt,
                                _userSettings.HashedPasswordFormat);
-                    default:
+                default:
                     return false;
             }
         }
@@ -126,16 +120,26 @@ namespace Saturn72.Core.Services.Impl.User
             var response = new UserRegistrationResponse();
             //Check username
             var usernameOrEmailNotEmpty = request.UsernameOrEmail.HasValue();
-            if(!usernameOrEmailNotEmpty)
+            if (!usernameOrEmailNotEmpty)
                 response.AddError("Please specify user email or username");
 
-            if (usernameOrEmailNotEmpty && !_userSettings.ValidateByEmail && _userService.GetUserByUsername(request.UsernameOrEmail).NotNull())
+            if (usernameOrEmailNotEmpty && !_userSettings.ValidateByEmail &&
+                _userService.GetUserByUsername(request.UsernameOrEmail).NotNull())
                 response.AddError("Username already exists");
 
-            if (usernameOrEmailNotEmpty && _userSettings.ValidateByEmail && _userService.GetUserByEmail(request.UsernameOrEmail).NotNull())
+            if (usernameOrEmailNotEmpty && _userSettings.ValidateByEmail &&
+                _userService.GetUserByEmail(request.UsernameOrEmail).NotNull())
                 response.AddError("Email already exists");
 
             return response;
         }
+
+        #region Fields
+
+        private readonly IEncryptionService _encryptionService;
+        private readonly IUserService _userService;
+        private readonly UserSettings _userSettings;
+
+        #endregion
     }
 }

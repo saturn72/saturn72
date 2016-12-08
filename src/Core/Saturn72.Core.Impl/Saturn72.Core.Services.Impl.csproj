@@ -79,6 +79,10 @@
     <Compile Include="User\UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Saturn72.Core.Data\Saturn72.Core.Data.csproj">
+      <Project>{E2F5DF30-436F-4C8F-AB70-494F5CA2EF4E}</Project>
+      <Name>Saturn72.Core.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Saturn72.Core.Services\Saturn72.Core.Services.csproj">
       <Project>{D92341E7-6B28-4CDC-A024-A204D0ED670E}</Project>
       <Name>Saturn72.Core.Services</Name>

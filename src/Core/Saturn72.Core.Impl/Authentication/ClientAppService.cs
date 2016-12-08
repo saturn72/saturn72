@@ -1,11 +1,12 @@
 ﻿#region
 
 using System.Linq;
+using System.Text.RegularExpressions;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Clients;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Authentication;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Events;
 
 #endregion
@@ -24,9 +25,12 @@ namespace Saturn72.Core.Services.Impl.Authentication
 
         #endregion
 
-        public ClientAppDomainModel GetClientByClientId(string clientId)
+        public ClientAppDomainModel GetClientByClientId(string clientId, string clientIpAddress)
         {
-            return FilterTable(ca => ca.Active && (ca.ClientId == clientId)).FirstOrDefault();
+            return
+                FilterTable(
+                        ca => ca.Active && (ca.ClientId == clientId) && Regex.IsMatch(clientIpAddress, ca.AllowedOrigin))
+                    .FirstOrDefault();
         }
     }
 }

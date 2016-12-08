@@ -4,10 +4,10 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Localization;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Logging;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Impl.Localization;
 using Saturn72.Core.Services.Localization;
 using Saturn72.Extensions;
@@ -17,6 +17,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
 {
     public class LocaleServiceTests
     {
+        private static readonly IDictionary<string, object> _cachedObjects = new Dictionary<string, object>();
+
         private readonly IEnumerable<LocaleResourceDomainModel> _localeResources = new[]
         {
             new LocaleResourceDomainModel {Id = 1, Key = "Key1", Value = "Value1", LanguageId = 0},
@@ -28,7 +30,6 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
             new LocaleResourceDomainModel {Id = 1, Key = "Key4", Value = "Value4", LanguageId = 2}
         };
 
-        private static readonly IDictionary<string, object> _cachedObjects = new Dictionary<string, object>();
         private static ICacheManager BuildCacheManagerMock()
         {
             var cm = new Mock<ICacheManager>();
@@ -127,7 +128,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
 
             var langLocaleResource = _localeResources.Where(lr => lr.LanguageId == langId);
             res.Length.ShouldEqual(langLocaleResource.Count());
-            for (int i = 0; i < langLocaleResource.Count(); i++)
+            for (var i = 0; i < langLocaleResource.Count(); i++)
             {
                 var lr = langLocaleResource.ElementAt(i);
                 res[i].Key.ShouldEqual(lr.Key.ToLowerInvariant());
@@ -139,24 +140,25 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
         [Test]
         public void LocaleService_GetsLocaleResourceUsingCallerMethod()
         {
-            var srv = new TestLocaleService(null,null,null);
+            var srv = new TestLocaleService(null, null, null);
             var resourceKeySuffix = "Suffix";
-            var expected = "{0}.{1}.{2}".AsFormat(this.GetType().FullName,
+            var expected = "{0}.{1}.{2}".AsFormat(GetType().FullName,
                 "LocaleService_GetsLocaleResourceUsingCallerMethod", resourceKeySuffix);
             srv.GetLocaleResourceByCallerMethod(resourceKeySuffix).ShouldEqual(expected);
-
         }
     }
 
-    public class TestLocaleService:LocaleService
+    public class TestLocaleService : LocaleService
     {
-        public override string GetLocaleResource(string resourceKey, int languageId, string defaultValue = "", bool returnNullOnNotFound = false)
+        public TestLocaleService(ILocaleResourceRespository localeResourceRespository, ICacheManager cacheManager,
+            ILogger logger) : base(localeResourceRespository, cacheManager, logger)
         {
-            return resourceKey;
         }
 
-        public TestLocaleService(ILocaleResourceRespository localeResourceRespository, ICacheManager cacheManager, ILogger logger) : base(localeResourceRespository, cacheManager, logger)
+        public override string GetLocaleResource(string resourceKey, int languageId, string defaultValue = "",
+            bool returnNullOnNotFound = false)
         {
+            return resourceKey;
         }
     }
 }

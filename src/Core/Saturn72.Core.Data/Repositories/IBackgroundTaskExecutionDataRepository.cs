@@ -1,6 +1,6 @@
 ﻿using Saturn72.Core.Domain.Tasks;
 
-namespace Saturn72.Core.Services.Data.Repositories
+namespace Saturn72.Core.Data.Repositories
 {
     public interface IBackgroundTaskExecutionDataRepository
     {

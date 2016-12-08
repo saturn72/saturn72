@@ -8,8 +8,9 @@ namespace Saturn72.Core.Services.Authentication
         /// <summary>
         /// gets client application 
         /// </summary>
-        /// <param name="clientId">client application id</param>
+        /// <param name="clientId"></param>
+        /// <param name="clientIpAddress"></param>
         /// <returns>App</returns>
-        ClientAppDomainModel GetClientByClientId(string clientId);
+        ClientAppDomainModel GetClientByClientId(string clientId, string clientIpAddress);
     }
 }

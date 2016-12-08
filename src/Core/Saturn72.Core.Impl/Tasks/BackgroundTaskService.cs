@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Tasks;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Tasks;
 using Saturn72.Core.Tasks;
@@ -142,9 +142,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
         private void DeleteFileSystemObject(BackgroundTaskDomainModel task)
         {
             if (_settings.CompressAllAttachtmentsToPackage)
-            {
                 throw new NotImplementedException();
-            }
 
 
             var notNewAttachtments = task.Attachtments.Where(a => a.Id != default(long)).ToArray();
@@ -160,9 +158,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
             var taskFolder = GetTaskLocalPath(task);
 
             if (_settings.CompressAllAttachtmentsToPackage)
-            {
                 throw new NotImplementedException();
-            }
 
             foreach (var attachtment in task.Attachtments)
             {

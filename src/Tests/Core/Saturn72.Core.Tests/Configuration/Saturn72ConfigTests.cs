@@ -2,7 +2,6 @@
 
 using System;
 using System.IO;
-using System.Threading;
 using NUnit.Framework;
 using Saturn72.UnitTesting.Framework;
 using Saturn72.Core.Configuration;

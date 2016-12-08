@@ -7,7 +7,7 @@ using Saturn72.Core.Domain.Security;
 
 namespace Saturn72.Core.Domain.Users
 {
-    public class UserRoleDomainModel : DomainModelBase<object>
+    public class UserRoleDomainModel : DomainModelBase<long>
     {
         private ICollection<PermissionRecord> _permissionRecords;
 

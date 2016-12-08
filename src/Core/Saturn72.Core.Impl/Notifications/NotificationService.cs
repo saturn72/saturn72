@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Notifications;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Notifications;
 using Saturn72.Extensions;
@@ -59,23 +59,23 @@ namespace Saturn72.Core.Services.Impl.Notifications
         public Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            return base.CreateAsync(notification);
+            return CreateAsync(notification);
         }
 
         public Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            return base.UpdateAsync(notification);
+            return UpdateAsync(notification);
         }
 
         public void DeleteNotification(long id)
         {
-            base.Delete(id);
+            Delete(id);
         }
 
         public NotificationDomainModel GetNotificationById(long id)
         {
-            return base.GetById(id);
+            return GetById(id);
         }
     }
 }

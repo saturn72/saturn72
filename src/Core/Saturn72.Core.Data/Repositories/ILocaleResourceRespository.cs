@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Saturn72.Core.Domain.Localization;
 
-namespace Saturn72.Core.Services.Data.Repositories
+namespace Saturn72.Core.Data.Repositories
 {
     public  interface ILocaleResourceRespository
     {

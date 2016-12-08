@@ -43,11 +43,16 @@
       <HintPath>..\..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Moq, Version=4.5.21.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Moq.4.5.21\lib\net45\Moq.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.5.28.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Moq.4.5.28\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -63,11 +68,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\SettingServiceTests.cs" />
-    <Compile Include="Events\EventPublisherTests.cs" />
     <Compile Include="Localization\LocaleServiceTests.cs" />
     <Compile Include="Media\UploadServiceTests.cs" />
     <Compile Include="Notifications\NotificationServiceTests.cs" />
@@ -75,15 +80,32 @@
     <Compile Include="Tasks\BackgroundTaskBaseTests.cs" />
     <Compile Include="Tasks\BackgroundTaskEventsConsumerTests.cs" />
     <Compile Include="Tasks\BackgroundTaskExecutionServiceTests.cs" />
+    <Compile Include="Tasks\BackgroundTaskServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Apps\Rhea\Rhea.DbModel\Rhea.DbModel.csproj">
+      <Project>{BA7370F3-78AD-46A1-9FEC-564B055E621C}</Project>
+      <Name>Rhea.DbModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Saturn72.Common.Data\Saturn72.Common.Data.csproj">
+      <Project>{D839AC0D-B328-4D7B-B94C-B50C0E960428}</Project>
+      <Name>Saturn72.Common.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\Saturn72.Core.Data\Saturn72.Core.Data.csproj">
+      <Project>{E2F5DF30-436F-4C8F-AB70-494F5CA2EF4E}</Project>
+      <Name>Saturn72.Core.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Modules\EntityFramework\Saturn72.Module.EntityFramework\Saturn72.Module.EntityFramework.csproj">
+      <Project>{1B65300E-AE20-4CEB-AC57-0A0AE7ECBC87}</Project>
+      <Name>Saturn72.Module.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Modules\Ioc\Autofac\Saturn72.Module.Ioc.Autofac\Saturn72.Module.Ioc.Autofac.csproj">
       <Project>{E78561F2-234A-43BA-86B8-4F715C47BCD6}</Project>

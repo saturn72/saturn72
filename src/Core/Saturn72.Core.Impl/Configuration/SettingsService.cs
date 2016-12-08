@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Configuration;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Configuration;
 using Saturn72.Core.Services.Configuration;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Events;
 using Saturn72.Extensions;
 
@@ -76,18 +76,6 @@ namespace Saturn72.Core.Services.Impl.Configuration
             DeleteSettingEntries(settingsToDelete);
         }
 
-        public void DeleteSettingEntries(IEnumerable<SettingEntryDomainModel> settingEntries)
-        {
-            if (settingEntries.IsEmptyOrNull())
-                return;
-
-            _settingEntryRepository.Delete(settingEntries);
-
-            ClearCache();
-
-            settingEntries.ForEachItem(_eventPublisher.DomainModelDeleted<SettingEntryDomainModel, long>);
-        }
-
 
         public virtual IEnumerable<SettingEntryDomainModel> GetAllSettingEntries()
         {
@@ -117,6 +105,18 @@ namespace Saturn72.Core.Services.Impl.Configuration
             }
 
             ClearCache();
+        }
+
+        public void DeleteSettingEntries(IEnumerable<SettingEntryDomainModel> settingEntries)
+        {
+            if (settingEntries.IsEmptyOrNull())
+                return;
+
+            _settingEntryRepository.Delete(settingEntries);
+
+            ClearCache();
+
+            settingEntries.ForEachItem(_eventPublisher.DomainModelDeleted<SettingEntryDomainModel, long>);
         }
 
         public virtual T GetSettingByKey<T>(string key, T defaultValue = default(T))
@@ -250,17 +250,12 @@ namespace Saturn72.Core.Services.Impl.Configuration
                         Value = s.Value
                     };
                     if (!dictionary.ContainsKey(resourceName))
-                    {
-                        //first setting
                         dictionary.Add(resourceName, new List<SettingForCaching>
                         {
                             settingForCaching
                         });
-                    }
                     else
-                    {
                         dictionary[resourceName].Add(settingForCaching);
-                    }
                 }
                 return dictionary;
             });

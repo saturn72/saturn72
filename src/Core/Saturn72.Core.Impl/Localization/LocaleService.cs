@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Logging;
-using Saturn72.Core.Services.Data.Repositories;
 using Saturn72.Core.Services.Localization;
 using Saturn72.Extensions;
 
@@ -24,10 +23,11 @@ namespace Saturn72.Core.Services.Impl.Localization
             _logger = logger;
         }
 
-        public virtual string GetLocaleResource(string resourceKey, int languageId, string defaultValue = "", bool returnNullOnNotFound = false)
+        public virtual string GetLocaleResource(string resourceKey, int languageId, string defaultValue = "",
+            bool returnNullOnNotFound = false)
         {
             if (!resourceKey.HasValue())
-                return returnNullOnNotFound ?  null :defaultValue;
+                return returnNullOnNotFound ? null : defaultValue;
 
             resourceKey = resourceKey.Trim().ToLowerInvariant();
 
@@ -36,7 +36,7 @@ namespace Saturn72.Core.Services.Impl.Localization
             if (GetAllLocaleResources(languageId).TryGetValue(resourceKey, out lr))
                 return lr.Value;
 
-                _logger.Warning("Resource string ({0}) is not found. Language ID = {1}".AsFormat(resourceKey, languageId));
+            _logger.Warning("Resource string ({0}) is not found. Language ID = {1}".AsFormat(resourceKey, languageId));
             return returnNullOnNotFound ? null : defaultValue;
         }
 

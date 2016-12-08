@@ -8,8 +8,8 @@ using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.Web;
-using Saturn72.Core.ComponentModel;
 using Saturn72.Extensions;
+using Saturn72.Core.ComponentModel;
 
 #endregion
 
@@ -106,8 +106,7 @@ namespace Saturn72.Core
                 .FirstOrDefault(a => a.GetName().Name == assemblyName);
 
             if (asm == null)
-                throw new ArgumentException("The assembly {0} was not found in app domain".AsFormat(assemblyName),
-                    assemblyName);
+                throw new ArgumentException("The assembly {0} was not found in app domain".AsFormat(assemblyName), assemblyName);
 
             return asm.GetType(typeFullName);
         }

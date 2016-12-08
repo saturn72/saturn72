@@ -62,16 +62,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Caching" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caching\MemoryCacheManagerTests.cs" />
     <Compile Include="CommonHelperTests.cs" />
     <Compile Include="ComponentModel\GenericListTypeConverterTests.cs" />
     <Compile Include="Configuration\Saturn72ConfigTests.cs" />
     <Compile Include="Configuration\XmlConfigManagerTests.cs" />
     <Compile Include="Infrastructure\AppDomainLoaderTests.cs" />
-    <Compile Include="Infrastructure\AppDomainTypeFinderTests.cs" />
     <Compile Include="Infrastructure\EngineDriverTests.cs" />
     <Compile Include="Infrastructure\TypeFinderExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
