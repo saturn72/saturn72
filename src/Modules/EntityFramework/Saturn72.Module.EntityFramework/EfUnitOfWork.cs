@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Reflection;
 using System.Threading.Tasks;
-using Saturn72.Common.Data.Repositories;
 using Saturn72.Core;
 using Saturn72.Core.Domain;
 
@@ -13,7 +12,7 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Module.EntityFramework
 {
-    public class EfUnitOfWork<TId> : DbContext, IUnitOfWork<TId>
+    public class EfUnitOfWork<TId> : DbContext//, IUnitOfWork<TId>
     {
         private readonly string _nameOrConnectionString;
 

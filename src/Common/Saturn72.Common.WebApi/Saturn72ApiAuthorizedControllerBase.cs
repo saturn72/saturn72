@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Http;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
+using Saturn72.Common.WebApi.Security;
 using Saturn72.Common.WebApi.Utils;
 using Saturn72.Core;
 using Saturn72.Extensions;
@@ -20,7 +21,7 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Common.WebApi
 {
-    //[Authorize]
+    [Saturn72Authorize]
     public abstract class Saturn72ApiAuthorizedControllerBase : Saturn72ApiControllerBase
     {
     }

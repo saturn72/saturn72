@@ -93,7 +93,7 @@ namespace Saturn72.Common.WebApi
             });
         }
 
-        private string ConvertModelStateErrorsToKeyValuePair()
+        protected virtual string ConvertModelStateErrorsToKeyValuePair()
         {
             var modelStateErrorsList = ModelState.Select(x =>
                 string.Format("{0} : {1}", x.Key, string.Join("\n\t", x.Value.Errors.Select(e => e.ErrorMessage))))

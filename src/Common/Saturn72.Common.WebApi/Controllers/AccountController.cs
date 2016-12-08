@@ -13,6 +13,7 @@ using Saturn72.Common.WebApi.Models.Account;
 namespace Saturn72.Common.WebApi.Controllers
 {
     [AllowAnonymous]
+    [RoutePrefix("Account")]
     public class AccountController : Saturn72ApiControllerBase
     {
         #region Fields
@@ -30,13 +31,14 @@ namespace Saturn72.Common.WebApi.Controllers
 
         #endregion
 
+        [Route("Register")]
         public async Task<IHttpActionResult> Register(UserRegistrationApiModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return BadRequest(ConvertModelStateErrorsToKeyValuePair());
 
             //TOD: get password format from settings
-            var request = new UserRegistrationRequest(model.Username, model.Password, PasswordFormat.Encrypted, GetSenderIpAddress());
+            var request = new UserRegistrationRequest(model.UsernameOrEmail, model.Password, PasswordFormat.Encrypted, GetSenderIpAddress());
             var response = await _userRegistrationService.RegisterAsync(request);
 
             if (response.Success)

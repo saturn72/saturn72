@@ -16,52 +16,52 @@ namespace Saturn72.Common.Data.Repositories
         : IRepository<TDomainModel, TId>
         where TDomainModel : DomainModelBase<TId> where TEntity : class
     {
-        protected readonly IUnitOfWork<TId> UnitOfWork;
+        protected readonly IUnitOfWork<TDomainModel, TId> UnitOfWork;
 
-        protected RepositoryBase(IUnitOfWork<TId> unitOfWork)
+        protected RepositoryBase(IUnitOfWork<TDomainModel, TId> unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }
 
         public virtual IEnumerable<TDomainModel> GetAll()
         {
-            return UnitOfWork.GetAll<TDomainModel, TEntity>();
+            return UnitOfWork.GetAll();
         }
 
         public TDomainModel GetById(TId id)
         {
-            return UnitOfWork.GetById<TDomainModel, TEntity>(id);
+            return UnitOfWork.GetById(id);
         }
 
         public TDomainModel Update(TDomainModel model)
         {
             Guard.NotNull(model);
 
-            return UnitOfWork.Update<TDomainModel, TEntity>(model);
+            return UnitOfWork.Update(model);
         }
 
         public TDomainModel Create(TDomainModel model)
         {
             Guard.NotNull(model);
 
-            return UnitOfWork.Create<TDomainModel, TEntity>(model);
+            return UnitOfWork.Create(model);
         }
 
         public async Task<TDomainModel> CreateAsync(TDomainModel model)
         {
-            return await UnitOfWork.CreateAsync<TDomainModel, TEntity>(model);
+            return await UnitOfWork.CreateAsync(model);
         }
 
         public void Delete(TId id)
         {
-            if (UnitOfWork.Delete<TEntity>(id) <= 0)
+            if (UnitOfWork.Delete(id) <= 0)
                 throw new InvalidOperationException(
                     "Failed to delete table row. Type: {0}, row Id: {1}".AsFormat(typeof(TEntity), id));
         }
 
         public void Delete(IEnumerable<TId> ids)
         {
-            UnitOfWork.Delete<TEntity>(ids);
+            UnitOfWork.Delete(ids);
         }
 
         public void Delete(TDomainModel model)
@@ -71,12 +71,12 @@ namespace Saturn72.Common.Data.Repositories
 
         public void Delete(IEnumerable<TDomainModel> models)
         {
-            UnitOfWork.Delete<TEntity>(models.Select(x => x.Id));
+            UnitOfWork.Delete(models.Select(x => x.Id));
         }
 
         public IEnumerable<TDomainModel> GetBy(Func<TDomainModel, bool> func)
         {
-            return UnitOfWork.GetAll<TDomainModel, TEntity>().Where(func).ToArray();
+            return UnitOfWork.GetAll().Where(func).ToArray();
         }
     }
 }
