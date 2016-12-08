@@ -568,6 +568,7 @@ SchemaComparisons/
 
 #exclude patterns
 !**/*.Tests/Resources/*
+!**/*.Tests/Plugin*/**/ShouldBeLoaded.dll
 
 #webstorm config
 .idea
