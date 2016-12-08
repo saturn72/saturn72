@@ -60,12 +60,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
-      <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
-      <Name>Saturn72.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

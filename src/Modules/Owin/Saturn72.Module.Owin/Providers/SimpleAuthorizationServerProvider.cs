@@ -1,7 +1,6 @@
 ﻿#region
 
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Saturn72.Core.Domain.Clients;
+using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.Authentication;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Core.Services.Security;
@@ -23,25 +23,15 @@ namespace Saturn72.Module.Owin.Providers
     {
         #region Constst
 
-        private const string UsernameKey = "userName";
-
-        #endregion
-
-        #region Fields
-
-        private readonly IClientAppService _clientAppService;
-        private readonly IEncryptionService _encryptionService;
-        private readonly IUserRegistrationService _userRegistrationService;
-        private readonly IUserService _userService;
-        private readonly UserSettings _userSettings;
+        private const string UsernameKey = "userNameOrEmail";
 
         #endregion
 
         #region Ctor
 
-        public SimpleAuthorizationServerProvider(IClientAppService clientAppService,
-            IEncryptionService encryptionService,
-            IUserRegistrationService userRegistrationService, IUserService userService, UserSettings userSettings)
+        public SimpleAuthorizationServerProvider(IClientAppService clientAppService, IEncryptionService encryptionService,
+            IUserRegistrationService userRegistrationService, IUserService userService, 
+            UserSettings userSettings)
         {
             _clientAppService = clientAppService;
             _encryptionService = encryptionService;
@@ -58,22 +48,25 @@ namespace Saturn72.Module.Owin.Providers
             string clientSecret;
 
             //legal request + client ID exists
-            var authenticated = (context.TryGetBasicCredentials(out clientId, out clientSecret)
-                                 || context.TryGetFormCredentials(out clientId, out clientSecret))
-                                && context.ClientId.NotNull();
+            var authRequestValidator = (context.TryGetBasicCredentials(out clientId, out clientSecret)
+                                        || context.TryGetFormCredentials(out clientId, out clientSecret))
+                                       && context.ClientId.NotNull();
 
-            var clientApp = _clientAppService.GetClientAppByClientId(context.ClientId, null);
+            var clientIpAddress =
+                (context.Request.Environment["owin.RequestHeaders"] as IDictionary<string, string[]>)["Origin"].First();
+
+            var clientApp = _clientAppService.GetClientAppByClientId(context.ClientId, clientIpAddress);
             //client exist by UsernameKey/password and nativeapp woth secret or not native app
-            authenticated = authenticated && clientApp.NotNull() && NativeAppCriteria(clientApp, clientSecret);
+            authRequestValidator = authRequestValidator && clientApp.NotNull() && NativeAppCriteria(clientApp, clientSecret);
 
-            if (!authenticated)
+            if (!authRequestValidator)
             {
                 RejectAndAddClientIdError(context);
                 return Task.FromResult<object>(null);
             }
 
             //enable cors
-            context.OwinContext.Set(SecurityKeys.ClientAllowedOrigin, clientApp.AllowedOrigin);
+            context.OwinContext.Set(SecurityKeys.ClientAllowedOrigin, clientIpAddress);
             context.OwinContext.Set(SecurityKeys.ClientRefreshTokenLifeTime, clientApp.RefreshTokenLifeTime.ToString());
 
             context.Validated();
@@ -103,7 +96,10 @@ namespace Saturn72.Module.Owin.Providers
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
+
+            //Async fault might occurd - not tested
+            var task = AddUserRoles(identity, user);
+
             identity.AddClaim(new Claim("sub", context.UserName));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
@@ -117,7 +113,16 @@ namespace Saturn72.Module.Owin.Providers
             });
 
             var ticket = new AuthenticationTicket(identity, props);
+
+            Task.WaitAll(task);
+
             context.Validated(ticket);
+        }
+
+        private async Task AddUserRoles(ClaimsIdentity identity, UserDomainModel user)
+        {
+            foreach (var ur in user.UserRoles)
+                identity.AddClaim(new Claim(ClaimTypes.Role, ur.Name));
         }
 
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
@@ -134,11 +139,9 @@ namespace Saturn72.Module.Owin.Providers
             // Change auth ticket for refresh token requests
             var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
 
-            var newClaim = newIdentity.Claims.Where(c => c.Type == "newClaim").FirstOrDefault();
+            var newClaim = newIdentity.Claims.FirstOrDefault(c => c.Type == "newClaim");
             if (newClaim != null)
-            {
                 newIdentity.RemoveClaim(newClaim);
-            }
             newIdentity.AddClaim(new Claim("newClaim", "newValue"));
 
             var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
@@ -150,19 +153,27 @@ namespace Saturn72.Module.Owin.Providers
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
             foreach (var property in context.Properties.Dictionary)
-            {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
-            }
 
             return Task.FromResult<object>(null);
         }
+
+        #region Fields
+
+        private readonly IClientAppService _clientAppService;
+        private readonly IEncryptionService _encryptionService;
+        private readonly IUserRegistrationService _userRegistrationService;
+        private readonly IUserService _userService;
+        private readonly UserSettings _userSettings;
+
+        #endregion
 
         #region Utilities
 
         private bool NativeAppCriteria(ClientAppDomainModel client, string clientSecret)
         {
             return client.ApplicationType == ApplicationType.NativeApp
-                ? clientSecret.HasValue() && _encryptionService.DecryptText(client.Secret) == clientSecret
+                ? clientSecret.HasValue() && (_encryptionService.DecryptText(client.Secret) == clientSecret)
                 : true;
         }
 

@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Saturn72.Module.EntityFramework\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Saturn72.Module.EntityFramework\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -53,14 +53,16 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextManagement\DbContextCommander.cs" />
+    <Compile Include="ContextManagement\IDbContextCommander.cs" />
     <Compile Include="EfUnitOfWork.cs" />
     <Compile Include="MappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Saturn72.Common\Saturn72.Common.csproj">
-      <Project>{6DE3E33E-0B13-4C57-8871-C83E1EEB8470}</Project>
-      <Name>Saturn72.Common</Name>
+    <ProjectReference Include="..\..\..\Common\Saturn72.Common.Data\Saturn72.Common.Data.csproj">
+      <Project>{D839AC0D-B328-4D7B-B94C-B50C0E960428}</Project>
+      <Name>Saturn72.Common.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>

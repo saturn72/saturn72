@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Reflection;
 using System.Threading.Tasks;
+using Saturn72.Common.Data.Repositories;
 using Saturn72.Core;
 using Saturn72.Core.Domain;
 
@@ -12,7 +13,9 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Module.EntityFramework
 {
-    public class EfUnitOfWork<TId> : DbContext//, IUnitOfWork<TId>
+    public class EfUnitOfWork<TDomainModel, TId, TEntity> : DbContext, IUnitOfWork<TDomainModel, TId>
+        where TDomainModel : DomainModelBase<TId>
+        where TEntity : class
     {
         private readonly string _nameOrConnectionString;
 
@@ -21,32 +24,32 @@ namespace Saturn72.Module.EntityFramework
             _nameOrConnectionString = nameOrConnectionString;
         }
 
-        public IEnumerable<TDomainModel> GetAll<TDomainModel, TEntity>()
-            where TEntity : class
-            where TDomainModel : DomainModelBase<TId>
+        public IEnumerable<TDomainModel> GetAll()
+            
+            
         {
-            return QueryNewContext(ctx => GetSet<TEntity>(ctx).AsNoTracking().ToDomainModel<TEntity, TDomainModel>());
+            return QueryNewContext(ctx => GetSet(ctx).AsNoTracking().ToDomainModel<TEntity, TDomainModel>());
         }
 
-        public TDomainModel GetById<TDomainModel, TEntity>(TId id)
-            where TEntity : class
-            where TDomainModel : DomainModelBase<TId>
+        public TDomainModel GetById(TId id)
+            
+            
         {
             return QueryNewContext(ctx =>
             {
-                var entity = GetSet<TEntity>(ctx).Find(id);
+                var entity = GetSet(ctx).Find(id);
                 return entity==null? null : entity.ToDomainModel<TEntity, TDomainModel>();
             });
         }
 
-        public TDomainModel Replace<TDomainModel, TEntity>(TDomainModel model) where TDomainModel : DomainModelBase<TId>
-            where TEntity : class
+        public TDomainModel Replace(TDomainModel model) 
+            
         {
             return QueryNewContext(ctx =>
             {
-                var modelAsEntity = model.ToEntity<TDomainModel, TEntity>();
+                var modelAsEntity =  model.ToEntity<TDomainModel, TEntity>();
 
-                var entity = GetSet<TEntity>(ctx).Find(model.Id);
+                var entity = GetSet(ctx).Find(model.Id);
 
                 //TODO: maybe update bug here ==> 
                 ctx.Entry(entity).CurrentValues.SetValues(modelAsEntity);
@@ -55,14 +58,14 @@ namespace Saturn72.Module.EntityFramework
         }
 
 
-        public Task<TDomainModel> CreateAsync<TDomainModel, TEntity>(TDomainModel model)
-            where TDomainModel : DomainModelBase<TId>
-            where TEntity : class
+        public Task<TDomainModel> CreateAsync(TDomainModel model)
+            
+            
         {
             return QueryNewContextAsync(async ctx =>
             {
-                var entity = model.ToEntity<TDomainModel, TEntity>();
-                GetSet<TEntity>(ctx).Add(entity);
+                var entity =  model.ToEntity<TDomainModel, TEntity>();
+                GetSet(ctx).Add(entity);
 
                 return await ctx.SaveChangesAsync() == 0
                     ? null
@@ -71,29 +74,29 @@ namespace Saturn72.Module.EntityFramework
         }
 
 
-        public TDomainModel Create<TDomainModel, TEntity>(TDomainModel model) where TDomainModel : DomainModelBase<TId>
-            where TEntity : class
+        public TDomainModel Create(TDomainModel model) 
+            
         {
             return QueryNewContext(ctx =>
             {
-                var entity = model.ToEntity<TDomainModel, TEntity>();
-                GetSet<TEntity>(ctx).Add(entity);
+                var entity =  model.ToEntity<TDomainModel, TEntity>();
+                GetSet(ctx).Add(entity);
                 return SaveChangesToContext(ctx) == 0
                     ? default(TDomainModel)
                     : entity.MapToInstance(model);
             });
         }
 
-        public TDomainModel Update<TDomainModel, TEntity>(TDomainModel model) where TDomainModel : DomainModelBase<TId>
-            where TEntity : class
+        public TDomainModel Update(TDomainModel model) 
+            
         {
             return QueryNewContext(ctx =>
             {
-                var entity = GetSet<TEntity>(ctx).Find(model.Id);
+                var entity = GetSet(ctx).Find(model.Id);
                 if(entity == null)
                     throw new ArgumentException(string.Format("Failed to find entity of type {0} with Id {1}",model.ToString(), model.Id));
 
-                var modelAsEntity = model.ToEntity<TDomainModel, TEntity>();
+                var modelAsEntity =  model.ToEntity<TDomainModel, TEntity>();
 
                 var notChangedProperties = GetUnchangedProperties(modelAsEntity, entity);
                 model.MapToInstance(entity);
@@ -106,16 +109,16 @@ namespace Saturn72.Module.EntityFramework
             });
         }
 
-        public int Delete<TEntity>(TId id) where TEntity : class
+        public int Delete(TId id) 
         {
-            return Delete<TEntity>(new[] {id});
+            return Delete(new[] {id});
         }
 
-        public int Delete<TEntity>(IEnumerable<TId> ids) where TEntity : class
+        public int Delete(IEnumerable<TId> ids) 
         {
             return QueryNewContext(ctx =>
             {
-                var set = GetSet<TEntity>(ctx);
+                var set = GetSet(ctx);
                 foreach (var id in ids)
                 {
                     var entity = set.Find(id);
@@ -190,7 +193,7 @@ namespace Saturn72.Module.EntityFramework
             }
         }
 
-        private static IDbSet<TEntity> GetSet<TEntity>(DbContext ctx) where TEntity : class
+        private static IDbSet<TEntity> GetSet(DbContext ctx)
         {
             return ctx.Set<TEntity>();
         }

@@ -28,20 +28,20 @@ namespace Saturn72.Module.Ioc.Autofac
                     ? scope.Resolve(type)
                     : scope.ResolveKeyed(key, type);
 
-            return ResolveByLifetimeScope(func);
+            return Resolve(func);
         }
 
-        public TService Resolve<TService>(object key = null)
+        public virtual TService Resolve<TService>(object key = null)
         {
             Func<ILifetimeScope, TService> func = scope =>
                 key.IsNull()
                     ? scope.Resolve<TService>()
                     : scope.ResolveKeyed<TService>(key);
 
-            return ResolveByLifetimeScope(func);
+            return Resolve(func);
         }
 
-        public TService[] ResolveAll<TService>(object key = null)         {
+        public virtual TService[] ResolveAll<TService>(object key = null)         {
             return Resolve<IEnumerable<TService>>().ToArray();
         }
 
@@ -186,7 +186,7 @@ namespace Saturn72.Module.Ioc.Autofac
             return Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
         }
 
-        public T ResolveByLifetimeScope<T>(Func<ILifetimeScope, T> func)
+        public virtual T Resolve<T>(Func<ILifetimeScope, T> func)
         {
             var scope = GetDefaultLifeTimeScope();
             return func(scope);
