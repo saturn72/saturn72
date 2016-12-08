@@ -59,6 +59,10 @@
       <HintPath>..\..\..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Saturn72.Core.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Core\Saturn72.Core.Impl\bin\Debug\Saturn72.Core.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Saturn72.Extensions.1.1.9\lib\net45\Saturn72.Extensions.dll</HintPath>
       <Private>True</Private>
@@ -87,17 +91,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Apps\Rhea\Rhea.DbModel\Rhea.DbModel.csproj">
-      <Project>{BA7370F3-78AD-46A1-9FEC-564B055E621C}</Project>
-      <Name>Rhea.DbModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Saturn72.Common.Data\Saturn72.Common.Data.csproj">
       <Project>{D839AC0D-B328-4D7B-B94C-B50C0E960428}</Project>
       <Name>Saturn72.Common.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Core\Saturn72.Core.Data\Saturn72.Core.Data.csproj">
-      <Project>{E2F5DF30-436F-4C8F-AB70-494F5CA2EF4E}</Project>
-      <Name>Saturn72.Core.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
