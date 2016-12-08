@@ -62,9 +62,9 @@ namespace Saturn72.Module.Owin.Providers
                                  || context.TryGetFormCredentials(out clientId, out clientSecret))
                                 && context.ClientId.NotNull();
 
-            var client = _clientAppService.GetClientByClientId(context.ClientId);
+            var clientApp = _clientAppService.GetClientAppByClientId(context.ClientId, null);
             //client exist by UsernameKey/password and nativeapp woth secret or not native app
-            authenticated = authenticated && client.NotNull() && NativeAppCriteria(client, clientSecret);
+            authenticated = authenticated && clientApp.NotNull() && NativeAppCriteria(clientApp, clientSecret);
 
             if (!authenticated)
             {
@@ -73,8 +73,8 @@ namespace Saturn72.Module.Owin.Providers
             }
 
             //enable cors
-            context.OwinContext.Set(SecurityKeys.ClientAllowedOrigin, client.AllowedOrigin);
-            context.OwinContext.Set(SecurityKeys.ClientRefreshTokenLifeTime, client.RefreshTokenLifeTime.ToString());
+            context.OwinContext.Set(SecurityKeys.ClientAllowedOrigin, clientApp.AllowedOrigin);
+            context.OwinContext.Set(SecurityKeys.ClientRefreshTokenLifeTime, clientApp.RefreshTokenLifeTime.ToString());
 
             context.Validated();
 

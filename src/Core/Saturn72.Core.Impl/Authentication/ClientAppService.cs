@@ -25,7 +25,7 @@ namespace Saturn72.Core.Services.Impl.Authentication
 
         #endregion
 
-        public ClientAppDomainModel GetClientByClientId(string clientId, string clientIpAddress)
+        public ClientAppDomainModel GetClientAppByClientId(string clientId, string clientIpAddress)
         {
             return
                 FilterTable(

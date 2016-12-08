@@ -11,6 +11,6 @@ namespace Saturn72.Core.Services.Authentication
         /// <param name="clientId"></param>
         /// <param name="clientIpAddress"></param>
         /// <returns>App</returns>
-        ClientAppDomainModel GetClientByClientId(string clientId, string clientIpAddress);
+        ClientAppDomainModel GetClientAppByClientId(string clientId, string clientIpAddress);
     }
 }

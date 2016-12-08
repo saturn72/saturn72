@@ -49,7 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Saturn72.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Saturn72.Utils.1.1.7\lib\net45\Saturn72.Utils.dll</HintPath>
+      <HintPath>..\..\packages\Saturn72.Utils.1.1.8\lib\net45\Saturn72.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
