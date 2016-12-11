@@ -6,6 +6,8 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Builder;
+using Autofac.Core;
+using Autofac.Core.Activators.ProvidedInstance;
 using Autofac.Core.Lifetime;
 using Autofac.Features.Scanning;
 using Saturn72.Core;
@@ -41,20 +43,20 @@ namespace Saturn72.Module.Ioc.Autofac
             return Resolve(func);
         }
 
-        public virtual TService[] ResolveAll<TService>(object key = null)         {
+        public virtual TService[] ResolveAll<TService>(object key = null)
+        {
             return Resolve<IEnumerable<TService>>().ToArray();
         }
 
         public T ResolveUnregistered<T>() where T : class
         {
-            return ResolveUnregistered(typeof (T)) as T;
+            return ResolveUnregistered(typeof(T)) as T;
         }
 
         public object ResolveUnregistered(Type type)
         {
             var constructors = type.GetConstructors();
             foreach (var constructor in constructors)
-            {
                 try
                 {
                     var parameters = constructor.GetParameters();
@@ -70,35 +72,34 @@ namespace Saturn72.Module.Ioc.Autofac
                 catch (Saturn72Exception)
                 {
                 }
-            }
             throw new Saturn72Exception("No constructor  was found that had all the dependencies satisfied.");
         }
 
-        public void RegisterInstance<TService>(TService implementation, LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null)
             where TService : class
         {
             Func<ContainerBuilder, IRegistrationBuilder<TService, IConcreteActivatorData, SingleRegistrationStyle>>
                 regFunc = builder => builder.RegisterInstance(implementation).As<TService>();
 
-            RegisterAndAssign(regFunc, lifecycle, key, typeof (TService));
+            return ToIocRegistrationRecord(RegisterAndAssign(regFunc, LifeCycle.SingleInstance, key, typeof(TService)));
         }
 
-        public void RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null)
             where TService : class
             where TServiceImpl : TService
 
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<TServiceImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle>>
+                    IRegistrationBuilder<TServiceImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle>>
                 regFunc = cb => cb.RegisterType<TServiceImpl>().As<TService>();
 
-            RegisterAndAssign(regFunc, lifecycle, key, typeof (TService));
+            return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, typeof(TService)));
         }
 
         public void RegisterTypes(LifeCycle lifeCycle, params Type[] serviceImplTypes)
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<object, ScanningActivatorData, DynamicRegistrationStyle>>
+                    IRegistrationBuilder<object, ScanningActivatorData, DynamicRegistrationStyle>>
                 regFunc = cb => cb.RegisterTypes(serviceImplTypes);
 
             RegisterAndAssign(regFunc, lifeCycle, null, null);
@@ -107,7 +108,7 @@ namespace Saturn72.Module.Ioc.Autofac
         public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency)
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<object, ReflectionActivatorData, object>>
+                    IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => RegisterType(serviceImplType, cb);
 
             RegisterAndAssign(regFunc, lifeCycle, null, null);
@@ -115,26 +116,27 @@ namespace Saturn72.Module.Ioc.Autofac
 
         public void RegisterType<TServiceImpl>(LifeCycle lifecycle = LifeCycle.PerDependency)
         {
-            RegisterType(typeof (TServiceImpl), lifecycle);
+            RegisterType(typeof(TServiceImpl), lifecycle);
         }
 
-        public void RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle,
+            object key = null)
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<object, ReflectionActivatorData, object>>
+                    IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => RegisterType(serviceImplType, cb).As(serviceType);
 
-            RegisterAndAssign(regFunc, lifecycle, key, serviceType);
+            return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, serviceType));
         }
 
 
-        public void RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle)
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<object, ReflectionActivatorData, object>>
+                    IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => RegisterType(serviceImplType, cb).As(serviceTypes);
 
-            RegisterAndAssign(regFunc, lifecycle, null, null);
+            return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, null, null));
         }
 
 
@@ -147,20 +149,20 @@ namespace Saturn72.Module.Ioc.Autofac
             CreateOrUpdateContainer(builder);
         }
 
-        public void Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle,
+            object key = null)
         {
-            //  Register( handle3)
             Func<ContainerBuilder, IRegistrationBuilder<TService, SimpleActivatorData, SingleRegistrationStyle>>
                 registrationFunc =
                     builder => builder.Register(context => resolveHandler());
 
-            RegisterAndAssign(registrationFunc, lifecycle, key, typeof (TService));
+            return ToIocRegistrationRecord(RegisterAndAssign(registrationFunc, lifecycle, key, typeof(TService)));
         }
 
         public void RegisterDelegate<TServiceImpl>(Func<IIocResolver, TServiceImpl> func, LifeCycle lifeCycle)
         {
             var reg = RegistrationBuilder.ForDelegate(
-                (c, p) => func(this as IIocResolver));
+                (c, p) => func(this));
 
             AssignByLifeCycle(reg, lifeCycle);
             var regFunc = reg.CreateRegistration();
@@ -170,6 +172,7 @@ namespace Saturn72.Module.Ioc.Autofac
             builder.RegisterSource(regSource);
 
             CreateOrUpdateContainer(builder);
+
         }
 
         //TODO: this is not really run in seperate scope since the resolution action will still uses the original scope to resolve.
@@ -179,6 +182,38 @@ namespace Saturn72.Module.Ioc.Autofac
             {
                 action();
             }
+        }
+
+        // private IocRegistrationRecord ToIocRegistrationRecord<TLimit, TActivatorData, TRegistrationStyle>(IRegistrationBuilder<TLimit, TActivatorData, TRegistrationStyle> regBuilder)
+        private IocRegistrationRecord ToIocRegistrationRecord<TService, TActivatorData, TRegistrationStyle>(
+            IRegistrationBuilder<TService, TActivatorData, TRegistrationStyle> regBuilder)
+        {
+            var activatorType = ExtractActivatorType(regBuilder.ActivatorData);
+            var ImplType = (regBuilder.ActivatorData as ConcreteReflectionActivatorData)?.ImplementationType ??
+                           (regBuilder.ActivatorData as SimpleActivatorData)?.Activator.LimitType;
+            var serviceTypes =
+                regBuilder.RegistrationData.Services.Select(s => (s as TypedService).ServiceType).ToArray();
+
+            return new IocRegistrationRecord
+            {
+                Metadata = regBuilder.RegistrationData.Metadata,
+                ServiceTypes = serviceTypes,
+                ImplementedType = ImplType,
+                RegistrationId = (regBuilder.RegistrationStyle as SingleRegistrationStyle)?.Id.ToString(),
+                ActivatorType = activatorType
+            };
+        }
+
+        private ActivatorType ExtractActivatorType(object activatorData)
+        {
+            if (activatorData is ConcreteReflectionActivatorData)
+                return ActivatorType.Constractor;
+
+            var actData = activatorData as SimpleActivatorData;
+            if (actData != null)
+                return actData.Activator is ProvidedInstanceActivator? ActivatorType.Instance : ActivatorType.Delegate;
+
+            throw new NotSupportedException("The activator type is not supported");
         }
 
         public virtual ILifetimeScope GetDefaultLifeTimeScope()
@@ -202,7 +237,7 @@ namespace Saturn72.Module.Ioc.Autofac
             return cb.RegisterType(serviceImplType);
         }
 
-        private void RegisterAndAssign<TServiceImpl>(
+        private IRegistrationBuilder<TServiceImpl, object, object> RegisterAndAssign<TServiceImpl>(
             Func<ContainerBuilder, IRegistrationBuilder<TServiceImpl, object, object>>
                 registrationFunc, LifeCycle lifecycle, object key, Type keyedServiceType)
         {
@@ -215,6 +250,8 @@ namespace Saturn72.Module.Ioc.Autofac
             AssignByLifeCycle(reg, lifecycle);
 
             CreateOrUpdateContainer(builder);
+
+            return reg;
         }
 
         private void CreateOrUpdateContainer(ContainerBuilder containerBuilder)
@@ -225,13 +262,12 @@ namespace Saturn72.Module.Ioc.Autofac
                 containerBuilder.Update(Container);
         }
 
-
         private void AssignByLifeCycle<TService>(
             IRegistrationBuilder<TService, object, object> registrationBuilder,
             LifeCycle lifecycle)
         {
             //change per request to per dependency on non-web applications
-            if (lifecycle == LifeCycle.PerRequest && !CommonHelper.IsWebApp())
+            if ((lifecycle == LifeCycle.PerRequest) && !CommonHelper.IsWebApp())
                 lifecycle = LifeCycle.PerDependency;
 
             switch (lifecycle)

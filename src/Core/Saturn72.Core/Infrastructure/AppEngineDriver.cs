@@ -77,10 +77,10 @@ namespace Saturn72.Core.Infrastructure
         {
             var registrars = new List<Action<IIocRegistrator>>
             {
-                r => r.RegisterInstance<IAppEngineDriver>(this, LifeCycle.SingleInstance),
-                r => r.RegisterInstance(typeFinder, LifeCycle.SingleInstance),
-                r => r.RegisterInstance<IIocResolver>(IocContainerManager, LifeCycle.SingleInstance),
-                r => r.RegisterInstance<IIocRegistrator>(IocContainerManager, LifeCycle.SingleInstance)
+                r => r.RegisterInstance<IAppEngineDriver>(this),
+                r => r.RegisterInstance(typeFinder),
+                r => r.RegisterInstance<IIocResolver>(IocContainerManager),
+                r => r.RegisterInstance<IIocRegistrator>(IocContainerManager)
             };
             IocContainerManager.Register(registrars);
 

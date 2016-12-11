@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Linq;
 using System.Threading;
 using Autofac.Core.Registration;
 using NUnit.Framework;
@@ -114,7 +115,7 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
 
             var result2 = cm.Resolve<TestInterfaceImpl2>();
             Assert.IsInstanceOf<TestInterfaceImpl2>(result2);
-            
+
             var result3 = cm.Resolve<TestInterfaceImpl3>();
             Assert.IsInstanceOf<TestInterfaceImpl3>(result3);
         }
@@ -149,6 +150,58 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
 
             var result2 = cm.Resolve<ITestService2>();
             result2.ShouldBe<TestService>();
+        }
+
+        [Test]
+        public void Register_ReturnsIocRegistrationRecord()
+        {
+            var cm = new AutofacIocContainerManager();
+
+            //register type returns ioc
+            var regRecord = cm.RegisterType<TestService, ITestService1>(LifeCycle.SingleInstance);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
+            regRecord.ImplementedType.ShouldBeType<TestService>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+            //register type returns ioc
+            regRecord = cm.RegisterType(typeof(TestService), typeof(ITestService1), LifeCycle.SingleInstance);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
+            regRecord.ImplementedType.ShouldBeType<TestService>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+
+            regRecord = cm.RegisterType(typeof(TestService),
+                new[] {typeof(ITestService1), typeof(ITestService2)}, LifeCycle.PerDependency);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(2);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
+            regRecord.ServiceTypes.Last().ShouldBeType<ITestService2>();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldBeType<TestService>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+
+            //register single instance
+            var srv3 = new TestService3();
+             regRecord = cm.RegisterInstance<ITestService3>(srv3);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldBeType<TestService3>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Instance);
+            //register 
+
+            regRecord = cm.Register<ITestService3>(()=> new TestService3(), LifeCycle.PerLifetime);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldBeType<ITestService3>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Delegate);
         }
     }
 }
