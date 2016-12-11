@@ -29,8 +29,9 @@ namespace Saturn72.Module.Owin.Providers
 
         #region Ctor
 
-        public SimpleAuthorizationServerProvider(IClientAppService clientAppService, IEncryptionService encryptionService,
-            IUserRegistrationService userRegistrationService, IUserService userService, 
+        public SimpleAuthorizationServerProvider(IClientAppService clientAppService,
+            IEncryptionService encryptionService,
+            IUserRegistrationService userRegistrationService, IUserService userService,
             UserSettings userSettings)
         {
             _clientAppService = clientAppService;
@@ -57,7 +58,8 @@ namespace Saturn72.Module.Owin.Providers
 
             var clientApp = _clientAppService.GetClientAppByClientId(context.ClientId, clientIpAddress);
             //client exist by UsernameKey/password and nativeapp woth secret or not native app
-            authRequestValidator = authRequestValidator && clientApp.NotNull() && NativeAppCriteria(clientApp, clientSecret);
+            authRequestValidator = authRequestValidator && clientApp.NotNull() &&
+                                   NativeAppCriteria(clientApp, clientSecret);
 
             if (!authRequestValidator)
             {
@@ -121,6 +123,7 @@ namespace Saturn72.Module.Owin.Providers
 
         private async Task AddUserRoles(ClaimsIdentity identity, UserDomainModel user)
         {
+            _userService.LoadUserRoles(user);
             foreach (var ur in user.UserRoles)
                 identity.AddClaim(new Claim(ClaimTypes.Role, ur.Name));
         }
