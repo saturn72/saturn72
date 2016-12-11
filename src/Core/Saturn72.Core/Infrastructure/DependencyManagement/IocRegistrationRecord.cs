@@ -11,5 +11,6 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
         public IDictionary<string, object> Metadata { get; set; }
         public string RegistrationId { get; set; }
         public ActivatorType ActivatorType { get; set; }
+        public IEnumerable<object> Keys { get; set; }
     }
 }

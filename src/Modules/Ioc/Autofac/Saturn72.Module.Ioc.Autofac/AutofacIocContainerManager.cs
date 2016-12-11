@@ -172,7 +172,6 @@ namespace Saturn72.Module.Ioc.Autofac
             builder.RegisterSource(regSource);
 
             CreateOrUpdateContainer(builder);
-
         }
 
         //TODO: this is not really run in seperate scope since the resolution action will still uses the original scope to resolve.
@@ -191,8 +190,15 @@ namespace Saturn72.Module.Ioc.Autofac
             var activatorType = ExtractActivatorType(regBuilder.ActivatorData);
             var ImplType = (regBuilder.ActivatorData as ConcreteReflectionActivatorData)?.ImplementationType ??
                            (regBuilder.ActivatorData as SimpleActivatorData)?.Activator.LimitType;
-            var serviceTypes =
-                regBuilder.RegistrationData.Services.Select(s => (s as TypedService).ServiceType).ToArray();
+            var serviceTypes = regBuilder.RegistrationData.Services
+                .Select(s => (s as TypedService)?.ServiceType ?? (s as KeyedService)?.ServiceType ?? s.GetType())
+                .GroupBy(grp => grp)
+                .Select(g => g.First())
+                .ToArray();
+
+            var keys =
+                regBuilder.RegistrationData.Services.Where(s => s is KeyedService)
+                    .Select(srv => (srv as KeyedService).ServiceKey).ToArray();
 
             return new IocRegistrationRecord
             {
@@ -200,7 +206,8 @@ namespace Saturn72.Module.Ioc.Autofac
                 ServiceTypes = serviceTypes,
                 ImplementedType = ImplType,
                 RegistrationId = (regBuilder.RegistrationStyle as SingleRegistrationStyle)?.Id.ToString(),
-                ActivatorType = activatorType
+                ActivatorType = activatorType,
+                Keys = keys
             };
         }
 
@@ -211,7 +218,7 @@ namespace Saturn72.Module.Ioc.Autofac
 
             var actData = activatorData as SimpleActivatorData;
             if (actData != null)
-                return actData.Activator is ProvidedInstanceActivator? ActivatorType.Instance : ActivatorType.Delegate;
+                return actData.Activator is ProvidedInstanceActivator ? ActivatorType.Instance : ActivatorType.Delegate;
 
             throw new NotSupportedException("The activator type is not supported");
         }
@@ -240,6 +247,7 @@ namespace Saturn72.Module.Ioc.Autofac
         private IRegistrationBuilder<TServiceImpl, object, object> RegisterAndAssign<TServiceImpl>(
             Func<ContainerBuilder, IRegistrationBuilder<TServiceImpl, object, object>>
                 registrationFunc, LifeCycle lifecycle, object key, Type keyedServiceType)
+
         {
             var builder = new ContainerBuilder();
             var reg = registrationFunc(builder);

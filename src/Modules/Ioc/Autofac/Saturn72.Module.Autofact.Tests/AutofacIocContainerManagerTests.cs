@@ -165,6 +165,20 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
             regRecord.ImplementedType.ShouldBeType<TestService>();
             regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+
+            //Now keyed
+            var key = "TTT";
+            regRecord = cm.RegisterType<TestService2, ITestService2>(LifeCycle.SingleInstance, key);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService2>();
+            regRecord.ImplementedType.ShouldBeType<TestService2>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+            regRecord.Keys.Count().ShouldEqual(1);
+            regRecord.Keys.First().ShouldEqual(key);
+
+
             //register type returns ioc
             regRecord = cm.RegisterType(typeof(TestService), typeof(ITestService1), LifeCycle.SingleInstance);
             regRecord.Metadata.ShouldNotBeNull();
@@ -173,6 +187,17 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
             regRecord.ImplementedType.ShouldBeType<TestService>();
             regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+
+            //keyed
+            regRecord = cm.RegisterType(typeof(TestService), typeof(ITestService1), LifeCycle.SingleInstance, key);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
+            regRecord.ImplementedType.ShouldBeType<TestService>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+            regRecord.Keys.Count().ShouldEqual(1);
+            regRecord.Keys.First().ShouldEqual(key);
 
             regRecord = cm.RegisterType(typeof(TestService),
                 new[] {typeof(ITestService1), typeof(ITestService2)}, LifeCycle.PerDependency);
@@ -186,22 +211,44 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
 
             //register single instance
             var srv3 = new TestService3();
-             regRecord = cm.RegisterInstance<ITestService3>(srv3);
+            regRecord = cm.RegisterInstance<ITestService3>(srv3);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldEqual(1);
             regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
             regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
             regRecord.ImplementedType.ShouldBeType<TestService3>();
             regRecord.ActivatorType.ShouldEqual(ActivatorType.Instance);
+
+            //keyed
+            regRecord = cm.RegisterInstance<ITestService3>(srv3, key);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldBeType<TestService3>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Instance);
+            regRecord.Keys.Count().ShouldEqual(1);
+            regRecord.Keys.First().ShouldEqual(key);
             //register 
 
-            regRecord = cm.Register<ITestService3>(()=> new TestService3(), LifeCycle.PerLifetime);
+            regRecord = cm.Register<ITestService3>(() => new TestService3(), LifeCycle.PerLifetime);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldEqual(1);
             regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
             regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
             regRecord.ImplementedType.ShouldBeType<ITestService3>();
             regRecord.ActivatorType.ShouldEqual(ActivatorType.Delegate);
+
+            //Keyed
+            regRecord = cm.Register<ITestService3>(() => new TestService3(), LifeCycle.PerLifetime,key);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldBeType<ITestService3>();
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Delegate);
+            regRecord.Keys.Count().ShouldEqual(1);
+            regRecord.Keys.First().ShouldEqual(key);
         }
     }
 }
