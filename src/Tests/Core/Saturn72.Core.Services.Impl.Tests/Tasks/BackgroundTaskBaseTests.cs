@@ -32,7 +32,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             _eventPublisher = new Mock<IEventPublisher>();
             _eventPublisher.Setup(x => x.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>()))
                 .Callback<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>(i => model = i.DomainModel);
-            return reg => reg.RegisterInstance(_eventPublisher.Object, LifeCycle.SingleInstance);
+            return reg => reg.RegisterInstance(_eventPublisher.Object);
         }
 
         [Test]

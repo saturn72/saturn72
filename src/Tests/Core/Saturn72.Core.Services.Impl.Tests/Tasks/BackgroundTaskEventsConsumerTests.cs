@@ -26,7 +26,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             new List<BackgroundTaskExecutionDataDomainModel>();
 
         private Mock<IBackgroundTaskExecutionDataRepository> _repo;
-        public int RegistrationOrder { get; }
+        public int RegistrationOrder => 100;
 
         public Action<IIocRegistrator> RegistrationLogic(ITypeFinder typeFinder, Saturn72Config config)
         {
@@ -38,7 +38,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             {
                 reg.RegisterType<MemoryCacheManager, ICacheManager>(LifeCycle.SingleInstance);
 
-                reg.RegisterInstance(_repo.Object, LifeCycle.SingleInstance);
+                reg.RegisterInstance(_repo.Object);
             };
         }
 
