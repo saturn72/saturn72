@@ -13,6 +13,7 @@ using Saturn72.UnitTesting.Framework;
 
 namespace Saturn72.Module.Ioc.Autofac.Tests
 {
+    [TestFixture]
     public class AutofacIocContainerManagerTests
     {
         [Test]
@@ -26,9 +27,6 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             var dt = cm.Resolve<DateTime>();
             var totalSeconds = (int) dt.Subtract(startTime).TotalSeconds;
             totalSeconds.ShouldEqual(1);
-            //var result = startTime.Subtract(dt is DateTime ? (DateTime) dt : new DateTime());
-
-//            result.ShouldContainType(typeof(TestInterfaceImpl2));
         }
 
         [Test]

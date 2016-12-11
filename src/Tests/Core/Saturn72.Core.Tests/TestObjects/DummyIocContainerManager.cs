@@ -37,15 +37,15 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
-        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null)
+        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null,  Type interceptorType = null)
             where TService : class
         {
-            throw new NotImplementedException();
+            return null;
         }
 
 
 
-        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null,  Type interceptorType = null)
             where TServiceImpl : TService where TService : class
         {
             throw new NotImplementedException();
@@ -56,7 +56,7 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
-        public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency)
+        public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency,  Type interceptorType = null)
         {
             throw new NotImplementedException();
         }
@@ -66,12 +66,12 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null,  Type interceptorType = null)
         {
             throw new NotImplementedException();
         }
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle,  Type interceptorType = null)
         {
             throw new NotImplementedException();
         }
@@ -85,12 +85,12 @@ namespace Saturn72.Core.Tests.TestObjects
             }
         }
 
-        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null)
+        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null,  Type interceptorType = null)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterDelegate<TServiceImpl>(Func<IIocResolver, TServiceImpl> func, LifeCycle lifeCycle)
+        public void RegisterDelegate<TService>(Func<IIocResolver, TService> func, LifeCycle lifeCycle, Type interceptorType = null)
         {
             throw new NotImplementedException();
         }

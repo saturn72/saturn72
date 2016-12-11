@@ -4,6 +4,10 @@ namespace Saturn72.Module.Ioc.Autofac.Tests.TestObjects
 {
     public class TestService : ITestService1, ITestService2
     {
+        public virtual void Do(TestObject to)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class TestService2 : ITestService2
@@ -18,6 +22,7 @@ namespace Saturn72.Module.Ioc.Autofac.Tests.TestObjects
 
     public interface ITestService1
     {
+        void Do(TestObject to);
     }
 
     public interface ITestService2

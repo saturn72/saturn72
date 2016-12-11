@@ -26,7 +26,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             new List<BackgroundTaskExecutionDataDomainModel>();
 
         private Mock<IBackgroundTaskExecutionDataRepository> _repo;
-        public int RegistrationOrder { get; }
+        public int RegistrationOrder => 100;
 
         public Action<IIocRegistrator> RegistrationLogic(ITypeFinder typeFinder, Saturn72Config config)
         {
