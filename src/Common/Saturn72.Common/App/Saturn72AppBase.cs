@@ -21,7 +21,7 @@ namespace Saturn72.Common.App
         #region Fields
 
         private readonly string _appId;
-        private readonly IConfigManager _configManager;
+        protected readonly IConfigManager ConfigManager;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Saturn72.Common.App
         /// <param name="appId">application code</param>
         /// <param name="configRootPath">Root config file path</param>
         protected Saturn72AppBase(string appId, string configRootPath)
-            : this(appId, ConfigManager.Current)
+            : this(appId, Core.Configuration.ConfigManager.Current)
 
         {
         }
@@ -54,7 +54,7 @@ namespace Saturn72.Common.App
         protected Saturn72AppBase(string appId, IConfigManager configManager)
         {
             _appId = appId;
-            _configManager = configManager;
+            ConfigManager = configManager;
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace Saturn72.Common.App
         {
             Console.Out.WriteLine("Start {0} application".AsFormat(_appId));
 
-            var data = _configManager.AppDomainLoadData;
+            var data = ConfigManager.AppDomainLoadData;
             Console.Out.WriteLine("Read configuration file data and load external assemblies...");
             AppDomainLoader.Load(data);
 
@@ -109,7 +109,7 @@ namespace Saturn72.Common.App
                 DefaultOutput.WriteLine("Starting " + m.Type);
                 try
                 {
-                    m.Module.Start(_configManager.ConfigMaps);
+                    m.Module.Start(ConfigManager.ConfigMaps);
                 }
                 catch (Exception ex)
                 {
@@ -125,7 +125,7 @@ namespace Saturn72.Common.App
                 .ForEachItem(m =>
                 {
                     DefaultOutput.WriteLine("Stopping " + m.Type);
-                    m.Module.Stop(_configManager.ConfigMaps);
+                    m.Module.Stop(ConfigManager.ConfigMaps);
                 });
         }
 
@@ -134,7 +134,7 @@ namespace Saturn72.Common.App
             GetActiveModuleInstancesOnly(data).ForEachItem(mi =>
             {
                 mi.SetModule(CommonHelper.CreateInstance<IModule>(mi.Type));
-                mi.Module.Load(_configManager.ConfigMaps);
+                mi.Module.Load(ConfigManager.ConfigMaps);
             });
         }
 
