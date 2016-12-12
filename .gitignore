@@ -25,11 +25,6 @@ Thumbs.db
 *.sbr
 *.dll
 obj/
-*.edmx
-*.[Cc]ontext.tt
-*.[Cc]ontext.cs
-*.[Dd]esigner.cs
-*.edmx.diagram
 *.jfm
 
 [Aa]ssemblies*/
