@@ -76,18 +76,18 @@ namespace Saturn72.Module.Ioc.Autofac
             throw new Saturn72Exception("No constructor  was found that had all the dependencies satisfied.");
         }
 
-        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null, Type interceptorType = null)
+        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null, Type[] interceptorTypes = null)
             where TService : class
         {
             Func<ContainerBuilder, IRegistrationBuilder<TService, IConcreteActivatorData, SingleRegistrationStyle>>
-                regFunc = builder => interceptorType.NotNull()
-                    ? builder.RegisterInstance(implementation).As<TService>().EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+                regFunc = builder => interceptorTypes.NotEmptyOrNull()
+                    ? builder.RegisterInstance(implementation).As<TService>().EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                     : builder.RegisterInstance(implementation).As<TService>();
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, LifeCycle.SingleInstance, key, typeof(TService)));
         }
 
-        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null, Type interceptorType = null)
+        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
             where TService : class
             where TServiceImpl : TService
 
@@ -95,8 +95,8 @@ namespace Saturn72.Module.Ioc.Autofac
             Func
                 <ContainerBuilder,
                     IRegistrationBuilder<TServiceImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle>>
-                regFunc = cb => interceptorType.NotNull()
-                    ? cb.RegisterType<TServiceImpl>().As<TService>().EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+                regFunc = cb => interceptorTypes.NotEmptyOrNull()
+                    ? cb.RegisterType<TServiceImpl>().As<TService>().EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                     : cb.RegisterType<TServiceImpl>().As<TService>();
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, typeof(TService)));
@@ -111,10 +111,10 @@ namespace Saturn72.Module.Ioc.Autofac
             RegisterAndAssign(regFunc, lifeCycle, null, null);
         }
 
-        public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency, Type interceptorType = null)
+        public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency, Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder, IRegistrationBuilder<object, ReflectionActivatorData, object>>
-                regFunc = cb => RegisterType(serviceImplType, cb, interceptorType);
+                regFunc = cb => RegisterType(serviceImplType, cb, interceptorTypes);
 
             RegisterAndAssign(regFunc, lifeCycle, null, null);
         }
@@ -124,23 +124,23 @@ namespace Saturn72.Module.Ioc.Autofac
             RegisterType(typeof(TServiceImpl), lifecycle);
         }
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null, Type interceptorType = null)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder, IRegistrationBuilder<object, ReflectionActivatorData, object>>
-                regFunc = cb => interceptorType.NotNull()
-                    ? RegisterType(serviceImplType, cb).As(serviceType).EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+                regFunc = cb => interceptorTypes.NotEmptyOrNull()
+                    ? RegisterType(serviceImplType, cb).As(serviceType).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                     : RegisterType(serviceImplType, cb).As(serviceType);
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, serviceType));
         }
 
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle, Type interceptorType = null)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle, Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder,
                     IRegistrationBuilder<object, ReflectionActivatorData, object>>
-                regFunc = cb => interceptorType.NotNull()
-                    ? RegisterType(serviceImplType, cb).As(serviceTypes).EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+                regFunc = cb => interceptorTypes.NotEmptyOrNull()
+                    ? RegisterType(serviceImplType, cb).As(serviceTypes).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                     : RegisterType(serviceImplType, cb).As(serviceTypes);
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, null, null));
@@ -156,21 +156,21 @@ namespace Saturn72.Module.Ioc.Autofac
             CreateOrUpdateContainer(builder);
         }
 
-        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null, Type interceptorType = null)
+        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder, IRegistrationBuilder<TService, SimpleActivatorData, SingleRegistrationStyle>>
                 registrationFunc =
-                    cb => interceptorType.NotNull()
-                        ? cb.Register(context => resolveHandler()).EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+                    cb => interceptorTypes.NotEmptyOrNull()
+                        ? cb.Register(context => resolveHandler()).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                         : cb.Register(context => resolveHandler());
 
             return ToIocRegistrationRecord(RegisterAndAssign(registrationFunc, lifecycle, key, typeof(TService)));
         }
 
-        public void RegisterDelegate<TService>(Func<IIocResolver, TService> func, LifeCycle lifeCycle, Type interceptorType = null)
+        public void RegisterDelegate<TService>(Func<IIocResolver, TService> func, LifeCycle lifeCycle, Type[] interceptorTypes = null)
         {
-            var reg = interceptorType.NotNull()
-                ? RegistrationBuilder.ForDelegate((c, p) => func(this)).EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+            var reg = interceptorTypes.NotEmptyOrNull()
+                ? RegistrationBuilder.ForDelegate((c, p) => func(this)).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                 : RegistrationBuilder.ForDelegate((c, p) => func(this));
 
             AssignByLifeCycle(reg, lifeCycle);
@@ -251,14 +251,14 @@ namespace Saturn72.Module.Ioc.Autofac
 
         #region Utilities
 
-        private IRegistrationBuilder<object, ReflectionActivatorData, object> RegisterType(Type serviceImplType, ContainerBuilder cb, Type interceptorType = null)
+        private IRegistrationBuilder<object, ReflectionActivatorData, object> RegisterType(Type serviceImplType, ContainerBuilder cb, Type[] interceptorTypes = null)
         {
             if (serviceImplType.GetTypeInfo().IsGenericTypeDefinition)
-                return interceptorType.NotNull()
-                    ? cb.RegisterGeneric(serviceImplType).EnableInterfaceInterceptors().InterceptedBy(interceptorType)
+                return interceptorTypes.NotEmptyOrNull()
+                    ? cb.RegisterGeneric(serviceImplType).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
                     : cb.RegisterGeneric(serviceImplType);
-            return interceptorType.NotNull()
-                ? cb.RegisterType(serviceImplType).EnableClassInterceptors().InterceptedBy(interceptorType)
+            return interceptorTypes.NotEmptyOrNull()
+                ? cb.RegisterType(serviceImplType).EnableClassInterceptors().InterceptedBy(interceptorTypes)
                 : cb.RegisterType(serviceImplType);
         }
 
