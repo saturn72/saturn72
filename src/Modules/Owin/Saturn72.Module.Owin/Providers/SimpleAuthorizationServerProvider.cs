@@ -82,13 +82,13 @@ namespace Saturn72.Module.Owin.Providers
             var allowedOrigin = context.OwinContext.Get<string>(SecurityKeys.ClientAllowedOrigin);
             //if (allowedOrigin == null) allowedOrigin = "*";
 
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
-
             if (!_userRegistrationService.ValidateUserByUsernameAndPassword(context.UserName, context.Password))
             {
                 AddErrorToContext(context, "invalid_grant", "The user name or password is incorrect.");
                 return;
             }
+
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
 
             var user = _userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(context.UserName)
