@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Saturn72.Core.Domain;
@@ -14,6 +15,7 @@ namespace Saturn72.Core.Data
         IEnumerable<TDomainModel> GetAll();
 
         TDomainModel GetById(TId id);
+        IEnumerable<TDomainModel> GetBy(Func<TDomainModel, bool> func);
 
         TDomainModel Update(TDomainModel model);
 

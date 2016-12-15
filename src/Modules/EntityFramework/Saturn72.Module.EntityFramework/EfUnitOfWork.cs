@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Saturn72.Common.Data.Repositories;
@@ -25,8 +26,6 @@ namespace Saturn72.Module.EntityFramework
         }
 
         public IEnumerable<TDomainModel> GetAll()
-            
-            
         {
             return QueryNewContext(ctx => GetSet(ctx).AsNoTracking().ToDomainModel<TEntity, TDomainModel>());
         }

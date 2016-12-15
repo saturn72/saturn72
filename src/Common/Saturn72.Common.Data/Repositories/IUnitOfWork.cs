@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Saturn72.Core.Domain;
@@ -12,7 +13,6 @@ namespace Saturn72.Common.Data.Repositories
         where TDomainModel : DomainModelBase<TId>
     {
         IEnumerable<TDomainModel> GetAll();
-
         TDomainModel GetById(TId id);
 
         TDomainModel Replace(TDomainModel model);
