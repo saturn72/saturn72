@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -36,7 +37,7 @@ namespace Saturn72.Common.WebApi
         }
 
         protected Task<IHttpActionResult> ValidateModelStateAndRunActionAsync(Func<bool> validationFunc,
-           Action action)
+            Action action)
         {
             Exception exception = null;
             return Task.Run<IHttpActionResult>(() =>
@@ -156,21 +157,21 @@ namespace Saturn72.Common.WebApi
             foreach (var httpContent in streamProvider.Contents)
             {
                 var ct = allHttpContentTypes.FirstOrDefault(c => c.Match(httpContent));
-                var stream = await httpContent.ReadAsStreamAsync();
 
                 if (ct == HttpContentType.Model)
                 {
+                    var stream = await httpContent.ReadAsStreamAsync();
                     model = JsonUtil.Deserialize<TApiModel>(stream);
                     continue;
                 }
 
                 if (ct == HttpContentType.File)
                 {
-                    //select primary - file - else to collection
+                    var getBytesTask = new Func<byte[]>(() => httpContent.ReadAsStreamAsync().Result.ToByteArray());
                     var fileName = httpContent.GetContentDispositionFileName();
                     attachtments.Add(new FileContent
                     {
-                        Bytes = stream.ToByteArray(),
+                        Bytes = getBytesTask,
                         FilePath = fileName
                     });
                 }
@@ -178,7 +179,5 @@ namespace Saturn72.Common.WebApi
 
             return model;
         }
-
-        
     }
 }
