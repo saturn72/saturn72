@@ -17,9 +17,12 @@ namespace Saturn72.Core.Services.Impl.User
 {
     public class UserService : DomainModelCrudServiceBase<UserDomainModel, long>, IUserService
     {
+        private const string UserRolesUserCacheKey = "Saturn72_User{0}_UserRoles";
+
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder)
+        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
+            ITypeFinder typeFinder)
             : base(userRepository, eventPublisher, cacheManager, typeFinder)
         {
             _userRepository = userRepository;
@@ -48,7 +51,15 @@ namespace Saturn72.Core.Services.Impl.User
 
         public IEnumerable<UserRoleDomainModel> GetUserUserRolesByUserId(long userId)
         {
-            return _userRepository.GetUserUserRoles(userId);
+            Guard.GreaterThan(userId, (long) 0);
+
+            return CacheManager.Get(UserRolesUserCacheKey, () =>
+            {
+                var res = _userRepository.GetUserUserRoles(userId);
+                //User must have user roles
+                Guard.NotNull(res);
+                return res;
+            });
         }
 
         public void UpdateUser(UserDomainModel user)

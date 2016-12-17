@@ -100,7 +100,7 @@ namespace Saturn72.Module.Owin.Providers
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
             //Async fault might occurd - not tested
-            var task = AddUserRoles(identity, user);
+            var task = Task.Run(() => AddUserRoles(identity, user));
 
             identity.AddClaim(new Claim("sub", context.UserName));
 

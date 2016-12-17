@@ -29,7 +29,7 @@ namespace Saturn72.Core.Services.Impl.Authentication
         {
             return
                 FilterTable(
-                        ca => ca.Active && (ca.ClientId == clientId) && Regex.IsMatch(clientIpAddress, ca.AllowedOrigin))
+                    ca => ca.Active && (ca.ClientId == clientId) && Regex.IsMatch(clientIpAddress, ca.AllowedOrigin))
                     .FirstOrDefault();
         }
     }
