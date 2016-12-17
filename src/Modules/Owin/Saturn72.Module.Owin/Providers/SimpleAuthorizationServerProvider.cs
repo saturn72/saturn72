@@ -100,7 +100,7 @@ namespace Saturn72.Module.Owin.Providers
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
             //Async fault might occurd - not tested
-            var task = Task.Run(() => AddUserRoles(identity, user));
+            AddUserRoles(identity, user);
 
             identity.AddClaim(new Claim("sub", context.UserName));
 
@@ -116,12 +116,10 @@ namespace Saturn72.Module.Owin.Providers
 
             var ticket = new AuthenticationTicket(identity, props);
 
-            Task.WaitAll(task);
-
             context.Validated(ticket);
         }
 
-        private async Task AddUserRoles(ClaimsIdentity identity, UserDomainModel user)
+        private void AddUserRoles(ClaimsIdentity identity, UserDomainModel user)
         {
             _userService.LoadUserRoles(user);
             foreach (var ur in user.UserRoles)
