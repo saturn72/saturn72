@@ -36,7 +36,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 .Returns(new List<UserRoleDomainModel>());
 
             srv = new UserService(userRepo.Object, null, cm.Object, null);
-            typeof(ArgumentException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserId(123));
+            typeof(InvalidOperationException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserId(123));
         }
 
         [Test]
