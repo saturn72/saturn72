@@ -29,15 +29,14 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             cm.Setup(c => c.IsSet(It.IsAny<string>()))
                 .Returns(false);
 
-            srv = new UserService(userRepo.Object, null, null, null);
+            srv = new UserService(userRepo.Object, null, cm.Object, null);
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserId(123));
             //On not exists userroles
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(new List<UserRoleDomainModel>());
 
-            srv = new UserService(userRepo.Object, null, null, null);
-
-            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserId(123));
+            srv = new UserService(userRepo.Object, null, cm.Object, null);
+            typeof(ArgumentException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserId(123));
         }
 
         [Test]
