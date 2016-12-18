@@ -22,7 +22,7 @@ using Saturn72.Extensions;
 namespace Saturn72.Common.WebApi
 {
     [Saturn72Authorize]
-    public abstract class Saturn72ApiAuthorizedControllerBase : Saturn72ApiControllerBase
+    public abstract class Saturn72AuthorizedApiControllerBase : Saturn72ApiControllerBase
     {
     }
 }

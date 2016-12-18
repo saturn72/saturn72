@@ -94,7 +94,7 @@
     <Compile Include="OwinConfigurar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\AppVersionControllerSelector.cs" />
-    <Compile Include="Saturn72ApiAuthorizedControllerBase.cs" />
+    <Compile Include="Saturn72AuthorizedApiControllerBase.cs" />
     <Compile Include="Saturn72ApiControllerBase.cs" />
     <Compile Include="Security\Saturn72AuthorizeAttribute.cs" />
     <Compile Include="Services\HtmlRenderingService.cs" />

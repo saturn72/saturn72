@@ -119,7 +119,6 @@ namespace Saturn72.Common.WebApi
         {
             return Identity.FindFirst(ClaimTypes.NameIdentifier);
         }
-
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
             (ICollection<FileContent> attachtments)
             where TApiModel : ApiModelBase, new()
