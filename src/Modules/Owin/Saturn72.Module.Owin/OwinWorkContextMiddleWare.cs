@@ -43,7 +43,7 @@ namespace Saturn72.Module.Owin
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier);
             if (userId.IsNull())
                 return;
-            _workContext = new OwinWorkContext<TUserId>
+            _workContext = new WorkContext<TUserId>
             {
                 CurrentUserId = (TUserId) _converter.ConvertFrom(userId.Value)
             };

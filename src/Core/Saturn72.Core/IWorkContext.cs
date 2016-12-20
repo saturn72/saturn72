@@ -1,4 +1,4 @@
-﻿namespace Saturn72.Core.Services
+﻿namespace Saturn72.Core
 {
     public interface IWorkContext<out TUserId>
     {

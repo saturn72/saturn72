@@ -115,6 +115,8 @@
     <Compile Include="Extensibility\PluginState.cs" />
     <Compile Include="Infrastructure\DependencyManagement\ActivatorType.cs" />
     <Compile Include="Infrastructure\DependencyManagement\IocRegistrationRecord.cs" />
+    <Compile Include="IWorkContext.cs" />
+    <Compile Include="WorkContext.cs" />
     <Compile Include="Tasks\IBackgroundTaskType.cs" />
     <Compile Include="Domain\Users\PasswordFormat.cs" />
     <Compile Include="Domain\Users\SystemUserRoleNames.cs" />
