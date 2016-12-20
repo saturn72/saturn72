@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Saturn72.Core;
-using Saturn72.Core.Services;
+using Saturn72.Core.Infrastructure;
 using Saturn72.Extensions;
 
 namespace Saturn72.Module.Owin
@@ -13,12 +13,12 @@ namespace Saturn72.Module.Owin
     {
         private static TypeConverter _converter;
 
-        private IWorkContext<TUserId> _workContext;
-
         public OwinWorkContextMiddleWare(OwinMiddleware next)
             : base(next)
         {
         }
+
+        public IWorkContext<TUserId> CurrentWorkContext { get; private set; }
 
         public void Initialized()
         {
@@ -34,7 +34,6 @@ namespace Saturn72.Module.Owin
             await Next.Invoke(context);
         }
 
-        public IWorkContext<TUserId> CurrentWorkContext => _workContext;
         protected void BuildWorkContext(IOwinContext context)
         {
             var identity = context.Request.User.Identity as ClaimsIdentity;
@@ -43,10 +42,8 @@ namespace Saturn72.Module.Owin
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier);
             if (userId.IsNull())
                 return;
-            _workContext = new WorkContext<TUserId>
-            {
-                CurrentUserId = (TUserId) _converter.ConvertFrom(userId.Value)
-            };
+            CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
+            CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userId.Value);
         }
     }
 }

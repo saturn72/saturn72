@@ -1,7 +1,7 @@
 ﻿namespace Saturn72.Core
 {
-    public interface IWorkContext<out TUserId>
+    public interface IWorkContext<TUserId>
     {
-        TUserId CurrentUserId { get; }
+        TUserId CurrentUserId { get; set; }
     }
 }
