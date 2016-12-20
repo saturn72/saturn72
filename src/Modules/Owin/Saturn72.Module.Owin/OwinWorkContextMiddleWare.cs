@@ -16,11 +16,13 @@ namespace Saturn72.Module.Owin
         public OwinWorkContextMiddleWare(OwinMiddleware next)
             : base(next)
         {
+
         }
+
 
         public IWorkContext<TUserId> CurrentWorkContext { get; private set; }
 
-        public void Initialized()
+        public static void Initialized()
         {
             _converter = CommonHelper.GetCustomTypeConverter(typeof(TUserId));
             if (!_converter.CanConvertTo(typeof(TUserId)))
@@ -36,14 +38,14 @@ namespace Saturn72.Module.Owin
 
         protected void BuildWorkContext(IOwinContext context)
         {
-            var identity = context.Request.User.Identity as ClaimsIdentity;
+            var identity = context.Request.User?.Identity as ClaimsIdentity;
             if (identity.IsNull())
                 return;
-            var userId = identity.FindFirst(ClaimTypes.NameIdentifier);
-            if (userId.IsNull())
+            var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim.IsNull())
                 return;
             CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
-            CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userId.Value);
+            CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userIdClaim.Value);
         }
     }
 }
