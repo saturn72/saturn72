@@ -65,6 +65,7 @@
     <Compile Include="AutofacIocContainerManagerTests.cs" />
     <Compile Include="AutofacIocManager_InterceptorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestObjects\GenericService.cs" />
     <Compile Include="TestObjects\ITestInterface1.cs" />
     <Compile Include="TestObjects\ITestInterface2.cs" />
     <Compile Include="TestObjects\RegistrationKey.cs" />

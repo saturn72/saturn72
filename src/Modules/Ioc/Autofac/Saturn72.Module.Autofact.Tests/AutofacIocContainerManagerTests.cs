@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Autofac.Core.Registration;
@@ -16,140 +17,6 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
     [TestFixture]
     public class AutofacIocContainerManagerTests
     {
-        [Test]
-        public void RegisterDelegate_CanResolve()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterDelegate(res => DateTime.UtcNow, LifeCycle.SingleInstance);
-
-            var startTime = DateTime.UtcNow;
-            Thread.Sleep(1000);
-            var dt = cm.Resolve<DateTime>();
-            var totalSeconds = (int) dt.Subtract(startTime).TotalSeconds;
-            totalSeconds.ShouldEqual(1);
-        }
-
-        [Test]
-        public void ResolveAll_ResolvesMany()
-        {
-            //Resolves many
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
-            cm.RegisterType<TestInterfaceImpl2, ITestInterface1>(LifeCycle.SingleInstance);
-
-            var result = cm.ResolveAll<ITestInterface1>();
-            result.Length.ShouldEqual(2);
-            result.ShouldContainType(typeof(TestInterfaceImpl1));
-            result.ShouldContainType(typeof(TestInterfaceImpl2));
-        }
-
-        [Test]
-        public void ResolveAll_ResolvesSingle()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
-
-            var result = cm.ResolveAll<ITestInterface1>();
-            result.Length.ShouldEqual(1);
-            result.ShouldContainType(typeof(TestInterfaceImpl1));
-        }
-
-        [Test]
-        public void ResolveAll_EmptyCollectionOnNotRegistered()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
-
-            cm.ResolveAll<ITestInterface2>().ShouldBeEmpty();
-        }
-
-        [Test]
-        public void Resolve_ResolvesType()
-        {
-            //Resolves many
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
-            cm.RegisterType<TestInterfaceImpl2, ITestInterface1>(LifeCycle.SingleInstance);
-
-            var result = cm.ResolveAll<ITestInterface1>();
-            result.Length.ShouldEqual(2);
-            result.ShouldContainType(typeof(TestInterfaceImpl1));
-            result.ShouldContainType(typeof(TestInterfaceImpl2));
-        }
-
-        [Test]
-        public void Resolve_ThrowsWhenNotRegistered()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
-
-            typeof(ComponentNotRegisteredException).ShouldBeThrownBy(() => cm.Resolve<ITestInterface2>());
-        }
-
-        [Test]
-        public void RegisterTypeTest()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1>();
-            cm.RegisterType(typeof(TestInterfaceImpl2));
-
-
-            var result = cm.Resolve<TestInterfaceImpl1>();
-            result.ShouldBe<TestInterfaceImpl1>();
-
-            var result2 = cm.Resolve<TestInterfaceImpl2>();
-            result2.ShouldBe<TestInterfaceImpl2>();
-        }
-
-        [Test]
-        public void RegisterTypes_CanResolve()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterTypes(LifeCycle.PerDependency, typeof(TestInterfaceImpl1), typeof(TestInterfaceImpl2),
-                typeof(TestInterfaceImpl3));
-
-            var result = cm.Resolve<TestInterfaceImpl1>();
-            Assert.IsInstanceOf<TestInterfaceImpl1>(result);
-
-            var result2 = cm.Resolve<TestInterfaceImpl2>();
-            Assert.IsInstanceOf<TestInterfaceImpl2>(result2);
-
-            var result3 = cm.Resolve<TestInterfaceImpl3>();
-            Assert.IsInstanceOf<TestInterfaceImpl3>(result3);
-        }
-
-        [Test]
-        public void RegistersKeyed()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance, RegistrationKey.Online);
-            cm.RegisterType<TestInterfaceImpl2, ITestInterface1>(LifeCycle.SingleInstance, RegistrationKey.Offline);
-            cm.RegisterType<TestInterfaceImpl3, ITestInterface1>(LifeCycle.SingleInstance);
-
-            var all = cm.ResolveAll<ITestInterface1>();
-            all.ShouldCount(3);
-
-            var result = cm.Resolve<ITestInterface1>(RegistrationKey.Online);
-            result.ShouldBe<TestInterfaceImpl1>();
-
-            result = cm.Resolve<ITestInterface1>(RegistrationKey.Offline);
-            result.ShouldBe<TestInterfaceImpl2>();
-        }
-
-        [Test]
-        public void RegisterMultipleTypes()
-        {
-            var cm = new AutofacIocContainerManager();
-            cm.RegisterType(typeof(TestService),
-                new[] {typeof(ITestService1), typeof(ITestService2)}, LifeCycle.SingleInstance);
-
-            var result = cm.Resolve<ITestService1>();
-            result.ShouldBe<TestService>();
-
-            var result2 = cm.Resolve<ITestService2>();
-            result2.ShouldBe<TestService>();
-        }
-
         [Test]
         public void Register_ReturnsIocRegistrationRecord()
         {
@@ -238,7 +105,7 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.ActivatorType.ShouldEqual(ActivatorType.Delegate);
 
             //Keyed
-            regRecord = cm.Register<ITestService3>(() => new TestService3(), LifeCycle.PerLifetime,key);
+            regRecord = cm.Register<ITestService3>(() => new TestService3(), LifeCycle.PerLifetime, key);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldEqual(1);
             regRecord.ServiceTypes.First().ShouldBeType<ITestService3>();
@@ -247,6 +114,172 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.ActivatorType.ShouldEqual(ActivatorType.Delegate);
             regRecord.Keys.Count().ShouldEqual(1);
             regRecord.Keys.First().ShouldEqual(key);
+
+
+            //register generic 
+            regRecord = cm.RegisterGeneric(typeof(GenericService<>), typeof(IGenericService<>), LifeCycle.PerLifetime);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldEqual(typeof(IGenericService<>));
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldEqual(typeof(GenericService<>));
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+            regRecord.Keys.Count().ShouldEqual(0);
+
+            //register generic keyed
+            regRecord = cm.RegisterGeneric(typeof(GenericService<>), typeof(IGenericService<>), LifeCycle.PerLifetime,
+                key);
+            regRecord.Metadata.ShouldNotBeNull();
+            regRecord.ServiceTypes.Count().ShouldEqual(1);
+            regRecord.ServiceTypes.First().ShouldEqual(typeof(IGenericService<>));
+            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
+            regRecord.ImplementedType.ShouldEqual(typeof(GenericService<>));
+            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
+            regRecord.Keys.Count().ShouldEqual(1);
+            regRecord.Keys.First().ShouldEqual(key);
+        }
+
+        [Test]
+        public void RegisterDelegate_CanResolve()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterDelegate(res => DateTime.UtcNow, LifeCycle.SingleInstance);
+
+            var startTime = DateTime.UtcNow;
+            Thread.Sleep(1000);
+            var dt = cm.Resolve<DateTime>();
+            var totalSeconds = (int) dt.Subtract(startTime).TotalSeconds;
+            totalSeconds.ShouldEqual(1);
+        }
+
+        [Test]
+        public void Registergeneric_CanResolve()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterGeneric(typeof(GenericService<>), typeof(IGenericService<>), LifeCycle.PerDependency);
+            cm.Resolve<IGenericService<string>>().GetType().ShouldEqual(typeof(GenericService<string>));
+        }
+
+        [Test]
+        public void RegisterMultipleTypes()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType(typeof(TestService),
+                new[] {typeof(ITestService1), typeof(ITestService2)}, LifeCycle.SingleInstance);
+
+            var result = cm.Resolve<ITestService1>();
+            result.ShouldBe<TestService>();
+
+            var result2 = cm.Resolve<ITestService2>();
+            result2.ShouldBe<TestService>();
+        }
+
+        [Test]
+        public void RegistersKeyed()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance, RegistrationKey.Online);
+            cm.RegisterType<TestInterfaceImpl2, ITestInterface1>(LifeCycle.SingleInstance, RegistrationKey.Offline);
+            cm.RegisterType<TestInterfaceImpl3, ITestInterface1>(LifeCycle.SingleInstance);
+
+            var all = cm.ResolveAll<ITestInterface1>();
+            all.ShouldCount(3);
+
+            var result = cm.Resolve<ITestInterface1>(RegistrationKey.Online);
+            result.ShouldBe<TestInterfaceImpl1>();
+
+            result = cm.Resolve<ITestInterface1>(RegistrationKey.Offline);
+            result.ShouldBe<TestInterfaceImpl2>();
+        }
+
+        [Test]
+        public void RegisterTypes_CanResolve()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterTypes(LifeCycle.PerDependency, typeof(TestInterfaceImpl1), typeof(TestInterfaceImpl2),
+                typeof(TestInterfaceImpl3));
+
+            var result = cm.Resolve<TestInterfaceImpl1>();
+            Assert.IsInstanceOf<TestInterfaceImpl1>(result);
+
+            var result2 = cm.Resolve<TestInterfaceImpl2>();
+            Assert.IsInstanceOf<TestInterfaceImpl2>(result2);
+
+            var result3 = cm.Resolve<TestInterfaceImpl3>();
+            Assert.IsInstanceOf<TestInterfaceImpl3>(result3);
+        }
+
+        [Test]
+        public void RegisterTypeTest()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1>();
+            cm.RegisterType(typeof(TestInterfaceImpl2));
+
+
+            var result = cm.Resolve<TestInterfaceImpl1>();
+            result.ShouldBe<TestInterfaceImpl1>();
+
+            var result2 = cm.Resolve<TestInterfaceImpl2>();
+            result2.ShouldBe<TestInterfaceImpl2>();
+        }
+
+        [Test]
+        public void Resolve_ResolvesType()
+        {
+            //Resolves many
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
+            cm.RegisterType<TestInterfaceImpl2, ITestInterface1>(LifeCycle.SingleInstance);
+
+            var result = cm.ResolveAll<ITestInterface1>();
+            result.Length.ShouldEqual(2);
+            result.ShouldContainType(typeof(TestInterfaceImpl1));
+            result.ShouldContainType(typeof(TestInterfaceImpl2));
+        }
+
+        [Test]
+        public void Resolve_ThrowsWhenNotRegistered()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
+
+            typeof(ComponentNotRegisteredException).ShouldBeThrownBy(() => cm.Resolve<ITestInterface2>());
+        }
+
+        [Test]
+        public void ResolveAll_EmptyCollectionOnNotRegistered()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
+
+            cm.ResolveAll<ITestInterface2>().ShouldBeEmpty();
+        }
+
+
+        [Test]
+        public void ResolveAll_ResolvesMany()
+        {
+            //Resolves many
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
+            cm.RegisterType<TestInterfaceImpl2, ITestInterface1>(LifeCycle.SingleInstance);
+
+            var result = cm.ResolveAll<ITestInterface1>();
+            result.Length.ShouldEqual(2);
+            result.ShouldContainType(typeof(TestInterfaceImpl1));
+            result.ShouldContainType(typeof(TestInterfaceImpl2));
+        }
+
+        [Test]
+        public void ResolveAll_ResolvesSingle()
+        {
+            var cm = new AutofacIocContainerManager();
+            cm.RegisterType<TestInterfaceImpl1, ITestInterface1>(LifeCycle.SingleInstance);
+
+            var result = cm.ResolveAll<ITestInterface1>();
+            result.Length.ShouldEqual(1);
+            result.ShouldContainType(typeof(TestInterfaceImpl1));
         }
     }
 }

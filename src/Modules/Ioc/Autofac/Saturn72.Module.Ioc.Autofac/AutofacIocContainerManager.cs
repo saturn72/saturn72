@@ -76,18 +76,23 @@ namespace Saturn72.Module.Ioc.Autofac
             throw new Saturn72Exception("No constructor  was found that had all the dependencies satisfied.");
         }
 
-        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null, Type[] interceptorTypes = null)
+        public IocRegistrationRecord RegisterInstance<TService>(TService implementer, object key = null,
+            Type[] interceptorTypes = null)
             where TService : class
         {
             Func<ContainerBuilder, IRegistrationBuilder<TService, IConcreteActivatorData, SingleRegistrationStyle>>
                 regFunc = builder => interceptorTypes.NotEmptyOrNull()
-                    ? builder.RegisterInstance(implementation).As<TService>().EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
-                    : builder.RegisterInstance(implementation).As<TService>();
+                    ? builder.RegisterInstance(implementer)
+                        .As<TService>()
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptorTypes)
+                    : builder.RegisterInstance(implementer).As<TService>();
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, LifeCycle.SingleInstance, key, typeof(TService)));
         }
 
-        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
+        public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null,
+            Type[] interceptorTypes = null)
             where TService : class
             where TServiceImpl : TService
 
@@ -96,7 +101,10 @@ namespace Saturn72.Module.Ioc.Autofac
                 <ContainerBuilder,
                     IRegistrationBuilder<TServiceImpl, ConcreteReflectionActivatorData, SingleRegistrationStyle>>
                 regFunc = cb => interceptorTypes.NotEmptyOrNull()
-                    ? cb.RegisterType<TServiceImpl>().As<TService>().EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
+                    ? cb.RegisterType<TServiceImpl>()
+                        .As<TService>()
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptorTypes)
                     : cb.RegisterType<TServiceImpl>().As<TService>();
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, typeof(TService)));
@@ -105,13 +113,14 @@ namespace Saturn72.Module.Ioc.Autofac
         public void RegisterTypes(LifeCycle lifeCycle, params Type[] serviceImplTypes)
         {
             Func<ContainerBuilder,
-                    IRegistrationBuilder<object, ScanningActivatorData, DynamicRegistrationStyle>>
+                IRegistrationBuilder<object, ScanningActivatorData, DynamicRegistrationStyle>>
                 regFunc = cb => cb.RegisterTypes(serviceImplTypes);
 
             RegisterAndAssign(regFunc, lifeCycle, null, null);
         }
 
-        public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency, Type[] interceptorTypes = null)
+        public void RegisterType(Type serviceImplType, LifeCycle lifeCycle = LifeCycle.PerDependency,
+            Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder, IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => RegisterType(serviceImplType, cb, interceptorTypes);
@@ -124,23 +133,31 @@ namespace Saturn72.Module.Ioc.Autofac
             RegisterType(typeof(TServiceImpl), lifecycle);
         }
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle,
+            object key = null, Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder, IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => interceptorTypes.NotEmptyOrNull()
-                    ? RegisterType(serviceImplType, cb).As(serviceType).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
+                    ? RegisterType(serviceImplType, cb)
+                        .As(serviceType)
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptorTypes)
                     : RegisterType(serviceImplType, cb).As(serviceType);
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, serviceType));
         }
 
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle, Type[] interceptorTypes = null)
+        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle,
+            Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder,
-                    IRegistrationBuilder<object, ReflectionActivatorData, object>>
+                IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => interceptorTypes.NotEmptyOrNull()
-                    ? RegisterType(serviceImplType, cb).As(serviceTypes).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
+                    ? RegisterType(serviceImplType, cb)
+                        .As(serviceTypes)
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptorTypes)
                     : RegisterType(serviceImplType, cb).As(serviceTypes);
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, null, null));
@@ -156,21 +173,27 @@ namespace Saturn72.Module.Ioc.Autofac
             CreateOrUpdateContainer(builder);
         }
 
-        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
+        public IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle,
+            object key = null, Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder, IRegistrationBuilder<TService, SimpleActivatorData, SingleRegistrationStyle>>
                 registrationFunc =
                     cb => interceptorTypes.NotEmptyOrNull()
-                        ? cb.Register(context => resolveHandler()).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
+                        ? cb.Register(context => resolveHandler())
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(interceptorTypes)
                         : cb.Register(context => resolveHandler());
 
             return ToIocRegistrationRecord(RegisterAndAssign(registrationFunc, lifecycle, key, typeof(TService)));
         }
 
-        public void RegisterDelegate<TService>(Func<IIocResolver, TService> func, LifeCycle lifeCycle, Type[] interceptorTypes = null)
+        public void RegisterDelegate<TService>(Func<IIocResolver, TService> func, LifeCycle lifeCycle,
+            Type[] interceptorTypes = null)
         {
             var reg = interceptorTypes.NotEmptyOrNull()
-                ? RegistrationBuilder.ForDelegate((c, p) => func(this)).EnableInterfaceInterceptors().InterceptedBy(interceptorTypes)
+                ? RegistrationBuilder.ForDelegate((c, p) => func(this))
+                    .EnableInterfaceInterceptors()
+                    .InterceptedBy(interceptorTypes)
                 : RegistrationBuilder.ForDelegate((c, p) => func(this));
 
             AssignByLifeCycle(reg, lifeCycle);
@@ -192,18 +215,32 @@ namespace Saturn72.Module.Ioc.Autofac
             }
         }
 
+        public IocRegistrationRecord RegisterGeneric(Type implementerType, Type serviceType, LifeCycle lifeCycle,
+            object key = null,
+            Type[] interceptorTypes = null)
+        {
+            Func<ContainerBuilder, IRegistrationBuilder<object, ReflectionActivatorData, DynamicRegistrationStyle>>
+                registrationFunc = cb => interceptorTypes.NotEmptyOrNull()
+                    ? cb.RegisterGeneric(implementerType)
+                        .As(serviceType)
+                        .EnableInterfaceInterceptors()
+                        .InterceptedBy(interceptorTypes)
+                    : cb.RegisterGeneric(implementerType).As(serviceType);
+            return ToIocRegistrationRecord(RegisterAndAssign(registrationFunc, lifeCycle, key, serviceType));
+        }
+
         // private IocRegistrationRecord ToIocRegistrationRecord<TLimit, TActivatorData, TRegistrationStyle>(IRegistrationBuilder<TLimit, TActivatorData, TRegistrationStyle> regBuilder)
         private IocRegistrationRecord ToIocRegistrationRecord<TService, TActivatorData, TRegistrationStyle>(
             IRegistrationBuilder<TService, TActivatorData, TRegistrationStyle> regBuilder)
         {
             var activatorType = ExtractActivatorType(regBuilder.ActivatorData);
             var ImplType = (regBuilder.ActivatorData as ConcreteReflectionActivatorData)?.ImplementationType ??
+                           (regBuilder.ActivatorData as ReflectionActivatorData)?.ImplementationType ??
                            (regBuilder.ActivatorData as SimpleActivatorData)?.Activator.LimitType;
 
-            var regDataServices = regBuilder.RegistrationData.Services;
-            var serviceTypes = GetAllServiceTypes(regDataServices);
+            var serviceTypes = GetAllServiceTypes(regBuilder.RegistrationData.Services);
 
-            var keys = regDataServices.Where(s => s is KeyedService)
+            var keys = regBuilder.RegistrationData.Services.Where(s => s is KeyedService)
                 .Select(srv => (srv as KeyedService).ServiceKey).ToArray();
 
             return new IocRegistrationRecord
@@ -228,7 +265,7 @@ namespace Saturn72.Module.Ioc.Autofac
 
         private ActivatorType ExtractActivatorType(object activatorData)
         {
-            if (activatorData is ConcreteReflectionActivatorData)
+            if (activatorData is ConcreteReflectionActivatorData || activatorData is ReflectionActivatorData)
                 return ActivatorType.Constractor;
 
             var actData = activatorData as SimpleActivatorData;
@@ -251,7 +288,8 @@ namespace Saturn72.Module.Ioc.Autofac
 
         #region Utilities
 
-        private IRegistrationBuilder<object, ReflectionActivatorData, object> RegisterType(Type serviceImplType, ContainerBuilder cb, Type[] interceptorTypes = null)
+        private IRegistrationBuilder<object, ReflectionActivatorData, object> RegisterType(Type serviceImplType,
+            ContainerBuilder cb, Type[] interceptorTypes = null)
         {
             if (serviceImplType.GetTypeInfo().IsGenericTypeDefinition)
                 return interceptorTypes.NotEmptyOrNull()

@@ -9,7 +9,7 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
 {
     public interface IIocRegistrator
     {
-        IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null, Type[] interceptorTypes = null)
+        IocRegistrationRecord RegisterInstance<TService>(TService implementer, object key = null, Type[] interceptorTypes = null)
             where TService : class;
 
         IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null)
@@ -31,5 +31,9 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
         IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null);
 
         void RegisterDelegate<TService>(Func<IIocResolver, TService> func, LifeCycle lifeCycle, Type[] interceptorTypes = null);
+
+        IocRegistrationRecord RegisterGeneric(Type implementerType, Type serviceType, LifeCycle lifeCycle,
+            object key = null,
+            Type[] interceptorTypes = null);
     }
 }

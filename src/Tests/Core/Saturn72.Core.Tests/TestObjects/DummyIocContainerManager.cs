@@ -38,7 +38,7 @@ namespace Saturn72.Core.Tests.TestObjects
         }
 
 
-        public IocRegistrationRecord RegisterInstance<TService>(TService implementation, object key = null,
+        public IocRegistrationRecord RegisterInstance<TService>(TService implementer, object key = null,
             Type[] interceptorTypes = null) where TService : class
         {
             throw new NotImplementedException();
