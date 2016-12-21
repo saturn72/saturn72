@@ -16,13 +16,12 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Notifications
 {
-    public class NotificationService : DomainModelCrudServiceBase<NotificationDomainModel, long>, INotificationService
+    public class NotificationService : DomainModelCrudServiceBase<NotificationDomainModel, long, long>, INotificationService
     {
         private readonly INotificationRepository _notificationRepository;
 
-        public NotificationService(INotificationRepository notificationRepository, IEventPublisher eventPublisher,
-            ICacheManager cacheManager, ITypeFinder typeFinder)
-            : base(notificationRepository, eventPublisher, cacheManager, typeFinder)
+        public NotificationService(INotificationRepository notificationRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<long> workContext)
+            : base(notificationRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
             _notificationRepository = notificationRepository;
         }

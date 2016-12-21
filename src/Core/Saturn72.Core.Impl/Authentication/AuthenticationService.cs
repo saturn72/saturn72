@@ -12,12 +12,11 @@ using Saturn72.Core.Services.Events;
 
 namespace Saturn72.Core.Services.Impl.Authentication
 {
-    public class AuthenticationService : DomainModelCrudServiceBase<RefreshTokenDomainModel, long>,
+    public class AuthenticationService : DomainModelCrudServiceBase<RefreshTokenDomainModel, long, long>,
         IAuthenticationService
     {
-        public AuthenticationService(IRefreshTokenRepository refreshTokenRepository, IEventPublisher eventPublisher,
-            ICacheManager cacheManager, ITypeFinder typeFinder)
-            : base(refreshTokenRepository, eventPublisher, cacheManager, typeFinder)
+        public AuthenticationService(IRefreshTokenRepository refreshTokenRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<long> workContext)
+            : base(refreshTokenRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
         }
 

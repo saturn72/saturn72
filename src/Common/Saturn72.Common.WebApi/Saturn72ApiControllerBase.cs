@@ -15,6 +15,7 @@ using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
 using Saturn72.Core;
+using Saturn72.Core.Services.FileUpload;
 using Saturn72.Core.Services.Security;
 using Saturn72.Extensions;
 
@@ -120,14 +121,14 @@ namespace Saturn72.Common.WebApi
             return Identity.FindFirst(ClaimTypes.NameIdentifier);
         }
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (ICollection<FileContent> attachtments)
+            (ICollection<FileUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
         {
             return await ExtractDomainModelFromMultipartRequestAsync<TApiModel>(Request, attachtments);
         }
 
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (HttpRequestMessage request, ICollection<FileContent> attachtments)
+            (HttpRequestMessage request, ICollection<FileUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
         {
             TApiModel model = null;
@@ -136,7 +137,7 @@ namespace Saturn72.Common.WebApi
         }
 
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (HttpRequestMessage request, TApiModel model, ICollection<FileContent> attachtments)
+            (HttpRequestMessage request, TApiModel model, ICollection<FileUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
         {
             Guard.NotNull(request);
@@ -168,7 +169,7 @@ namespace Saturn72.Common.WebApi
                 {
                     var getBytesTask = new Func<byte[]>(() => httpContent.ReadAsStreamAsync().Result.ToByteArray());
                     var fileName = httpContent.GetContentDispositionFileName();
-                    attachtments.Add(new FileContent
+                    attachtments.Add(new FileUploadRequest
                     {
                         Bytes = getBytesTask,
                         FilePath = fileName

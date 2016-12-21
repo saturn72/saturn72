@@ -16,19 +16,19 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl
 {
-    public abstract class DomainModelCrudServiceBase<TDomainModel, TId>
+    public abstract class DomainModelCrudServiceBase<TDomainModel, TId, TUserId>
         where TDomainModel : DomainModelBase<TId>
         where TId : IComparable
     {
         #region ctor
 
-        protected DomainModelCrudServiceBase(IRepository<TDomainModel, TId> modelRepository,
-            IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder)
+        protected DomainModelCrudServiceBase(IRepository<TDomainModel, TId> modelRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<TUserId> workContext)
         {
             ModelRepository = modelRepository;
             EventPublisher = eventPublisher;
             CacheManager = cacheManager;
             TypeFinder = typeFinder;
+            WorkContext = workContext;
         }
 
         #endregion
@@ -86,7 +86,20 @@ namespace Saturn72.Core.Services.Impl
             ValidateNonDefaultId(id);
 
             var model = GetById(id);
-            ModelRepository.Delete(id);
+
+            var deletedAudit = model as IDeletedAudit<TUserId>;
+            if (deletedAudit.NotNull())
+            {
+                deletedAudit.Deleted = true;
+                deletedAudit.DeletedOnUtc = DateTime.UtcNow;
+                deletedAudit.DeletedByUserId = WorkContext.CurrentUserId;
+                ModelRepository.Update(model);
+            }
+            else
+            {
+                ModelRepository.Delete(id);
+            }
+
             EventPublisher.DomainModelDeleted<TDomainModel, TId>(model);
         }
 
@@ -107,6 +120,7 @@ namespace Saturn72.Core.Services.Impl
         protected readonly IEventPublisher EventPublisher;
         protected readonly IRepository<TDomainModel, TId> ModelRepository;
         protected readonly ITypeFinder TypeFinder;
+        protected readonly IWorkContext<TUserId> WorkContext;
 
         #endregion
 
@@ -114,14 +128,23 @@ namespace Saturn72.Core.Services.Impl
 
         protected virtual void PrepareModelBeforeUpdateAction<T>(T model)
         {
-            if (model is IUpdatedAudit)
-                (model as IUpdatedAudit).UpdatedOnUtc = DateTime.UtcNow;
+            var updatedAudit = model as IUpdatedAudit<TUserId>;
+
+            if (updatedAudit.NotNull())
+            {
+                updatedAudit.UpdatedOnUtc = DateTime.UtcNow;
+                updatedAudit.UpdatedByUserId = WorkContext.CurrentUserId;
+            }
         }
 
         protected virtual void PrepareModelBeforeCreateAction<T>(T model)
         {
-            if (model is ICreatedAudit)
-                (model as ICreatedAudit).CreatedOnUtc = DateTime.UtcNow;
+            var createdAudit = model as ICreatedAudit<TUserId>;
+            if (createdAudit.NotNull())
+            {
+                createdAudit.CreatedOnUtc = DateTime.UtcNow;
+                createdAudit.CreatedByUserId = WorkContext.CurrentUserId;
+            }
 
             PrepareModelBeforeUpdateAction(model);
         }

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Users;
@@ -15,15 +16,15 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public class UserService : DomainModelCrudServiceBase<UserDomainModel, long>, IUserService
+    public class UserService : DomainModelCrudServiceBase<UserDomainModel, long, long>, IUserService
     {
         private const string UserRolesUserCacheKey = "Saturn72_User{0}_UserRoles";
 
         private readonly IUserRepository _userRepository;
 
         public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
-            ITypeFinder typeFinder)
-            : base(userRepository, eventPublisher, cacheManager, typeFinder)
+            ITypeFinder typeFinder, IWorkContext<long> workContext )
+            : base(userRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
             _userRepository = userRepository;
         }
@@ -49,18 +50,19 @@ namespace Saturn72.Core.Services.Impl.User
             return users.FirstOrDefault();
         }
 
-        public IEnumerable<UserRoleDomainModel> GetUserUserRolesByUserId(long userId)
+        public Task<IEnumerable<UserRoleDomainModel>> GetUserUserRolesByUserIdAsync(long userId)
         {
             Guard.GreaterThan(userId, (long) 0);
 
-            return CacheManager.Get(UserRolesUserCacheKey, () =>
-            {
-                var res = _userRepository.GetUserUserRoles(userId);
-                //User must have user roles
-                Guard.NotNull(res);
-              
-                return res;
-            });
+            return Task.FromResult(
+                CacheManager.Get(UserRolesUserCacheKey, () =>
+                {
+                    var res = _userRepository.GetUserUserRoles(userId);
+                    //User must have user roles
+                    Guard.NotNull(res);
+
+                    return res;
+                }));
         }
 
         public void UpdateUser(UserDomainModel user)

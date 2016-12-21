@@ -9,7 +9,7 @@ using Saturn72.Core.Domain.Notifications;
 
 namespace Saturn72.Core.Domain.Users
 {
-    public class UserDomainModel : DomainModelBase<long>, IFullAudit
+    public class UserDomainModel : DomainModelBase<long>, IFullAudit<long>
     {
         public UserDomainModel()
         {
@@ -77,8 +77,11 @@ namespace Saturn72.Core.Domain.Users
         }
 
         public DateTime CreatedOnUtc { get; set; }
+        public long CreatedByUserId { get; set; }
         public DateTime UpdatedOnUtc { get; set; }
+        public long UpdatedByUserId { get; set; }
         public bool Deleted { get; set; }
         public DateTime? DeletedOnUtc { get; set; }
+        public long DeletedByUserId { get; set; }
     }
 }

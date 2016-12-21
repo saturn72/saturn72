@@ -1,7 +1,8 @@
 ﻿#region
 
 using System;
-using Saturn72.Core.Services.Media;
+using System.Net;
+using Saturn72.Core.Services.FileUpload;
 using Saturn72.Core.Services.Security;
 using Saturn72.Extensions;
 
@@ -9,7 +10,7 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Media
 {
-    public class UploadService : IUploadService
+    public class UploadService : IFileUploadService
     {
         private readonly IFileValidationManager _fileValidationManager;
 
@@ -18,15 +19,15 @@ namespace Saturn72.Core.Services.Impl.Media
             _fileValidationManager = fileValidationManager;
         }
 
-        public UploadResponse Upload(UploadRequest request)
+        public FileUploadResponse Upload(FileUploadRequest request)
         {
             Guard.NotNull(request);
 
-            var fvReq = new FileValidationRequest(request.FileContent);
+            var fvReq = new FileValidationRequest(request);
 
             var fvRes = _fileValidationManager.ValidateFile(fvReq);
             if(fvRes.ResultCode!=FileValidationResultCode.Validated)
-                return new UploadResponse(request, fvRes);
+                return new FileUploadResponse(request, FileUploadStatus.Invalid, "failed to validate");
 
 
             throw new NotImplementedException();

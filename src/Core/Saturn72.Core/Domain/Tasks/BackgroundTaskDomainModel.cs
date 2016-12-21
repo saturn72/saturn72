@@ -8,7 +8,7 @@ using Saturn72.Core.Audit;
 
 namespace Saturn72.Core.Domain.Tasks
 {
-    public class BackgroundTaskDomainModel : DomainModelBase<long>, IUpdatedAudit
+    public class BackgroundTaskDomainModel : DomainModelBase<long>, IUpdatedAudit<long>
     {
         #region Fields
 
@@ -38,7 +38,9 @@ namespace Saturn72.Core.Domain.Tasks
         public TimeSpan DelayTimeSpan { get; set; }
         public long Seconds { get; set; }
         public DateTime CreatedOnUtc { get; set; }
+        public long CreatedByUserId { get; set; }
         public DateTime UpdatedOnUtc { get; set; }
+        public long UpdatedByUserId { get; set; }
 
         public ICollection<BackgroundTaskAttachtmentDomainModel> Attachtments
         {

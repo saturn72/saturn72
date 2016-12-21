@@ -18,7 +18,7 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Tasks
 {
-    public class BackgroundTaskService : DomainModelCrudServiceBase<BackgroundTaskDomainModel, long>,
+    public class BackgroundTaskService : DomainModelCrudServiceBase<BackgroundTaskDomainModel, long, long>,
         IBackgroundTaskService
     {
         private readonly IBackgroundTaskRepository _backgroundTaskRepository;
@@ -28,9 +28,10 @@ namespace Saturn72.Core.Services.Impl.Tasks
         #region ctor
 
         public BackgroundTaskService(IBackgroundTaskRepository backgroundTaskRepository, IEventPublisher eventPublisher,
-            ITypeFinder typeFinder, ITaskManager taskManager,
-            ICacheManager cacheManager, BackgroundTaskSettings settings)
-            : base(backgroundTaskRepository, eventPublisher, cacheManager, typeFinder)
+            ITypeFinder typeFinder, ITaskManager taskManager, ICacheManager cacheManager,
+            BackgroundTaskSettings settings
+            , IWorkContext<long> workContext)
+            : base(backgroundTaskRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
             _taskManager = taskManager;
             _backgroundTaskRepository = backgroundTaskRepository;

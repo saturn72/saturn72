@@ -11,10 +11,7 @@ namespace Saturn72.Core.Data.Repositories
 {
     public interface IUserRepository : IRepository<UserDomainModel, long>
     {
-        Task CreateUserAsync(UserDomainModel user);
-
         void CreateUser(UserDomainModel user);
-
         IEnumerable<UserDomainModel> GetUsersBy(Func<UserDomainModel, bool> func);
         IEnumerable<UserRoleDomainModel> GetUserUserRoles(long userId);
     }

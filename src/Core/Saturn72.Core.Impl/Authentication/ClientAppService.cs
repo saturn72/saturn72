@@ -13,13 +13,12 @@ using Saturn72.Core.Services.Events;
 
 namespace Saturn72.Core.Services.Impl.Authentication
 {
-    public class ClientAppService : DomainModelCrudServiceBase<ClientAppDomainModel, long>, IClientAppService
+    public class ClientAppService : DomainModelCrudServiceBase<ClientAppDomainModel, long, long>, IClientAppService
     {
         #region ctor
 
-        public ClientAppService(IClientAppRepository clientAppRepository, IEventPublisher eventPublisher,
-            ICacheManager cacheManager, ITypeFinder typeFinder)
-            : base(clientAppRepository, eventPublisher, cacheManager, typeFinder)
+        public ClientAppService(IClientAppRepository clientAppRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<long> workContext)
+            : base(clientAppRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
         }
 

@@ -15,14 +15,16 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public class UserRegistrationService : DomainModelCrudServiceBase<UserDomainModel, long>, IUserRegistrationService
+    public class UserRegistrationService : DomainModelCrudServiceBase<UserDomainModel, long, long>,
+        IUserRegistrationService
     {
         #region ctor
 
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
             UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
-            ICacheManager cacheManager, ITypeFinder typeFinder) :
-            base(userRepository, eventPublisher, cacheManager, typeFinder)
+            ICacheManager cacheManager, ITypeFinder typeFinder,
+            IWorkContext<long> workContext) :
+                base(userRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
             _encryptionService = encryptionService;
             _userSettings = userSettings;
