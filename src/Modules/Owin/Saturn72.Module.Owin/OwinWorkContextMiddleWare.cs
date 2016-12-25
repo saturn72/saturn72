@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin;
@@ -18,7 +16,6 @@ namespace Saturn72.Module.Owin
         public OwinWorkContextMiddleWare(OwinMiddleware next)
             : base(next)
         {
-
         }
 
 
@@ -40,16 +37,17 @@ namespace Saturn72.Module.Owin
 
         protected void BuildWorkContext(IOwinContext context)
         {
+            CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
+            CurrentWorkContext.CurrentUserIpAddress = context.Request.RemoteIpAddress;
+            CurrentWorkContext.ClientId = context.Request.Headers["client_id"];
+
             var identity = context.Request.User?.Identity as ClaimsIdentity;
             if (identity.IsNull())
                 return;
+
             var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim.IsNull())
-                return;
-            CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
-            CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userIdClaim.Value);
-            CurrentWorkContext.CurrentUserIpAddress = context.Request.RemoteIpAddress;
-            CurrentWorkContext.ClientId = context.Request.Headers["client_id"];
+            if (userIdClaim.NotNull())
+                CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userIdClaim.Value);
         }
     }
 }

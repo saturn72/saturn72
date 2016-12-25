@@ -19,8 +19,6 @@ namespace Saturn72.Common.WebApi
     public class OwinConfigurar : IOwinConfigurar
 
     {
-        public bool InvokeBeforeOwinCommonMiddlewares => false;
-
         public int ConfigurationOrder
         {
             get { return 100; }

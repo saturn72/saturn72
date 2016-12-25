@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
@@ -50,12 +49,7 @@ namespace Saturn72.Module.Owin
 
             DefaultOutput.WriteLine("Configure Formatters");
             ConfigureFormatters(httpConfig);
-
-            var allOwinMiddlewares = new List<IOwinConfigurar>();
-            TypeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(c => allOwinMiddlewares.Add(c));
-            ConfigureOwinModules(allOwinMiddlewares.Where(m=>m.InvokeBeforeOwinCommonMiddlewares), app, httpConfig);
             ConfigureOwinCommon(app, httpConfig);
-            ConfigureOwinModules(allOwinMiddlewares.Where(m => !m.InvokeBeforeOwinCommonMiddlewares), app, httpConfig);
             httpConfig.Services.Replace(typeof(ITraceWriter), AppEngine.Current.Resolve<ITraceWriter>());
             app.UseWebApi(httpConfig);
 
@@ -70,13 +64,11 @@ namespace Saturn72.Module.Owin
             jsonFormatterSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
-        private void ConfigureOwinModules(IEnumerable<IOwinConfigurar> middlewares, IAppBuilder app,
-            HttpConfiguration httpConfig)
+        private void ConfigureOwinModules(IAppBuilder app, HttpConfiguration httpConfig)
         {
-            middlewares.OrderBy(o => o.ConfigurationOrder)
-                .ToArray()
-                .ForEachItem(
-                    w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig, _configurations)));
+            TypeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(
+                w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig, _configurations)),
+                o => o.ConfigurationOrder);
         }
 
         private void ConfigureOwinCommon(IAppBuilder app, HttpConfiguration httpConfig)

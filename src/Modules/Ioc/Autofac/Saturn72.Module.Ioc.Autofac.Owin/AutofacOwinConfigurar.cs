@@ -14,8 +14,6 @@ namespace Saturn72.Module.Ioc.Autofac.Owin
 {
     public class AutofacOwinConfigurar : IOwinConfigurar
     {
-        public bool InvokeBeforeOwinCommonMiddlewares => false;
-
         public int ConfigurationOrder => 100;
 
         public void Configure(IAppBuilder app, HttpConfiguration httpConfig,
