@@ -50,6 +50,7 @@ namespace Saturn72.Module.Owin
             DefaultOutput.WriteLine("Configure Formatters");
             ConfigureFormatters(httpConfig);
             ConfigureOwinCommon(app, httpConfig);
+            ConfigureOwinModules(app, httpConfig);
             httpConfig.Services.Replace(typeof(ITraceWriter), AppEngine.Current.Resolve<ITraceWriter>());
             app.UseWebApi(httpConfig);
 

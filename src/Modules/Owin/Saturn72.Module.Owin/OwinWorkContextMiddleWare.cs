@@ -13,13 +13,13 @@ namespace Saturn72.Module.Owin
     {
         private static TypeConverter _converter;
 
-        public OwinWorkContextMiddleWare(OwinMiddleware next)
+        public OwinWorkContextMiddleWare(IWorkContext<TUserId> workContext, OwinMiddleware next)
             : base(next)
         {
+            CurrentWorkContext = workContext;
         }
 
-
-        public IWorkContext<TUserId> CurrentWorkContext { get; private set; }
+        public IWorkContext<TUserId> CurrentWorkContext { get; }
 
         public static void Initialized()
         {
@@ -37,7 +37,6 @@ namespace Saturn72.Module.Owin
 
         protected void BuildWorkContext(IOwinContext context)
         {
-            CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
             CurrentWorkContext.CurrentUserIpAddress = context.Request.RemoteIpAddress;
             CurrentWorkContext.ClientId = context.Request.Headers["client_id"];
 

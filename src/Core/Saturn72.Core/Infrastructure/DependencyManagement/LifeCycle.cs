@@ -5,6 +5,6 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
         SingleInstance = 10,
         PerRequest = 20,
         PerLifetime = 30,
-        PerDependency = 40
+        PerDependency = 40,
     }
 }

@@ -23,15 +23,12 @@ namespace Saturn72.Core.Services.Impl.User
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
             UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
             ICacheManager cacheManager, ITypeFinder typeFinder,
-            IWorkContext<long> workContext, IWorkContext<long> webContext,
-            IUserActivityLogService userActivityLogService) :
+            IWorkContext<long> workContext) :
                 base(userRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
             _encryptionService = encryptionService;
             _userSettings = userSettings;
             _userService = userService;
-            _webContext = webContext;
-            _userActivityLogService = userActivityLogService;
         }
 
         #endregion
@@ -60,7 +57,7 @@ namespace Saturn72.Core.Services.Impl.User
             EventPublisher.DomainModelCreated<UserDomainModel, long>(user);
 
 
-            await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
+           // await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
 
             return response;
         }
@@ -75,7 +72,6 @@ namespace Saturn72.Core.Services.Impl.User
                 : _userService.GetUserByUsername(usernameOrEmail);
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
-            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
             return true;
         }
 

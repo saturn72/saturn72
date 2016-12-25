@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
+using Saturn72.Core;
 using Saturn72.Core.Domain.Clients;
 using Saturn72.Core.Domain.Users;
+using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Services.Authentication;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Core.Services.Security;
@@ -32,13 +34,15 @@ namespace Saturn72.Module.Owin.Providers
         public SimpleAuthorizationServerProvider(IClientAppService clientAppService,
             IEncryptionService encryptionService,
             IUserRegistrationService userRegistrationService, IUserService userService,
-            UserSettings userSettings)
+            UserSettings userSettings, IWorkContext<long> workContext, IUserActivityLogService userActivityLogService)
         {
             _clientAppService = clientAppService;
             _encryptionService = encryptionService;
             _userRegistrationService = userRegistrationService;
             _userService = userService;
             _userSettings = userSettings;
+            _workContext = workContext;
+            _userActivityLogService = userActivityLogService;
         }
 
         #endregion
@@ -67,6 +71,9 @@ namespace Saturn72.Module.Owin.Providers
                 return Task.FromResult<object>(null);
             }
 
+            _workContext.CurrentUserIpAddress = clientIpAddress;
+            _workContext.ClientId = clientApp.ClientId;
+
             //enable cors
             context.OwinContext.Set(SecurityKeys.ClientAllowedOrigin, clientIpAddress);
             context.OwinContext.Set(SecurityKeys.ClientRefreshTokenLifeTime, clientApp.RefreshTokenLifeTime.ToString());
@@ -93,7 +100,10 @@ namespace Saturn72.Module.Owin.Providers
             var user = _userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(context.UserName)
                 : _userService.GetUserByUsername(context.UserName);
+
             Guard.NotNull(user);
+            _workContext.CurrentUserId = user.Id;
+            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
@@ -166,6 +176,8 @@ namespace Saturn72.Module.Owin.Providers
         private readonly IUserRegistrationService _userRegistrationService;
         private readonly IUserService _userService;
         private readonly UserSettings _userSettings;
+        private readonly IWorkContext<long> _workContext;
+        private readonly IUserActivityLogService _userActivityLogService;
 
         #endregion
 

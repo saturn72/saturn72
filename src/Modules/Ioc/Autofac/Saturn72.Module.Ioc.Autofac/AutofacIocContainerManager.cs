@@ -11,6 +11,7 @@ using Autofac.Core.Activators.ProvidedInstance;
 using Autofac.Core.Lifetime;
 using Autofac.Extras.DynamicProxy;
 using Autofac.Features.Scanning;
+using Autofac.Integration.WebApi;
 using Saturn72.Core;
 using Saturn72.Core.Exceptions;
 using Saturn72.Core.Infrastructure.DependencyManagement;
