@@ -53,6 +53,7 @@ namespace Saturn72.Core.Services.Impl
 
         protected virtual async Task<TDomainModel> CreateAsync(TDomainModel model)
         {
+
             return await Task.Run(() => Create(model));
         }
 

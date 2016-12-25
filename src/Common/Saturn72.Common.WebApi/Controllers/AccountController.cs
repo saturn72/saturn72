@@ -3,10 +3,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Saturn72.Common.WebApi.Models.Account;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.User;
-using Saturn72.Common.WebApi;
-using Saturn72.Common.WebApi.Models.Account;
 
 #endregion
 
@@ -38,7 +37,8 @@ namespace Saturn72.Common.WebApi.Controllers
                 return BadRequest(ConvertModelStateErrorsToKeyValuePair());
 
             //TOD: get password format from settings
-            var request = new UserRegistrationRequest(model.UsernameOrEmail, model.Password, PasswordFormat.Encrypted, GetSenderIpAddress());
+            var request = new UserRegistrationRequest(model.UsernameOrEmail, model.Password, PasswordFormat.Encrypted,
+                GetSenderIpAddress());
             var response = await _userRegistrationService.RegisterAsync(request);
 
             if (response.Success)

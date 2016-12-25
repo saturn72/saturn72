@@ -111,6 +111,8 @@
     <Compile Include="Domain\Tasks\BackgroundTaskDomainModel.cs" />
     <Compile Include="Domain\Tasks\BackgroundTaskExecutionDataDomainModel.cs" />
     <Compile Include="Domain\Tasks\BackgroundTaskSettings.cs" />
+    <Compile Include="Domain\Users\UserActivityLogDomainModel.cs" />
+    <Compile Include="Domain\Users\UserActivityType.cs" />
     <Compile Include="Extensibility\IPlugin.cs" />
     <Compile Include="Extensibility\PluginState.cs" />
     <Compile Include="Infrastructure\DependencyManagement\ActivatorType.cs" />

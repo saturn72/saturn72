@@ -42,6 +42,7 @@
     <Compile Include="Repositories\INotificationRepository.cs" />
     <Compile Include="Repositories\IRefreshTokenRepository.cs" />
     <Compile Include="Repositories\ISettingEntryRepository.cs" />
+    <Compile Include="Repositories\IUserActivityLogRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

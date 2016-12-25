@@ -38,7 +38,7 @@ namespace Saturn72.Core.Services.Impl.User
         public UserDomainModel GetUserByEmail(string email)
         {
             Guard.HasValue(email);
-            Guard.MustFollow(CommonHelper.IsValidEmail(email));
+            Guard.MustFollow(CommonHelper.IsValidEmail(email), "invalid email address");
             return GetUserBy(u => u.Active && u.Email == email);
         }
 

@@ -19,7 +19,6 @@ namespace Saturn72.Core.Domain.Users
 
         #region Fields
 
-        private ICollection<NotificationSubscription> _notificationSubscription;
         private ICollection<UserRoleDomainModel> _userRoles;
 
         #endregion
@@ -57,20 +56,6 @@ namespace Saturn72.Core.Domain.Users
 
 
         //Audit
-
-        public string LastIpAddress { get; set; }
-
-        public DateTime? LastLoginDateUtc { get; set; }
-        public DateTime LastActivityDateUtc { get; set; }
-
-        public virtual ICollection<NotificationSubscription> NotificationSubscription
-        {
-            get
-            {
-                return _notificationSubscription ?? (_notificationSubscription = new List<NotificationSubscription>());
-            }
-        }
-
         public virtual ICollection<UserRoleDomainModel> UserRoles
         {
             get { return _userRoles ?? (_userRoles = new List<UserRoleDomainModel>()); }

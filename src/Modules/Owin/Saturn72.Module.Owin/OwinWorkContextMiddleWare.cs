@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin;
@@ -46,6 +48,10 @@ namespace Saturn72.Module.Owin
                 return;
             CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
             CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userIdClaim.Value);
+            CurrentWorkContext.CurrentUserIpAddress = context.Request.RemoteIpAddress;
+            CurrentWorkContext.ClientId = context.Environment["client_id"].ToString();
+            throw new NotImplementedException("extract client_id");
+            //CurrentWorkContext.ClientId = context.RequestClientId; client_id
         }
     }
 }
