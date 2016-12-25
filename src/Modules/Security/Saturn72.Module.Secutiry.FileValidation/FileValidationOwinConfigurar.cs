@@ -8,7 +8,9 @@ namespace Saturn72.Module.Secutiry.FileValidation
 {
     public class FileValidationOwinConfigurar:IOwinConfigurar
     {
-        public int ConfigurationOrder {get { return 10; } }
+        public bool InvokeBeforeOwinCommonMiddlewares => false;
+        public int ConfigurationOrder => 10;
+
         public void Configure(IAppBuilder app, HttpConfiguration httpConfig, IDictionary<string, IConfigMap> configurations)
         {
             app.Use(typeof(FileValidationMiddleware));

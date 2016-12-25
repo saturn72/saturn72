@@ -15,10 +15,9 @@ namespace Saturn72.Module.HangFire.OwinAdapter
 {
     public class HangFireOwinConfigurar : IOwinConfigurar
     {
-        public int ConfigurationOrder
-        {
-            get { return 100; }
-        }
+        public bool InvokeBeforeOwinCommonMiddlewares => false;
+
+        public int ConfigurationOrder => 100;
 
         public void Configure(IAppBuilder app, HttpConfiguration httpConfig, IDictionary<string, IConfigMap> configurations)
         {

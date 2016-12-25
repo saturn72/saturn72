@@ -14,16 +14,15 @@ namespace Saturn72.Module.Ioc.Autofac.Owin
 {
     public class AutofacOwinConfigurar : IOwinConfigurar
     {
-        public int ConfigurationOrder
-        {
-            get { return 100; }
-        }
+        public bool InvokeBeforeOwinCommonMiddlewares => false;
+
+        public int ConfigurationOrder => 100;
 
         public void Configure(IAppBuilder app, HttpConfiguration httpConfig,
             IDictionary<string, IConfigMap> configurations)
         {
             //Autofac
-            var autofacContainerManager = (AppEngine.Current.IocContainerManager as AutofacIocContainerManager);
+            var autofacContainerManager = AppEngine.Current.IocContainerManager as AutofacIocContainerManager;
             var container = autofacContainerManager.Container;
 
             httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container);

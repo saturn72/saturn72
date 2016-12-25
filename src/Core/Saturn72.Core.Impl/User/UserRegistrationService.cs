@@ -75,7 +75,7 @@ namespace Saturn72.Core.Services.Impl.User
                 : _userService.GetUserByUsername(usernameOrEmail);
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
-            _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user).Start();
+            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
             return true;
         }
 

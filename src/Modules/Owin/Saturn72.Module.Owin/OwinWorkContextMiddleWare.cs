@@ -49,9 +49,7 @@ namespace Saturn72.Module.Owin
             CurrentWorkContext = AppEngine.Current.Resolve<IWorkContext<TUserId>>();
             CurrentWorkContext.CurrentUserId = (TUserId) _converter.ConvertFrom(userIdClaim.Value);
             CurrentWorkContext.CurrentUserIpAddress = context.Request.RemoteIpAddress;
-            CurrentWorkContext.ClientId = context.Environment["client_id"].ToString();
-            throw new NotImplementedException("extract client_id");
-            //CurrentWorkContext.ClientId = context.RequestClientId; client_id
+            CurrentWorkContext.ClientId = context.Request.Headers["client_id"];
         }
     }
 }

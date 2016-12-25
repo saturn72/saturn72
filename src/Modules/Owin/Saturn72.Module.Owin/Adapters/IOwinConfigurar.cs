@@ -11,6 +11,7 @@ namespace Saturn72.Module.Owin.Adapters
 {
     public interface IOwinConfigurar
     {
+        bool InvokeBeforeOwinCommonMiddlewares { get; }
         /// <summary>
         ///     Configure order
         /// </summary>

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Routing;
 using Microsoft.AspNet.Identity;
@@ -52,9 +51,11 @@ namespace Saturn72.Module.Owin
             DefaultOutput.WriteLine("Configure Formatters");
             ConfigureFormatters(httpConfig);
 
+            var allOwinMiddlewares = new List<IOwinConfigurar>();
+            TypeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(c => allOwinMiddlewares.Add(c));
+            ConfigureOwinModules(allOwinMiddlewares.Where(m=>m.InvokeBeforeOwinCommonMiddlewares), app, httpConfig);
             ConfigureOwinCommon(app, httpConfig);
-
-            ConfigureOwinModules(app, httpConfig);
+            ConfigureOwinModules(allOwinMiddlewares.Where(m => !m.InvokeBeforeOwinCommonMiddlewares), app, httpConfig);
             httpConfig.Services.Replace(typeof(ITraceWriter), AppEngine.Current.Resolve<ITraceWriter>());
             app.UseWebApi(httpConfig);
 
@@ -69,11 +70,13 @@ namespace Saturn72.Module.Owin
             jsonFormatterSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
-        private void ConfigureOwinModules(IAppBuilder app, HttpConfiguration httpConfig)
+        private void ConfigureOwinModules(IEnumerable<IOwinConfigurar> middlewares, IAppBuilder app,
+            HttpConfiguration httpConfig)
         {
-            TypeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(
-                w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig, _configurations)),
-                o => o.ConfigurationOrder);
+            middlewares.OrderBy(o => o.ConfigurationOrder)
+                .ToArray()
+                .ForEachItem(
+                    w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig, _configurations)));
         }
 
         private void ConfigureOwinCommon(IAppBuilder app, HttpConfiguration httpConfig)
@@ -92,7 +95,7 @@ namespace Saturn72.Module.Owin
                 }
                 if (owinConfig.UseOAuth)
                     ConfigureOAuth(app);
-                
+
                 if (owinConfig.OAuthProviders.NotEmptyOrNull())
                     RegisterExternalOAuthProvider(owinConfig.OAuthProviders, app);
 
