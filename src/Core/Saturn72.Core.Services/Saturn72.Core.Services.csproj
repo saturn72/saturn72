@@ -95,6 +95,7 @@
     <Compile Include="Security\ISecurityService.cs" />
     <Compile Include="Tasks\IBackgroundTaskExecutionService.cs" />
     <Compile Include="Tasks\IBackgroundTaskService.cs" />
+    <Compile Include="User\IUserActivityLogService.cs" />
     <Compile Include="User\IUserRegistrationService.cs" />
     <Compile Include="User\IUserService.cs" />
     <Compile Include="User\UserRegistrationRequest.cs" />

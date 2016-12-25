@@ -85,6 +85,7 @@
     <Compile Include="Tasks\BackgroundTaskEventsConsumerTests.cs" />
     <Compile Include="Tasks\BackgroundTaskExecutionServiceTests.cs" />
     <Compile Include="Tasks\BackgroundTaskServiceTests.cs" />
+    <Compile Include="User\UserActivityLogServiceTests.cs" />
     <Compile Include="User\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

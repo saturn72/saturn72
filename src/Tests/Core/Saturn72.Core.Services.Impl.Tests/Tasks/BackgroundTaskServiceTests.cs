@@ -90,7 +90,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
 
             _backgroundTaskService = new BackgroundTaskService(btRepository.Object, eventPublisher.Object,
                 typeFinder.Object,
-                taskManager.Object, cacheManager.Object, btSettings);
+                taskManager.Object, cacheManager.Object, btSettings, null);
 
             //create task
             var t1 = CrateTaskAndAssert(task1);

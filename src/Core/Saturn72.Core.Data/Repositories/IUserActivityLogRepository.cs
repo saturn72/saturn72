@@ -4,6 +4,6 @@ namespace Saturn72.Core.Data.Repositories
 {
     public interface IUserActivityLogRepository
     {
-        void AddUserActivityLog(UserActivityLogDomainModel userActivityLog);
+        UserActivityLogDomainModel AddUserActivityLog(UserActivityLogDomainModel userActivityLog);
     }
 }

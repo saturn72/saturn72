@@ -23,14 +23,15 @@ namespace Saturn72.Core.Services.Impl.User
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
             UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
             ICacheManager cacheManager, ITypeFinder typeFinder,
-            IWorkContext<long> workContext, IWorkContext<long> webContext, IUserActivityLogRepository userActivityLogRepository) :
+            IWorkContext<long> workContext, IWorkContext<long> webContext,
+            IUserActivityLogService userActivityLogService) :
                 base(userRepository, eventPublisher, cacheManager, typeFinder, workContext)
         {
             _encryptionService = encryptionService;
             _userSettings = userSettings;
             _userService = userService;
             _webContext = webContext;
-            _userActivityLogRepository = userActivityLogRepository;
+            _userActivityLogService = userActivityLogService;
         }
 
         #endregion
@@ -58,16 +59,8 @@ namespace Saturn72.Core.Services.Impl.User
             await CreateAsync(user);
             EventPublisher.DomainModelCreated<UserDomainModel, long>(user);
 
-            var regActLog = new UserActivityLogDomainModel
-            {
-                ActvityTypeCode = UserActivityType.Register.Code,
-                ActivityDateUtc = DateTime.UtcNow,
-                UserIpAddress = _webContext.CurrentUserIpAddress,
-                UserGuid = user.UserGuid,
-                ClientApp = _webContext.ClientId,
-            };
 
-            _userActivityLogRepository.AddUserActivityLog(regActLog);
+            await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
 
             return response;
         }
@@ -82,19 +75,7 @@ namespace Saturn72.Core.Services.Impl.User
                 : _userService.GetUserByUsername(usernameOrEmail);
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
-
-            //userActivityLog = new UserActivityLogDomainModel
-            //{
-            //    UserId = _webContext.CurrentUserId,
-            //    ActvityTypeCode = UserActivityTypes.Login.Code,
-            //    ActivityDateUtc = DateTime.UtcNow,
-            //    UserIpAddress = _webContext.CurrentUserIpAddress
-            //};
-
-            //Task(() => _userActivityLogRepository.Add(userActivityLog));
-            //TODO: Add user activity here 
-            _userService.UpdateUser(user);
-
+            _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user).Start();
             return true;
         }
 
@@ -162,7 +143,7 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IUserService _userService;
         private readonly UserSettings _userSettings;
         private readonly IWorkContext<long> _webContext;
-        private readonly IUserActivityLogRepository _userActivityLogRepository;
+        private readonly IUserActivityLogService _userActivityLogService;
 
         #endregion
     }

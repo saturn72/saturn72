@@ -101,6 +101,12 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
+        public IocRegistrationRecord RegisterGeneric(Type implementerType, Type serviceType, LifeCycle lifeCycle, object key = null,
+            Type[] interceptorTypes = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ExecuteInNewScope(Action action)
         {
             throw new NotImplementedException();

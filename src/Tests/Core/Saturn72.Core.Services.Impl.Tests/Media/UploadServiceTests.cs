@@ -3,8 +3,8 @@
 using System;
 using Moq;
 using NUnit.Framework;
+using Saturn72.Core.Services.FileUpload;
 using Saturn72.Core.Services.Impl.Media;
-using Saturn72.Core.Services.Media;
 using Saturn72.Core.Services.Security;
 using Saturn72.UnitTesting.Framework;
 
@@ -28,9 +28,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
                 .Returns<FileValidationRequest>(rq => new FileValidationResult(rq, FileValidationResultCode.NotSupported));
 
             var srv = new UploadService(fvManager.Object);
-            var res = srv.Upload(new UploadRequest(null));
-            res.FileValidationResult.ResultCode.ShouldEqual(FileValidationResultCode.NotSupported);
-            res.Uploaded.ShouldBeFalse();
+            var res = srv.Upload(new FileUploadRequest());
+            res.Status.ShouldEqual(FileValidationResultCode.NotSupported);
+            res.WasUploaded.ShouldBeFalse();
         }
 
         [Test]
@@ -41,9 +41,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
                 .Returns<FileValidationRequest>(rq => new FileValidationResult(rq, FileValidationResultCode.Blocked));
 
             var srv = new UploadService(fvManager.Object);
-            var res = srv.Upload(new UploadRequest(null));
-            res.FileValidationResult.ResultCode.ShouldEqual(FileValidationResultCode.Blocked);
-            res.Uploaded.ShouldBeFalse();
+            var res = srv.Upload(new FileUploadRequest());
+
+            res.Status.ShouldEqual(FileValidationResultCode.Blocked);
+            res.WasUploaded.ShouldBeFalse();
         }
 
         [Test]
@@ -54,9 +55,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
                 .Returns<FileValidationRequest>(rq => new FileValidationResult(rq, FileValidationResultCode.Corrupted));
 
             var srv = new UploadService(fvManager.Object);
-            var res = srv.Upload(new UploadRequest(null));
-            res.FileValidationResult.ResultCode.ShouldEqual(FileValidationResultCode.Corrupted);
-            res.Uploaded.ShouldBeFalse();
+            var res = srv.Upload(new FileUploadRequest());
+            res.Status.ShouldEqual(FileValidationResultCode.Corrupted);
+            res.WasUploaded.ShouldBeFalse();
         }
 
         [Test]
@@ -67,10 +68,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
                 .Returns<FileValidationRequest>(rq => new FileValidationResult(rq, FileValidationResultCode.Validated));
 
             var srv = new UploadService(fvManager.Object);
-            var res = srv.Upload(new UploadRequest(null));
-            res.FileValidationResult.ResultCode.ShouldEqual(FileValidationResultCode.Validated);
+            var res = srv.Upload(new FileUploadRequest());
+            res.Status.ShouldEqual(FileValidationResultCode.Validated);
 
-            res.Uploaded.ShouldBeTrue();
+            res.WasUploaded.ShouldBeTrue();
         }
     }
 }

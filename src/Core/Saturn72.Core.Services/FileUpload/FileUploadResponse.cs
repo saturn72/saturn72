@@ -12,5 +12,8 @@ namespace Saturn72.Core.Services.FileUpload
         public FileUploadRequest Request { get; }
         public FileUploadStatus Status { get; }
         public string Message { get; }
+        public bool WasUploaded {
+            get { return Status == FileUploadStatus.Invalid; }
+        }
     }
 }

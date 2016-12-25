@@ -59,10 +59,10 @@ namespace Saturn72.Core.Services.Impl.Security
         /// <returns>Decrypted text</returns>
         public virtual string DecryptText(string cipherText, string encryptionPrivateKey = "")
         {
-            if (String.IsNullOrEmpty(cipherText))
+            if (string.IsNullOrEmpty(cipherText))
                 return cipherText;
 
-            if (String.IsNullOrEmpty(encryptionPrivateKey))
+            if (string.IsNullOrEmpty(encryptionPrivateKey))
                 encryptionPrivateKey = _securitySettings.EncryptionKey;
 
             var tDESalg = new TripleDESCryptoServiceProvider();
