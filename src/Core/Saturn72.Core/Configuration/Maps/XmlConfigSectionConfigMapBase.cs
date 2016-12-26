@@ -8,12 +8,12 @@ using System.Xml;
 
 namespace Saturn72.Core.Configuration.Maps
 {
-    public abstract class ConfigSectionConfigMapBase<TConfigSection> : ConfigMapBase
+    public abstract class XmlConfigSectionConfigMapBase<TConfigSection> : ConfigMapBase
         where TConfigSection : class, IConfigurationSectionHandler, new()
     {
         private IDictionary<string, object> _allConfigRecords;
 
-        protected ConfigSectionConfigMapBase(string name, string configFilePath) : base(name, configFilePath)
+        protected XmlConfigSectionConfigMapBase(string name, string configFilePath) : base(name, configFilePath)
         {
         }
 

@@ -9,7 +9,7 @@ using Saturn72.Core.Configuration.Maps;
 
 namespace Saturn72.Module.Owin
 {
-    public class OwinConfigMap : ConfigSectionConfigMapBase<OwinConfig>
+    public class OwinConfigMap : XmlConfigSectionConfigMapBase<OwinConfig>
     {
         public OwinConfigMap(string name, string configFilePath) : base(name, configFilePath)
         {

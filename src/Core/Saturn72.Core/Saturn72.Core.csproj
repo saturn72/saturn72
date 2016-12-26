@@ -84,7 +84,7 @@
     <Compile Include="Configuration\ConfigurationSectionHandlerBase.cs" />
     <Compile Include="Configuration\IConfigManager.cs" />
     <Compile Include="Configuration\Maps\ConfigMapperExtensions.cs" />
-    <Compile Include="Configuration\Maps\ConfigSectionConfigMapBase.cs" />
+    <Compile Include="Configuration\Maps\XmlConfigSectionConfigMapBase.cs" />
     <Compile Include="Configuration\Maps\DefaultConfigMap.cs" />
     <Compile Include="Configuration\Maps\IConfigMap.cs" />
     <Compile Include="Configuration\Maps\KeyValueConfigMapper.cs" />
