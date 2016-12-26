@@ -80,7 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Saturn72.Core.Impl\Saturn72.Core.Services.Impl.csproj">
