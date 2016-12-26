@@ -106,7 +106,7 @@ namespace Saturn72.Core.Services.Impl
 
         private static void ValidateNonDefaultId(TId id)
         {
-            Guard.MustFollow(id.CompareTo(id.GetType().GetDefault()) > 0);
+            Guard.MustFollow(id.CompareTo(default(TId)) > 0);
         }
 
         protected TDomainModel GetById(TId id)

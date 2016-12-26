@@ -14,6 +14,26 @@ namespace Saturn72.Extensions
         private const string MustFollowDefaultMessage =
             "The object does not follows the given rule.\nSee call stack for details";
 
+        public static void GreaterThan(IComparable greater, IComparable than)
+        {
+            MustFollow(()=> greater.CompareTo(than)>0, "{0} is not greater than {1}".AsFormat(greater, than));
+        }
+
+        public static void GreaterOrEqualTo(IComparable greater, IComparable than)
+        {
+            MustFollow(() => greater.CompareTo(than) >= 0, "{0} is not greater or equal than {1}".AsFormat(greater, than));
+        }
+
+        public static void SmallerThan(IComparable smaller, IComparable than)
+        {
+            MustFollow(() => smaller.CompareTo(than) < 0, "{0} is not smaller than {1}".AsFormat(smaller, than));
+        }
+
+        public static void SmallerOrEqualTo(IComparable greater, IComparable than)
+        {
+            MustFollow(() => greater.CompareTo(than) <= 0, "{0} is not smaller or equal than {1}".AsFormat(greater, than));
+        }
+
         public static void IsUrl(string str)
         {
             MustFollow(() => str.IsUrl(), () => { throw new FormatException("The specified string is not url"); });

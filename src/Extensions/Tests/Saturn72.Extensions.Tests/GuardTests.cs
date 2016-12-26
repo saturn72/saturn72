@@ -12,6 +12,45 @@ namespace Saturn72.Extensions.Tests
     public class GuardTests
     {
         [Test]
+        public void Guard_GreaterThan()
+        {
+            //throws on not greater than
+            typeof(Exception).ShouldBeThrownBy(()=> Guard.GreaterThan(1,1));
+            typeof(Exception).ShouldBeThrownBy(() => Guard.GreaterOrEqualTo(1, 10));
+
+            Guard.GreaterThan(1,0);
+        }
+
+        [Test]
+        public void Guard_GreaterOrEqualsTo()
+        {
+            //throws on not greater than
+            typeof(Exception).ShouldBeThrownBy(() => Guard.GreaterOrEqualTo(1, 10));
+
+            Guard.GreaterOrEqualTo(1, 1);
+            Guard.GreaterOrEqualTo(1, 0);
+        }
+        [Test]
+        public void Guard_SmallerThan()
+        {
+            //throws on not greater than
+            typeof(Exception).ShouldBeThrownBy(() => Guard.SmallerThan(1, 1));
+            typeof(Exception).ShouldBeThrownBy(() => Guard.SmallerThan(1, 0));
+
+            Guard.SmallerThan(1, 10);
+        }
+
+        [Test]
+        public void Guard_SmallerOrEqualsTo()
+        {
+            //throws on not greater than
+            typeof(Exception).ShouldBeThrownBy(() => Guard.SmallerOrEqualTo(10, 1));
+
+            Guard.SmallerOrEqualTo(1, 1);
+            Guard.SmallerOrEqualTo(1, 10);
+        }
+
+        [Test]
         public void ContainsKey_KeyNotExists()
         {
             var dictionary = new Dictionary<int, int> {{1, 1}, {2, 2}, {3, 4}};

@@ -63,10 +63,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Core\Saturn72.Core.Impl\bin\Debug\Saturn72.Core.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Saturn72.Extensions.1.1.9\lib\net45\Saturn72.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Saturn72.UnitTesting.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Saturn72.UnitTesting.Framework.2.0.3\lib\net461\Saturn72.UnitTesting.Framework.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +96,10 @@
     <ProjectReference Include="..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Extensions\Saturn72.Extensions\Saturn72.Extensions.csproj">
+      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
+      <Name>Saturn72.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Modules\EntityFramework\Saturn72.Module.EntityFramework\Saturn72.Module.EntityFramework.csproj">
       <Project>{1B65300E-AE20-4CEB-AC57-0A0AE7ECBC87}</Project>

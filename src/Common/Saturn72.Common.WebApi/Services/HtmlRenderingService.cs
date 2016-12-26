@@ -31,7 +31,7 @@ namespace Saturn72.Common.WebApi.Services
 
         public Task<string> GetHtmlContentAsync(string key)
         {
-            return Task.Run(() => HtmlDictionary.GetValueOrDefault(key, ()=>null));
+            return Task.Run(() => HtmlDictionary.GetValueOrDefault(key, null));
         }
 
         private static IDictionary<string, string> LoadHtmlContent()

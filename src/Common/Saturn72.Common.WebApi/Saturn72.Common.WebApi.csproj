@@ -59,10 +59,6 @@
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Saturn72.Extensions.1.1.9\lib\net45\Saturn72.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Saturn72.Extensions.AspNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Saturn72.Extensions.AspNet.1.1.8\lib\net45\Saturn72.Extensions.AspNet.dll</HintPath>
       <Private>True</Private>
@@ -113,6 +109,10 @@
     <ProjectReference Include="..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Extensions\Saturn72.Extensions\Saturn72.Extensions.csproj">
+      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
+      <Name>Saturn72.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Modules\Owin\Saturn72.Module.Owin\Saturn72.Module.Owin.csproj">
       <Project>{23AF9C5A-A707-44A5-9D2F-83705BA2B570}</Project>
