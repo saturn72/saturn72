@@ -16,24 +16,41 @@ namespace Saturn72.Extensions
 
         public static void GreaterThan(IComparable greater, IComparable than)
         {
-            MustFollow(()=> greater.CompareTo(than)>0, "{0} is not greater than {1}".AsFormat(greater, than));
+            GreaterThan(greater, than, "{0} is not greater than {1}".AsFormat(greater, than));
+        }
+
+        public static void GreaterThan(IComparable greater, IComparable than, string message)
+        {
+            MustFollow(() => greater.CompareTo(than) > 0, message);
         }
 
         public static void GreaterOrEqualTo(IComparable greater, IComparable than)
         {
-            MustFollow(() => greater.CompareTo(than) >= 0, "{0} is not greater or equal than {1}".AsFormat(greater, than));
+            GreaterOrEqualTo(greater, than, "{0} is not greater or equal than {1}".AsFormat(greater, than));
         }
-
+        public static void GreaterOrEqualTo(IComparable greater, IComparable than, string message)
+        {
+            MustFollow(() => greater.CompareTo(than) >= 0,message);
+        }
         public static void SmallerThan(IComparable smaller, IComparable than)
         {
-            MustFollow(() => smaller.CompareTo(than) < 0, "{0} is not smaller than {1}".AsFormat(smaller, than));
+            SmallerThan(smaller, than, "{0} is not smaller than {1}".AsFormat(smaller, than));
         }
 
-        public static void SmallerOrEqualTo(IComparable greater, IComparable than)
+        public static void SmallerThan(IComparable smaller, IComparable than, string message)
         {
-            MustFollow(() => greater.CompareTo(than) <= 0, "{0} is not smaller or equal than {1}".AsFormat(greater, than));
+            MustFollow(() => smaller.CompareTo(than) < 0, message);
         }
 
+        public static void SmallerOrEqualTo(IComparable smaller, IComparable than)
+        {
+            SmallerOrEqualTo(smaller, than, "{0} is not smaller or equal than {1}".AsFormat(smaller, than));
+        }
+
+        public static void SmallerOrEqualTo(IComparable smaller, IComparable than, string message)
+        {
+            MustFollow(() => smaller.CompareTo(than) <= 0,message);
+        }
         public static void IsUrl(string str)
         {
             MustFollow(() => str.IsUrl(), () => { throw new FormatException("The specified string is not url"); });

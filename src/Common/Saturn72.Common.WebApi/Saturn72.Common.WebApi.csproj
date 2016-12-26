@@ -106,6 +106,10 @@
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Extensions\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj">
+      <Project>{A7B3E883-359C-45EC-B925-623D55984AD9}</Project>
+      <Name>Saturn72.Extensions.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Extensions\Saturn72.Extensions.Net\Saturn72.Extensions.Net.csproj">
       <Project>{2601A20B-162D-4CD0-B6E3-4A467F5106C9}</Project>
       <Name>Saturn72.Extensions.Net</Name>
