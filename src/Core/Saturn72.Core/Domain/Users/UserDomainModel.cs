@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using Saturn72.Core.Audit;
-using Saturn72.Core.Domain.Notifications;
 
 #endregion
 
@@ -11,17 +10,17 @@ namespace Saturn72.Core.Domain.Users
 {
     public class UserDomainModel : DomainModelBase<long>, IFullAudit<long>
     {
-        public UserDomainModel()
-        {
-            UserGuid = Guid.NewGuid();
-            PasswordFormat = PasswordFormat.Clear;
-        }
-
         #region Fields
 
         private ICollection<UserRoleDomainModel> _userRoles;
 
         #endregion
+
+        public UserDomainModel()
+        {
+            UserGuid = Guid.NewGuid();
+            PasswordFormat = PasswordFormat.Clear;
+        }
 
         public Guid UserGuid { get; set; }
 
@@ -54,6 +53,9 @@ namespace Saturn72.Core.Domain.Users
         /// </summary>
         public bool Active { get; set; }
 
+
+        public string LastClientAppId { get; set; }
+        public string LastIpAddress { get; set; }
 
         //Audit
         public virtual ICollection<UserRoleDomainModel> UserRoles

@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
-using Saturn72.Core;
 using Saturn72.Core.Domain.Clients;
 using Saturn72.Core.Domain.Users;
-using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Services.Authentication;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Core.Services.Security;
@@ -34,14 +33,13 @@ namespace Saturn72.Module.Owin.Providers
         public SimpleAuthorizationServerProvider(IClientAppService clientAppService,
             IEncryptionService encryptionService,
             IUserRegistrationService userRegistrationService, IUserService userService,
-            UserSettings userSettings, IWorkContext<long> workContext, IUserActivityLogService userActivityLogService)
+            UserSettings userSettings, IUserActivityLogService userActivityLogService)
         {
             _clientAppService = clientAppService;
             _encryptionService = encryptionService;
             _userRegistrationService = userRegistrationService;
             _userService = userService;
             _userSettings = userSettings;
-            _workContext = workContext;
             _userActivityLogService = userActivityLogService;
         }
 
@@ -57,8 +55,7 @@ namespace Saturn72.Module.Owin.Providers
                                         || context.TryGetFormCredentials(out clientId, out clientSecret))
                                        && context.ClientId.NotNull();
 
-            var clientIpAddress =
-                (context.Request.Environment["owin.RequestHeaders"] as IDictionary<string, string[]>)["Origin"].First();
+            var clientIpAddress = GetClientIpAddress(context.Request);
 
             var clientApp = _clientAppService.GetClientAppByClientId(context.ClientId, clientIpAddress);
             //client exist by UsernameKey/password and nativeapp woth secret or not native app
@@ -71,9 +68,6 @@ namespace Saturn72.Module.Owin.Providers
                 return Task.FromResult<object>(null);
             }
 
-            _workContext.CurrentUserIpAddress = clientIpAddress;
-            _workContext.ClientId = clientApp.ClientId;
-
             //enable cors
             context.OwinContext.Set(SecurityKeys.ClientAllowedOrigin, clientIpAddress);
             context.OwinContext.Set(SecurityKeys.ClientRefreshTokenLifeTime, clientApp.RefreshTokenLifeTime.ToString());
@@ -81,6 +75,11 @@ namespace Saturn72.Module.Owin.Providers
             context.Validated();
 
             return Task.FromResult<object>(new {message = "Client was authenticated"});
+        }
+
+        private string GetClientIpAddress(IOwinRequest request)
+        {
+            return (request.Environment["owin.RequestHeaders"] as IDictionary<string, string[]>)["Origin"].First();
         }
 
 
@@ -102,8 +101,12 @@ namespace Saturn72.Module.Owin.Providers
                 : _userService.GetUserByUsername(context.UserName);
 
             Guard.NotNull(user);
-            _workContext.CurrentUserId = user.Id;
-            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
+            Task.Run(() =>
+            {
+                user.LastClientAppId = context.ClientId;
+                user.LastIpAddress = GetClientIpAddress(context.Request);
+                _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user);
+            });
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
@@ -176,7 +179,6 @@ namespace Saturn72.Module.Owin.Providers
         private readonly IUserRegistrationService _userRegistrationService;
         private readonly IUserService _userService;
         private readonly UserSettings _userSettings;
-        private readonly IWorkContext<long> _workContext;
         private readonly IUserActivityLogService _userActivityLogService;
 
         #endregion

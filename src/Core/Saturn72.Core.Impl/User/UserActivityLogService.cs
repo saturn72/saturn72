@@ -10,12 +10,9 @@ namespace Saturn72.Core.Services.Impl.User
     public class UserActivityLogService : IUserActivityLogService
     {
         private readonly IUserActivityLogRepository _userActivityLogRepository;
-        private readonly IWorkContext<long> _workContext;
 
-        public UserActivityLogService(IUserActivityLogRepository userActivityLogRepository,
-            IWorkContext<long> workContext)
+        public UserActivityLogService(IUserActivityLogRepository userActivityLogRepository)
         {
-            _workContext = workContext;
             _userActivityLogRepository = userActivityLogRepository;
         }
 
@@ -26,10 +23,10 @@ namespace Saturn72.Core.Services.Impl.User
             var ual = new UserActivityLogDomainModel
             {
                 ActivityDateUtc = DateTime.UtcNow,
-                UserGuid = user.UserGuid,
-                ActvityTypeCode = userActivityType.Code,
-                ClientApp = _workContext.ClientId,
-                UserIpAddress = _workContext.CurrentUserIpAddress
+                UserId = user.Id,
+                ActivityTypeCode = userActivityType.Code,
+                ClientAppId = user.LastClientAppId,
+                UserIpAddress = user.LastIpAddress
             };
             return Task.FromResult(_userActivityLogRepository.AddUserActivityLog(ual));
         }

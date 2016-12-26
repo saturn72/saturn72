@@ -12,7 +12,6 @@ using Autofac.Core.Lifetime;
 using Autofac.Extras.DynamicProxy;
 using Autofac.Features.Scanning;
 using Autofac.Integration.WebApi;
-using Saturn72.Core;
 using Saturn72.Core.Exceptions;
 using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Extensions;
@@ -37,12 +36,7 @@ namespace Saturn72.Module.Ioc.Autofac
 
         public virtual TService Resolve<TService>(object key = null)
         {
-            Func<ILifetimeScope, TService> func = scope =>
-                key.IsNull()
-                    ? scope.Resolve<TService>()
-                    : scope.ResolveKeyed<TService>(key);
-
-            return Resolve(func);
+            return (TService) Resolve(typeof(TService), key);
         }
 
         public virtual TService[] ResolveAll<TService>(object key = null)
@@ -114,7 +108,7 @@ namespace Saturn72.Module.Ioc.Autofac
         public void RegisterTypes(LifeCycle lifeCycle, params Type[] serviceImplTypes)
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<object, ScanningActivatorData, DynamicRegistrationStyle>>
+                    IRegistrationBuilder<object, ScanningActivatorData, DynamicRegistrationStyle>>
                 regFunc = cb => cb.RegisterTypes(serviceImplTypes);
 
             RegisterAndAssign(regFunc, lifeCycle, null, null);
@@ -153,7 +147,7 @@ namespace Saturn72.Module.Ioc.Autofac
             Type[] interceptorTypes = null)
         {
             Func<ContainerBuilder,
-                IRegistrationBuilder<object, ReflectionActivatorData, object>>
+                    IRegistrationBuilder<object, ReflectionActivatorData, object>>
                 regFunc = cb => interceptorTypes.NotEmptyOrNull()
                     ? RegisterType(serviceImplType, cb)
                         .As(serviceTypes)
@@ -276,15 +270,15 @@ namespace Saturn72.Module.Ioc.Autofac
             throw new NotSupportedException("The activator type is not supported");
         }
 
-        public virtual ILifetimeScope GetDefaultLifeTimeScope()
-        {
-            return Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
-        }
-
         public virtual T Resolve<T>(Func<ILifetimeScope, T> func)
         {
-            var scope = GetDefaultLifeTimeScope();
+            var scope = BeginLifetimeScope();
             return func(scope);
+        }
+
+        protected virtual ILifetimeScope BeginLifetimeScope()
+        {
+            return Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
         }
 
         #region Utilities
@@ -331,10 +325,6 @@ namespace Saturn72.Module.Ioc.Autofac
             IRegistrationBuilder<TService, object, object> registrationBuilder,
             LifeCycle lifecycle)
         {
-            //change per request to per dependency on non-web applications
-            if ((lifecycle == LifeCycle.PerRequest) && !CommonHelper.IsWebApp())
-                lifecycle = LifeCycle.PerDependency;
-
             switch (lifecycle)
             {
                 case LifeCycle.SingleInstance:
