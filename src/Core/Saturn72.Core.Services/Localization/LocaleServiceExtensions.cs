@@ -1,4 +1,5 @@
-﻿using Saturn72.Extensions;
+﻿using System;
+using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Localization
 {
@@ -14,12 +15,13 @@ namespace Saturn72.Core.Services.Localization
         private const string LocaleResourceFormat = "{0}.{1}.{2}";
         public static string GetLocaleResourceByCallerMethod(this ILocaleService localeService, string resourceKeySuffix)
         {
-            var method = localeService.GetStackTraceFrame(2).GetMethod();
-            var resourceKey  = LocaleResourceFormat.AsFormat(method.DeclaringType.FullName,
-              method.Name, resourceKeySuffix);
+            throw new NotImplementedException();
+            //var method = localeService.GetStackTraceFrame(2).GetMethod();
+            //var resourceKey  = LocaleResourceFormat.AsFormat(method.DeclaringType.FullName,
+            //  method.Name, resourceKeySuffix);
 
-            var languageId = 0;
-            return localeService.GetLocaleResource(resourceKey, languageId);
+            //var languageId = 0;
+            //return localeService.GetLocaleResource(resourceKey, languageId);
         }
     }
 }
