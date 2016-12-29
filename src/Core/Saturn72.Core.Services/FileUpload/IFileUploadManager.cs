@@ -3,5 +3,6 @@
     public interface IFileUploadManager
     {
         bool IsSupported(FileUploadRequest fileUploadRequest);
+        void Upload(FileUploadRequest fileUploadRequest);
     }
 }
