@@ -13,7 +13,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserActivityLogService_CreateUserActivityLogAsync_throws()
         {
-            var srv = new UserActivityLogService(null, null);
+            var srv = new UserActivityLogService(null);
             //on null activityType
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.AddUserActivityLogAsync(null, null));
             typeof(NullReferenceException).ShouldBeThrownBy(
@@ -38,7 +38,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             wc.Setup(w => w.CurrentUserIpAddress)
                .Returns(ipaddress);
 
-            var srv = new UserActivityLogService(ualRepo.Object, wc.Object);
+            var srv = new UserActivityLogService(ualRepo.Object);
             var user = new UserDomainModel
             {
                 Id = 100,
@@ -47,11 +47,11 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var actual = srv.AddUserActivityLogAsync(UserActivityType.Login, user).Result;
             actual.Id.ShouldEqual(123);
-            actual.UserGuid.ShouldEqual(user.UserGuid);
+            actual.UserId.ShouldEqual(user.Id);
             actual.ActivityDateUtc.ShouldBeSmallerThan(DateTime.UtcNow);
             actual.ActivityDateUtc.ShouldBeGreaterThan(testStartedOnUtc);
-            actual.ActvityTypeCode.ShouldEqual(UserActivityType.Login.Code);
-            actual.ClientApp.ShouldEqual(clientid);
+            actual.ActivityTypeCode.ShouldEqual(UserActivityType.Login.Code);
+            actual.ClientAppId.ShouldEqual(clientid);
             actual.UserIpAddress.ShouldEqual(ipaddress);
         }
     }
