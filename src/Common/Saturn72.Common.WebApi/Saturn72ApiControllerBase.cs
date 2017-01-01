@@ -177,7 +177,7 @@ namespace Saturn72.Common.WebApi
                     attachtments.Add(new FileUploadRequest
                     {
                         Bytes = getBytesTask,
-                        FilePath = fileName
+                        FileName = fileName
                     });
                 }
             }

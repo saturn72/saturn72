@@ -25,6 +25,7 @@ namespace Saturn72.Core.Services.Impl.User
                 ActivityDateUtc = DateTime.UtcNow,
                 UserId = user.Id,
                 ActivityTypeCode = userActivityType.Code,
+                ActivityTypeSystemName = userActivityType.SystemName,
                 ClientAppId = user.LastClientAppId,
                 UserIpAddress = user.LastIpAddress
             };

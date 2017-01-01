@@ -9,5 +9,6 @@ namespace Saturn72.Core.Domain.Users
         public DateTime ActivityDateUtc { get; set; }
         public string UserIpAddress { get; set; }
         public string ClientAppId { get; set; }
+        public string ActivityTypeSystemName { get; set; }
     }
 }

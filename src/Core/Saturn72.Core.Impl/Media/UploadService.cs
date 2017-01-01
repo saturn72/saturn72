@@ -21,15 +21,6 @@ namespace Saturn72.Core.Services.Impl.Media
 
         public FileUploadResponse Upload(FileUploadRequest request)
         {
-            Guard.NotNull(request);
-
-            var fvReq = new FileValidationRequest(request);
-
-            var fvRes = _fileValidationManager.ValidateFile(fvReq);
-            if(fvRes.ResultCode!=FileValidationResultCode.Validated)
-                return new FileUploadResponse(request, FileUploadStatus.Invalid, "failed to validate");
-
-
             throw new NotImplementedException();
         }
     }

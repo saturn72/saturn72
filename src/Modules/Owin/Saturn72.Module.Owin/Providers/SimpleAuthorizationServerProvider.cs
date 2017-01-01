@@ -86,7 +86,6 @@ namespace Saturn72.Module.Owin.Providers
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var allowedOrigin = context.OwinContext.Get<string>(SecurityKeys.ClientAllowedOrigin);
-            //if (allowedOrigin == null) allowedOrigin = "*";
 
             if (!_userRegistrationService.ValidateUserByUsernameAndPassword(context.UserName, context.Password))
             {
