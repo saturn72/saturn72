@@ -12,7 +12,7 @@ namespace Saturn72.Core.Services.FileUpload
             Guard.NotNull(fileUploadRequest);
 
             if (!IsSupported(fileUploadRequest))
-                return new FileUploadResponse(fileUploadRequest, FileUploadStatus.Invalid, "failed to validate");
+                return new FileUploadResponse(fileUploadRequest, FileUploadStatus.Invalid, null, "failed to validate");
 
             //raise event
             //write to log
