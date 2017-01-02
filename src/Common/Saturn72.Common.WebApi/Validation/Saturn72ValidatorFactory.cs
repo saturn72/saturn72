@@ -4,6 +4,7 @@ using System;
 using FluentValidation;
 using FluentValidation.Attributes;
 using Saturn72.Core.Infrastructure;
+using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Extensions;
 
 #endregion

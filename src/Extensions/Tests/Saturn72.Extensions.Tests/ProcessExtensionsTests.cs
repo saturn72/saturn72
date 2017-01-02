@@ -15,25 +15,26 @@ namespace Saturn72.Extensions.Tests
         [Test]
         public void IsRunning_ThrowsExceptionOnNullProcess()
         {
-            Assert.Throws<ArgumentNullException>(() => ((Process) null).IsRunning());
-            Assert.Throws<InvalidOperationException>(() => new Process().IsRunning());
+            typeof(NullReferenceException).ShouldBeThrownBy(() => ((Process) null).IsRunning());
+           
         }
 
         [Test]
         public void IsRunning_ReturnsTrue()
         {
             var proc = Process.GetProcesses()[0];
-            Assert.True(proc.IsRunning());
+            proc.IsRunning().ShouldBeTrue();
         }
 
         [Test]
         public void IsRunning_ReturnsFalseOnNotRunningProcess()
         {
+            new Process().IsRunning().ShouldBeFalse();
             var proc = Process.Start("notepad");
             Thread.Sleep(3000);
             proc.CloseMainWindow();
             Thread.Sleep(3000);
-            Assert.False(proc.IsRunning());
+            proc.IsRunning().ShouldBeFalse();
         }
 
         [Test]

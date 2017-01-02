@@ -18,7 +18,7 @@ namespace Saturn72.Extensions.Tests
             var dt = Convert.ToDateTime(dateTimeString);
             var result = dt.ToTimeStamp();
 
-            "2008-01-08_14-50-50-420".ShouldEqual(result);
+            "2008-08-01_14-50-50-420".ShouldEqual(result);
         }
 
         [Test]

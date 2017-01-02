@@ -11,8 +11,6 @@ using Autofac.Core.Activators.ProvidedInstance;
 using Autofac.Core.Lifetime;
 using Autofac.Extras.DynamicProxy;
 using Autofac.Features.Scanning;
-using Autofac.Integration.WebApi;
-using Saturn72.Core.Exceptions;
 using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Extensions;
 
@@ -26,49 +24,11 @@ namespace Saturn72.Module.Ioc.Autofac
 
         public virtual object Resolve(Type type, object key = null)
         {
-            Func<ILifetimeScope, object> func = scope =>
-                key.IsNull()
-                    ? scope.Resolve(type)
-                    : scope.ResolveKeyed(key, type);
+            var scope = Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
 
-            return Resolve(func);
-        }
-
-        public virtual TService Resolve<TService>(object key = null)
-        {
-            return (TService) Resolve(typeof(TService), key);
-        }
-
-        public virtual TService[] ResolveAll<TService>(object key = null)
-        {
-            return Resolve<IEnumerable<TService>>().ToArray();
-        }
-
-        public T ResolveUnregistered<T>() where T : class
-        {
-            return ResolveUnregistered(typeof(T)) as T;
-        }
-
-        public object ResolveUnregistered(Type type)
-        {
-            var constructors = type.GetConstructors();
-            foreach (var constructor in constructors)
-                try
-                {
-                    var parameters = constructor.GetParameters();
-                    var parameterInstances = new List<object>();
-                    foreach (var parameter in parameters)
-                    {
-                        var service = Resolve(parameter.ParameterType);
-                        if (service == null) throw new Saturn72Exception("Unknown dependency");
-                        parameterInstances.Add(service);
-                    }
-                    return Activator.CreateInstance(type, parameterInstances.ToArray());
-                }
-                catch (Saturn72Exception)
-                {
-                }
-            throw new Saturn72Exception("No constructor  was found that had all the dependencies satisfied.");
+            return key.IsNull()
+                ? scope.Resolve(type)
+                : scope.ResolveKeyed(key, type);
         }
 
         public IocRegistrationRecord RegisterInstance<TService>(TService implementer, object key = null,
@@ -268,17 +228,6 @@ namespace Saturn72.Module.Ioc.Autofac
                 return actData.Activator is ProvidedInstanceActivator ? ActivatorType.Instance : ActivatorType.Delegate;
 
             throw new NotSupportedException("The activator type is not supported");
-        }
-
-        public virtual T Resolve<T>(Func<ILifetimeScope, T> func)
-        {
-            var scope = BeginLifetimeScope();
-            return func(scope);
-        }
-
-        protected virtual ILifetimeScope BeginLifetimeScope()
-        {
-            return Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
         }
 
         #region Utilities

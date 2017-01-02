@@ -13,7 +13,7 @@ namespace Saturn72.Extensions
         public static bool IsRunning(this Process process)
         {
             if (process == null)
-                throw new ArgumentNullException("process");
+                throw new NullReferenceException("process");
 
             try
             {
