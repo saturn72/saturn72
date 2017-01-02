@@ -21,7 +21,7 @@ namespace Saturn72.Extensions
 
         public static void GreaterThan(IComparable greater, IComparable than, string message)
         {
-            MustFollow(() => greater.CompareTo(than) > 0, () => { throw new ArgumentOutOfRangeException(message); });
+            GreaterThan(greater, than, () => { throw new ArgumentOutOfRangeException(message); });
         }
 
         public static void GreaterThan(IComparable greater, IComparable than, Action ifNotGreaterAction)
@@ -37,7 +37,7 @@ namespace Saturn72.Extensions
 
         public static void GreaterOrEqualTo(IComparable greater, IComparable than, string message)
         {
-            MustFollow(() => greater.CompareTo(than) >= 0, () => { throw new ArgumentOutOfRangeException(message); });
+            GreaterOrEqualTo(greater, than, () => { throw new ArgumentOutOfRangeException(message); });
         }
         public static void GreaterOrEqualTo(IComparable greater, IComparable than, Action ifNotGreaterOrEqualAction)
         {
@@ -51,8 +51,14 @@ namespace Saturn72.Extensions
 
         public static void SmallerThan(IComparable smaller, IComparable than, string message)
         {
-            MustFollow(() => smaller.CompareTo(than) < 0, message);
+            SmallerThan(smaller, than,() => { throw new ArgumentOutOfRangeException(message); });
         }
+
+        public static void SmallerThan(IComparable smaller, IComparable than, Action ifNotSmallerThanAction)
+        {
+            MustFollow(() => smaller.CompareTo(than) < 0, ifNotSmallerThanAction);
+        }
+
 
         public static void SmallerOrEqualTo(IComparable smaller, IComparable than)
         {
@@ -61,7 +67,11 @@ namespace Saturn72.Extensions
 
         public static void SmallerOrEqualTo(IComparable smaller, IComparable than, string message)
         {
-            MustFollow(() => smaller.CompareTo(than) <= 0, message);
+            SmallerOrEqualTo(smaller, than, () => { throw new ArgumentOutOfRangeException(message); });
+        }
+        public static void SmallerOrEqualTo(IComparable smaller, IComparable than, Action ifNotSmallerOrEqualAction)
+        {
+            MustFollow(() => smaller.CompareTo(than) <= 0, ifNotSmallerOrEqualAction);
         }
 
         public static void IsUrl(string str)
