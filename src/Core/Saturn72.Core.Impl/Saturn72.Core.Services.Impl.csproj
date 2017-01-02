@@ -51,13 +51,20 @@
   <ItemGroup>
     <Compile Include="Authentication\ClientAppService.cs" />
     <Compile Include="Authentication\AuthenticationService.cs" />
+    <Compile Include="Authentication\IClientAppRepository.cs" />
+    <Compile Include="Authentication\IRefreshTokenRepository.cs" />
+    <Compile Include="Configuration\ISettingEntryRepository.cs" />
     <Compile Include="Configuration\SettingsService.cs" />
     <Compile Include="DomainModelCrudServiceBase.cs" />
     <Compile Include="Events\EventPublisher.cs" />
     <Compile Include="Events\SubscriptionService.cs" />
     <Compile Include="Extensibility\PluginService.cs" />
+    <Compile Include="Localization\ILocaleResourceRespository.cs" />
     <Compile Include="Localization\LocaleService.cs" />
+    <Compile Include="Logging\DefaultLogger.cs" />
+    <Compile Include="Logging\ILogRecordRepository.cs" />
     <Compile Include="Media\UploadService.cs" />
+    <Compile Include="Notifications\INotificationRepository.cs" />
     <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\EncryptionService.cs" />
@@ -66,7 +73,11 @@
     <Compile Include="Tasks\BackgroundTaskEventsConsumer.cs" />
     <Compile Include="Tasks\BackgroundTaskExecutionService.cs" />
     <Compile Include="Tasks\BackgroundTaskService.cs" />
+    <Compile Include="Tasks\IBackgroundTaskExecutionDataRepository.cs" />
+    <Compile Include="Tasks\IBackgroundTaskRepository.cs" />
     <Compile Include="User\DomainModelCrudServiceBase.cs" />
+    <Compile Include="User\IUserActivityLogRepository.cs" />
+    <Compile Include="User\IUserRepository.cs" />
     <Compile Include="User\UserActivityLogService.cs" />
     <Compile Include="User\UserRegistrationService.cs" />
     <Compile Include="User\UserService.cs" />
@@ -76,10 +87,6 @@
     <ProjectReference Include="..\..\Extensions\Saturn72.Extensions\Saturn72.Extensions.csproj">
       <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
       <Name>Saturn72.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Saturn72.Core.Data\Saturn72.Core.Data.csproj">
-      <Project>{E2F5DF30-436F-4C8F-AB70-494F5CA2EF4E}</Project>
-      <Name>Saturn72.Core.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Saturn72.Core.Services\Saturn72.Core.Services.csproj">
       <Project>{D92341E7-6B28-4CDC-A024-A204D0ED670E}</Project>

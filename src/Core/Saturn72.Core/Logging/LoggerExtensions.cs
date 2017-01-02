@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Extensions;
@@ -11,6 +12,35 @@ namespace Saturn72.Core.Logging
 {
     public static class LoggerExtensions
     {
+        /// <summary>
+        ///     Get logRecord items by identifiers
+        /// </summary>
+        /// <param name="logger">the logger</param>
+        /// <param name="logIds">Log item identifiers</param>
+        /// <returns>Log items</returns>
+        public static IEnumerable<LogRecordDomainModel> GetLogByIds(this ILogger logger, long[] logIds)
+        {
+            var result = new List<LogRecordDomainModel>();
+            logIds.ForEachItem(li =>
+            {
+                var lr = logger.GetLogById(li);
+                if (lr.IsNull())
+                    return;
+                result.Add(lr);
+            });
+            return result;
+        }
+
+
+        /// <summary>
+        ///     Deletes all log records
+        /// </summary>
+        public static void ClearLog(this ILogger logger)
+        {
+            logger.GetAllLogRecords().ForEachItem(logger.DeleteLog);
+        }
+
+
         public static void Debug(this ILogger logger, string format, params object[] args)
         {
             FilteredLog(logger, LogLevel.Debug, string.Format(format, args));

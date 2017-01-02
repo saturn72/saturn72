@@ -2,7 +2,6 @@
 
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Security;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Authentication;

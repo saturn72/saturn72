@@ -7,11 +7,11 @@ using System.Linq.Expressions;
 using Hangfire;
 using Saturn72.Core;
 using Saturn72.Core.Caching;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Tasks;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services;
+using Saturn72.Core.Services.Impl.Tasks;
 using Saturn72.Core.Tasks;
 using Saturn72.Extensions;
 

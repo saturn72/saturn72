@@ -1,6 +1,5 @@
 ﻿#region
 
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Tasks;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Tasks;

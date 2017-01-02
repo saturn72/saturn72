@@ -4,7 +4,6 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Localization;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Logging;

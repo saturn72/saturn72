@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using Saturn72.Core.Domain.Logging;
-using Saturn72.Core.Domain.Users;
 
 #endregion
 
@@ -25,32 +24,20 @@ namespace Saturn72.Core.Logging
         ///     Deletes a logRecord item
         /// </summary>
         /// <param name="logRecord">Log item</param>
-        void DeleteLog(LogRecord logRecord);
-
-        /// <summary>
-        ///     Clears a logRecord
-        /// </summary>
-        void ClearLog();
+        void DeleteLog(LogRecordDomainModel logRecord);
 
         /// <summary>
         ///     Gets all logRecord items
         /// </summary>
         /// <returns>LogRecord{} <see cref="LogRecord{object}" /></returns>
-        IEnumerable<LogRecord> GetAllLogs();
+        IEnumerable<LogRecordDomainModel> GetAllLogRecords();
 
         /// <summary>
         ///     Gets a logRecord item
         /// </summary>
-        /// <param name="logId">Log item identifier</param>
+        /// <param name="logRecordId"></param>
         /// <returns>Log item</returns>
-        LogRecord GetLogById(object logId);
-
-        /// <summary>
-        ///     Get logRecord items by identifiers
-        /// </summary>
-        /// <param name="logIds">Log item identifiers</param>
-        /// <returns>Log items</returns>
-        IEnumerable<LogRecord> GetLogByIds(object[] logIds);
+        LogRecordDomainModel GetLogById(long logRecordId);
 
         /// <summary>
         ///     Inserts a logRecord item
@@ -58,9 +45,9 @@ namespace Saturn72.Core.Logging
         /// <param name="logLevel">Log level</param>
         /// <param name="shortMessage">The short message</param>
         /// <param name="fullMessage">The full message</param>
-        /// <param name="contexobject">Operation context id</param>
+        /// <param name="contextId">Operation contextId id</param>
         /// <returns>A logRecord item</returns>
-        LogRecord InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
-            Guid contexobject = default(Guid));
+        LogRecordDomainModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+            Guid contextId = default(Guid));
     }
 }

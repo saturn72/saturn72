@@ -8,7 +8,6 @@ using Saturn72.UnitTesting.Framework;
 
 namespace Saturn72.Extensions.Tests
 {
-    
     public class DateTimeExtensionsTests
     {
         [Test]
@@ -18,7 +17,9 @@ namespace Saturn72.Extensions.Tests
             var dt = Convert.ToDateTime(dateTimeString);
             var result = dt.ToTimeStamp();
 
-            "2008-08-01_14-50-50-420".ShouldEqual(result);
+            //dependes on cultural settings of running machine
+            (result == "2008-08-01_14-50-50-420" ||
+             result == "2008-01-08_14-50-50-420").ShouldBeTrue();
         }
 
         [Test]

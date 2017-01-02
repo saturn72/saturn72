@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Notifications;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Infrastructure.AppDomainManagement;

@@ -3,7 +3,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Saturn72.Core.Caching;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Clients;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Authentication;

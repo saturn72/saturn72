@@ -7,7 +7,6 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Configuration;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Configuration;
 using Saturn72.Core.Services.Configuration;
 using Saturn72.Core.Services.Events;

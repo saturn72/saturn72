@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Saturn72.Core.Data.Repositories;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.User;
 using Saturn72.Extensions;

@@ -136,13 +136,12 @@ namespace Saturn72.Extensions
 
         public static void HasValue(string source)
         {
-            MustFollow(source.HasValue, "String value required");
+            HasValue(source, "String value required");
         }
 
         public static void HasValue(string source, string message)
         {
-            MustFollow(source.HasValue,
-                () => { throw new ArgumentException(message, "source"); });
+            HasValue(source, () => { throw new ArgumentException(message, nameof(source)); });
         }
 
         public static void HasValue(string source, Action action)

@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Configuration\SettingServiceTests.cs" />
     <Compile Include="Localization\LocaleServiceTests.cs" />
+    <Compile Include="Logging\DefaultLoggerTests.cs" />
     <Compile Include="Media\UploadServiceTests.cs" />
     <Compile Include="Notifications\NotificationServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
