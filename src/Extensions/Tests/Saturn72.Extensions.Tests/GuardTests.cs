@@ -15,8 +15,8 @@ namespace Saturn72.Extensions.Tests
         public void Guard_GreaterThan()
         {
             //throws on not greater than
-            typeof(Exception).ShouldBeThrownBy(()=> Guard.GreaterThan(1,1));
-            typeof(Exception).ShouldBeThrownBy(() => Guard.GreaterOrEqualTo(1, 10));
+            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(()=> Guard.GreaterThan(1,1));
+            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => Guard.GreaterOrEqualTo(1, 10));
 
             Guard.GreaterThan(1,0);
         }
@@ -25,7 +25,7 @@ namespace Saturn72.Extensions.Tests
         public void Guard_GreaterOrEqualsTo()
         {
             //throws on not greater than
-            typeof(Exception).ShouldBeThrownBy(() => Guard.GreaterOrEqualTo(1, 10));
+            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => Guard.GreaterOrEqualTo(1, 10));
 
             Guard.GreaterOrEqualTo(1, 1);
             Guard.GreaterOrEqualTo(1, 0);

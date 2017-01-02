@@ -21,17 +21,29 @@ namespace Saturn72.Extensions
 
         public static void GreaterThan(IComparable greater, IComparable than, string message)
         {
-            MustFollow(() => greater.CompareTo(than) > 0, message);
+            MustFollow(() => greater.CompareTo(than) > 0, () => { throw new ArgumentOutOfRangeException(message); });
         }
+
+        public static void GreaterThan(IComparable greater, IComparable than, Action ifNotGreaterAction)
+        {
+            MustFollow(() => greater.CompareTo(than) > 0, ifNotGreaterAction);
+        }
+
 
         public static void GreaterOrEqualTo(IComparable greater, IComparable than)
         {
             GreaterOrEqualTo(greater, than, "{0} is not greater or equal than {1}".AsFormat(greater, than));
         }
+
         public static void GreaterOrEqualTo(IComparable greater, IComparable than, string message)
         {
-            MustFollow(() => greater.CompareTo(than) >= 0,message);
+            MustFollow(() => greater.CompareTo(than) >= 0, () => { throw new ArgumentOutOfRangeException(message); });
         }
+        public static void GreaterOrEqualTo(IComparable greater, IComparable than, Action ifNotGreaterOrEqualAction)
+        {
+            MustFollow(() => greater.CompareTo(than) >= 0, ifNotGreaterOrEqualAction);
+        }
+
         public static void SmallerThan(IComparable smaller, IComparable than)
         {
             SmallerThan(smaller, than, "{0} is not smaller than {1}".AsFormat(smaller, than));
@@ -49,8 +61,9 @@ namespace Saturn72.Extensions
 
         public static void SmallerOrEqualTo(IComparable smaller, IComparable than, string message)
         {
-            MustFollow(() => smaller.CompareTo(than) <= 0,message);
+            MustFollow(() => smaller.CompareTo(than) <= 0, message);
         }
+
         public static void IsUrl(string str)
         {
             MustFollow(() => str.IsUrl(), () => { throw new FormatException("The specified string is not url"); });
