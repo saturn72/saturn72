@@ -52,6 +52,11 @@ namespace Saturn72.Core.Infrastructure
             return IocContainerManager.Resolve<TService>(key);
         }
 
+        public TService TryResolve<TService>(Type type) where TService : class
+        {
+            return IocContainerManager.TryResolve<TService>(type);
+        }
+
         public void ExecuteInNewScope(Action action)
         {
             IocContainerManager.ExecuteInNewScope(action);

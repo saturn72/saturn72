@@ -28,7 +28,7 @@ namespace Saturn72.Core.Services.Impl.Logging
             return true;
         }
 
-        public void DeleteLog(LogRecordDomainModel logRecord)
+        public void DeleteLogRecord(LogRecordDomainModel logRecord)
         {
             throw new NotImplementedException();
         }

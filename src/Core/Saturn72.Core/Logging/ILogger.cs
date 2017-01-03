@@ -24,7 +24,7 @@ namespace Saturn72.Core.Logging
         ///     Deletes a logRecord item
         /// </summary>
         /// <param name="logRecord">Log item</param>
-        void DeleteLog(LogRecordDomainModel logRecord);
+        void DeleteLogRecord(LogRecordDomainModel logRecord);
 
         /// <summary>
         ///     Gets all logRecord items

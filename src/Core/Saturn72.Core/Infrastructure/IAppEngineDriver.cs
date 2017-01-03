@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Services;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Infrastructure.DependencyManagement;
+using Saturn72.Core.Logging;
 
 #endregion
 
@@ -28,6 +30,7 @@ namespace Saturn72.Core.Infrastructure
         /// <typeparam name="TService">Service to be resolved</typeparam>
         /// <returns>TService</returns>
         TService Resolve<TService>(object key = null) where TService : class;
+        TService TryResolve<TService>(Type type) where TService : class;
 
         /// <summary>
         /// Executes action in new scope

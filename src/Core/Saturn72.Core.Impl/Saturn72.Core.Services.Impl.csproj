@@ -63,6 +63,7 @@
     <Compile Include="Localization\LocaleService.cs" />
     <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogRecordRepository.cs" />
+    <Compile Include="Logging\LogManager.cs" />
     <Compile Include="Media\UploadService.cs" />
     <Compile Include="Notifications\INotificationRepository.cs" />
     <Compile Include="Notifications\NotificationService.cs" />

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Saturn72.Core.Domain.Logging;
 
 #endregion
 
@@ -10,12 +11,16 @@ namespace Saturn72.Core.Logging
 {
     public static class LoggerCollectionExtensions
     {
+        public static async void DeleteLogRecord(this IEnumerable<ILogger> loggers, LogRecordDomainModel logRecord)
+        {
+            await IterateLoggersAsync(loggers, logger => logger.DeleteLogRecord(logRecord));
+        }
+
         public static async void Debug(this IEnumerable<ILogger> loggers, string message, Exception exception = null,
             Guid contextId = default(Guid))
         {
             await IterateLoggersAsync(loggers, logger => logger.Debug(message, exception));
         }
-
 
         public static async void Information(this IEnumerable<ILogger> loggers, string message,
             Exception exception = null,

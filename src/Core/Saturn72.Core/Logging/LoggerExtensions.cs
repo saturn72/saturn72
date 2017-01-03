@@ -37,7 +37,7 @@ namespace Saturn72.Core.Logging
         /// </summary>
         public static void ClearLog(this ILogger logger)
         {
-            logger.GetAllLogRecords().ForEachItem(logger.DeleteLog);
+            logger.GetAllLogRecords().ForEachItem(logger.DeleteLogRecord);
         }
 
 
