@@ -62,4 +62,12 @@ namespace Saturn72.Core.Tests.Infrastructure.DependencyManagement
             service.ShouldBeNull();
         }
     }
+
+    public class DummyService:IDummyService
+    {
+    }
+
+    public interface IDummyService
+    {
+    }
 }
