@@ -60,10 +60,8 @@ namespace Saturn72.Core.Services.Impl.Logging
 
         private LoggerCollection GetAllAppDomainLoggers()
         {
-            var allLoggers = AppEngine.Current.Resolve<ITypeFinder>().FindClassesOfType<ILogger>()
-                .Where(t => t != GetType())
-                .Select(t => AppEngine.Current.TryResolve<ILogger>(t))
-                .Where(li => li.NotNull());
+            var allLoggers = AppEngine.Current.ResolveAll<ILogger>()
+                .Where(t => t.GetType() != GetType());
 
             var loggersDictionary = BuildLoggersDictionary(allLoggers);
             var result = new LoggerCollection(loggersDictionary);
