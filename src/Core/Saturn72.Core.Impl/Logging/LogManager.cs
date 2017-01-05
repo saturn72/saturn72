@@ -10,47 +10,29 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Logging
 {
-    public class LoggerCollection
-    {
-        private readonly IDictionary<LogLevel, IEnumerable<ILogger>> _allLoggersDictionary;
-        private IEnumerable<ILogger> _loggers;
-
-        public LoggerCollection(IDictionary<LogLevel, IEnumerable<ILogger>> allLoggersDictionary)
-        {
-            _allLoggersDictionary = allLoggersDictionary;
-        }
-
-        public IEnumerable<ILogger> Loggers
-        {
-            get { return _loggers ?? (_loggers = _allLoggersDictionary.Values.SelectMany(s => s).Distinct()); }
-        }
-
-        public IEnumerable<ILogger> this[LogLevel logLevel] => _allLoggersDictionary[logLevel];
-    }
-
     public class LogManager : ILogger
     {
         private LoggerCollection _loggerCollection;
 
-        public LoggerCollection AllLoggers
+        private LoggerCollection LoggerCollection => _loggerCollection ?? (_loggerCollection = GetAllAppDomainLoggers())
+            ;
+
+        public IEnumerable<ILogger> AllLoggers
         {
-            get { return _loggerCollection ?? (_loggerCollection = GetAllAppDomainLoggers()); }
+            get { return LoggerCollection.Loggers; }
         }
 
-        public bool IsEnabled(LogLevel level)
-        {
-            return true;
-        }
+        public LogLevel[] SupportedLogLevels { get; private set; }
 
         public void DeleteLogRecord(LogRecordDomainModel logRecord)
         {
-            AllLoggers[logRecord.LogLevel].DeleteLogRecord(logRecord);
+            LoggerCollection[logRecord.LogLevel].DeleteLogRecord(logRecord);
         }
 
         public IEnumerable<LogRecordDomainModel> GetAllLogRecords()
         {
             var result = new List<LogRecordDomainModel>();
-            AllLoggers.Loggers.ForEachItem(l => result.AddRange(l.GetAllLogRecords()));
+            AllLoggers.ForEachItem(l => result.AddRange(l.GetAllLogRecords()));
             return result;
         }
 
@@ -62,10 +44,16 @@ namespace Saturn72.Core.Services.Impl.Logging
         public LogRecordDomainModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
             Guid contextId = new Guid())
         {
-            AllLoggers[logLevel].ForEachItem(l =>
+            LoggerCollection[logLevel].ForEachItem(l =>
                 Task.Run(() => l.InsertLog(logLevel, shortMessage, fullMessage, contextId)));
 
             throw new NotImplementedException();
+        }
+
+        private LogLevel[] GetSupportedLevels()
+        {
+            var result = LoggerCollection.Loggers.SelectMany(l => l.SupportedLogLevels).Distinct();
+            return result.ToArray();
         }
 
         #region Utiltities
@@ -74,7 +62,8 @@ namespace Saturn72.Core.Services.Impl.Logging
         {
             var allLoggers = AppEngine.Current.Resolve<ITypeFinder>().FindClassesOfType<ILogger>()
                 .Where(t => t != GetType())
-                .Select(t => AppEngine.Current.TryResolve<ILogger>(t));
+                .Select(t => AppEngine.Current.TryResolve<ILogger>(t))
+                .Where(li => li.NotNull());
 
             var loggersDictionary = BuildLoggersDictionary(allLoggers);
             var result = new LoggerCollection(loggersDictionary);
@@ -83,14 +72,13 @@ namespace Saturn72.Core.Services.Impl.Logging
 
         private IDictionary<LogLevel, IEnumerable<ILogger>> BuildLoggersDictionary(IEnumerable<ILogger> loggers)
         {
-            var allLogLevel = GetAllAppDomainLogLevels();
-
+            SupportedLogLevels = loggers.SelectMany(l => l.SupportedLogLevels).Distinct().ToArray();
             var result = new Dictionary<LogLevel, IEnumerable<ILogger>>();
-            allLogLevel.ForEachItem(ll => result[ll] = new List<ILogger>());
+            SupportedLogLevels.ForEachItem(ll => result[ll] = new List<ILogger>());
 
             loggers.ForEachItem(logger =>
             {
-                foreach (var logLevel in allLogLevel)
+                foreach (var logLevel in SupportedLogLevels)
                 {
                     if (logger.IsEnabled(logLevel))
                         (result[logLevel] as IList<ILogger>).Add(logger);

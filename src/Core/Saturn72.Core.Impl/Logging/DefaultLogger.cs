@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Logging;
 using Saturn72.Extensions;
@@ -23,16 +24,13 @@ namespace Saturn72.Core.Services.Impl.Logging
 
         #endregion
 
-        public bool IsEnabled(LogLevel level)
-        {
-            return true;
-        }
+        public LogLevel[] SupportedLogLevels => LogLevel.AllSystemLogLevels.ToArray();
 
         public void DeleteLogRecord(LogRecordDomainModel logRecord)
         {
             throw new NotImplementedException();
         }
-       
+
 
         public IEnumerable<LogRecordDomainModel> GetAllLogRecords()
         {

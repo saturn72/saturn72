@@ -13,12 +13,7 @@ namespace Saturn72.Core.Logging
     /// </summary>
     public interface ILogger
     {
-        /// <summary>
-        ///     Determines whether a logRecord level is enabled
-        /// </summary>
-        /// <param name="level">Log level</param>
-        /// <returns>Result</returns>
-        bool IsEnabled(LogLevel level);
+        LogLevel[] SupportedLogLevels { get; }
 
         /// <summary>
         ///     Deletes a logRecord item

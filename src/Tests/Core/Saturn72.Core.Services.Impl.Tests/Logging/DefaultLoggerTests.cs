@@ -13,7 +13,15 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         [Test]
         public void DefaultLogger_IEnabled_ReturnsTrue()
         {
-            new DefaultLogger(null).IsEnabled(null).ShouldBeTrue();
+            var logger = new DefaultLogger(null);
+            logger.SupportedLogLevels.Length.ShouldEqual(LogLevel.AllSystemLogLevels.Count());
+
+            logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Debug.Code).ShouldBeTrue();
+            logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Error.Code).ShouldBeTrue();
+            logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Fatal.Code).ShouldBeTrue();
+            logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Information.Code).ShouldBeTrue();
+            logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Trace.Code).ShouldBeTrue();
+            logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Warning.Code).ShouldBeTrue();
         }
 
         [Test]
@@ -42,10 +50,11 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
             {
                 LogLevel = LogLevel.Debug,
                 ShortMessage = "shortMessage",
-                FullMessage = "Full Message",
+                FullMessage = "Full Message"
             };
 
-            logger.InsertLog(expected.LogLevel, expected.ShortMessage, expected.FullMessage).PropertyValuesAreEquals(expected,new [] {"Id", "ContextId"});
+            logger.InsertLog(expected.LogLevel, expected.ShortMessage, expected.FullMessage)
+                .PropertyValuesAreEquals(expected, new[] {"Id", "ContextId"});
         }
 
         [Test]
@@ -57,7 +66,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
                 new LogRecordDomainModel(),
                 new LogRecordDomainModel(),
                 new LogRecordDomainModel(),
-                new LogRecordDomainModel(),
+                new LogRecordDomainModel()
             };
             lrRepo.Setup(l => l.GetAllLogRecords())
                 .Returns(expected);
@@ -84,6 +93,5 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
             var logger = new DefaultLogger(lrRepo.Object);
             logger.GetLogById(10).ShouldBeNull();
         }
-
     }
 }
