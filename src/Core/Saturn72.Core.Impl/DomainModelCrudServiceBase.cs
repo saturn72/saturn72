@@ -22,9 +22,8 @@ namespace Saturn72.Core.Services.Impl
     {
         #region ctor
 
-        protected DomainModelCrudServiceBase(IRepository<TDomainModel, TId> modelRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<TUserId> workContext)
+        protected DomainModelCrudServiceBase(IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<TUserId> workContext)
         {
-            ModelRepository = modelRepository;
             EventPublisher = eventPublisher;
             CacheManager = cacheManager;
             TypeFinder = typeFinder;
@@ -51,13 +50,13 @@ namespace Saturn72.Core.Services.Impl
             return (filter.IsNull() ? entities : entities.Where(filter)).ToArray();
         }
 
-        protected virtual async Task<TDomainModel> CreateAsync(TDomainModel model)
+        protected virtual async Task<TDomainModel> CreateAndPublishCreatedEventAsync(TDomainModel model, Action<TDomainModel> createFunc)
         {
 
-            return await Task.Run(() => Create(model));
+            return await Task.Run(() => CreateAndPublishCreatedEvent(model, createFunc));
         }
 
-        protected virtual TDomainModel Create(TDomainModel model)
+        protected virtual TDomainModel CreateAndPublishCreatedEvent(TDomainModel model, Action<TDomainModel> createFunc)
         {
             Guard.NotNull(model);
             PrepareModelBeforeCreateAction(model);
@@ -119,7 +118,6 @@ namespace Saturn72.Core.Services.Impl
 
         protected readonly ICacheManager CacheManager;
         protected readonly IEventPublisher EventPublisher;
-        protected readonly IRepository<TDomainModel, TId> ModelRepository;
         protected readonly ITypeFinder TypeFinder;
         protected readonly IWorkContext<TUserId> WorkContext;
 

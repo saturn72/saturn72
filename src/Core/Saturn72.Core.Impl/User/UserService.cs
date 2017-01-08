@@ -23,7 +23,7 @@ namespace Saturn72.Core.Services.Impl.User
 
         public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
             ITypeFinder typeFinder, IWorkContext<long> workContext )
-            : base(userRepository, eventPublisher, cacheManager, typeFinder, workContext)
+            : base(eventPublisher, cacheManager, typeFinder, workContext)
         {
             _userRepository = userRepository;
         }

@@ -77,7 +77,6 @@
     <Compile Include="Tasks\BackgroundTaskService.cs" />
     <Compile Include="Tasks\IBackgroundTaskExecutionDataRepository.cs" />
     <Compile Include="Tasks\IBackgroundTaskRepository.cs" />
-    <Compile Include="User\DomainModelCrudServiceBase.cs" />
     <Compile Include="User\IUserActivityLogRepository.cs" />
     <Compile Include="User\IUserRepository.cs" />
     <Compile Include="User\UserActivityLogService.cs" />

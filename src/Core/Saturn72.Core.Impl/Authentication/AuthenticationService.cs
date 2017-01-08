@@ -1,28 +1,28 @@
 ﻿#region
 
 using System.Threading.Tasks;
-using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Security;
-using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Authentication;
-using Saturn72.Core.Services.Events;
+using Saturn72.Extensions;
 
 #endregion
 
 namespace Saturn72.Core.Services.Impl.Authentication
 {
-    public class AuthenticationService : DomainModelCrudServiceBase<RefreshTokenDomainModel, long, long>,
-        IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
-        public AuthenticationService(IRefreshTokenRepository refreshTokenRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<long> workContext)
-            : base(refreshTokenRepository, eventPublisher, cacheManager, typeFinder, workContext)
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
+
+        public AuthenticationService(IRefreshTokenRepository refreshTokenRepository)
         {
+            _refreshTokenRepository = refreshTokenRepository;
         }
 
 
         public Task AddRefreshTokenAsync(RefreshTokenDomainModel token)
         {
-            return CreateAsync(token);
+            Guard.NotNull(token);
+            return _refreshTokenRepository.CreateAsync(token);
         }
     }
 }

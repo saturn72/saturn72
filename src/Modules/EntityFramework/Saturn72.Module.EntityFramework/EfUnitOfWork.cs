@@ -58,8 +58,6 @@ namespace Saturn72.Module.EntityFramework
 
 
         public Task<TDomainModel> CreateAsync(TDomainModel model)
-            
-            
         {
             return QueryNewContextAsync(async ctx =>
             {

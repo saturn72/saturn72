@@ -57,7 +57,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
         public Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            return CreateAsync(notification);
+            return CreateAndPublishCreatedEventAsync(notification, TODO);
         }
 
         public Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification)

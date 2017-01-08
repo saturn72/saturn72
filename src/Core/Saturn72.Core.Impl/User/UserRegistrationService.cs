@@ -52,7 +52,7 @@ namespace Saturn72.Core.Services.Impl.User
                 PasswordFormat = request.PasswordFormat,
                 Active = _userSettings.ActivateUserAfterRegistration
             };
-            await CreateAsync(user);
+            await CreateAndPublishCreatedEventAsync(user, TODO);
             EventPublisher.DomainModelCreated<UserDomainModel, long>(user);
 
 
