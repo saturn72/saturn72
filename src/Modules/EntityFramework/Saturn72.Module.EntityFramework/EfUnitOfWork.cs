@@ -14,8 +14,8 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Module.EntityFramework
 {
-    public class EfUnitOfWork<TDomainModel, TId, TEntity> : DbContext, IUnitOfWork<TDomainModel, TId>
-        where TDomainModel : DomainModelBase<TId>
+    public class EfUnitOfWork<TDomainModel, TEntity> : DbContext, IUnitOfWork<TDomainModel>
+        where TDomainModel : DomainModelBase
         where TEntity : class
     {
         private readonly string _nameOrConnectionString;
@@ -30,7 +30,7 @@ namespace Saturn72.Module.EntityFramework
             return QueryNewContext(ctx => GetSet(ctx).AsNoTracking().ToDomainModel<TEntity, TDomainModel>());
         }
 
-        public TDomainModel GetById(TId id)
+        public TDomainModel GetById(long id)
             
             
         {
@@ -106,12 +106,12 @@ namespace Saturn72.Module.EntityFramework
             });
         }
 
-        public int Delete(TId id) 
+        public int Delete(long id) 
         {
             return Delete(new[] {id});
         }
 
-        public int Delete(IEnumerable<TId> ids) 
+        public int Delete(IEnumerable<long> ids) 
         {
             return QueryNewContext(ctx =>
             {

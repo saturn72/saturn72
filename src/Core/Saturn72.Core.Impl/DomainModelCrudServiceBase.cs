@@ -16,13 +16,12 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl
 {
-    public abstract class DomainModelCrudServiceBase<TDomainModel, TId, TUserId>
-        where TDomainModel : DomainModelBase<TId>
-        where TId : IComparable
+    public abstract class DomainModelCrudServiceBase<TDomainModel>
+        where TDomainModel : DomainModelBase
     {
         #region ctor
 
-        protected DomainModelCrudServiceBase(IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<TUserId> workContext)
+        protected DomainModelCrudServiceBase(IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext workContext)
         {
             EventPublisher = eventPublisher;
             CacheManager = cacheManager;
@@ -37,19 +36,6 @@ namespace Saturn72.Core.Services.Impl
             return ModelRepository.GetAll();
         }
 
-        protected virtual IEnumerable<TDomainModel> FilterTable(Func<TDomainModel, bool> filter = null)
-        {
-            return filter.IsNull()
-                ? GetAll().ToArray()
-                : FilterCollection(GetAll(), filter);
-        }
-
-        protected virtual IEnumerable<TDomainModel> FilterCollection(IEnumerable<TDomainModel> entities,
-            Func<TDomainModel, bool> filter)
-        {
-            return (filter.IsNull() ? entities : entities.Where(filter)).ToArray();
-        }
-
         protected virtual async Task<TDomainModel> CreateAndPublishCreatedEventAsync(TDomainModel model, Action<TDomainModel> createFunc)
         {
 
@@ -61,7 +47,7 @@ namespace Saturn72.Core.Services.Impl
             Guard.NotNull(model);
             PrepareModelBeforeCreateAction(model);
             var domainModel = ModelRepository.Create(model);
-            EventPublisher.DomainModelCreated<TDomainModel, TId>(model);
+            EventPublisher.DomainModelCreated<TDomainModel>(model);
             return domainModel;
         }
 
@@ -71,7 +57,7 @@ namespace Saturn72.Core.Services.Impl
             PrepareModelBeforeUpdateAction(model);
 
             ModelRepository.Update(model);
-            EventPublisher.DomainModelUpdated<TDomainModel, TId>(model);
+            EventPublisher.DomainModelUpdated<TDomainModel>(model);
 
             return model;
         }
@@ -81,13 +67,13 @@ namespace Saturn72.Core.Services.Impl
             return Task.Run(() => Update(model));
         }
 
-        protected void Delete(TId id)
+        protected void Delete(long id)
         {
-            ValidateNonDefaultId(id);
+            ValidateNonDefaullong(id);
 
             var model = GetById(id);
 
-            var deletedAudit = model as IDeletedAudit<TUserId>;
+            var deletedAudit = model as IDeletedAudit;
             if (deletedAudit.NotNull())
             {
                 deletedAudit.Deleted = true;
@@ -100,17 +86,17 @@ namespace Saturn72.Core.Services.Impl
                 ModelRepository.Delete(id);
             }
 
-            EventPublisher.DomainModelDeleted<TDomainModel, TId>(model);
+            EventPublisher.DomainModelDeleted(model);
         }
 
-        private static void ValidateNonDefaultId(TId id)
+        private static void ValidateNonDefaullong(long id)
         {
-            Guard.MustFollow(id.CompareTo(default(TId)) > 0);
+            Guard.MustFollow(id.CompareTo(default(long)) > 0);
         }
 
-        protected TDomainModel GetById(TId id)
+        protected TDomainModel GetById(long id)
         {
-            ValidateNonDefaultId(id);
+            ValidateNonDefaullong(id);
             return ModelRepository.GetById(id);
         }
 
@@ -119,7 +105,7 @@ namespace Saturn72.Core.Services.Impl
         protected readonly ICacheManager CacheManager;
         protected readonly IEventPublisher EventPublisher;
         protected readonly ITypeFinder TypeFinder;
-        protected readonly IWorkContext<TUserId> WorkContext;
+        protected readonly IWorkContext WorkContext;
 
         #endregion
 
@@ -127,7 +113,7 @@ namespace Saturn72.Core.Services.Impl
 
         protected virtual void PrepareModelBeforeUpdateAction<T>(T model)
         {
-            var updatedAudit = model as IUpdatedAudit<TUserId>;
+            var updatedAudit = model as IUpdatedAudit;
 
             if (updatedAudit.NotNull())
             {
@@ -138,7 +124,7 @@ namespace Saturn72.Core.Services.Impl
 
         protected virtual void PrepareModelBeforeCreateAction<T>(T model)
         {
-            var createdAudit = model as ICreatedAudit<TUserId>;
+            var createdAudit = model as ICreatedAudit;
             if (createdAudit.NotNull())
             {
                 createdAudit.CreatedOnUtc = DateTime.UtcNow;

@@ -1,7 +1,7 @@
 ﻿
 namespace Saturn72.Core.Domain.Localization
 {
-    public class LocaleResourceDomainModel:DomainModelBase<long>
+    public class LocaleResourceDomainModel:DomainModelBase
     {
 
         public string Key { get; set; }

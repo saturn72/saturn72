@@ -7,7 +7,7 @@ using Saturn72.Core.Domain.Tasks;
 
 namespace Saturn72.Core.Services.Impl.Tasks
 {
-    public interface IBackgroundTaskRepository : IRepository<BackgroundTaskDomainModel, long>
+    public interface IBackgroundTaskRepository : IRepository<BackgroundTaskDomainModel>
     {
     }
 }

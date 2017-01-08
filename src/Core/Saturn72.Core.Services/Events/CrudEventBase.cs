@@ -6,7 +6,7 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Core.Services.Events
 {
-    public abstract class CrudEventBase<TDomainModel, TId> : EventBase where TDomainModel : DomainModelBase<TId>
+    public abstract class CrudEventBase<TDomainModel> : EventBase where TDomainModel : DomainModelBase
     {
         protected CrudEventBase(TDomainModel domainModel)
         {

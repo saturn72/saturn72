@@ -8,7 +8,7 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Domain.Tasks
 {
-    public class BackgroundTaskExecutionDataDomainModel : DomainModelBase<long>
+    public class BackgroundTaskExecutionDataDomainModel : DomainModelBase
     {
         public BackgroundTaskExecutionDataDomainModel()
         {

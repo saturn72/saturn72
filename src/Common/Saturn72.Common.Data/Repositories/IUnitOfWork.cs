@@ -9,11 +9,11 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Common.Data.Repositories
 {
-    public interface IUnitOfWork<TDomainModel, in TId>
-        where TDomainModel : DomainModelBase<TId>
+    public interface IUnitOfWork<TDomainModel>
+        where TDomainModel : DomainModelBase
     {
         IEnumerable<TDomainModel> GetAll();
-        TDomainModel GetById(TId id);
+        TDomainModel GetById(long id);
 
         TDomainModel Replace(TDomainModel model);
 
@@ -23,7 +23,7 @@ namespace Saturn72.Common.Data.Repositories
 
         Task<TDomainModel> CreateAsync(TDomainModel model);
 
-        int Delete(TId id);
-        int Delete(IEnumerable<TId> ids);
+        int Delete(long id);
+        int Delete(IEnumerable<long> ids);
     }
 }

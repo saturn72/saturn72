@@ -9,22 +9,20 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Core.Data
 {
-    public interface IRepository<TDomainModel, in TId>
-        where TDomainModel : DomainModelBase<TId>
+    public interface IRepository<TDomainModel>
+        where TDomainModel : DomainModelBase
     {
         IEnumerable<TDomainModel> GetAll();
 
-        TDomainModel GetById(TId id);
+        TDomainModel GetById(long id);
         IEnumerable<TDomainModel> GetBy(Func<TDomainModel, bool> func);
 
         TDomainModel Update(TDomainModel model);
 
         TDomainModel Create(TDomainModel model);
 
-        Task<TDomainModel> CreateAsync(TDomainModel model);
+        void Delete(long id);
 
-        void Delete(TId id);
-
-        void Delete(IEnumerable<TId> ids);
+        void Delete(IEnumerable<long> ids);
     }
 }

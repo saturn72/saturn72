@@ -2,9 +2,9 @@ using System;
 
 namespace Saturn72.Core.Audit
 {
-    public interface IUpdatedAudit<TUserId> : ICreatedAudit<TUserId>
+    public interface IUpdatedAudit : ICreatedAudit
     {
         DateTime UpdatedOnUtc { get; set; }
-        TUserId UpdatedByUserId { get; set; }
+        long UpdatedByUserId { get; set; }
     }
 }

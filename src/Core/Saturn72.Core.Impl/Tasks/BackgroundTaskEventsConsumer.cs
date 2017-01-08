@@ -10,7 +10,7 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Tasks
 {
-    public class BackgroundTaskEventsConsumer : IConsumer<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>
+    public class BackgroundTaskEventsConsumer : IConsumer<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>
     {
         private const string BackgroundTaskExecutionDataKey =
             "BackgroundTaskEventsConsumer.BackgroundTaskExecutionDataRepository.";
@@ -31,7 +31,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
             }
         }
 
-        public void HandleEvent(CreatedEvent<BackgroundTaskExecutionDataDomainModel, long> eventMessage)
+        public void HandleEvent(CreatedEvent<BackgroundTaskExecutionDataDomainModel> eventMessage)
         {
             Guard.NotNull(new object[] {eventMessage, eventMessage.DomainModel});
 

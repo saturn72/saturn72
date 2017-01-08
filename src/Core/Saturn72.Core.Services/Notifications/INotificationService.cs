@@ -15,7 +15,7 @@ namespace Saturn72.Core.Services.Notifications
         IEnumerable<NotificationDomainModel> GetAllNotifications();
         Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification);
         Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification);
-        void DeleteNotification(long id);
-        NotificationDomainModel GetNotificationById(long id);
+        Task DeleteNotificationAsync(long id);
+        Task<NotificationDomainModel> GetNotificationByIdAsync(long id);
     }
 }

@@ -12,13 +12,13 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Common.Data.Repositories
 {
-    public abstract class RepositoryBase<TDomainModel, TId, TEntity>
-        : IRepository<TDomainModel, TId>
-        where TDomainModel : DomainModelBase<TId> where TEntity : class
+    public abstract class RepositoryBase<TDomainModel, TEntity>
+        : IRepository<TDomainModel>
+        where TDomainModel : DomainModelBase where TEntity : class
     {
-        protected readonly IUnitOfWork<TDomainModel, TId> UnitOfWork;
+        protected readonly IUnitOfWork<TDomainModel> UnitOfWork;
 
-        protected RepositoryBase(IUnitOfWork<TDomainModel, TId> unitOfWork)
+        protected RepositoryBase(IUnitOfWork<TDomainModel> unitOfWork)
         {
             UnitOfWork = unitOfWork;
         }
@@ -28,7 +28,7 @@ namespace Saturn72.Common.Data.Repositories
             return UnitOfWork.GetAll();
         }
 
-        public TDomainModel GetById(TId id)
+        public TDomainModel GetById(long id)
         {
             return UnitOfWork.GetById(id);
         }
@@ -52,14 +52,14 @@ namespace Saturn72.Common.Data.Repositories
             return await UnitOfWork.CreateAsync(model);
         }
 
-        public void Delete(TId id)
+        public void Delete(long id)
         {
             if (UnitOfWork.Delete(id) <= 0)
                 throw new InvalidOperationException(
                     "Failed to delete table row. Type: {0}, row Id: {1}".AsFormat(typeof(TEntity), id));
         }
 
-        public void Delete(IEnumerable<TId> ids)
+        public void Delete(IEnumerable<long> ids)
         {
             UnitOfWork.Delete(ids);
         }

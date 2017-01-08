@@ -12,6 +12,33 @@ namespace Saturn72.Core.Caching
     public static class CachManagerExtensions
     {
         /// <summary>
+        /// Addsite to cache only if not already exists
+        /// </summary>
+        /// <param name="cacheManager"></param>
+        /// <param name="key"></param>
+        /// <param name="data"></param>
+        public static void SetIfNotExists(this ICacheManager cacheManager, string key, object data)
+        {
+            if (cacheManager.IsSet(key))
+                return;
+            cacheManager.Set(key, data, 60);
+        }
+
+        /// <summary>
+        /// Addsite to cache only if not already exists
+        /// </summary>
+        /// <param name="cacheManager"></param>
+        /// <param name="key"></param>
+        /// <param name="data"></param>
+        /// <param name="cacheTimeInMinutes"></param>
+        public static void SetIfNotExists(this ICacheManager cacheManager, string key, object data, int cacheTimeInMinutes)
+        {
+            if (cacheManager.IsSet(key))
+                return;
+            cacheManager.Set(key, data, cacheTimeInMinutes);
+        }
+       
+        /// <summary>
         ///     Get a cached item. If it's not in the cache yet, then load and cache it
         /// </summary>
         /// <typeparam name="T">Type</typeparam>

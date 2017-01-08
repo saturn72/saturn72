@@ -22,7 +22,7 @@ namespace Saturn72.Core.Services.Impl.Authentication
         public Task AddRefreshTokenAsync(RefreshTokenDomainModel token)
         {
             Guard.NotNull(token);
-            return _refreshTokenRepository.CreateAsync(token);
+            return Task.Run(() => _refreshTokenRepository.Create(token));
         }
     }
 }

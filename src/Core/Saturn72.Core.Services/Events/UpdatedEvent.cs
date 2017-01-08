@@ -6,7 +6,7 @@ using Saturn72.Core.Domain;
 
 namespace Saturn72.Core.Services.Events
 {
-    public class UpdatedEvent<TDomainModel, TId> : CrudEventBase<TDomainModel, TId> where TDomainModel : DomainModelBase<TId>
+    public class UpdatedEvent<TDomainModel> : CrudEventBase<TDomainModel> where TDomainModel : DomainModelBase
     {
         public UpdatedEvent(TDomainModel domainModel) : base(domainModel)
         {

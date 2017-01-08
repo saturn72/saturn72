@@ -1,6 +1,6 @@
 ﻿namespace Saturn72.Core.Domain.Security
 {
-    public class PermissionRecord : DomainModelBase<object>
+    public class PermissionRecord : DomainModelBase
     {
         /// <summary>
         ///     Gets or sets the permission name

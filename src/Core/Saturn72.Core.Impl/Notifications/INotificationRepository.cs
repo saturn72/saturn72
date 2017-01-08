@@ -7,7 +7,7 @@ using Saturn72.Core.Domain.Notifications;
 
 namespace Saturn72.Core.Services.Impl.Notifications
 {
-    public interface INotificationRepository : IRepository<NotificationDomainModel, long>
+    public interface INotificationRepository : IRepository<NotificationDomainModel>
     {
     }
 }

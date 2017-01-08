@@ -17,10 +17,7 @@ namespace Saturn72.Core.Services.User
 
         #endregion
 
-        public bool Success
-        {
-            get { return Errors.Count == 0; }
-        }
+        public bool Success => Errors.Count == 0;
 
         public IList<string> Errors { get; set; }
 

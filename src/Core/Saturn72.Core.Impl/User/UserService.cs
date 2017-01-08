@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Users;
-using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.User;
 using Saturn72.Extensions;
@@ -15,38 +14,39 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public class UserService : DomainModelCrudServiceBase<UserDomainModel, long, long>, IUserService
+    public class UserService : IUserService
     {
         private const string UserRolesUserCacheKey = "Saturn72_User{0}_UserRoles";
+        private const string UserCacheKey = "saturn72. User-{0}";
+        private readonly ICacheManager _cacheManager;
+        private readonly IEventPublisher _eventPublisher;
 
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
-            ITypeFinder typeFinder, IWorkContext<long> workContext )
-            : base(eventPublisher, cacheManager, typeFinder, workContext)
+        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager)
         {
             _userRepository = userRepository;
+            _eventPublisher = eventPublisher;
+            _cacheManager = cacheManager;
         }
 
-        public UserDomainModel GetUserByUsername(string username)
+        public Task<IEnumerable<UserDomainModel>> GetAllUsersAsync()
+        {
+            return
+                Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUserCacheKey, () => _userRepository.GetAll()));
+        }
+
+        public async Task<UserDomainModel> GetUserByUsername(string username)
         {
             Guard.HasValue(username);
-            return GetUserBy(u => u.Active && u.Username == username);
+            return await GetUserByFuncAndCacheIfExists(u => u.Active && u.Username == username);
         }
 
-        public UserDomainModel GetUserByEmail(string email)
+        public async Task<UserDomainModel> GetUserByEmail(string email)
         {
             Guard.HasValue(email);
             Guard.MustFollow(CommonHelper.IsValidEmail(email), "invalid email address");
-            return GetUserBy(u => u.Active && u.Email == email);
-        }
-
-        public UserDomainModel GetUserBy(Func<UserDomainModel, bool> func)
-        {
-            var users = FilterTable(func);
-            Guard.MustFollow(() => users.Count() <= 1);
-
-            return users.FirstOrDefault();
+            return await GetUserBy(user => user.Email.EqualsTo(email));
         }
 
         public Task<IEnumerable<UserRoleDomainModel>> GetUserUserRolesByUserIdAsync(long userId)
@@ -54,7 +54,7 @@ namespace Saturn72.Core.Services.Impl.User
             Guard.GreaterThan(userId, (long) 0);
 
             return Task.FromResult(
-                CacheManager.Get(UserRolesUserCacheKey, () =>
+                _cacheManager.Get(UserRolesUserCacheKey, () =>
                 {
                     var res = _userRepository.GetUserUserRoles(userId);
                     //User must have user roles
@@ -64,9 +64,29 @@ namespace Saturn72.Core.Services.Impl.User
                 }));
         }
 
-        public void UpdateUser(UserDomainModel user)
+        public async Task UpdateUser(UserDomainModel user)
         {
-            Update(user);
+            Guard.NotNull(user);
+            AuditHelper.PrepareForUpdateAudity(user);
+            await Task.Run(() => _userRepository.Update(user));
+            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUserCacheKey);
+            _eventPublisher.DomainModelUpdated(user);
+        }
+
+        protected virtual async Task<UserDomainModel> GetUserByFuncAndCacheIfExists(Func<UserDomainModel, bool> func)
+        {
+            Guard.NotNull(func);
+            var allUsers = await GetAllUsersAsync();
+            var user = allUsers.FirstOrDefault(func);
+            if (user.NotNull())
+                _cacheManager.SetIfNotExists(UserCacheKey.AsFormat(user.Id), user);
+            return user;
+        }
+
+        public async Task<UserDomainModel> GetUserBy(Func<UserDomainModel, bool> func)
+        {
+            var users = await GetAllUsersAsync();
+            return users.FirstOrDefault(func);
         }
     }
 }

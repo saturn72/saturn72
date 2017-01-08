@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Users;
-using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Security;
 using Saturn72.Core.Services.User;
@@ -14,20 +13,21 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public class UserRegistrationService : DomainModelCrudServiceBase<UserDomainModel, long, long>,
-        IUserRegistrationService
+    public class UserRegistrationService : IUserRegistrationService
     {
         #region ctor
 
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
             UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
-            ICacheManager cacheManager, ITypeFinder typeFinder,
-            IWorkContext<long> workContext) :
-                base(userRepository, eventPublisher, cacheManager, typeFinder, workContext)
+            ICacheManager cacheManager, IUserActivityLogService userActivityLogService)
         {
+            _userRepository = userRepository;
             _encryptionService = encryptionService;
             _userSettings = userSettings;
+            _eventPublisher = eventPublisher;
             _userService = userService;
+            _cacheManager = cacheManager;
+            _userActivityLogService = userActivityLogService;
         }
 
         #endregion
@@ -52,23 +52,24 @@ namespace Saturn72.Core.Services.Impl.User
                 PasswordFormat = request.PasswordFormat,
                 Active = _userSettings.ActivateUserAfterRegistration
             };
-            await CreateAndPublishCreatedEventAsync(user, TODO);
-            EventPublisher.DomainModelCreated<UserDomainModel, long>(user);
+            AuditHelper.PrepareForCreateAudity(user);
+            await Task.Run(() => _userRepository.Create(user));
+            await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
 
-
-           // await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
+            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUserCacheKey);
+            _eventPublisher.DomainModelCreated(user);
 
             return response;
         }
 
-        public bool ValidateUserByUsernameAndPassword(string usernameOrEmail, string password)
+        public async Task<bool> ValidateUserByUsernameAndPasswordAsync(string usernameOrEmail, string password)
         {
             if (_userSettings.ValidateByEmail && !CommonHelper.IsValidEmail(usernameOrEmail))
                 return false;
 
-            var user = _userSettings.ValidateByEmail
+            var user = await (_userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(usernameOrEmail)
-                : _userService.GetUserByUsername(usernameOrEmail);
+                : _userService.GetUserByUsername(usernameOrEmail));
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
             return true;
@@ -134,11 +135,14 @@ namespace Saturn72.Core.Services.Impl.User
 
         #region Fields
 
+        private readonly IUserRepository _userRepository;
         private readonly IEncryptionService _encryptionService;
         private readonly IUserService _userService;
+        private readonly ICacheManager _cacheManager;
         private readonly UserSettings _userSettings;
-        private readonly IWorkContext<long> _webContext;
+        private readonly IEventPublisher _eventPublisher;
         private readonly IUserActivityLogService _userActivityLogService;
+       
 
         #endregion
     }

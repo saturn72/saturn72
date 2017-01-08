@@ -2,12 +2,12 @@
 
 namespace Saturn72.Core.Audit
 {
-    public interface IDeletedAudit<TUserId>
+    public interface IDeletedAudit
     {
         bool Deleted { get; set; }
 
         DateTime? DeletedOnUtc { get; set; }
 
-        TUserId DeletedByUserId { get; set; }
+        long DeletedByUserId { get; set; }
     }
 }

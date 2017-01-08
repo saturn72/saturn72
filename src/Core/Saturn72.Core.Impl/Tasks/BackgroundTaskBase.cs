@@ -85,7 +85,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
 
         private void PublishCreateEvent()
         {
-            EventPublisher.DomainModelCreated<BackgroundTaskExecutionDataDomainModel, long>(_ted);
+            EventPublisher.DomainModelCreated(_ted);
         }
 
         private static void WriteErrorData(string data, BackgroundTaskExecutionDataDomainModel ted)

@@ -1,6 +1,6 @@
 ﻿namespace Saturn72.Core.Domain.Clients
 {
-    public class ClientAppDomainModel : DomainModelBase<long>
+    public class ClientAppDomainModel : DomainModelBase
     {
         public string ClientId { get; set; }
         public string Secret { get; set; }

@@ -25,7 +25,7 @@ namespace Saturn72.Common.WebApi
 {
     public abstract class Saturn72ApiControllerBase : ApiController
     {
-        protected IWorkContext<long> WorkContext => new WorkContext<long>
+        protected IWorkContext WorkContext => new WorkContext
         {
             //CurrentUserIpAddress = Request.Properties["client_id"].ToString(),
             //ClientId = Request.Headers.["client_id"].

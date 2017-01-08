@@ -9,10 +9,8 @@ using Saturn72.Core.Domain.Users;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public interface IUserRepository //: IRepository<UserDomainModel, long>
+    public interface IUserRepository : IRepository<UserDomainModel>
     {
-        void CreateUser(UserDomainModel user);
-        IEnumerable<UserDomainModel> GetUsersBy(Func<UserDomainModel, bool> func);
         IEnumerable<UserRoleDomainModel> GetUserUserRoles(long userId);
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Saturn72.Core.Domain.Security
 {
-    public class RefreshTokenDomainModel:DomainModelBase<long>
+    public class RefreshTokenDomainModel:DomainModelBase
     {
         public string Hash { get; set; }
         public string ClientId { get; set; }

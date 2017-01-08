@@ -3,7 +3,7 @@ using Saturn72.Core.Audit;
 
 namespace Saturn72.Core.Domain.Tasks
 {
-    public class BackgroundTaskAttachtmentDomainModel : DomainModelBase<long>, IUpdatedAudit<long>
+    public class BackgroundTaskAttachtmentDomainModel : DomainModelBase, IUpdatedAudit
     {
         public bool IsPrimary { get; set; }
         public long BackgroundTaskId { get; set; }

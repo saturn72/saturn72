@@ -87,7 +87,9 @@ namespace Saturn72.Module.Owin.Providers
         {
             var allowedOrigin = context.OwinContext.Get<string>(SecurityKeys.ClientAllowedOrigin);
 
-            if (!_userRegistrationService.ValidateUserByUsernameAndPassword(context.UserName, context.Password))
+            if (
+                !await
+                    _userRegistrationService.ValidateUserByUsernameAndPasswordAsync(context.UserName, context.Password))
             {
                 AddErrorToContext(context, "invalid_grant", "The user name or password is incorrect.");
                 return;
@@ -95,17 +97,15 @@ namespace Saturn72.Module.Owin.Providers
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
 
-            var user = _userSettings.ValidateByEmail
+            var user = await (_userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(context.UserName)
-                : _userService.GetUserByUsername(context.UserName);
+                : _userService.GetUserByUsername(context.UserName));
 
             Guard.NotNull(user);
-            Task.Run(() =>
-            {
-                user.LastClientAppId = context.ClientId;
-                user.LastIpAddress = GetClientIpAddress(context.Request);
-                _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user);
-            });
+
+            user.LastClientAppId = context.ClientId;
+            user.LastIpAddress = GetClientIpAddress(context.Request);
+            Task.Run(()=> _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));

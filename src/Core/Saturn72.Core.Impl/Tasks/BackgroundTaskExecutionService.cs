@@ -27,7 +27,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
             Guard.NotNull(ted);
 
             _taskExecutionDataRepository.CreateTaskExecutionData(ted);
-            _eventPublisher.DomainModelCreated<BackgroundTaskExecutionDataDomainModel, long>(ted);
+            _eventPublisher.DomainModelCreated(ted);
         }
     }
 }

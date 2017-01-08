@@ -1,8 +1,8 @@
 ﻿namespace Saturn72.Core
 {
-    public interface IWorkContext<TUserId>
+    public interface IWorkContext
     {
-        TUserId CurrentUserId { get; set; }
+        long CurrentUserId { get; set; }
         string CurrentUserIpAddress { get; set; }
         string ClientId { get; set; }
     }

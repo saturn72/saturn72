@@ -17,24 +17,27 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Tasks
 {
-    public class BackgroundTaskService : DomainModelCrudServiceBase<BackgroundTaskDomainModel, long, long>,
-        IBackgroundTaskService
+    public class BackgroundTaskService : IBackgroundTaskService
     {
         private readonly IBackgroundTaskRepository _backgroundTaskRepository;
+        private readonly ICacheManager _cacheManager;
+        private readonly IEventPublisher _eventPublisher;
         private readonly BackgroundTaskSettings _settings;
         private readonly ITaskManager _taskManager;
+        private readonly ITypeFinder _typeFinder;
 
         #region ctor
 
         public BackgroundTaskService(IBackgroundTaskRepository backgroundTaskRepository, IEventPublisher eventPublisher,
             ITypeFinder typeFinder, ITaskManager taskManager, ICacheManager cacheManager,
-            BackgroundTaskSettings settings
-            , IWorkContext<long> workContext)
-            : base(backgroundTaskRepository, eventPublisher, cacheManager, typeFinder, workContext)
+            BackgroundTaskSettings settings)
         {
             _taskManager = taskManager;
             _backgroundTaskRepository = backgroundTaskRepository;
             _settings = settings;
+            _eventPublisher = eventPublisher;
+            _typeFinder = typeFinder;
+            _cacheManager = cacheManager;
         }
 
         #endregion
@@ -46,7 +49,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
                 HandleAttachtments(task);
                 _backgroundTaskRepository.Update(task);
                 _taskManager.UpdateTask(task);
-                EventPublisher.DomainModelUpdated<BackgroundTaskDomainModel, long>(task);
+                _eventPublisher.DomainModelUpdated(task);
             });
         }
 
@@ -65,13 +68,13 @@ namespace Saturn72.Core.Services.Impl.Tasks
         {
             var attachtments = task.Attachtments;
 
-            task = await _backgroundTaskRepository.CreateAsync(task);
+            task = await Task.Run(()=> _backgroundTaskRepository.Create(task));
             task.Attachtments = attachtments;
 
             HandleAttachtments(task);
             _backgroundTaskRepository.Update(task);
 
-            EventPublisher.DomainModelCreated<BackgroundTaskDomainModel, long>(task);
+            _eventPublisher.DomainModelCreated(task);
             if (task.Active)
                 _taskManager.Schedule(task);
 
@@ -85,10 +88,10 @@ namespace Saturn72.Core.Services.Impl.Tasks
 
         public IEnumerable<IBackgroundTaskType> GetAllTaskTypes()
         {
-            return CacheManager.Get(AllTaskTypesKey, 1440, () =>
+            return _cacheManager.Get(AllTaskTypesKey, 1440, () =>
             {
                 var result = new List<IBackgroundTaskType>();
-                TypeFinder.FindClassesOfTypeAndRunMethod<IBackgroundTaskType>(result.Add);
+                _typeFinder.FindClassesOfTypeAndRunMethod<IBackgroundTaskType>(result.Add);
                 return result;
             });
         }
@@ -96,8 +99,8 @@ namespace Saturn72.Core.Services.Impl.Tasks
         public async Task<IEnumerable<string>> GetAllFullTrustBackgroundTaskTypeNames()
         {
             return await Task.Run(() =>
-                CacheManager.Get(FullTrustCacheKey,
-                    () => TypeFinder.FindClassesOfType<BackgroundTaskBase>()
+                _cacheManager.Get(FullTrustCacheKey,
+                    () => _typeFinder.FindClassesOfType<BackgroundTaskBase>()
                         .Select(t => t.FullName + ", " + t.Assembly.GetName().Name)));
         }
 
@@ -111,7 +114,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
             var task = await GetTaskByIdAsync(id);
             _taskManager.Remove(task);
             await Task.Run(() => _backgroundTaskRepository.Delete(id));
-            EventPublisher.DomainModelDeleted<BackgroundTaskDomainModel, long>(task);
+            _eventPublisher.DomainModelDeleted(task);
         }
 
         public async Task RunNow(long taskId)

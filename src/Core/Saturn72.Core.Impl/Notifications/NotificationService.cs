@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Notifications;
 using Saturn72.Core.Domain.Users;
-using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Notifications;
 using Saturn72.Extensions;
@@ -15,14 +14,22 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Notifications
 {
-    public class NotificationService : DomainModelCrudServiceBase<NotificationDomainModel, long, long>, INotificationService
+    public class NotificationService : INotificationService
     {
-        private readonly INotificationRepository _notificationRepository;
+        #region consts
 
-        public NotificationService(INotificationRepository notificationRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, ITypeFinder typeFinder, IWorkContext<long> workContext)
-            : base(notificationRepository, eventPublisher, cacheManager, typeFinder, workContext)
+        private const string AllNotificationCacheKey = "saturn72.notifications";
+        private const string NotificationCacheKey = "saturn72.notifications-{0}";
+
+        #endregion
+
+
+        public NotificationService(INotificationRepository notificationRepository, IEventPublisher eventPublisher,
+            ICacheManager cacheManager)
         {
             _notificationRepository = notificationRepository;
+            _eventPublisher = eventPublisher;
+            _cacheManager = cacheManager;
         }
 
         public IEnumerable<NotificationSubscriber> GetNotificationSubscribers(string notificationKey)
@@ -54,26 +61,59 @@ namespace Saturn72.Core.Services.Impl.Notifications
             return _notificationRepository.GetAll();
         }
 
-        public Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification)
+        public async Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            return CreateAndPublishCreatedEventAsync(notification, TODO);
+            AuditHelper.PrepareForCreateAudity(notification);
+            await Task.Run(() => _notificationRepository.Create(notification));
+
+            _eventPublisher.DomainModelCreated(notification);
+            _cacheManager.RemoveByPattern(AllNotificationCacheKey);
+            return notification;
         }
 
-        public Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification)
+        public async Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            return UpdateAsync(notification);
+            AuditHelper.PrepareForUpdateAudity(notification);
+            await Task.Run(() => _notificationRepository.Update(notification));
+
+            _eventPublisher.DomainModelUpdated(notification);
+            _cacheManager.RemoveByPattern(AllNotificationCacheKey);
+            return notification;
         }
 
-        public void DeleteNotification(long id)
+        public async Task DeleteNotificationAsync(long id)
         {
-            Delete(id);
+            Guard.GreaterThan(id, 0);
+            NotificationDomainModel notification = null;
+
+            await Task.Run(() =>
+            {
+                notification = _notificationRepository.GetById(id);
+                _notificationRepository.Delete(id);
+            });
+
+            _eventPublisher.DomainModelDeleted(notification);
+            _cacheManager.RemoveByPattern(AllNotificationCacheKey);
         }
 
-        public NotificationDomainModel GetNotificationById(long id)
+        public async Task<NotificationDomainModel> GetNotificationByIdAsync(long id)
         {
-            return GetById(id);
+            return
+                await
+                    Task.Run(
+                        () =>
+                            _cacheManager.Get(NotificationCacheKey.AsFormat(id),
+                                () => _notificationRepository.GetById(id)));
         }
+
+        #region Fields
+
+        private readonly INotificationRepository _notificationRepository;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly ICacheManager _cacheManager;
+
+        #endregion
     }
 }

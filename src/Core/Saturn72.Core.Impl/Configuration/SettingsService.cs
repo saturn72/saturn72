@@ -115,7 +115,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
 
             ClearCache();
 
-            settingEntries.ForEachItem(_eventPublisher.DomainModelDeleted<SettingEntryDomainModel, long>);
+            settingEntries.ForEachItem(_eventPublisher.DomainModelDeleted<SettingEntryDomainModel>);
         }
 
         public virtual T GetSettingByKey<T>(string key, T defaultValue = default(T))
@@ -197,7 +197,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
                 ClearCache();
 
             //event notification
-            _eventPublisher.DomainModelCreated<SettingEntryDomainModel, long>(setting);
+            _eventPublisher.DomainModelCreated(setting);
         }
 
         public virtual void UpdateSettingEntry(SettingEntryDomainModel settingEntry, bool clearCache = true)
@@ -208,7 +208,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
             if (clearCache)
                 ClearCache();
 
-            _eventPublisher.DomainModelUpdated<SettingEntryDomainModel, long>(settingEntry);
+            _eventPublisher.DomainModelUpdated(settingEntry);
         }
 
 

@@ -7,8 +7,8 @@ namespace Saturn72.Core.Domain
         TId Id { get; }
     }
 
-    public class DomainModelBase<TId> : IDomainModelBase<TId>
+    public class DomainModelBase : IDomainModelBase<long>
     {
-        public TId Id { get; set; }
+        public long Id { get; set; }
     }
 }

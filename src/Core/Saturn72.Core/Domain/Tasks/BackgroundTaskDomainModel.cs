@@ -8,7 +8,7 @@ using Saturn72.Core.Audit;
 
 namespace Saturn72.Core.Domain.Tasks
 {
-    public class BackgroundTaskDomainModel : DomainModelBase<long>, IUpdatedAudit<long>
+    public class BackgroundTaskDomainModel : DomainModelBase, IUpdatedAudit
     {
         #region Fields
 

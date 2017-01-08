@@ -11,27 +11,27 @@ namespace Saturn72.Core.Services.Events
 {
     public static class EventPublisherExtensions
     {
-        public static void DomainModelUpdated<TDomainModel, TId>(this IEventPublisher eventPublisher,
-           TDomainModel domainModel)
-           where TDomainModel : DomainModelBase<TId>
+        public static void DomainModelUpdated<TDomainModel>(this IEventPublisher eventPublisher,
+            TDomainModel domainModel)
+            where TDomainModel : DomainModelBase
         {
-            var eventMessage = new UpdatedEvent<TDomainModel, TId>(domainModel);
+            var eventMessage = new UpdatedEvent<TDomainModel>(domainModel);
             eventPublisher.Publish(eventMessage);
         }
 
-        public static void DomainModelCreated<TDomainModel, TId>(this IEventPublisher eventPublisher,
+        public static void DomainModelCreated<TDomainModel>(this IEventPublisher eventPublisher,
             TDomainModel domainModel)
-            where TDomainModel : DomainModelBase<TId>
+            where TDomainModel : DomainModelBase
         {
-            var eventMessage = new CreatedEvent<TDomainModel, TId>(domainModel);
+            var eventMessage = new CreatedEvent<TDomainModel>(domainModel);
             eventPublisher.Publish(eventMessage);
         }
 
-        public static void DomainModelDeleted<TDomainModel, TId>(this IEventPublisher eventPublisher,
+        public static void DomainModelDeleted<TDomainModel>(this IEventPublisher eventPublisher,
             TDomainModel domainModel)
-            where TDomainModel : DomainModelBase<TId>
+            where TDomainModel : DomainModelBase
         {
-            var eventMessage = new DeletedEvent<TDomainModel, TId>(domainModel);
+            var eventMessage = new DeletedEvent<TDomainModel>(domainModel);
             eventPublisher.Publish(eventMessage);
         }
 
@@ -47,7 +47,7 @@ namespace Saturn72.Core.Services.Events
         public static void Publish(string value, string typeFullName)
         {
             var type = Type.GetType(typeFullName);
-            var eventBaseType = typeof (EventBase);
+            var eventBaseType = typeof(EventBase);
             Guard.MustFollow(eventBaseType.IsAssignableFrom(type),
                 "The sent type does not derive from " + eventBaseType.Name);
 
