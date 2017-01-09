@@ -13,7 +13,7 @@ namespace Saturn72.Core.Services.Impl
             _workContext = workContext;
         }
 
-        public void PrepareForCreateAudity(ICreatedAudit audit)
+        public virtual void PrepareForCreateAudity(ICreatedAudit audit)
         {
             if (audit.IsNull())
                 return;
@@ -24,7 +24,7 @@ namespace Saturn72.Core.Services.Impl
             audit.CreatedByUserId = _workContext.CurrentUserId;
         }
 
-        public void PrepareForUpdateAudity(IUpdatedAudit audit)
+        public virtual void PrepareForUpdateAudity(IUpdatedAudit audit)
         {
             if (audit.IsNull())
                 return;
@@ -35,7 +35,7 @@ namespace Saturn72.Core.Services.Impl
             audit.UpdatedByUserId = _workContext.CurrentUserId;
         }
 
-        public void PrepareForDeleteAudity(IDeletedAudit audit)
+        public virtual void PrepareForDeleteAudity(IDeletedAudit audit)
         {
             if (audit.IsNull())
                 return;
