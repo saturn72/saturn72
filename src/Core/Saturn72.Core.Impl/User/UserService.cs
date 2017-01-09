@@ -22,12 +22,14 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IEventPublisher _eventPublisher;
 
         private readonly IUserRepository _userRepository;
+        private readonly AuditHelper _auditHelper;
 
-        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager)
+        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, AuditHelper auditHelper)
         {
             _userRepository = userRepository;
             _eventPublisher = eventPublisher;
             _cacheManager = cacheManager;
+            _auditHelper = auditHelper;
         }
 
         public Task<IEnumerable<UserDomainModel>> GetAllUsersAsync()
@@ -67,7 +69,7 @@ namespace Saturn72.Core.Services.Impl.User
         public async Task UpdateUser(UserDomainModel user)
         {
             Guard.NotNull(user);
-            AuditHelper.PrepareForUpdateAudity(user);
+            _auditHelper.PrepareForUpdateAudity(user);
             await Task.Run(() => _userRepository.Update(user));
             _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUserCacheKey);
             _eventPublisher.DomainModelUpdated(user);

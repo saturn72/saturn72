@@ -19,7 +19,7 @@ namespace Saturn72.Core.Services.Impl.User
 
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
             UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
-            ICacheManager cacheManager, IUserActivityLogService userActivityLogService)
+            ICacheManager cacheManager, IUserActivityLogService userActivityLogService, AuditHelper auditHelper)
         {
             _userRepository = userRepository;
             _encryptionService = encryptionService;
@@ -28,6 +28,7 @@ namespace Saturn72.Core.Services.Impl.User
             _userService = userService;
             _cacheManager = cacheManager;
             _userActivityLogService = userActivityLogService;
+            _auditHelper = auditHelper;
         }
 
         #endregion
@@ -52,7 +53,7 @@ namespace Saturn72.Core.Services.Impl.User
                 PasswordFormat = request.PasswordFormat,
                 Active = _userSettings.ActivateUserAfterRegistration
             };
-            AuditHelper.PrepareForCreateAudity(user);
+            _auditHelper.PrepareForCreateAudity(user);
             await Task.Run(() => _userRepository.Create(user));
             await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
 
@@ -142,7 +143,7 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly UserSettings _userSettings;
         private readonly IEventPublisher _eventPublisher;
         private readonly IUserActivityLogService _userActivityLogService;
-       
+        private readonly AuditHelper _auditHelper;
 
         #endregion
     }

@@ -25,11 +25,12 @@ namespace Saturn72.Core.Services.Impl.Notifications
 
 
         public NotificationService(INotificationRepository notificationRepository, IEventPublisher eventPublisher,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager, AuditHelper auditHelper)
         {
             _notificationRepository = notificationRepository;
             _eventPublisher = eventPublisher;
             _cacheManager = cacheManager;
+            _auditHelper = auditHelper;
         }
 
         public IEnumerable<NotificationSubscriber> GetNotificationSubscribers(string notificationKey)
@@ -64,7 +65,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
         public async Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            AuditHelper.PrepareForCreateAudity(notification);
+            _auditHelper.PrepareForCreateAudity(notification);
             await Task.Run(() => _notificationRepository.Create(notification));
 
             _eventPublisher.DomainModelCreated(notification);
@@ -75,7 +76,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
         public async Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification)
         {
             Guard.NotNull(notification);
-            AuditHelper.PrepareForUpdateAudity(notification);
+            _auditHelper.PrepareForUpdateAudity(notification);
             await Task.Run(() => _notificationRepository.Update(notification));
 
             _eventPublisher.DomainModelUpdated(notification);
@@ -113,6 +114,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
         private readonly INotificationRepository _notificationRepository;
         private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
+        private readonly AuditHelper _auditHelper;
 
         #endregion
     }

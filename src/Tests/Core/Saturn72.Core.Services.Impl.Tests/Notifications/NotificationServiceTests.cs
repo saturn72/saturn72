@@ -18,7 +18,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         [Test]
         public void NotificationService_GetById_Throws()
         {
-            var notificationService = new NotificationService(null, null, null);
+            var notificationService = new NotificationService(null, null, null, null);
             typeof(InvalidOperationException).ShouldBeThrownBy(
                 () => notificationService.GetNotificationByIdAsync(0).RunSynchronously());
             typeof(InvalidOperationException).ShouldBeThrownBy(() =>
@@ -42,7 +42,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
 
             nRepo.Setup(nr => nr.GetById(It.IsAny<long>()))
                 .Returns(ndm);
-            var srv = new NotificationService(nRepo.Object, null, null);
+            var srv = new NotificationService(nRepo.Object, null, null, null);
             var result = srv.GetNotificationByIdAsync(notificationId).Result;
             result.PropertyValuesAreEquals(ndm, new string[] {});
         }
@@ -60,7 +60,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             };
             nRepo.Setup(nr => nr.GetAll())
                 .Returns(allNotifications);
-            var srv = new NotificationService(nRepo.Object, null, null);
+            var srv = new NotificationService(nRepo.Object, null, null, null);
             var notifications = srv.GetAllNotifications();
 
             notifications.Count().ShouldEqual(4);
@@ -72,7 +72,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         public void NotificationService_CreateNotification_ThrowsOnNull()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(
-                () => new NotificationService(null, null, null).CreateNotificationAsync(null));
+                () => new NotificationService(null, null, null, null).CreateNotificationAsync(null));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
 
             var ePublisher = new Mock<IEventPublisher>();
 
-            var srv = new NotificationService(repo.Object, ePublisher.Object, null);
+            var srv = new NotificationService(repo.Object, ePublisher.Object, null, null);
             var task = srv.CreateNotificationAsync(ndm);
             task.Wait();
             var result = task.Result;
@@ -112,7 +112,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         {
             //null object
             typeof(NullReferenceException).ShouldBeThrownBy(
-                () => new NotificationService(null, null, null).UpdateNotificationAsync(null));
+                () => new NotificationService(null, null, null, null).UpdateNotificationAsync(null));
 
             var repo = new Mock<INotificationRepository>();
             repo.Setup(x => x.Update(It.IsAny<NotificationDomainModel>()))
@@ -130,7 +130,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
                 () =>
                 {
                     var t =
-                        new NotificationService(repo.Object, ePublisher.Object, null).UpdateNotificationAsync(ndm)
+                        new NotificationService(repo.Object, ePublisher.Object, null, null).UpdateNotificationAsync(ndm)
                             .Result;
                 });
 
@@ -140,7 +140,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
                 () =>
                 {
                     var t =
-                        new NotificationService(repo.Object, ePublisher.Object, null).UpdateNotificationAsync(ndm)
+                        new NotificationService(repo.Object, ePublisher.Object, null, null).UpdateNotificationAsync(ndm)
                             .Result;
                 });
         }
@@ -156,7 +156,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             var repo = new Mock<INotificationRepository>();
             var ePublisher = new Mock<IEventPublisher>();
 
-            var srv = new NotificationService(repo.Object, ePublisher.Object, null);
+            var srv = new NotificationService(repo.Object, ePublisher.Object, null, null);
             var task = srv.UpdateNotificationAsync(ndm);
             task.Wait();
             var result = task.Result;
@@ -169,7 +169,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         [Test]
         public void NotificationService_Deletes_Throws()
         {
-            var srv = new NotificationService(null, null, null);
+            var srv = new NotificationService(null, null, null, null);
             typeof(InvalidOperationException).ShouldBeThrownBy(() => srv.DeleteNotificationAsync(0).RunSynchronously());
             typeof(InvalidOperationException).ShouldBeThrownBy(() => srv.DeleteNotificationAsync(-1).RunSynchronously());
         }
@@ -180,7 +180,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             var repo = new Mock<INotificationRepository>();
             var ePublisher = new Mock<IEventPublisher>();
 
-            var srv = new NotificationService(repo.Object, ePublisher.Object, null);
+            var srv = new NotificationService(repo.Object, ePublisher.Object, null, null);
             srv.DeleteNotificationAsync(123).Wait();
             ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<NotificationDomainModel>>()), Times.Exactly(1));
 

@@ -1,13 +1,19 @@
 ﻿using System;
 using Saturn72.Core.Audit;
-using Saturn72.Core.Infrastructure;
 using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl
 {
     public class AuditHelper
     {
-        public static void PrepareForCreateAudity(ICreatedAudit audit)
+        private readonly IWorkContext _workContext;
+
+        public AuditHelper(IWorkContext workContext)
+        {
+            _workContext = workContext;
+        }
+
+        public void PrepareForCreateAudity(ICreatedAudit audit)
         {
             if (audit.IsNull())
                 return;
@@ -15,28 +21,30 @@ namespace Saturn72.Core.Services.Impl
                 throw new InvalidOperationException("Create audit already initialized.");
 
             audit.CreatedOnUtc = DateTime.UtcNow;
-            audit.CreatedByUserId = AppEngine.Current.Resolve<IWorkContext>().CurrentUserId;
+            audit.CreatedByUserId = _workContext.CurrentUserId;
         }
 
-        public static void PrepareForUpdateAudity(IUpdatedAudit audit)
+        public void PrepareForUpdateAudity(IUpdatedAudit audit)
         {
             if (audit.IsNull())
                 return;
+            if (audit.CreatedOnUtc == default(DateTime))
+                PrepareForCreateAudity(audit);
 
             audit.UpdatedOnUtc = DateTime.UtcNow;
-            audit.UpdatedByUserId = AppEngine.Current.Resolve<IWorkContext>().CurrentUserId;
+            audit.UpdatedByUserId = _workContext.CurrentUserId;
         }
 
-        public static void PrepareForDeleteAudity(IDeletedAudit audit)
+        public void PrepareForDeleteAudity(IDeletedAudit audit)
         {
             if (audit.IsNull())
                 return;
 
-            if (audit.DeletedOnUtc != default(DateTime) || audit.DeletedByUserId != 0 || audit.Deleted)
+            if (audit.DeletedOnUtc.NotNull() || audit.DeletedByUserId != 0 || audit.Deleted)
                 throw new InvalidOperationException("DeletedAudit already deleted.");
 
             audit.DeletedOnUtc = DateTime.UtcNow;
-            audit.DeletedByUserId = AppEngine.Current.Resolve<IWorkContext>().CurrentUserId;
+            audit.DeletedByUserId = _workContext.CurrentUserId;
             audit.Deleted = true;
         }
     }
