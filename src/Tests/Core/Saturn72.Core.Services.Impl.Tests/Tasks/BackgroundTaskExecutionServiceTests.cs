@@ -51,7 +51,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             srv.CreateTaskExecutionData(model);
 
             repo.Verify(x => x.CreateTaskExecutionData(It.IsAny<BackgroundTaskExecutionDataDomainModel>()), Times.Once);
-            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>()),
+            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>()),
                 Times.Once);
         }
     }

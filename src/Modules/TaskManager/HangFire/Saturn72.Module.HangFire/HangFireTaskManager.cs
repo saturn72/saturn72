@@ -10,8 +10,6 @@ using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Tasks;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Services;
-using Saturn72.Core.Services.Impl.Tasks;
 using Saturn72.Core.Tasks;
 using Saturn72.Extensions;
 
@@ -19,16 +17,10 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Module.HangFire
 {
-    public class HangFireTaskManager : ResolverBase, ITaskManager
+    public class HangFireTaskManager : ITaskManager
     {
         private const string AllTaskTypesKey = "TaskTypes.";
         private static ICacheManager _cacheManager;
-        private readonly IBackgroundTaskRepository _backgroundTaskRepository;
-
-        public HangFireTaskManager(IBackgroundTaskRepository backgroundTaskRepository)
-        {
-            _backgroundTaskRepository = backgroundTaskRepository;
-        }
 
         public void Initialize()
         {

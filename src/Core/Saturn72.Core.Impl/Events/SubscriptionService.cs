@@ -1,17 +1,18 @@
 ﻿#region
 
 using System.Collections.Generic;
+using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Services.Events;
 
 #endregion
 
 namespace Saturn72.Core.Services.Impl.Events
 {
-    public class SubscriptionService : ResolverBase, ISubscriptionService
+    public class SubscriptionService : ISubscriptionService
     {
         public IEnumerable<IConsumer<TEvent>> GetSubscriptions<TEvent>() where TEvent : EventBase
         {
-            return ResolveAll<IConsumer<TEvent>>();
+            return AppEngine.Current.ResolveAll<IConsumer<TEvent>>();
         }
     }
 }

@@ -30,8 +30,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         public Action<IIocRegistrator> RegistrationLogic(ITypeFinder typeFinder, Saturn72Config config)
         {
             _eventPublisher = new Mock<IEventPublisher>();
-            _eventPublisher.Setup(x => x.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>()))
-                .Callback<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>(i => model = i.DomainModel);
+            _eventPublisher.Setup(x => x.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>()))
+                .Callback<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>(i => model = i.DomainModel);
             return reg => reg.RegisterInstance(_eventPublisher.Object);
         }
 
@@ -47,14 +47,14 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             var task2 = new NotExistsProcessBgTask();
             typeof(InvalidOperationException).ShouldBeThrownBy(() => task2.Execute());
             _eventPublisher.Verify(
-                e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>()),
+                e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>()),
                 Times.Once);
 
             model = null;
             var task3 = new ExceptionFromProcessBgTask();
             typeof(Win32Exception).ShouldBeThrownBy(() => task3.Execute());
             _eventPublisher.Verify(
-                e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>>()),
+                e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>()),
                 Times.Exactly(2));
             model.ProcessExitCode.ShouldNotEqual(0);
             model.ErrorData.HasValue().ShouldBeTrue();

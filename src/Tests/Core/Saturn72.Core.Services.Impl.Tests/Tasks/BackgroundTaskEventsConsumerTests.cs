@@ -45,7 +45,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         public void HandleEvent_ThrowsOnNull()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => new BackgroundTaskEventsConsumer().HandleEvent(null));
-            var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>(null);
+            var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel>(null);
 
             typeof(NullReferenceException).ShouldBeThrownBy(
                 () => new BackgroundTaskEventsConsumer().HandleEvent(eventMsg));
@@ -56,7 +56,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         {
             var model = BuildCreateEventModel();
 
-            var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel, long>(model);
+            var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel>(model);
 
             var handler = new BackgroundTaskEventsConsumer();
             handler.HandleEvent(eventMsg);

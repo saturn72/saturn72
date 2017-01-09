@@ -9,13 +9,15 @@ using Saturn72.Core.Services.Events;
 
 namespace Saturn72.Core.Services.Impl.Events
 {
-    public class EventPublisher : Resolver, IEventPublisher
+    public class EventPublisher : IEventPublisher
     {
         private readonly ISubscriptionService _subscriptionService;
+        private readonly ILogger _logger;
 
-        public EventPublisher(ISubscriptionService subscriptionService)
+        public EventPublisher(ISubscriptionService subscriptionService, ILogger logger)
         {
             _subscriptionService = subscriptionService;
+            _logger = logger;
         }
 
         public void Publish<TEvent>(TEvent eventMessage) where TEvent : EventBase
@@ -42,7 +44,7 @@ namespace Saturn72.Core.Services.Impl.Events
                 //we put in to nested try-catch to prevent possible cyclic (if some error occurs)
                 try
                 {
-                    Logger.Error(exc.Message, exc);
+                    _logger.Error(exc.Message, exc);
                 }
                 catch (Exception)
                 {

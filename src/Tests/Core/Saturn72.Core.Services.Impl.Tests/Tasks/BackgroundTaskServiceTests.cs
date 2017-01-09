@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Moq;
 using NUnit.Framework;
@@ -56,14 +55,12 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
 
             var insertIndex = 0;
             var btRepository = new Mock<IBackgroundTaskRepository>();
-            btRepository.Setup(r => r.CreateAsync(It.IsAny<BackgroundTaskDomainModel>()))
+            btRepository.Setup(r => r.Create(It.IsAny<BackgroundTaskDomainModel>()))
                 .Callback<BackgroundTaskDomainModel>(t =>
                 {
                     t.Id = ++insertIndex;
                     btList.Add(t);
-                })
-                .Returns<BackgroundTaskDomainModel>(Task.FromResult);
-
+                });
             btRepository.Setup(r => r.Update(It.IsAny<BackgroundTaskDomainModel>()))
                 .Callback<BackgroundTaskDomainModel>(t =>
                 {
@@ -74,7 +71,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
                 .Returns<BackgroundTaskDomainModel>(t => t);
 
             btRepository.Setup(r => r.GetById(It.IsAny<long>()))
-                .Returns<long>(id => btList.FirstOrDefault(t=>t.Id == id));
+                .Returns<long>(id => btList.FirstOrDefault(t => t.Id == id));
 
             var btSettings = new BackgroundTaskSettings
             {
@@ -87,10 +84,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             var taskManager = new Mock<ITaskManager>();
             var cacheManager = new Mock<ICacheManager>();
 
-            _backgroundTaskService = new BackgroundTaskService(btRepository.Object, eventPublisher.Object,
-                typeFinder.Object,
-                taskManager.Object, cacheManager.Object, btSettings, null);
-
+            _backgroundTaskService = new BackgroundTaskService(btRepository.Object,
+                eventPublisher.Object, typeFinder.Object, taskManager.Object, cacheManager.Object, btSettings);
             //create task
             var t1 = CrateTaskAndAssert(task1);
 

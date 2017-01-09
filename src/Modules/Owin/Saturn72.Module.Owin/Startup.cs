@@ -30,7 +30,7 @@ using ITraceWriter = System.Web.Http.Tracing.ITraceWriter;
 
 namespace Saturn72.Module.Owin
 {
-    internal class Startup : ResolverBase
+    internal class Startup 
     {
         private readonly IDictionary<string, IConfigMap> _configurations;
 
@@ -67,7 +67,8 @@ namespace Saturn72.Module.Owin
 
         private void ConfigureOwinModules(IAppBuilder app, HttpConfiguration httpConfig)
         {
-            TypeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(
+            var typeFinder = AppEngine.Current.Resolve<ITypeFinder>();
+            typeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(
                 w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig, _configurations)),
                 o => o.ConfigurationOrder);
         }

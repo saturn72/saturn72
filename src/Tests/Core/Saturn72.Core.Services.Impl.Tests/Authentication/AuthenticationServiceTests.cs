@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Threading.Tasks;
+﻿using System;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Security;
@@ -15,7 +13,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Authentication
         public void AuthenticationService_AddRefreshTokenAsync_ThrowsOnNullToekn()
         {
             var srv = new AuthenticationService(null);
-            typeof(NullReferenceException).ShouldBeThrownBy(()=> srv.AddRefreshTokenAsync(null));
+            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.AddRefreshTokenAsync(null));
         }
 
         [Test]
@@ -23,13 +21,12 @@ namespace Saturn72.Core.Services.Impl.Tests.Authentication
         {
             var i = 0;
             var repo = new Mock<IRefreshTokenRepository>();
-            repo.Setup(r => r.CreateAsync(It.IsAny<RefreshTokenDomainModel>()))
-                .Callback(()=> i++);
+            repo.Setup(r => r.Create(It.IsAny<RefreshTokenDomainModel>()))
+                .Callback(() => i++);
 
             var srv = new AuthenticationService(repo.Object);
             srv.AddRefreshTokenAsync(new RefreshTokenDomainModel()).RunSynchronously();
             i.ShouldEqual(1);
         }
-
     }
 }

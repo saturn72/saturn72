@@ -75,7 +75,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
 
             //flow assertion
             cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
-            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryDomainModel, long>>()), Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryDomainModel>>()), Times.Exactly(3));
         }
 
         [Test]
@@ -126,8 +126,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
 
             //flow assertion
             cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
-            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryDomainModel, long>>()), Times.Exactly(3));
-            ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<SettingEntryDomainModel, long>>()),Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryDomainModel>>()), Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<SettingEntryDomainModel>>()),Times.Exactly(3));
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             values.ShouldContainInstance(settings2.Text);
 
             //flow assertion
-            ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<SettingEntryDomainModel, long>>()), Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<SettingEntryDomainModel>>()), Times.Exactly(3));
         }
 
         [Test]

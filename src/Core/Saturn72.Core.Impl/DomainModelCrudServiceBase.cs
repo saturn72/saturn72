@@ -33,7 +33,9 @@ namespace Saturn72.Core.Services.Impl
 
         protected virtual IEnumerable<TDomainModel> GetAll()
         {
-            return ModelRepository.GetAll();
+            throw new NotImplementedException(
+                );
+            //return ModelRepository.GetAll();
         }
 
         protected virtual async Task<TDomainModel> CreateAndPublishCreatedEventAsync(TDomainModel model, Action<TDomainModel> createFunc)
@@ -46,20 +48,24 @@ namespace Saturn72.Core.Services.Impl
         {
             Guard.NotNull(model);
             PrepareModelBeforeCreateAction(model);
-            var domainModel = ModelRepository.Create(model);
-            EventPublisher.DomainModelCreated<TDomainModel>(model);
-            return domainModel;
+            throw new NotImplementedException();
+
+            //var domainModel = ModelRepository.Create(model);
+            //EventPublisher.DomainModelCreated<TDomainModel>(model);
+            //  return domainModel;
         }
 
         protected virtual TDomainModel Update(TDomainModel model)
         {
-            Guard.NotNull(model);
-            PrepareModelBeforeUpdateAction(model);
+            throw new NotImplementedException();
 
-            ModelRepository.Update(model);
-            EventPublisher.DomainModelUpdated<TDomainModel>(model);
+            //Guard.NotNull(model);
+            //PrepareModelBeforeUpdateAction(model);
 
-            return model;
+            //ModelRepository.Update(model);
+            //EventPublisher.DomainModelUpdated<TDomainModel>(model);
+
+            //return model;
         }
 
         protected Task<TDomainModel> UpdateAsync(TDomainModel model)
@@ -69,24 +75,26 @@ namespace Saturn72.Core.Services.Impl
 
         protected void Delete(long id)
         {
-            ValidateNonDefaullong(id);
+            throw new NotImplementedException();
 
-            var model = GetById(id);
+            //ValidateNonDefaullong(id);
 
-            var deletedAudit = model as IDeletedAudit;
-            if (deletedAudit.NotNull())
-            {
-                deletedAudit.Deleted = true;
-                deletedAudit.DeletedOnUtc = DateTime.UtcNow;
-                deletedAudit.DeletedByUserId = WorkContext.CurrentUserId;
-                ModelRepository.Update(model);
-            }
-            else
-            {
-                ModelRepository.Delete(id);
-            }
+            //var model = GetById(id);
 
-            EventPublisher.DomainModelDeleted(model);
+            //var deletedAudit = model as IDeletedAudit;
+            //if (deletedAudit.NotNull())
+            //{
+            //    deletedAudit.Deleted = true;
+            //    deletedAudit.DeletedOnUtc = DateTime.UtcNow;
+            //    deletedAudit.DeletedByUserId = WorkContext.CurrentUserId;
+            //    ModelRepository.Update(model);
+            //}
+            //else
+            //{
+            //    ModelRepository.Delete(id);
+            //}
+
+            //EventPublisher.DomainModelDeleted(model);
         }
 
         private static void ValidateNonDefaullong(long id)
@@ -96,8 +104,10 @@ namespace Saturn72.Core.Services.Impl
 
         protected TDomainModel GetById(long id)
         {
-            ValidateNonDefaullong(id);
-            return ModelRepository.GetById(id);
+            throw new NotImplementedException();
+
+            //ValidateNonDefaullong(id);
+            //return ModelRepository.GetById(id);
         }
 
         #region Fields

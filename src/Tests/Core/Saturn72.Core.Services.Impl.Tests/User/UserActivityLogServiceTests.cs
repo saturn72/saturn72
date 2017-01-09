@@ -29,7 +29,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 .Callback<UserActivityLogDomainModel>(c=>c.Id = 123)
                 .Returns<UserActivityLogDomainModel>(ual => ual);
 
-            var wc = new Mock<IWorkContext<long>>();
+            var wc = new Mock<IWorkContext>();
             var clientid = "clientId";
             wc.Setup(w => w.ClientId)
                 .Returns(clientid);
