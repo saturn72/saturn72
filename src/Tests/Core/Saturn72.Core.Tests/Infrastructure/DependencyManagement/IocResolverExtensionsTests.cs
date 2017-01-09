@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Infrastructure.DependencyManagement;
@@ -31,7 +32,7 @@ namespace Saturn72.Core.Tests.Infrastructure.DependencyManagement
         {
             var resolver = new Mock<IIocResolver>();
             resolver.Setup(r => r.Resolve(It.IsAny<Type>(), It.IsAny<string>()))
-                .Returns( new DummyService());
+                .Returns( new DummyService(null));
 
             //Not Registered
             resolver.Object.TryResolve<IDummyService>(typeof(IDummyService)).GetType().ShouldBeType<DummyService>();
@@ -51,20 +52,41 @@ namespace Saturn72.Core.Tests.Infrastructure.DependencyManagement
             resolver.Object.TryResolve<IDummyService>(typeof(DummyService)).ShouldBeNull();
             resolver.Object.TryResolve<DummyService>(typeof(DummyService)).ShouldBeNull();
 
-            throw new NotImplementedException();
-
-
-            //Not Registered
-
-
             IDummyService service;
             resolver.Object.TryResolve(typeof(IDummyService), out service).ShouldBeFalse();
             service.ShouldBeNull();
+
+            resolver.Object.TryResolve(typeof(DummyService), out service).ShouldBeFalse();
+            service.ShouldBeNull();
+        }
+
+        [Test]
+        public void TryParse_ResolveUnregistered_Resolves()
+        {
+            var resolver = new Mock<IIocResolver>();
+            resolver.Setup(r => r.Resolve(It.IsAny<Type>(), It.IsAny<string>()))
+                .Throws<NullReferenceException>();
+
+            resolver.Object.TryResolve<IDummyService>(typeof(DummyService1)).ShouldNotBeNull();
+            resolver.Object.TryResolve<DummyService1>(typeof(DummyService1)).ShouldNotBeNull();
+            IDummyService service;
+            resolver.Object.TryResolve(typeof(DummyService1), out service).ShouldBeTrue();
+
+            service.ShouldNotBeNull();
         }
     }
 
+    public class DummyService1 : IDummyService
+    {
+    }
+
+
     public class DummyService:IDummyService
     {
+        public DummyService(ICollection<string> col)
+        {
+            
+        }
     }
 
     public interface IDummyService

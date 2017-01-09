@@ -61,6 +61,10 @@ namespace Saturn72.Core.Services.Impl.User
                     var res = _userRepository.GetUserUserRoles(userId);
                     //User must have user roles
                     Guard.NotNull(res);
+                    Guard.NotEmpty(res, ()=>
+                    {
+                        throw new NullReferenceException("userroles");
+                    });
 
                     return res;
                 }));

@@ -17,8 +17,8 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var srv = new UserService(null, null, null, null);
             //on illegal userId
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(0));
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(-123));
+            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(0));
+            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(-123));
             //On not exists userroles
             var userRepo = new Mock<IUserRepository>();
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
@@ -28,14 +28,15 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             cm.Setup(c => c.IsSet(It.IsAny<string>()))
                 .Returns(false);
 
+            //On not exists userroles
             srv = new UserService(userRepo.Object, null, cm.Object, null);
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
-            //On not exists userroles
+            //On exists userroles
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(new List<UserRoleDomainModel>());
 
             srv = new UserService(userRepo.Object, null, cm.Object, null);
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
+            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
         }
 
         [Test]

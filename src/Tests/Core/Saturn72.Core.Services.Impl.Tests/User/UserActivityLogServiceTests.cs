@@ -31,8 +31,6 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var wc = new Mock<IWorkContext>();
             var clientid = "clientId";
-            wc.Setup(w => w.ClientId)
-                .Returns(clientid);
             var ipaddress = "ipaddress";
             wc.Setup(w => w.CurrentUserIpAddress)
                .Returns(ipaddress);
@@ -41,7 +39,9 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var user = new UserDomainModel
             {
                 Id = 100,
-                UserGuid = new Guid("EA57D1C7-4575-4961-8A0C-7085E562B4A7")
+                UserGuid = new Guid("EA57D1C7-4575-4961-8A0C-7085E562B4A7"),
+                LastClientAppId = clientid,
+                LastIpAddress = ipaddress
             };
 
             var actual = srv.AddUserActivityLogAsync(UserActivityType.Login, user).Result;
