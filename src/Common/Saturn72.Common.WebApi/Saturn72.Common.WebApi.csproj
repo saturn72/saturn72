@@ -66,7 +66,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
@@ -98,6 +97,10 @@
     <Compile Include="Validation\Validators\Account\UserRegistrationValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Core\Saturn72.Core.Services\Saturn72.Core.Services.csproj">
       <Project>{D92341E7-6B28-4CDC-A024-A204D0ED670E}</Project>
       <Name>Saturn72.Core.Services</Name>
@@ -105,10 +108,6 @@
     <ProjectReference Include="..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Extensions\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj">
-      <Project>{A7B3E883-359C-45EC-B925-623D55984AD9}</Project>
-      <Name>Saturn72.Extensions.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Extensions\Saturn72.Extensions.Net\Saturn72.Extensions.Net.csproj">
       <Project>{2601A20B-162D-4CD0-B6E3-4A467F5106C9}</Project>
@@ -126,10 +125,6 @@
       <Project>{6DE3E33E-0B13-4C57-8871-C83E1EEB8470}</Project>
       <Name>Saturn72.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
