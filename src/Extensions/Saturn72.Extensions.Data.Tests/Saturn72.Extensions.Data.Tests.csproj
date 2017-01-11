@@ -51,7 +51,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj">
+    <ProjectReference Include="..\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj">
       <Project>{A7B3E883-359C-45EC-B925-623D55984AD9}</Project>
       <Name>Saturn72.Extensions.Data</Name>
     </ProjectReference>
