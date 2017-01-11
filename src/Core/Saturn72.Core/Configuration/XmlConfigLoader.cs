@@ -9,7 +9,6 @@ using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Extensibility;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Extensions;
-
 #endregion
 
 namespace Saturn72.Core.Configuration

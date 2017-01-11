@@ -25,7 +25,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Authentication
                 .Callback(() => i++);
 
             var srv = new AuthenticationService(repo.Object);
-            srv.AddRefreshTokenAsync(new RefreshTokenDomainModel()).RunSynchronously();
+            srv.AddRefreshTokenAsync(new RefreshTokenDomainModel()).Wait();
             i.ShouldEqual(1);
         }
     }

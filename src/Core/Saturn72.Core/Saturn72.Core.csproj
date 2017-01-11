@@ -153,6 +153,16 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj">
+      <Project>{A7B3E883-359C-45EC-B925-623D55984AD9}</Project>
+      <Name>Saturn72.Extensions.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Extensions\Saturn72.Extensions\Saturn72.Extensions.csproj">
+      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
+      <Name>Saturn72.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
