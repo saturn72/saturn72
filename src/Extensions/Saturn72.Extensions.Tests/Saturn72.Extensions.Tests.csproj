@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D0D57C87-15AD-4DB7-AA4F-32EA4679C8F4}</ProjectGuid>
+    <ProjectGuid>{04891523-ADBC-4E27-831E-10D1C5BC9755}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Saturn72.Extensions.Tests</RootNamespace>
