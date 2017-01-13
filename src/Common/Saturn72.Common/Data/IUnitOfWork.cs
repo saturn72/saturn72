@@ -7,7 +7,7 @@ using Saturn72.Core.Domain;
 
 #endregion
 
-namespace Saturn72.Common.Data.Repositories
+namespace Saturn72.Common.Data
 {
     public interface IUnitOfWork<TDomainModel>
         where TDomainModel : DomainModelBase

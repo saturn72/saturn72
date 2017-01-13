@@ -10,7 +10,7 @@ using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Common.Data.Repositories
+namespace Saturn72.Common.Data
 {
     public abstract class RepositoryBase<TDomainModel, TEntity>
         : IRepository<TDomainModel>
