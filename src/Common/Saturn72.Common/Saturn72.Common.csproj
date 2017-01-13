@@ -56,6 +56,8 @@
     <Compile Include="App\AppVersionStatus.cs" />
     <Compile Include="App\IApp.cs" />
     <Compile Include="App\IAppVersion.cs" />
+    <Compile Include="Data\IUnitOfWork.cs" />
+    <Compile Include="Data\RepositoryBase.cs" />
     <Compile Include="Extensibility\PluginBase.cs" />
     <Compile Include="Extensibility\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

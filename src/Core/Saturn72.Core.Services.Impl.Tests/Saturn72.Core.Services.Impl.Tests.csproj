@@ -89,10 +89,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Saturn72.Common.Data\Saturn72.Common.Data.csproj">
-      <Project>{D839AC0D-B328-4D7B-B94C-B50C0E960428}</Project>
-      <Name>Saturn72.Common.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
