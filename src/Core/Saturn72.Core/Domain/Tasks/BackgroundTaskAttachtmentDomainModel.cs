@@ -13,7 +13,7 @@ namespace Saturn72.Core.Domain.Tasks
 
         public DateTime CreatedOnUtc { get; set; }
         public long CreatedByUserId { get; set; }
-        public DateTime UpdatedOnUtc { get; set; }
+        public DateTime? UpdatedOnUtc { get; set; }
         public long UpdatedByUserId { get; set; }
     }
 }

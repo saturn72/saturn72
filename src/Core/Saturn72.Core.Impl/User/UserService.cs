@@ -56,18 +56,7 @@ namespace Saturn72.Core.Services.Impl.User
             Guard.GreaterThan(userId, (long) 0);
 
             return Task.FromResult(
-                _cacheManager.Get(UserRolesUserCacheKey, () =>
-                {
-                    var res = _userRepository.GetUserUserRoles(userId);
-                    //User must have user roles
-                    Guard.NotNull(res);
-                    Guard.NotEmpty(res, ()=>
-                    {
-                        throw new NullReferenceException("userroles");
-                    });
-
-                    return res;
-                }));
+                _cacheManager.Get(UserRolesUserCacheKey, () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleDomainModel[] {}));
         }
 
         public async Task UpdateUser(UserDomainModel user)

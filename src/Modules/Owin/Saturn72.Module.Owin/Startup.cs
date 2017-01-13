@@ -23,6 +23,7 @@ using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Services;
 using Saturn72.Extensions;
 using Saturn72.Module.Owin.Adapters;
+using Saturn72.Module.Owin.Middlewares;
 using Saturn72.Module.Owin.Providers;
 using ITraceWriter = System.Web.Http.Tracing.ITraceWriter;
 
@@ -50,11 +51,12 @@ namespace Saturn72.Module.Owin
             DefaultOutput.WriteLine("Configure Formatters");
             ConfigureFormatters(httpConfig);
             ConfigureOwinCommon(app, httpConfig);
+
             ConfigureOwinModules(app, httpConfig);
             httpConfig.Services.Replace(typeof(ITraceWriter), AppEngine.Current.Resolve<ITraceWriter>());
             app.UseWebApi(httpConfig);
 
-            //httpConfig.EnsureInitialized();
+            httpConfig.EnsureInitialized();
         }
 
         private void ConfigureFormatters(HttpConfiguration httpConfig)
@@ -92,6 +94,9 @@ namespace Saturn72.Module.Owin
 
                 if (owinConfig.OAuthProviders.NotEmptyOrNull())
                     RegisterExternalOAuthProvider(owinConfig.OAuthProviders, app);
+
+                //DefaultOutput.WriteLine("Configure Owin Commons: Add WorkContext middleware");
+                //app.Use(typeof(OwinWorkContextMiddleWare));
 
                 RegisterRoutes(httpConfig);
 

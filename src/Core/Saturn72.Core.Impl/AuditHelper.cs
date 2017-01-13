@@ -22,6 +22,8 @@ namespace Saturn72.Core.Services.Impl
 
             audit.CreatedOnUtc = DateTime.UtcNow;
             audit.CreatedByUserId = _workContext.CurrentUserId;
+            ResetUpdatedAudity(audit as IUpdatedAudit);
+            ResetDeletedAudity(audit as IDeletedAudit);
         }
 
         public virtual void PrepareForUpdateAudity(IUpdatedAudit audit)
@@ -33,6 +35,8 @@ namespace Saturn72.Core.Services.Impl
 
             audit.UpdatedOnUtc = DateTime.UtcNow;
             audit.UpdatedByUserId = _workContext.CurrentUserId;
+
+            ResetDeletedAudity(audit as IDeletedAudit);
         }
 
         public virtual void PrepareForDeleteAudity(IDeletedAudit audit)
@@ -47,5 +51,26 @@ namespace Saturn72.Core.Services.Impl
             audit.DeletedByUserId = _workContext.CurrentUserId;
             audit.Deleted = true;
         }
+
+        #region Utilities
+
+        private void ResetUpdatedAudity(IUpdatedAudit audit)
+        {
+            if (audit.IsNull())
+                return;
+            audit.UpdatedByUserId = 0;
+            audit.UpdatedOnUtc = null;
+        }
+
+        private void ResetDeletedAudity(IDeletedAudit audit)
+        {
+            if (audit.IsNull())
+                return;
+            audit.Deleted = false;
+            audit.DeletedByUserId = 0;
+            audit.DeletedOnUtc = null;
+        }
+
+        #endregion
     }
 }

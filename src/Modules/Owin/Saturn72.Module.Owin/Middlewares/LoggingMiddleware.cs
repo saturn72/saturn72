@@ -8,7 +8,7 @@ using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Module.Owin
+namespace Saturn72.Module.Owin.Middlewares
 {
     #region
 
