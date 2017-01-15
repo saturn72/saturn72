@@ -13,7 +13,7 @@ Since Saturn72 uses advanced coding practices, tools, patterns and terms we reco
 Either way we recomend you refer to our wiki knowledge base [developer-must-knows](https://github.com/saturn72/saturn72/wiki/Developer-Must-Knows) before getting started.
 
 ##What will you gain using Saturn72?
-- Advanced developemnt practives
+- Advanced development practives
 - S.O.L.I.D based framework
 - Advanced unit testing framework 
 - Base line for any medium to large application development
