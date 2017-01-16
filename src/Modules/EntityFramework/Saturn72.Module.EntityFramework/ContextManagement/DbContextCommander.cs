@@ -35,6 +35,15 @@ namespace Saturn72.Module.EntityFramework.ContextManagement
             }
         }
 
+        public void QueryNewContext(Action<TDbContext> query)
+        {
+
+            using (var db = new TDbContext())
+            {
+                query(db);
+            }
+        }
+
         public virtual IEnumerable<string> GetUnchangedProperties<TEntity>(TEntity source, TEntity destination)
         {
             if (source == null || destination == null)

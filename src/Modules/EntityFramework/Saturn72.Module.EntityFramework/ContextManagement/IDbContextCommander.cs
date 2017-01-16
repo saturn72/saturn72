@@ -8,6 +8,7 @@ namespace Saturn72.Module.EntityFramework.ContextManagement
     {
         int SaveChangesToContext(TDbContext ctx);
         TResult QueryNewContext<TResult>(Func<TDbContext, TResult> query);
+        void QueryNewContext(Action<TDbContext> query);
         IEnumerable<string> GetUnchangedProperties<TEntity>(TEntity source, TEntity destination);
     }
 }
