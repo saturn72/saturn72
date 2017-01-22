@@ -8,6 +8,6 @@ namespace Saturn72.Core.Audit
 
         DateTime? DeletedOnUtc { get; set; }
 
-        long DeletedByUserId { get; set; }
+        long? DeletedByUserId { get; set; }
     }
 }

@@ -58,7 +58,7 @@ namespace Saturn72.Core.Services.Impl
         {
             if (audit.IsNull())
                 return;
-            audit.UpdatedByUserId = 0;
+            audit.UpdatedByUserId = null;
             audit.UpdatedOnUtc = null;
         }
 
@@ -67,7 +67,7 @@ namespace Saturn72.Core.Services.Impl
             if (audit.IsNull())
                 return;
             audit.Deleted = false;
-            audit.DeletedByUserId = 0;
+            audit.DeletedByUserId = null;
             audit.DeletedOnUtc = null;
         }
 
