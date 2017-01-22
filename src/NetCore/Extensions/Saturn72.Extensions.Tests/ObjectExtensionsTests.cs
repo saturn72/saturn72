@@ -9,49 +9,49 @@ namespace Saturn72.Extensions.UT
 {
     public class ObjectExtensionsTests
     {
-        [Test]
+        [Fact]
         public void IsNull_ReturnsTrueOnNullObject()
         {
             ((object) null).IsNull().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void IsNull_ReturnsFalseOnReferencedObject()
         {
             (new object()).IsNull().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void NotNull_ReturnsFalseOnNullObject()
         {
             ((object) null).NotNull().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void NotNull_ReturnsTrueOnReferencedObject()
         {
             (new object()).NotNull().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void IsDefault_ReturnsFalseOnNonDefaultValueType()
         {
             1.IsDefault().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void IsDefault_ReturnsFalseOnNonDefaultReferenceType()
         {
             (new object()).IsDefault().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void IsDefault_ReturnsTrueOnDefaultValueType()
         {
             0.IsDefault().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void IsDefault_ReturnsTrueOnDefaultReferenceType()
         {
             ((object)null).IsDefault().ShouldBeTrue();

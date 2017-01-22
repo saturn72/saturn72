@@ -8,7 +8,7 @@ namespace Saturn72.Extensions.Tests
 {
     public class DictionaryExtensionsTests
     {
-        [Test]
+        [Fact]
         public void GetOrDefault_ReturnsDefault()
         {
             var source = new Dictionary<string, string>();
@@ -19,7 +19,7 @@ namespace Saturn72.Extensions.Tests
             actual.ShouldEqual("d");
         }
 
-        [Test]
+        [Fact]
         public void GetOrDefault_ReturnsValue()
         {
             var source = new Dictionary<string, string>{{"TTT", "!"}};
@@ -30,7 +30,7 @@ namespace Saturn72.Extensions.Tests
             actual.ShouldEqual("!");
         }
 
-        [Test]
+        [Fact]
         public void GetValueOrSet_ReturnsExistValue()
         {
             const string value1 = "value1";
@@ -45,7 +45,7 @@ namespace Saturn72.Extensions.Tests
             actual.ShouldEqual(value1);
         }
 
-        [Test]
+        [Fact]
         public void GetValueOrSet_ReturnsSetValue()
         {
             var source = new Dictionary<string, string>
@@ -59,7 +59,7 @@ namespace Saturn72.Extensions.Tests
             actual.ShouldEqual(value3);
         }
 
-        [Test]
+        [Fact]
         public void GetOrDefault_ThrowOnNull()
         {
             Assert.Throws<NullReferenceException>(
@@ -67,7 +67,7 @@ namespace Saturn72.Extensions.Tests
         }
 
 
-        [Test]
+        [Fact]
         public void GetOrDefault_ReferenceType_ReturndsDefaultOnNonExistsKey()
         {
             var refKey1 = new TestKeyObject { Key = "key" };
@@ -80,7 +80,7 @@ namespace Saturn72.Extensions.Tests
             Assert.AreEqual(default(TestValueObject), valueTypeSource.GetValueOrDefault(new TestKeyObject()));
         }
 
-        [Test]
+        [Fact]
         public void GetOrDefault_ReferenceType_ReturnsValueOnExistsKey()
         {
             var refKey1 = new TestKeyObject { Key = "key" };
@@ -102,7 +102,7 @@ namespace Saturn72.Extensions.Tests
             public string Value { get; internal set; }
         }
 
-        [Test]
+        [Fact]
         public void GetOrDefault_ValueType_ReturndsDefaultOnNonExistsKey()
         {
             var valueTypeSource = new Dictionary<string, int>
@@ -113,7 +113,7 @@ namespace Saturn72.Extensions.Tests
             Assert.AreEqual(0, valueTypeSource.GetValueOrDefault("key"));
         }
 
-        [Test]
+        [Fact]
         public void GetOrDefault_ValueType_ReturnsValueOnExistsKey()
         {
             var valueTypeSource = new Dictionary<string, int>

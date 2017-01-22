@@ -3,7 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Saturn72.UnitTesting.Framework;
+using Xunit;
 
 #endregion
 
@@ -11,7 +12,7 @@ namespace Saturn72.Extensions.Tests
 {
     public class CollectionExtensionsTests
     {
-        [Test]
+        [Fact]
         public
         void AddIfNotExists_NotAddingExistsItem()
         {
@@ -19,10 +20,10 @@ namespace Saturn72.Extensions.Tests
             source.AddIfNotExist(3);
 
             var all = source.Where(x => x == 3);
-            Assert.AreEqual(1, all.Count());
+            1.ShouldEqual(all.Count());
         }
 
-        [Test]
+        [Fact]
         public
         void AddIfNotExists_AddsNewItem()
         {
@@ -33,7 +34,7 @@ namespace Saturn72.Extensions.Tests
         }
 
 
-        [Test]
+        [Fact]
         public
         void AddIfNotExists_ThrowsOnNullItemToAdd()
         {

@@ -14,7 +14,7 @@ namespace Saturn72.Extensions.UT
 {
     public class FileSystemUtilTests
     {
-        [Test]
+        [Fact]
         public void DeleteDirectoryTree()
         {
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -51,7 +51,7 @@ namespace Saturn72.Extensions.UT
             }
         }
 
-        [Test]
+        [Fact]
         public void DeleteDirectory_DeletesLocalDirCopy()
         {
             var path = CreateLocalDirectory();
@@ -66,7 +66,7 @@ namespace Saturn72.Extensions.UT
             Directory.Delete(path);
         }
 
-        [Test]
+        [Fact]
         public void DeleteAllDirectoryFiles_DeletesAllFiles()
         {
             var path = CreateDirectoryWithFiles();
@@ -82,7 +82,7 @@ namespace Saturn72.Extensions.UT
             Directory.Delete(path, true);
         }
 
-        [Test]
+        [Fact]
         public void DeleteAllDirectoryFiles_ExcludesFilesFromDeletion()
         {
             var path = CreateDirectoryWithFiles();
@@ -154,7 +154,7 @@ namespace Saturn72.Extensions.UT
             return root;
         }
 
-        [Test]
+        [Fact]
         public void DeleteFile_Deletes()
         {
             var file = Path.GetTempFileName();
@@ -163,7 +163,7 @@ namespace Saturn72.Extensions.UT
             File.Exists(file).ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void DeleteFile_Returns()
         {
             var file = Path.GetTempFileName();
@@ -178,7 +178,7 @@ namespace Saturn72.Extensions.UT
         }
 
 
-        [Test]
+        [Fact]
         public void DeleteDirectory_Deletes()
         {
             var path = CreateTempFolderPath();
@@ -186,7 +186,7 @@ namespace Saturn72.Extensions.UT
             Directory.Exists(path).ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void DeleteDirectory_Returns()
         {
             var path = CreateTempFolderPath();
@@ -207,7 +207,7 @@ namespace Saturn72.Extensions.UT
         }
 
 
-        [Test]
+        [Fact]
         public void RelativeToAbsolute_NonBackslashedPath()
         {
             const string relativePath = "Plugins";
@@ -217,7 +217,7 @@ namespace Saturn72.Extensions.UT
             expectedPath.ShouldEqual(result);
         }
 
-        [Test]
+        [Fact]
         public void RelativeToAbsolute_PathWithDot()
         {
             var relativePath = ".";
@@ -234,7 +234,7 @@ namespace Saturn72.Extensions.UT
             expectedPath.ShouldEqual(result);
         }
 
-        [Test]
+        [Fact]
         public void CreateDirectoryIfNotExists()
         {
             var path = CreateTempFolderPath();

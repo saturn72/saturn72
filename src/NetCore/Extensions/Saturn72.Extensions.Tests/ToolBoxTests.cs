@@ -8,13 +8,13 @@ namespace Saturn72.Extensions.UT
 {
     public class ToolBoxTests
     {
-        [Test]
+        [Fact]
         public void RunTimedoutExpression_TimeoutExceeds()
         {
             Assert.False(Toolbox.RunTimedoutExpression(() => false, 100, 20));
         }
 
-        [Test]
+        [Fact]
         public void RunTimedoutExpression_TrueExpression()
         {
             var i = 0;

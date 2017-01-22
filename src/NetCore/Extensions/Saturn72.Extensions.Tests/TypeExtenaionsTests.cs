@@ -10,14 +10,14 @@ namespace Saturn72.Extensions.Tests
 {
     public class TypeExtenaionsTests
     {
-        [Test]
+        [Fact]
         public void GetAttributeValue_ReturnAttributesValue()
         {
             var value = typeof (MyClass1).GetAttributeValue((MyClassTestAttribute x) => x.Value);
             value.ShouldEqual("value");
         }
 
-        [Test]
+        [Fact]
         public void GetAttributeValue_ReturnsDefaultWhenAttributesNotExists()
         {
             var value = typeof (MyClass2).GetAttributeValue((MyClassTestAttribute x) => x.Value);

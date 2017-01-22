@@ -10,7 +10,7 @@ namespace Saturn72.Extensions.Tests
 {
     public class DateTimeExtensionsTests
     {
-        [Test]
+        [Fact]
         public void ToTimeStamp_Returns()
         {
             const string dateTimeString = "01/08/2008 14:50:50.42";
@@ -22,14 +22,14 @@ namespace Saturn72.Extensions.Tests
              result == "2008-01-08_14-50-50-420").ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void SecondTimeSpanPass_TimePassed()
         {
             var sourceDateTime = DateTime.MinValue;
             Assert.True(sourceDateTime.SecondTimeSpanHasPass(100));
         }
 
-        [Test]
+        [Fact]
         public void SecondTimeSpanPass_TimeWasNotPass()
         {
             var sourceDateTime = DateTime.UtcNow;

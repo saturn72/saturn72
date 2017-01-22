@@ -11,7 +11,7 @@ namespace Saturn72.Extensions.Tests
 {
     public class GuardTests
     {
-        [Test]
+        [Fact]
         public void Guard_GreaterThan()
         {
             //throws on not greater than
@@ -21,7 +21,7 @@ namespace Saturn72.Extensions.Tests
             Guard.GreaterThan(1,0);
         }
 
-        [Test]
+        [Fact]
         public void Guard_GreaterOrEqualsTo()
         {
             //throws on not greater than
@@ -30,7 +30,7 @@ namespace Saturn72.Extensions.Tests
             Guard.GreaterOrEqualTo(1, 1);
             Guard.GreaterOrEqualTo(1, 0);
         }
-        [Test]
+        [Fact]
         public void Guard_SmallerThan()
         {
             //throws on not greater than
@@ -40,7 +40,7 @@ namespace Saturn72.Extensions.Tests
             Guard.SmallerThan(1, 10);
         }
 
-        [Test]
+        [Fact]
         public void Guard_SmallerOrEqualsTo()
         {
             //throws on not greater than
@@ -50,7 +50,7 @@ namespace Saturn72.Extensions.Tests
             Guard.SmallerOrEqualTo(1, 10);
         }
 
-        [Test]
+        [Fact]
         public void ContainsKey_KeyNotExists()
         {
             var dictionary = new Dictionary<int, int> {{1, 1}, {2, 2}, {3, 4}};
@@ -59,26 +59,26 @@ namespace Saturn72.Extensions.Tests
                 Guard.ContainsKey(dictionary, 9));
         }
 
-        [Test]
+        [Fact]
         public void ContainsKey_KeyExists()
         {
             var dictionary = new Dictionary<int, int> {{1, 1}, {2, 2}, {3, 4}};
             Assert.DoesNotThrow(() => Guard.ContainsKey(dictionary, 1));
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_ThrowsException()
         {
             Assert.Throws<FormatException>(() => Guard.IsUrl("VVV"));
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_DoesNotThrowsException()
         {
             Assert.DoesNotThrow(() => Guard.IsUrl("http://www.ttt.com"));
         }
 
-        [Test]
+        [Fact]
         public void MustFollows_DoesNotTriggerAction()
         {
             var str = "test";
@@ -86,7 +86,7 @@ namespace Saturn72.Extensions.Tests
             "test".ShouldEqual(str);
         }
 
-        [Test]
+        [Fact]
         public void MustFollows_TriggerAction()
         {
             var str = "test";
@@ -94,7 +94,7 @@ namespace Saturn72.Extensions.Tests
             "TEST".ShouldEqual(str);
         }
 
-        [Test]
+        [Fact]
         public void NotEmpty_TriggersAction()
         {
             var x = 0;
@@ -102,7 +102,7 @@ namespace Saturn72.Extensions.Tests
             1.ShouldEqual(x);
         }
 
-        [Test]
+        [Fact]
         public void HasValue_DoesNotTriggersAction()
         {
             var x = 0;
@@ -110,7 +110,7 @@ namespace Saturn72.Extensions.Tests
             0.ShouldEqual(x);
         }
 
-        [Test]
+        [Fact]
         public void HasValue_TriggersAction()
         {
             var x = 0;
@@ -118,27 +118,27 @@ namespace Saturn72.Extensions.Tests
             1.ShouldEqual(x);
         }
 
-        [Test]
+        [Fact]
         public void HasValue_ThrowsExceptionOnEmptyString()
         {
             typeof(ArgumentNullException).ShouldBeThrownBy(
                 () => Guard.HasValue("", () => { throw new ArgumentNullException(); }));
         }
 
-        [Test]
+        [Fact]
         public void NotNull_ThrowsNullReferenceException()
         {
             Assert.Throws<NullReferenceException>(() => Guard.NotNull((object) null));
         }
 
-        [Test]
+        [Fact]
         public void NotNull_ThrowsNullReferenceExceptionWithMessage()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => Guard.NotNull((object) null, "message"),
                 "message");
         }
 
-        [Test]
+        [Fact]
         public void NotNull_TriggerAction()
         {
             var x = 0;

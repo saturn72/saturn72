@@ -12,21 +12,21 @@ namespace Saturn72.Extensions.Tests
 {
     public class ProcessExtensionsTests
     {
-        [Test]
+        [Fact]
         public void IsRunning_ThrowsExceptionOnNullProcess()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => ((Process) null).IsRunning());
            
         }
 
-        [Test]
+        [Fact]
         public void IsRunning_ReturnsTrue()
         {
             var proc = Process.GetProcesses()[0];
             proc.IsRunning().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void IsRunning_ReturnsFalseOnNotRunningProcess()
         {
             new Process().IsRunning().ShouldBeFalse();
@@ -37,21 +37,21 @@ namespace Saturn72.Extensions.Tests
             proc.IsRunning().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void StartInfoAsString_Throws()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => ((Process) null).StartInfoAsString());
         }
 
 
-        [Test]
+        [Fact]
         public void AsString_Throws()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => ((ProcessStartInfo) null).AsString());
         }
 
 
-        [Test]
+        [Fact]
         public void StartInfoAsString_ReturnsStringWithValues()
         {
             var psi = new ProcessStartInfo
@@ -65,7 +65,7 @@ namespace Saturn72.Extensions.Tests
 
             proc.StartInfoAsString().ShouldEqual("File name: notepad++.exe\nArguments: C:\\temp\\1.bat\nWorking directory: C:\\Program Files (x86)\\Notepad++");
         }
-        [Test]
+        [Fact]
         public void StartInfoAsString_ReturnsStringWithEmptyValues()
         {
             var proc = new Process();
@@ -73,7 +73,7 @@ namespace Saturn72.Extensions.Tests
             proc.StartInfoAsString().ShouldEqual("File name: \nArguments: \nWorking directory: ");
         }
 
-        [Test]
+        [Fact]
         public void AsString_ReturnsString()
         {
             var psi = new ProcessStartInfo

@@ -11,7 +11,7 @@ namespace Saturn72.Extensions.Tests
 {
     public class StreamExtensionsTests
     {
-        [Test]
+        [Fact]
         public void ToByteArray_ReadsStreamToByteArray()
         {
             var buffer = new byte[] {000, 001, 010, 011, 100, 101, 110, 111};
@@ -19,7 +19,7 @@ namespace Saturn72.Extensions.Tests
             stream.ToByteArray().ShouldEqual(buffer);
         }
 
-        [Test]
+        [Fact]
         public void ToByteArray_Throws()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => ((Stream) null).ToByteArray());

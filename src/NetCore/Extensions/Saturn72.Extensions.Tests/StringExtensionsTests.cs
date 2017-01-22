@@ -11,26 +11,26 @@ namespace Saturn72.Extensions.Tests
 {
     public class StringExtensionsTests
     {
-        [Test]
+        [Fact]
         public void HasValue_null()
         {
             string source = null;
             source.HasValue().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void HasValue_white_spaces()
         {
             "    ".HasValue().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void HasValue_with_value()
         {
             "test_string".HasValue().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void RemoveSubStringInstances_removes_all()
         {
             "AACC".ShouldEqual("AAbbCC".RemoveAllInstances("bb"));
@@ -38,62 +38,62 @@ namespace Saturn72.Extensions.Tests
             "bbCC".ShouldEqual("AAbbCC".RemoveAllInstances("AA"));
         }
 
-        [Test]
+        [Fact]
         public void RemoveSubStringInstances_removesnothing()
         {
             "AbbACC".ShouldEqual("AbbACC".RemoveAllInstances("AA"));
         }
 
-        [Test]
+        [Fact]
         public void RemoveAll_RemovesAllInstances1()
         {
             "aaaBBBbbbCc".ShouldEqual("AAAaaaBBBbbbCc".RemoveAllInstances("A"));
         }
 
-        [Test]
+        [Fact]
         public void RemoveAll_RemovesAllInstances2()
         {
             "aaaBc".ShouldEqual("AAAaaaBBBbbbCc".RemoveAllInstances("A", "BB", "bbb", "C"));
         }
 
-        [Test]
+        [Fact]
         public void RemoveAllWhiteSpaces()
         {
             "A".ShouldEqual("    A               ".RemoveAllWhiteSpaces());
         }
 
-        [Test]
+        [Fact]
         public void AsFormat_empty()
         {
             "    _logic".ShouldEqual("    {0}".AsFormat("_logic"));
         }
 
-        [Test]
+        [Fact]
         public void AsFormat_MissingArgThrowsFormatException()
         {
             Assert.Throws<FormatException>(() => "test{0} {1}".AsFormat(1));
         }
 
-        [Test]
+        [Fact]
         public void AsFormat_string_and_object()
         {
             var o = new object();
             "test_logic".ShouldEqual("test{0}".AsFormat("_logic", o));
         }
 
-        [Test]
+        [Fact]
         public void AsFormat_strings()
         {
             "test_logic".ShouldEqual("test{0}".AsFormat("_logic"));
         }
 
-        [Test]
+        [Fact]
         public void AsFormat_ThrowesException()
         {
             Assert.Throws<FormatException>(() => "{ Test }".AsFormat("123"));
         }
 
-        [Test]
+        [Fact]
         public void AsFormat_Dictionary()
         {
             var formatDictionary = new Dictionary<string, object>
@@ -106,7 +106,7 @@ namespace Saturn72.Extensions.Tests
             "TTT 2 System.Object".ShouldEqual("{t1} {t2} {t3}".AsFormat(formatDictionary));
         }
 
-        [Test]
+        [Fact]
         public void Replace_CheckOutOfBoundIndexes()
         {
             "source".Replace(-1, 100, "ddd").ShouldEqual("source");
@@ -114,14 +114,14 @@ namespace Saturn72.Extensions.Tests
             "source".Replace(2, 100, "ddd").ShouldEqual("soddd");
         }
 
-        [Test]
+        [Fact]
         public void Replace_Replaces()
         {
             "source".Replace(2, 4, "ddd").ShouldEqual("sodddce");
             "source".Replace(4, 4, "ddd").ShouldEqual("sourdddce");
         }
 
-        [Test]
+        [Fact]
         public void ToBoolean_ReturnsTrue()
         {
             "true".ToBoolean().ShouldBeTrue();
@@ -145,7 +145,7 @@ namespace Saturn72.Extensions.Tests
             "TRUE".ToBoolean().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void ToBoolean_ReturnsFalse()
         {
             "false".ToBoolean().ShouldBeFalse();
@@ -154,7 +154,7 @@ namespace Saturn72.Extensions.Tests
             "notTrue".ToBoolean().ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void EqualsToIgnoreCases_AllTests()
         {
             const string source = "ThisIs String";
@@ -179,7 +179,7 @@ namespace Saturn72.Extensions.Tests
                 source.EqualsTo(val).ShouldBeFalse();
         }
 
-        [Test]
+        [Fact]
         public void RemoveNewLineEscape_ClearsNewLinesEscapes()
         {
             var source = "This\n is\nsource\n";
@@ -187,7 +187,7 @@ namespace Saturn72.Extensions.Tests
 
         }
 
-        [Test]
+        [Fact]
         public void RemoveNewLineEscape_ReturnsSourceOnNoNewLineEscapes()
         {
             var source = "This is source";
@@ -195,32 +195,32 @@ namespace Saturn72.Extensions.Tests
             Assert.AreEqual("This is source", source.RemoveNewLineEscape());
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_returnsTrueOnHttpUrl()
         {
             Assert.True("https://www.test.com".IsUrl());
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_returnsTrueOnHttpsUrl()
         {
             Assert.True("http://www.test.com".IsUrl());
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_returnsTrueOnFileSystemUrlUrl()
         {
             Assert.True("file:///c:/WINDOWS/clock.avi".IsUrl());
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_ReturnsFalseOnEmptyString()
         {
             Assert.False("".IsUrl());
             Assert.False(((string)null).IsUrl());
         }
 
-        [Test]
+        [Fact]
         public void IsUrl_ReturnsFalseOnIllegalUrl()
         {
             Assert.False("This is not url".IsUrl());

@@ -11,13 +11,13 @@ namespace Saturn72.Extensions.Tests
 {
     public class ExceptionExtensionsTests
     {
-        [Test]
+        [Fact]
         public void AsString_throws()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => ((Exception) null).AsString());
         }
 
-        [Test]
+        [Fact]
         public void AsString_WithoutInternalException()
         {
             var ex = new Mock<NullReferenceException>();
@@ -33,7 +33,7 @@ namespace Saturn72.Extensions.Tests
             ex.Object.AsString().ShouldEqual(expectedMsg);
         }
 
-        [Test]
+        [Fact]
         public void AsString_WithInternalException()
         {
             var internalEx = new Mock<ArgumentException>();

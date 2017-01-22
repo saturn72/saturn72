@@ -11,14 +11,14 @@ namespace Saturn72.Extensions.UT
 {
     public class EnumerableExtensionTests
     {
-        [Test]
+        [Fact]
         public void ForEachItem_ThrowsException()
         {
             var i = 0;
             Assert.Throws<NullReferenceException>(() => ((List<object>) null).ForEachItem(c => i++));
         }
 
-        [Test]
+        [Fact]
         public void ForEachItem_IteratesOnCollection()
         {
             var i = 0;
@@ -26,7 +26,7 @@ namespace Saturn72.Extensions.UT
             Assert.AreEqual(3, i);
         }
 
-        [Test]
+        [Fact]
         public void IsEmptyOrNull_returnsTrueCases()
         {
             new List<string>().IsEmptyOrNull().ShouldBeTrue();
@@ -35,12 +35,12 @@ namespace Saturn72.Extensions.UT
             "".IsEmptyOrNull().ShouldBeTrue();
         }
 
-        [Test]
+        [Fact]
         public void IsEmptyOrNull_ReturnsFalseCases()
         {
             "Test".IsEmptyOrNull().ShouldBeFalse();
         }
-        [Test]
+        [Fact]
         public void Random_PicksItems()
         {
             var action = new Action(() =>
