@@ -14,6 +14,7 @@ Either way we recomend you refer to our wiki knowledge base [developer-must-know
 
 Click <a href="https://docs.google.com/presentation/d/13uE5ljHJO0wd3TNvYxEUDey1relkO6-G1IlXwzNQIlE/embed?start=true&loop=true&delayms=600000" target="_blank">here</a> to see our architecture presentation.
 
+<p>This is <a href="http://example.com" target="_blank">a link</a> that opens in a new window.</p>
 
 ##What will you gain using Saturn72?
 - Advanced development practives
