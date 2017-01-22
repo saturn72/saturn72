@@ -1,84 +1,105 @@
-﻿namespace Saturn72.UnitTesting.Framework.Tests
+﻿using System;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Saturn72.UnitTesting.Framework.Tests
 {
     public class TestExtensionsTests
     {
-        [Test]
+
+        [Fact]
+        public void ShouldContainAny()
+        {
+            "this is string".ShouldContainAny("s1222");
+            "this is string".ShouldContainAny("str", "message");
+        }
+
+
+        [Fact]
+        public void ShouldContainAll()
+        {
+            "this is string".ShouldContainAll("sith");
+            "this is string".ShouldContainAll("str", "message");
+        }
+
+
+        [Fact]
         public void ShouldContain()
         {
-            "this is string".ShouldContain("str");
+            "this is string".ShouldContainAny("str");
             "this is string".ShouldContain("str", "message");
         }
 
-        [Test]
-        public void ShouldContain_Instances()
-        {
-            "this is string".ShouldContain("str", 1);
-            "this is string".ShouldContain("str", 1, "message");
-        }
+       //[Fact]
+       // public void ShouldContain_Instances()
+       // {
+       //     "this is string".ShouldContain("str", 1);
+       //     "this is string".ShouldContain("str", 1, "message");
+       // }
 
 
-        [Test]
-        public void ShouldContainMax()
-        {
-            "this is string".ShouldContainMaximum("str", 2);
-            "this is string".ShouldContainMaximum("str", 2, "message");
-        }
+       //[Fact]
+       // public void ShouldContainMax()
+       // {
+       //     "this is string".ShouldContainMaximum("str", 2);
+       //     "this is string".ShouldContainMaximum("str", 2, "message");
+       // }
 
-        [Test]
-        public void ShouldContainMin()
-        {
-            "this is string".ShouldContainMinimum("is", 2);
-            "this is string".ShouldContainMinimum("is", 2, "message");
-        }
+       //[Fact]
+       // public void ShouldContainMin()
+       // {
+       //     "this is string".ShouldContainMinimum("is", 2);
+       //     "this is string".ShouldContainMinimum("is", 2, "message");
+       // }
 
-        [Test]
-        public void ShouldContainRange()
-        {
-            var message = "message";
-            "this is string".ShouldContainRange("is", 2, 6);
-            "this is string".ShouldContainRange("is", 2, 6, message);
+       //[Fact]
+       // public void ShouldContainRange()
+       // {
+       //     var message = "message";
+       //     "this is string".ShouldContainRange("is", 2, 6);
+       //     "this is string".ShouldContainRange("is", 2, 6, message);
 
-            "this is string that is beautiful".ShouldContainRange("is", 3, 6);
-            "this is string that is beautiful".ShouldContainRange("is", 3, 6, message);
-            "this is string that is beautiful is is ".ShouldContainRange("is", 4, 6);
-            "this is string that is beautiful is is ".ShouldContainRange("is", 4, 6, message);
-            "is is this is string that is beautiful is is ".ShouldContainRange("is", 5, 6);
-            "is is this is string that is beautiful is is ".ShouldContainRange("is", 5, 6, message);
-        }
+       //     "this is string that is beautiful".ShouldContainRange("is", 3, 6);
+       //     "this is string that is beautiful".ShouldContainRange("is", 3, 6, message);
+       //     "this is string that is beautiful is is ".ShouldContainRange("is", 4, 6);
+       //     "this is string that is beautiful is is ".ShouldContainRange("is", 4, 6, message);
+       //     "is is this is string that is beautiful is is ".ShouldContainRange("is", 5, 6);
+       //     "is is this is string that is beautiful is is ".ShouldContainRange("is", 5, 6, message);
+       // }
 
-        [Test]
-        public void ShouldNotContain()
-        {
-            "this is string".ShouldNotContain("strsss");
-        }
+       //[Fact]
+       // public void ShouldNotContain()
+       // {
+       //     "this is string".ShouldNotContain("strsss");
+       // }
 
-        [Test]
+       [Fact]
         public void True()
         {
             true.True();
         }
 
-        [Test]
+       [Fact]
         public void True_WithMessage()
         {
             true.True("message");
         }
 
-        [Test]
+       [Fact]
         public void ShouldNotBeNull()
         {
             new TestClass().ShouldNotBeNull();
             "rrr".ShouldNotBeNull();
         }
 
-        [Test]
+       [Fact]
         public void ShouldNotBeNull_WithMessage()
         {
             new TestClass().ShouldNotBeNull("message");
             "rrr".ShouldNotBeNull("message");
         }
 
-        [Test]
+       [Fact]
         public void ShouldNotEqual()
         {
             new TestClass().ShouldNotEqual(new TestClass());
@@ -86,13 +107,13 @@
             "ttt".ShouldNotEqual("rrr");
         }
 
-        [Test]
+       [Fact]
         public void ShouldNotEqual_WithMessage()
         {
             "ttt".ShouldNotEqual("rrr", "message");
         }
 
-        [Test]
+       [Fact]
         public void ShouldEqual()
         {
             var instance = new TestClass();
@@ -107,45 +128,45 @@
         /// <param name="actual"></param>
         /// <param name="expected"></param>
         /// <param name="message"></param>
-        [Test]
+       [Fact]
         public void ShouldEqual_WithMessage()
         {
             "ttt".ShouldEqual("ttt", "message");
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeThrownBy()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => { throw new NullReferenceException(); }
                 );
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeThrownBy_WithMessage()
         {
             typeof(NullReferenceException).ShouldBeThrownBy(() => { throw new NullReferenceException(); }
                 , "Object reference not set to an instance of an object.");
         }
 
-        [Test]
+       [Fact]
         public void ShouldBe()
         {
             "ttt".ShouldBe<string>();
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeType()
         {
             "ttt".GetType().ShouldBeType<string>();
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeNull()
         {
             ((object)null).ShouldBeNull();
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeTheSameAs()
         {
             var actual = new TestClass();
@@ -153,7 +174,7 @@
             actual.ShouldBeTheSameAs(expected);
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeNotBeTheSameAs()
         {
             var actual = new TestClass();
@@ -161,40 +182,40 @@
             actual.ShouldBeNotBeTheSameAs(expected);
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeTrue()
         {
             true.ShouldBeTrue();
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeTrue_WitrhMessage()
         {
             true.ShouldBeTrue("message");
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeFalse()
         {
             false.ShouldBeFalse();
         }
 
-        [Test]
+       [Fact]
         public void AssertSameStringAs()
         {
             "ttt".AssertSameStringAs("ttt");
         }
 
-        [Test]
+       [Fact]
         public void ShouldContainInstance()
         {
             var instance = new TestClass();
             var source = new List<TestClass> { new TestClass(), instance, new TestClass() };
 
-            source.ShouldContainInstance(instance);
+            source.ShouldContain(instance);
         }
 
-        [Test]
+       [Fact]
         public void ShouldContainType()
         {
             var instance = new TestClass();
@@ -203,20 +224,20 @@
             source.ShouldContainType(instance.GetType());
         }
 
-        [Test]
+       [Fact]
         public void ShouldBeEmpty()
         {
             new List<TestClass>().ShouldBeEmpty();
         }
 
-        [Test]
+       [Fact]
         public void ShouldCount()
         {
             var source = new List<TestClass> { new TestClass(), new TestClass(), new TestClass() };
             source.ShouldCount(3);
         }
 
-        [Test]
+       [Fact]
         public void PropertyValuesAreEquals_AllProperties()
         {
             var instance1 = new TestClass
@@ -233,7 +254,7 @@
             instance1.PropertyValuesAreEquals(instance2);
         }
 
-        [Test]
+       [Fact]
         public void PropertyValuesAreEquals_ExcludeProperties()
         {
             var instance1 = new TestClass

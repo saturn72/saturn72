@@ -1,9 +1,11 @@
-﻿namespace Saturn72.UnitTesting.Framework.Tests
+﻿using Xunit;
+
+namespace Saturn72.UnitTesting.Framework.Tests
 {
     public class AssertorTests
     {
 
-        [Test]
+       [Fact]
         public void Asserter_AreEqual()
         {
             Asserter.AreEqual(1, 1);
@@ -11,14 +13,14 @@
         }
 
 
-        [Test]
+       [Fact]
         public void Asserter_Greater()
         {
             Asserter.Greater(2, 1);
             Asserter.Greater(2, 1, "message");
         }
 
-        [Test]
+       [Fact]
         public void Asserter_GreaterOrEqual()
         {
             Asserter.GreaterOrEqual(2, 1);
@@ -27,14 +29,14 @@
             Asserter.GreaterOrEqual(2, 2, "message");
         }
 
-        [Test]
+       [Fact]
         public void Asserter_Smaller()
         {
             Asserter.Smaller(2, 3);
             Asserter.Smaller(2, 3, "message");
         }
 
-        [Test]
+       [Fact]
         public void Asserter_SmallerOrEqual()
         {
             Asserter.SmallerOrEqual(2, 3);
@@ -43,7 +45,7 @@
             Asserter.SmallerOrEqual(2, 2, "message");
         }
 
-        [Test]
+       [Fact]
         public void True_NoMessage()
         {
             Asserter.True(true);

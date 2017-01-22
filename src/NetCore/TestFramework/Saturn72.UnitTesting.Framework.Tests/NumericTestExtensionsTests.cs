@@ -1,8 +1,10 @@
-﻿namespace Saturn72.UnitTesting.Framework.Tests
+﻿using Xunit;
+
+namespace Saturn72.UnitTesting.Framework.Tests
 {
     public class NumericTestExtensions
     {
-        [Test]
+        [Fact]
         public void ShouldBeGreaterThan()
         {
             //int
@@ -15,7 +17,7 @@
             decimal.MaxValue.ShouldBeGreaterThan(decimal.MaxValue - 1);
         }
 
-        [Test]
+        [Fact]
         public void ShouldBeGreaterOrEqualTo_Int()
         {
             //int
@@ -31,7 +33,7 @@
             decimal.MaxValue.ShouldBeGreaterOrEqualTo(decimal.MaxValue);
         }
 
-        [Test]
+        [Fact]
         public void ShouldBeSmallerThan()
         {
             //int
@@ -43,7 +45,7 @@
             decimal.MinValue.ShouldBeSmallerThan(decimal.MaxValue);
         }
 
-        [Test]
+        [Fact]
         public void ShouldBeSmallerOrEqualTo()
         {
             //int

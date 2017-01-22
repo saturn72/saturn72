@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFramework", "TestFramework", "{82037862-D436-4AD4-9AEE-AB42A963464A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Saturn72.UnitTesting.Framework", "TestFramework\Saturn72.UnitTesting.Framework\Saturn72.UnitTesting.Framework.xproj", "{8C120D0A-5B7D-44F8-BC1C-0467BBAE90AE}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Saturn72.UnitTesting.Framework.Tests", "TestFramework\Saturn72.UnitTesting.Framework.Tests\Saturn72.UnitTesting.Framework.Tests.xproj", "{687DEFF4-BDE7-47DC-8484-0A84A6D53DD2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C120D0A-5B7D-44F8-BC1C-0467BBAE90AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C120D0A-5B7D-44F8-BC1C-0467BBAE90AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C120D0A-5B7D-44F8-BC1C-0467BBAE90AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C120D0A-5B7D-44F8-BC1C-0467BBAE90AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{687DEFF4-BDE7-47DC-8484-0A84A6D53DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687DEFF4-BDE7-47DC-8484-0A84A6D53DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687DEFF4-BDE7-47DC-8484-0A84A6D53DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687DEFF4-BDE7-47DC-8484-0A84A6D53DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C120D0A-5B7D-44F8-BC1C-0467BBAE90AE} = {82037862-D436-4AD4-9AEE-AB42A963464A}
+		{687DEFF4-BDE7-47DC-8484-0A84A6D53DD2} = {82037862-D436-4AD4-9AEE-AB42A963464A}
+	EndGlobalSection
+EndGlobal
