@@ -12,6 +12,8 @@ Another thing Saturn72 is not is framework to develop POC's or Ad-Hoc functional
 Since Saturn72 uses advanced coding practices, tools, patterns and terms we recomend intermidiate or above development knowledge.
 Either way we recomend you refer to our wiki knowledge base [developer-must-knows](https://github.com/saturn72/saturn72/wiki/Developer-Must-Knows) before getting started.
 
+Click <a href="https://docs.google.com/presentation/d/13uE5ljHJO0wd3TNvYxEUDey1relkO6-G1IlXwzNQIlE/embed?start=true&loop=true&delayms=600000" target="_blank">here</a> to see our architecture presentation.
+
 ##What will you gain using Saturn72?
 - Advanced development practives
 - S.O.L.I.D based framework
