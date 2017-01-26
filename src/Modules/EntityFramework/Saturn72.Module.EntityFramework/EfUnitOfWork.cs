@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Reflection;
@@ -18,28 +19,18 @@ namespace Saturn72.Module.EntityFramework
         where TEntity : class
     {
         private readonly string _nameOrConnectionString;
-
         public EfUnitOfWork(string nameOrConnectionString)
         {
             _nameOrConnectionString = nameOrConnectionString;
         }
-
         public IEnumerable<TDomainModel> GetAll()
         {
             return QueryNewContext(ctx => GetSet(ctx).AsNoTracking().ToDomainModel<TEntity, TDomainModel>());
         }
-
         public TDomainModel GetById(long id)
-            
-            
         {
-            return QueryNewContext(ctx =>
-            {
-                var entity = GetSet(ctx).Find(id);
-                return entity==null? null : entity.ToDomainModel<TEntity, TDomainModel>();
-            });
+            return QueryNewContext(ctx => GetSet(ctx).Find(id)?.ToDomainModel<TEntity, TDomainModel>());
         }
-
         public TDomainModel Replace(TDomainModel model) 
             
         {
@@ -54,8 +45,6 @@ namespace Saturn72.Module.EntityFramework
                 return SaveChangesToContext(ctx) > 0 ? entity.MapToInstance(model) : null;
             });
         }
-
-
         public Task<TDomainModel> CreateAsync(TDomainModel model)
         {
             return QueryNewContextAsync(async ctx =>
