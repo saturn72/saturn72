@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 
@@ -42,18 +43,14 @@ namespace Saturn72.Core.Caching
 
             var policy = new CacheItemPolicy();
             policy.AbsoluteExpiration = DateTime.Now + TimeSpan.FromMinutes(cacheTime);
-            Cache.Add(new CacheItem(key, data), policy);
+            Cache.Set(new CacheItem(key, data), policy);
+
+            //if (Cache.Contains(key))
+            //    Cache.Set(new CacheItem(key, data), policy);
+            //else Cache.Add(new CacheItem(key, data), policy);
         }
 
-        /// <summary>
-        ///     Gets a value indicating whether the value associated with the specified key is cached
-        /// </summary>
-        /// <param name="key">key</param>
-        /// <returns>Result</returns>
-        public virtual bool IsSet(string key)
-        {
-            return (Cache.Contains(key));
-        }
+        public IEnumerable<string> Keys => Cache.Select(p => p.Key);
 
         /// <summary>
         ///     Removes the value with the specified key from the cache
@@ -62,15 +59,6 @@ namespace Saturn72.Core.Caching
         public virtual void Remove(string key)
         {
             Cache.Remove(key);
-        }
-
-        /// <summary>
-        ///     Removes items by pattern
-        /// </summary>
-        /// <param name="pattern">pattern</param>
-        public virtual void RemoveByPattern(string pattern)
-        {
-            this.RemoveByPattern(pattern, Cache.Select(p => p.Key));
         }
 
         /// <summary>

@@ -60,7 +60,7 @@
     <Compile Include="Audit\IDeletedAudit.cs" />
     <Compile Include="Audit\IFullAudit.cs" />
     <Compile Include="Audit\IUpdatedAudit.cs" />
-    <Compile Include="Caching\CachManagerExtensions.cs" />
+    <Compile Include="Caching\CacheManagerExtensions.cs" />
     <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Caching\MemoryCacheManager.cs" />
     <Compile Include="CommonHelper.cs" />
