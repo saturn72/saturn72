@@ -35,12 +35,12 @@ namespace Saturn72.Module.EntityFramework.ContextManagement
             }
         }
 
-        public void QueryNewContext(Action<TDbContext> query)
+        public void CommandNewContext(Action<TDbContext> command)
         {
-
             using (var db = new TDbContext())
             {
-                query(db);
+                command(db);
+                db.SaveChanges();
             }
         }
 

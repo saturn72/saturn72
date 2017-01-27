@@ -5,8 +5,8 @@ namespace Saturn72.Core.Services.Impl.Logging
 {
     public interface ILogRecordRepository
     {
-        LogRecordDomainModel AddLogRecord(LogRecordDomainModel logRecord);
-        IEnumerable<LogRecordDomainModel> GetAllLogRecords();
-        LogRecordDomainModel GetLogRecordById(long logRecordId);
+        LogRecordModel AddLogRecord(LogRecordModel logRecordModel);
+        IEnumerable<LogRecordModel> GetAllLogRecords();
+        LogRecordModel GetLogRecordById(long logRecordId);
     }
 }

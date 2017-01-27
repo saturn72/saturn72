@@ -38,22 +38,22 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
                 LogLevel.Debug, LogLevel.Error, LogLevel.Information
             };
 
-            public void DeleteLogRecord(LogRecordDomainModel logRecord)
+            public void DeleteLogRecord(LogRecordModel logRecord)
             {
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<LogRecordDomainModel> GetAllLogRecords()
+            public IEnumerable<LogRecordModel> GetAllLogRecords()
             {
                 throw new NotImplementedException();
             }
 
-            public LogRecordDomainModel GetLogById(long logRecordId)
+            public LogRecordModel GetLogById(long logRecordId)
             {
                 throw new NotImplementedException();
             }
 
-            public LogRecordDomainModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+            public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
                 Guid contextId = new Guid())
             {
                 throw new NotImplementedException();
@@ -66,22 +66,22 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
                 LogLevel.Debug ,LogLevel.Error ,LogLevel.Information,LogLevel.Fatal
             };
 
-            public void DeleteLogRecord(LogRecordDomainModel logRecord)
+            public void DeleteLogRecord(LogRecordModel logRecord)
             {
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<LogRecordDomainModel> GetAllLogRecords()
+            public IEnumerable<LogRecordModel> GetAllLogRecords()
             {
                 throw new NotImplementedException();
             }
 
-            public LogRecordDomainModel GetLogById(long logRecordId)
+            public LogRecordModel GetLogById(long logRecordId)
             {
                 throw new NotImplementedException();
             }
 
-            public LogRecordDomainModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+            public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
                 Guid contextId = new Guid())
             {
                 throw new NotImplementedException();

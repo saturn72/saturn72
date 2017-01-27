@@ -90,7 +90,7 @@
     <Compile Include="Domain\IDomainModelBase.cs" />
     <Compile Include="Domain\Localization\LocaleResourceDomainModel.cs" />
     <Compile Include="Domain\Logging\LogLevel.cs" />
-    <Compile Include="Domain\Logging\LogRecordDomainModel.cs" />
+    <Compile Include="Domain\Logging\LogRecordModel.cs" />
     <Compile Include="Domain\Notifications\NotificationDomainModel.cs" />
     <Compile Include="Domain\Notifications\NotificationSubscription.cs" />
     <Compile Include="Domain\Security\PermissionRecord.cs" />

@@ -29,9 +29,9 @@ namespace Saturn72.Core.Logging
         /// <param name="logger">the logger</param>
         /// <param name="logIds">Log item identifiers</param>
         /// <returns>Log items</returns>
-        public static IEnumerable<LogRecordDomainModel> GetLogByIds(this ILogger logger, long[] logIds)
+        public static IEnumerable<LogRecordModel> GetLogByIds(this ILogger logger, long[] logIds)
         {
-            var result = new List<LogRecordDomainModel>();
+            var result = new List<LogRecordModel>();
             logIds.ForEachItem(li =>
             {
                 var lr = logger.GetLogById(li);

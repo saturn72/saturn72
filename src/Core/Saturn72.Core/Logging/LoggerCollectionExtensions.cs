@@ -11,7 +11,7 @@ namespace Saturn72.Core.Logging
 {
     public static class LoggerCollectionExtensions
     {
-        public static async void DeleteLogRecord(this IEnumerable<ILogger> loggers, LogRecordDomainModel logRecord)
+        public static async void DeleteLogRecord(this IEnumerable<ILogger> loggers, LogRecordModel logRecord)
         {
             await IterateLoggersAsync(loggers, logger => logger.DeleteLogRecord(logRecord));
         }

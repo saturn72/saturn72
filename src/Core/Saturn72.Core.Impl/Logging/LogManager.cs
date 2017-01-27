@@ -24,24 +24,24 @@ namespace Saturn72.Core.Services.Impl.Logging
 
         public LogLevel[] SupportedLogLevels { get; private set; }
 
-        public void DeleteLogRecord(LogRecordDomainModel logRecord)
+        public void DeleteLogRecord(LogRecordModel logRecord)
         {
             LoggerCollection[logRecord.LogLevel].DeleteLogRecord(logRecord);
         }
 
-        public IEnumerable<LogRecordDomainModel> GetAllLogRecords()
+        public IEnumerable<LogRecordModel> GetAllLogRecords()
         {
-            var result = new List<LogRecordDomainModel>();
+            var result = new List<LogRecordModel>();
             AllLoggers.ForEachItem(l => result.AddRange(l.GetAllLogRecords()));
             return result;
         }
 
-        public LogRecordDomainModel GetLogById(long logRecordId)
+        public LogRecordModel GetLogById(long logRecordId)
         {
             throw new NotSupportedException();
         }
 
-        public LogRecordDomainModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+        public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
             Guid contextId = new Guid())
         {
             LoggerCollection[logLevel].ForEachItem(l =>

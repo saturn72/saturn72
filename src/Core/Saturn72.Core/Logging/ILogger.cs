@@ -19,20 +19,20 @@ namespace Saturn72.Core.Logging
         ///     Deletes a logRecord item
         /// </summary>
         /// <param name="logRecord">Log item</param>
-        void DeleteLogRecord(LogRecordDomainModel logRecord);
+        void DeleteLogRecord(LogRecordModel logRecord);
 
         /// <summary>
         ///     Gets all logRecord items
         /// </summary>
         /// <returns>LogRecord{} <see cref="LogRecord{object}" /></returns>
-        IEnumerable<LogRecordDomainModel> GetAllLogRecords();
+        IEnumerable<LogRecordModel> GetAllLogRecords();
 
         /// <summary>
         ///     Gets a logRecord item
         /// </summary>
         /// <param name="logRecordId"></param>
         /// <returns>Log item</returns>
-        LogRecordDomainModel GetLogById(long logRecordId);
+        LogRecordModel GetLogById(long logRecordId);
 
         /// <summary>
         ///     Inserts a logRecord item
@@ -42,7 +42,7 @@ namespace Saturn72.Core.Logging
         /// <param name="fullMessage">The full message</param>
         /// <param name="contextId">Operation contextId id</param>
         /// <returns>A logRecord item</returns>
-        LogRecordDomainModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+        LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
             Guid contextId = default(Guid));
     }
 }

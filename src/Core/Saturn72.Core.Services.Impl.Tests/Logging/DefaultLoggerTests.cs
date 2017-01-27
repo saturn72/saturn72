@@ -38,15 +38,15 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         public void DefaultLogger_InsertLog()
         {
             var lrRepo = new Mock<ILogRecordRepository>();
-            lrRepo.Setup(l => l.AddLogRecord(It.IsAny<LogRecordDomainModel>()))
-                .Returns<LogRecordDomainModel>(l =>
+            lrRepo.Setup(l => l.AddLogRecord(It.IsAny<LogRecordModel>()))
+                .Returns<LogRecordModel>(l =>
                 {
                     l.Id = 100;
                     return l;
                 });
 
             var logger = new DefaultLogger(lrRepo.Object);
-            var expected = new LogRecordDomainModel
+            var expected = new LogRecordModel
             {
                 LogLevel = LogLevel.Debug,
                 ShortMessage = "shortMessage",
@@ -63,10 +63,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
             var lrRepo = new Mock<ILogRecordRepository>();
             var expected = new[]
             {
-                new LogRecordDomainModel(),
-                new LogRecordDomainModel(),
-                new LogRecordDomainModel(),
-                new LogRecordDomainModel()
+                new LogRecordModel(),
+                new LogRecordModel(),
+                new LogRecordModel(),
+                new LogRecordModel()
             };
             lrRepo.Setup(l => l.GetAllLogRecords())
                 .Returns(expected);
@@ -89,7 +89,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         {
             var lrRepo = new Mock<ILogRecordRepository>();
             lrRepo.Setup(l => l.GetLogRecordById(It.IsAny<long>()))
-                .Returns((LogRecordDomainModel) null);
+                .Returns((LogRecordModel) null);
             var logger = new DefaultLogger(lrRepo.Object);
             logger.GetLogById(10).ShouldBeNull();
         }
