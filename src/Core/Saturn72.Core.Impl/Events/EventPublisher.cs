@@ -2,8 +2,8 @@
 
 using System;
 using Saturn72.Core.Logging;
-using Saturn72.Extensions;
 using Saturn72.Core.Services.Events;
+using Saturn72.Extensions;
 
 #endregion
 
@@ -11,8 +11,8 @@ namespace Saturn72.Core.Services.Impl.Events
 {
     public class EventPublisher : IEventPublisher
     {
-        private readonly ISubscriptionService _subscriptionService;
         private readonly ILogger _logger;
+        private readonly ISubscriptionService _subscriptionService;
 
         public EventPublisher(ISubscriptionService subscriptionService, ILogger logger)
         {
@@ -22,12 +22,20 @@ namespace Saturn72.Core.Services.Impl.Events
 
         public void Publish<TEvent>(TEvent eventMessage) where TEvent : EventBase
         {
+            //Async subscribers
+            throw new NotImplementedException("fire and forget to async");
+            var asyncSubscribers = _subscriptionService.GetAsyncSubscriptions<TEvent>();
+
+
+            //TODO: ===> this runs synced, wrap with async executor that gets max number of thread to use
+            asyncSubscribers.ForEachItem(x => PublishToConsumer(async ()=> await x.HandleEvent(eventMessage)));
+            
+            //synced subscribers
             var subscriptions = _subscriptionService.GetSubscriptions<TEvent>();
-            subscriptions.ForEachItem(x => PublishToConsumer(x, eventMessage));
+            subscriptions.ForEachItem(x => PublishToConsumer(()=> x.HandleEvent(eventMessage)));
         }
 
-        protected virtual void PublishToConsumer<TEvent>(IConsumer<TEvent> consumer, TEvent eventMessage)
-            where TEvent : EventBase
+        protected virtual void PublishToConsumer(Action action)
         {
             //TODO: add addons (plugin support)
             ////Ignore not installed plugins
@@ -37,7 +45,7 @@ namespace Saturn72.Core.Services.Impl.Events
 
             try
             {
-                consumer.HandleEvent(eventMessage);
+               action();
             }
             catch (Exception exc)
             {

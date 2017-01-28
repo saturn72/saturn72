@@ -2,7 +2,7 @@
 
 namespace Saturn72.Core.Domain.Users
 {
-    public class UserActivityLogDomainModel : DomainModelBase
+    public class UserActivityLogModel : DomainModelBase
     {
         public long UserId { get; set; }
         public string ActivityTypeCode { get; set; }

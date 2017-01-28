@@ -62,7 +62,7 @@
     <Compile Include="Events\CreatedEvent.cs" />
     <Compile Include="Events\EventBase.cs" />
     <Compile Include="Events\EventPublisherExtensions.cs" />
-    <Compile Include="Events\IConsumer.cs" />
+    <Compile Include="Events\IEventSubscriber.cs" />
     <Compile Include="Events\IEventPublisher.cs" />
     <Compile Include="Events\ISubscriptionService.cs" />
     <Compile Include="Extensibility\IPluginService.cs" />

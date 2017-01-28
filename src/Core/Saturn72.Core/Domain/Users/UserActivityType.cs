@@ -9,7 +9,7 @@ namespace Saturn72.Core.Domain.Users
         public static readonly UserActivityType Login = new UserActivityType("login", "F30ED5D9-A03F-4928-9336-1B616CCB54D4", "UserActivityType.Login");
 
 
-        private UserActivityType(string name, string code, string systemName)
+        protected UserActivityType(string name, string code, string systemName)
         {
             Name = name;
             Code = code;

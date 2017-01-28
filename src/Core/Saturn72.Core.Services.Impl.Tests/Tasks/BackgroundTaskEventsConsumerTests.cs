@@ -44,11 +44,11 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         [Test]
         public void HandleEvent_ThrowsOnNull()
         {
-            typeof(NullReferenceException).ShouldBeThrownBy(() => new BackgroundTaskEventsConsumer().HandleEvent(null));
+            typeof(NullReferenceException).ShouldBeThrownBy(() => new BackgroundTaskEventsEventSubscriber().HandleEvent(null));
             var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel>(null);
 
             typeof(NullReferenceException).ShouldBeThrownBy(
-                () => new BackgroundTaskEventsConsumer().HandleEvent(eventMsg));
+                () => new BackgroundTaskEventsEventSubscriber().HandleEvent(eventMsg));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
 
             var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel>(model);
 
-            var handler = new BackgroundTaskEventsConsumer();
+            var handler = new BackgroundTaskEventsEventSubscriber();
             handler.HandleEvent(eventMsg);
 
             Items.Count.ShouldEqual(1);

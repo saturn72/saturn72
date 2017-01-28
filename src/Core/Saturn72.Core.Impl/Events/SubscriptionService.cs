@@ -10,9 +10,14 @@ namespace Saturn72.Core.Services.Impl.Events
 {
     public class SubscriptionService : ISubscriptionService
     {
-        public IEnumerable<IConsumer<TEvent>> GetSubscriptions<TEvent>() where TEvent : EventBase
+        public IEnumerable<IEventSubscriber<TEvent>> GetSubscriptions<TEvent>() where TEvent : EventBase
         {
-            return AppEngine.Current.ResolveAll<IConsumer<TEvent>>();
+            return AppEngine.Current.ResolveAll<IEventSubscriber<TEvent>>();
+        }
+
+        public IEnumerable<IEventAsyncSubscriber<TEvent>> GetAsyncSubscriptions<TEvent>() where TEvent : EventBase
+        {
+            return AppEngine.Current.ResolveAll<IEventAsyncSubscriber<TEvent>>();
         }
     }
 }
