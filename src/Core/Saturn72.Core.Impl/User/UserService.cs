@@ -32,19 +32,19 @@ namespace Saturn72.Core.Services.Impl.User
             _auditHelper = auditHelper;
         }
 
-        public Task<IEnumerable<UserDomainModel>> GetAllUsersAsync()
+        public Task<IEnumerable<UserModel>> GetAllUsersAsync()
         {
             return
                 Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUserCacheKey, () => _userRepository.GetAll()));
         }
 
-        public async Task<UserDomainModel> GetUserByUsername(string username)
+        public async Task<UserModel> GetUserByUsername(string username)
         {
             Guard.HasValue(username);
             return await GetUserByFuncAndCacheIfExists(u => u.Active && u.Username == username);
         }
 
-        public async Task<UserDomainModel> GetUserByEmail(string email)
+        public async Task<UserModel> GetUserByEmail(string email)
         {
             Guard.HasValue(email);
             Guard.MustFollow(CommonHelper.IsValidEmail(email), "invalid email address");
@@ -59,7 +59,7 @@ namespace Saturn72.Core.Services.Impl.User
                 _cacheManager.Get(UserRolesUserCacheKey, () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleDomainModel[] {}));
         }
 
-        public async Task UpdateUser(UserDomainModel user)
+        public async Task UpdateUser(UserModel user)
         {
             Guard.NotNull(user);
             _auditHelper.PrepareForUpdateAudity(user);
@@ -68,7 +68,7 @@ namespace Saturn72.Core.Services.Impl.User
             _eventPublisher.DomainModelUpdated(user);
         }
 
-        protected virtual async Task<UserDomainModel> GetUserByFuncAndCacheIfExists(Func<UserDomainModel, bool> func)
+        protected virtual async Task<UserModel> GetUserByFuncAndCacheIfExists(Func<UserModel, bool> func)
         {
             Guard.NotNull(func);
             var allUsers = await GetAllUsersAsync();
@@ -78,7 +78,7 @@ namespace Saturn72.Core.Services.Impl.User
             return user;
         }
 
-        public async Task<UserDomainModel> GetUserBy(Func<UserDomainModel, bool> func)
+        public async Task<UserModel> GetUserBy(Func<UserModel, bool> func)
         {
             var users = await GetAllUsersAsync();
             return users.FirstOrDefault(func);

@@ -43,7 +43,7 @@ namespace Saturn72.Core.Services.Impl.User
 
             EncryptPassword(request);
 
-            var user = new UserDomainModel
+            var user = new UserModel
             {
                 Username = _userSettings.ValidateByEmail ? null : request.UsernameOrEmail,
                 UserGuid = Guid.NewGuid(),
@@ -76,7 +76,7 @@ namespace Saturn72.Core.Services.Impl.User
             return true;
         }
 
-        private bool ValidatePassword(UserDomainModel user, string password)
+        private bool ValidatePassword(UserModel user, string password)
         {
             switch (user.PasswordFormat)
             {

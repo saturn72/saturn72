@@ -131,7 +131,7 @@ namespace Saturn72.Module.Owin.Providers
             context.Validated(ticket);
         }
 
-        private void AddUserRoles(ClaimsIdentity identity, UserDomainModel user)
+        private void AddUserRoles(ClaimsIdentity identity, UserModel user)
         {
             _userService.LoadUserRoles(user);
             foreach (var ur in user.UserRoles)

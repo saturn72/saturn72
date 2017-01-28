@@ -36,7 +36,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                .Returns(ipaddress);
 
             var srv = new UserActivityLogService(ualRepo.Object);
-            var user = new UserDomainModel
+            var user = new UserModel
             {
                 Id = 100,
                 UserGuid = new Guid("EA57D1C7-4575-4961-8A0C-7085E562B4A7"),

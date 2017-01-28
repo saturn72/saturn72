@@ -6,7 +6,7 @@ namespace Saturn72.Core.Services.User
 {
     public static class UserServiceExtensions
     {
-        public static async void LoadUserRoles(this IUserService userService, UserDomainModel user)
+        public static async void LoadUserRoles(this IUserService userService, UserModel user)
         {
             Guard.NotNull(user);
 

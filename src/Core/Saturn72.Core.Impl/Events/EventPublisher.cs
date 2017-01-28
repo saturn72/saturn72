@@ -26,19 +26,11 @@ namespace Saturn72.Core.Services.Impl.Events
             //Async subscribers
             //NOTE: IIS might "fold" the applicaiton pool when threads are in middle of execution
             var asyncSubscribers = _subscriptionService.GetAsyncSubscriptions<TEvent>();
+            var parallelOptions = new ParallelOptions {MaxDegreeOfParallelism = 10};
 
-            var mxTheadsNum = 10;
-            if (mxTheadsNum == 0)
-                mxTheadsNum = 4;
-
-            var parallelOptions = new ParallelOptions {MaxDegreeOfParallelism = mxTheadsNum};
-
-            Task.Run(() =>
-            {
-                return Parallel.ForEach(asyncSubscribers,
-                    parallelOptions,
-                    a => a.HandleEvent(eventMessage));
-            });
+            Parallel.ForEach(asyncSubscribers,
+                parallelOptions,
+                a => a.HandleEvent(eventMessage));
 
             //synced subscribers
             var subscriptions = _subscriptionService.GetSubscriptions<TEvent>();

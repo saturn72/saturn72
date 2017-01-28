@@ -28,53 +28,47 @@ namespace Saturn72.Common.Data
             return UnitOfWork.GetAll();
         }
 
-        public TDomainModel GetById(long id)
+        public virtual TDomainModel GetById(long id)
         {
             return UnitOfWork.GetById(id);
         }
 
-        public TDomainModel Update(TDomainModel model)
+        public virtual TDomainModel Update(TDomainModel model)
         {
             Guard.NotNull(model);
 
             return UnitOfWork.Update(model);
         }
 
-        public TDomainModel Create(TDomainModel model)
+        public virtual TDomainModel Create(TDomainModel channelModel)
         {
-            Guard.NotNull(model);
+            Guard.NotNull(channelModel);
 
-            return UnitOfWork.Create(model);
+            return UnitOfWork.Create(channelModel);
         }
-
-        public async Task<TDomainModel> CreateAsync(TDomainModel model)
-        {
-            return await UnitOfWork.CreateAsync(model);
-        }
-
-        public void Delete(long id)
+        public virtual void Delete(long id)
         {
             if (UnitOfWork.Delete(id) <= 0)
                 throw new InvalidOperationException(
                     "Failed to delete table row. Type: {0}, row Id: {1}".AsFormat(typeof(TEntity), id));
         }
 
-        public void Delete(IEnumerable<long> ids)
+        public virtual void Delete(IEnumerable<long> ids)
         {
             UnitOfWork.Delete(ids);
         }
 
-        public void Delete(TDomainModel model)
+        public virtual void Delete(TDomainModel model)
         {
             Delete(model.Id);
         }
 
-        public void Delete(IEnumerable<TDomainModel> models)
+        public virtual void Delete(IEnumerable<TDomainModel> models)
         {
             UnitOfWork.Delete(models.Select(x => x.Id));
         }
 
-        public IEnumerable<TDomainModel> GetBy(Func<TDomainModel, bool> func)
+        public virtual IEnumerable<TDomainModel> GetBy(Func<TDomainModel, bool> func)
         {
             return UnitOfWork.GetAll().Where(func).ToArray();
         }

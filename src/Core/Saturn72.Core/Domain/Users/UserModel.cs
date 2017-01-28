@@ -8,7 +8,7 @@ using Saturn72.Core.Audit;
 
 namespace Saturn72.Core.Domain.Users
 {
-    public class UserDomainModel : DomainModelBase, IFullAudit
+    public class UserModel : DomainModelBase, IFullAudit
     {
         #region Fields
 
@@ -16,7 +16,7 @@ namespace Saturn72.Core.Domain.Users
 
         #endregion
 
-        public UserDomainModel()
+        public UserModel()
         {
             UserGuid = Guid.NewGuid();
             PasswordFormat = PasswordFormat.Clear;

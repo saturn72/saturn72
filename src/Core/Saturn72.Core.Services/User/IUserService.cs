@@ -6,11 +6,11 @@ namespace Saturn72.Core.Services.User
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserDomainModel>> GetAllUsersAsync();
+        Task<IEnumerable<UserModel>> GetAllUsersAsync();
 
-        Task<UserDomainModel> GetUserByUsername(string username);
-        Task<UserDomainModel> GetUserByEmail(string email);
+        Task<UserModel> GetUserByUsername(string username);
+        Task<UserModel> GetUserByEmail(string email);
         Task<IEnumerable<UserRoleDomainModel>> GetUserUserRolesByUserIdAsync(long userId);
-        Task UpdateUser(UserDomainModel user);
+        Task UpdateUser(UserModel user);
     }
 }

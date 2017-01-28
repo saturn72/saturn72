@@ -111,7 +111,7 @@
     <Compile Include="Tasks\IBackgroundTaskType.cs" />
     <Compile Include="Domain\Users\PasswordFormat.cs" />
     <Compile Include="Domain\Users\SystemUserRoleNames.cs" />
-    <Compile Include="Domain\Users\UserDomainModel.cs" />
+    <Compile Include="Domain\Users\UserModel.cs" />
     <Compile Include="Domain\Users\UserExtensions.cs" />
     <Compile Include="Domain\Users\UserRoleDomainModel.cs" />
     <Compile Include="Exceptions\Saturn72Exception.cs" />

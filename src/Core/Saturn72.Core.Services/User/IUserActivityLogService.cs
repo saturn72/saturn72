@@ -6,6 +6,6 @@ namespace Saturn72.Core.Services.User
 {
     public interface IUserActivityLogService
     {
-        Task<UserActivityLogModel> AddUserActivityLogAsync(UserActivityType userActivityType, UserDomainModel user);
+        Task<UserActivityLogModel> AddUserActivityLogAsync(UserActivityType userActivityType, UserModel user);
     }
 }

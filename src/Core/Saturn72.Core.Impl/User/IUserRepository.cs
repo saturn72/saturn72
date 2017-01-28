@@ -9,7 +9,7 @@ using Saturn72.Core.Domain.Users;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public interface IUserRepository : IRepository<UserDomainModel>
+    public interface IUserRepository : IRepository<UserModel>
     {
         IEnumerable<UserRoleDomainModel> GetUserUserRoles(long userId);
     }

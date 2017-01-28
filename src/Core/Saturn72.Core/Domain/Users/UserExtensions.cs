@@ -15,7 +15,7 @@ namespace Saturn72.Core.Domain.Users
         /// <param name="user">Customer</param>
         /// <param name="onlyActiveCustomerRoles">A value indicating whether we should look only in active user roles</param>
         /// <returns>Result</returns>
-        public static bool IsRegistered(this UserDomainModel user, bool onlyActiveCustomerRoles = true)
+        public static bool IsRegistered(this UserModel user, bool onlyActiveCustomerRoles = true)
         {
             return IsInUserRole(user, SystemUserRoleNames.Registered, onlyActiveCustomerRoles);
         }
@@ -27,7 +27,7 @@ namespace Saturn72.Core.Domain.Users
         /// <param name="userRoleSystemName">Customer role system name</param>
         /// <param name="onlyActiveUserRoles">A value indicating whether we should look only in active user roles</param>
         /// <returns>Result</returns>
-        public static bool IsInUserRole(this UserDomainModel user, string userRoleSystemName,
+        public static bool IsInUserRole(this UserModel user, string userRoleSystemName,
             bool onlyActiveUserRoles = true)
         {
             if (user == null)

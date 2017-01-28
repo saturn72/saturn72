@@ -16,7 +16,7 @@ namespace Saturn72.Core.Services.Impl.User
         }
 
         public Task<UserActivityLogModel> AddUserActivityLogAsync(UserActivityType userActivityType,
-            UserDomainModel user)
+            UserModel user)
         {
             Guard.NotNull(new object[] {userActivityType, user});
             var ual = new UserActivityLogModel

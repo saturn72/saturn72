@@ -41,7 +41,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
             {
                 new NotificationSubscriber
                 {
-                    UserDomainModel = new UserDomainModel {Email = "roi@re-sec.com"}
+                    UserDomainModel = new UserModel {Email = "roi@re-sec.com"}
                 }
                 //new NotificationSubscriber
                 //{
