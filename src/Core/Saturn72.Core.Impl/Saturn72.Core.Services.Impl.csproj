@@ -58,6 +58,7 @@
     <Compile Include="Configuration\SettingsService.cs" />
     <Compile Include="DomainModelCrudServiceBase.cs" />
     <Compile Include="Events\EventPublisher.cs" />
+    <Compile Include="Events\EventPublisherSettings.cs" />
     <Compile Include="Events\SubscriptionService.cs" />
     <Compile Include="Extensibility\PluginService.cs" />
     <Compile Include="Localization\ILocaleResourceRespository.cs" />

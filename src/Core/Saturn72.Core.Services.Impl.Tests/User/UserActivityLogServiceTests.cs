@@ -25,9 +25,9 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var testStartedOnUtc = DateTime.UtcNow;
 
             var ualRepo = new Mock<IUserActivityLogRepository>();
-            ualRepo.Setup(u => u.AddUserActivityLog(It.IsAny<UserActivityLogDomainModel>()))
-                .Callback<UserActivityLogDomainModel>(c=>c.Id = 123)
-                .Returns<UserActivityLogDomainModel>(ual => ual);
+            ualRepo.Setup(u => u.AddUserActivityLog(It.IsAny<UserActivityLogModel>()))
+                .Callback<UserActivityLogModel>(c=>c.Id = 123)
+                .Returns<UserActivityLogModel>(ual => ual);
 
             var wc = new Mock<IWorkContext>();
             var clientid = "clientId";

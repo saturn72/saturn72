@@ -15,11 +15,11 @@ namespace Saturn72.Core.Services.Impl.User
             _userActivityLogRepository = userActivityLogRepository;
         }
 
-        public Task<UserActivityLogDomainModel> AddUserActivityLogAsync(UserActivityType userActivityType,
+        public Task<UserActivityLogModel> AddUserActivityLogAsync(UserActivityType userActivityType,
             UserDomainModel user)
         {
             Guard.NotNull(new object[] {userActivityType, user});
-            var ual = new UserActivityLogDomainModel
+            var ual = new UserActivityLogModel
             {
                 ActivityDateUtc = DateTime.UtcNow,
                 UserId = user.Id,

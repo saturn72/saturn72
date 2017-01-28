@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Threading.Tasks;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
 using Saturn72.Extensions;
@@ -13,26 +14,37 @@ namespace Saturn72.Core.Services.Impl.Events
     {
         private readonly ILogger _logger;
         private readonly ISubscriptionService _subscriptionService;
+        private readonly EventPublisherSettings _settings;
 
-        public EventPublisher(ISubscriptionService subscriptionService, ILogger logger)
+        public EventPublisher(ISubscriptionService subscriptionService, ILogger logger, EventPublisherSettings settings)
         {
             _subscriptionService = subscriptionService;
             _logger = logger;
+            _settings = settings;
         }
 
         public void Publish<TEvent>(TEvent eventMessage) where TEvent : EventBase
         {
             //Async subscribers
-            throw new NotImplementedException("fire and forget to async");
+            //NOTE: IIS might "fold" the applicaiton pool when threads are in middle of execution
             var asyncSubscribers = _subscriptionService.GetAsyncSubscriptions<TEvent>();
 
+            var mxTheadsNum = _settings.MaxNumberOfThreads;
+            if (mxTheadsNum == 0)
+                mxTheadsNum = 4;
 
-            //TODO: ===> this runs synced, wrap with async executor that gets max number of thread to use
-            asyncSubscribers.ForEachItem(x => PublishToConsumer(async ()=> await x.HandleEvent(eventMessage)));
-            
+            var parallelOptions = new ParallelOptions {MaxDegreeOfParallelism = mxTheadsNum};
+
+            Task.Run(() =>
+            {
+                return Parallel.ForEach(asyncSubscribers,
+                    parallelOptions,
+                    a => a.HandleEvent(eventMessage));
+            });
+
             //synced subscribers
             var subscriptions = _subscriptionService.GetSubscriptions<TEvent>();
-            subscriptions.ForEachItem(x => PublishToConsumer(()=> x.HandleEvent(eventMessage)));
+            subscriptions.ForEachItem(x => PublishToConsumer(() => x.HandleEvent(eventMessage)));
         }
 
         protected virtual void PublishToConsumer(Action action)
@@ -45,7 +57,7 @@ namespace Saturn72.Core.Services.Impl.Events
 
             try
             {
-               action();
+                action();
             }
             catch (Exception exc)
             {
