@@ -20,7 +20,6 @@ using Saturn72.Core.Configuration;
 using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Services;
 using Saturn72.Extensions;
 using Saturn72.Module.Owin.Adapters;
 using Saturn72.Module.Owin.Middlewares;
@@ -31,7 +30,7 @@ using ITraceWriter = System.Web.Http.Tracing.ITraceWriter;
 
 namespace Saturn72.Module.Owin
 {
-    internal class Startup 
+    internal class Startup
     {
         private readonly IDictionary<string, IConfigMap> _configurations;
 

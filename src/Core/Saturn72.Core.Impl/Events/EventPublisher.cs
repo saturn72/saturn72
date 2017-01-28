@@ -14,13 +14,11 @@ namespace Saturn72.Core.Services.Impl.Events
     {
         private readonly ILogger _logger;
         private readonly ISubscriptionService _subscriptionService;
-        private readonly EventPublisherSettings _settings;
 
-        public EventPublisher(ISubscriptionService subscriptionService, ILogger logger, EventPublisherSettings settings)
+        public EventPublisher(ISubscriptionService subscriptionService, ILogger logger)
         {
             _subscriptionService = subscriptionService;
             _logger = logger;
-            _settings = settings;
         }
 
         public void Publish<TEvent>(TEvent eventMessage) where TEvent : EventBase
@@ -29,7 +27,7 @@ namespace Saturn72.Core.Services.Impl.Events
             //NOTE: IIS might "fold" the applicaiton pool when threads are in middle of execution
             var asyncSubscribers = _subscriptionService.GetAsyncSubscriptions<TEvent>();
 
-            var mxTheadsNum = _settings.MaxNumberOfThreads;
+            var mxTheadsNum = 10;
             if (mxTheadsNum == 0)
                 mxTheadsNum = 4;
 
