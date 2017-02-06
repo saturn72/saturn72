@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Domain.Security;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.Events;
+using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.User;
 using Saturn72.Extensions;
 
@@ -18,15 +20,17 @@ namespace Saturn72.Core.Services.Impl.User
     {
         private const string UserRolesUserCacheKey = "Saturn72_User{0}_UserRoles";
         private const string UserCacheKey = "saturn72. User-{0}";
+        private readonly AuditHelper _auditHelper;
         private readonly ICacheManager _cacheManager;
         private readonly IEventPublisher _eventPublisher;
 
         private readonly IUserRepository _userRepository;
-        private readonly AuditHelper _auditHelper;
+        private readonly IPermissionRecordRepository _permissionRepository;
 
-        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, AuditHelper auditHelper)
+        public UserService(IUserRepository userRepository, IPermissionRecordRepository permissionRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, AuditHelper auditHelper)
         {
             _userRepository = userRepository;
+            _permissionRepository = permissionRepository;
             _eventPublisher = eventPublisher;
             _cacheManager = cacheManager;
             _auditHelper = auditHelper;
@@ -53,10 +57,11 @@ namespace Saturn72.Core.Services.Impl.User
 
         public Task<IEnumerable<UserRoleDomainModel>> GetUserUserRolesByUserIdAsync(long userId)
         {
-            Guard.GreaterThan(userId, (long) 0);
+            Guard.GreaterThan(userId, (long)0);
 
             return Task.FromResult(
-                _cacheManager.Get(UserRolesUserCacheKey.AsFormat(userId), () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleDomainModel[] {}));
+                _cacheManager.Get(UserRolesUserCacheKey.AsFormat(userId),
+                    () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleDomainModel[] { }));
         }
 
         public async Task UpdateUser(UserModel user)
@@ -68,6 +73,20 @@ namespace Saturn72.Core.Services.Impl.User
             _eventPublisher.DomainModelUpdated(user);
         }
 
+        public async Task<IEnumerable<PermissionRecordModel>> GetUserPermissionsAsync(long userId)
+        {
+            Guard.GreaterThan(userId, (long)0);
+
+            return await Task.Run(() => _permissionRepository.GetUserPermissions(userId));
+        }
+
+        public async Task<UserModel> GetUserBy(Func<UserModel, bool> func)
+        {
+            var users = await GetAllUsersAsync();
+            return users.FirstOrDefault(func);
+        }
+
+
         protected virtual async Task<UserModel> GetUserByFuncAndCacheIfExists(Func<UserModel, bool> func)
         {
             Guard.NotNull(func);
@@ -76,12 +95,6 @@ namespace Saturn72.Core.Services.Impl.User
             if (user.NotNull())
                 _cacheManager.SetIfNotExists(UserCacheKey.AsFormat(user.Id), user);
             return user;
-        }
-
-        public async Task<UserModel> GetUserBy(Func<UserModel, bool> func)
-        {
-            var users = await GetAllUsersAsync();
-            return users.FirstOrDefault(func);
         }
     }
 }

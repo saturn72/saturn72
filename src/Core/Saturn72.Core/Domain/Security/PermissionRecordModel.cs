@@ -1,6 +1,6 @@
 ﻿namespace Saturn72.Core.Domain.Security
 {
-    public class PermissionRecord : DomainModelBase
+    public class PermissionRecordModel : DomainModelBase
     {
         /// <summary>
         ///     Gets or sets the permission name
@@ -20,5 +20,10 @@
         /// Gets or sets unique key for the permission
         /// </summary>
         public string UniqueKey { get; set; }
+
+        /// <summary>
+        /// Getsor sets permission record description
+        /// </summary>
+        public string Description { get; set; }
     }
 }

@@ -44,7 +44,8 @@ namespace Saturn72.Core.Services.Impl
             if (audit.IsNull())
                 return;
 
-            if (audit.DeletedOnUtc.NotNull() || audit.DeletedByUserId != 0 || audit.Deleted)
+            Func<bool> deletedByUser = () => audit.DeletedByUserId.NotNull() && audit.DeletedByUserId.Value > 0;
+            if (audit.DeletedOnUtc.NotNull() || audit.Deleted || deletedByUser())
                 throw new InvalidOperationException("DeletedAudit already deleted.");
 
             audit.DeletedOnUtc = DateTime.UtcNow;

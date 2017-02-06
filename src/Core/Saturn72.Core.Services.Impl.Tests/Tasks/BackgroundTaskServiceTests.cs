@@ -49,6 +49,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
 
         [Test]
         [Category("sanity")]
+        [Ignore("Sanity is not ready yet")]
         public void AddsBackgroundTasks_CrudToDatabase()
         {
             var btList = new List<BackgroundTaskDomainModel>();

@@ -131,7 +131,7 @@ namespace Saturn72.Core.Services.Impl.Tests
         }
 
         [Test]
-        public void AuditHelper_PrepareForDelete_AddAudity()
+        public void AuditHelper_PrepareForDelete_AddAudity_DeletedByNotAssigned()
         {
             var wc = new Mock<IWorkContext>();
             var userId = 100;
@@ -149,6 +149,36 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit.Deleted.ShouldBeTrue();
 
         }
+
+        [Test]
+        public void AuditHelper_PrepareForDelete_AddAudity_DeletedByAssignedToIllegalUser()
+        {
+            var wc = new Mock<IWorkContext>();
+            var userId = 100;
+            wc.Setup(w => w.CurrentUserId)
+                .Returns(userId)
+                .Callback(() => Thread.Sleep(50));
+
+            var aHelper = new AuditHelper(wc.Object);
+            var audit1 = new DummyFullAudit();
+            audit1.DeletedByUserId = 0;
+            aHelper.PrepareForDeleteAudity(audit1);
+
+            audit1.DeletedByUserId.ShouldEqual(userId);
+            audit1.DeletedOnUtc.ShouldNotBeNull();
+            audit1.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit1.Deleted.ShouldBeTrue();
+
+            var audit2 = new DummyFullAudit();
+            audit2.DeletedByUserId = -123;
+            aHelper.PrepareForDeleteAudity(audit2);
+
+            audit2.DeletedByUserId.ShouldEqual(userId);
+            audit2.DeletedOnUtc.ShouldNotBeNull();
+            audit2.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit2.Deleted.ShouldBeTrue();
+        }
+
         internal class DummyFullAudit : IFullAudit
         {
             public DateTime CreatedOnUtc { get; set; }

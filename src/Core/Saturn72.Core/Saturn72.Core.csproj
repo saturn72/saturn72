@@ -93,7 +93,7 @@
     <Compile Include="Domain\Logging\LogRecordModel.cs" />
     <Compile Include="Domain\Notifications\NotificationDomainModel.cs" />
     <Compile Include="Domain\Notifications\NotificationSubscription.cs" />
-    <Compile Include="Domain\Security\PermissionRecord.cs" />
+    <Compile Include="Domain\Security\PermissionRecordModel.cs" />
     <Compile Include="Domain\Security\RefreshTokenDomainModel.cs" />
     <Compile Include="Domain\Tasks\BackgroundTaskAttachtmentDomainModel.cs" />
     <Compile Include="Domain\Tasks\BackgroundTaskDomainModel.cs" />

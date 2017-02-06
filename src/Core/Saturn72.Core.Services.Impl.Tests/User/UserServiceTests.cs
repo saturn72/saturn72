@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Users;
+using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.UnitTesting.Framework;
 
@@ -15,7 +16,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserUserRolesByUserId_Throws()
         {
-            var srv = new UserService(null, null, null, null);
+            var srv = new UserService(null, null, null, null, null);
             //on illegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(0));
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(-123));
@@ -29,13 +30,13 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 .Returns(false);
 
             //On not exists userroles
-            srv = new UserService(userRepo.Object, null, cm.Object, null);
+            srv = new UserService(userRepo.Object, null, null, cm.Object, null);
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
             //On exists userroles
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(new List<UserRoleDomainModel>());
 
-            srv = new UserService(userRepo.Object, null, cm.Object, null);
+            srv = new UserService(userRepo.Object, null, null, cm.Object, null);
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
         }
 
@@ -80,7 +81,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             cm.Setup(c => c.IsSet(It.IsAny<string>()))
                 .Returns(false);
 
-            var srv = new UserService(userRepo.Object, null, cm.Object, null);
+            var srv = new UserService(userRepo.Object, null, null, cm.Object, null);
 
             var actural = srv.GetUserUserRolesByUserIdAsync(123).Result;
 
@@ -101,6 +102,32 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             cm.Verify(c => c.Set(cacheKey, It.IsAny<object>(), It.IsAny<int>()), Times.Once);
         }
 
-        //Validate caching
+        [Test]
+        public void UserService_GetUserPermissions_ReturnsNull()
+        {
+            var pRepo = new Mock<IPermissionRecordRepository>();
+            pRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
+                .Returns(() => null);
+
+            var srv = new UserService(null, pRepo.Object, null, null, null);
+            srv.GetUserPermissionsAsync(111).Result.ShouldBeNull();
+        }
+
+        [Test]
+        public void UserService_GetUserPermissions_ReturnsPermissions()
+        {
+            var expected = TestPermissionRecords.PermisisonCollection1;
+
+            var pRepo = new Mock<IPermissionRecordRepository>();
+            pRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
+                .Returns(() => expected);
+
+            var srv = new UserService(null, pRepo.Object, null, null, null);
+            var res = srv.GetUserPermissionsAsync(111).Result;
+
+            res.Count().ShouldEqual(expected.Count());
+            for (var i = 0; i < res.Count(); i++)
+                res.ElementAt(i).PropertyValuesAreEquals(expected.ElementAt(i));
+        }
     }
 }

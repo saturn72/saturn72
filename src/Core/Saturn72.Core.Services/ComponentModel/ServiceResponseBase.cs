@@ -3,11 +3,17 @@ using System.Linq;
 
 namespace Saturn72.Core.Services.ComponentModel
 {
-    public abstract class ServiceRequestBase<T> where T : class
+    public abstract class ServiceResponseBase
     {
         private IEnumerable<string> _errorMessages;
-        public T Result { get; protected set; }
-        public bool IsValid => ErrorMessages.Any();
+        private bool _isValid = true;
+        private bool _authorized = true;
+
+        public virtual bool IsValid
+        {
+            get { return _isValid && !ErrorMessages.Any(); }
+            set { _isValid = value; }
+        }
 
         public virtual IEnumerable<string> ErrorMessages
         {
@@ -15,9 +21,20 @@ namespace Saturn72.Core.Services.ComponentModel
             protected set { _errorMessages = value; }
         }
 
-        protected void AddErrorMessage(string errorMessage)
+        public virtual bool Authorized
         {
-            ((ICollection<string>) ErrorMessages).Add(errorMessage);
+            get { return _authorized; }
+            set
+            {
+                _authorized = value;
+                if (!value)
+                    AddErrorMessage("Unauthorized request");
+            }
+        }
+
+        public void AddErrorMessage(string errorMessage)
+        {
+            ((ICollection<string>)ErrorMessages).Add(errorMessage);
         }
     }
 }

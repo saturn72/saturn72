@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Authentication\IClientAppService.cs" />
     <Compile Include="Authentication\IAuthenticationService.cs" />
+    <Compile Include="ComponentModel\ServiceResponseBase.cs" />
     <Compile Include="Configuration\ISettingsService.cs" />
     <Compile Include="Events\IEventAsyncSubscriber.cs" />
     <Compile Include="Extensibility\IPluginManager.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Notifications\NotificationSubscriber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileUpload\FileUploadRequest.cs" />
-    <Compile Include="ComponentModel\ServiceResponseBase.cs" />
+    <Compile Include="ComponentModel\ServiceModelResponse.cs" />
     <Compile Include="Security\FileValidationRequest.cs" />
     <Compile Include="Security\FileValidationResult.cs" />
     <Compile Include="Security\FileValidationResultCode.cs" />

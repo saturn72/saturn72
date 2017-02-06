@@ -9,7 +9,7 @@ namespace Saturn72.Core.Domain.Users
 {
     public class UserRoleDomainModel : DomainModelBase
     {
-        private ICollection<PermissionRecord> _permissionRecords;
+        private ICollection<PermissionRecordModel> _permissionRecords;
 
         /// <summary>
         ///     Gets or sets the customer role name
@@ -34,9 +34,9 @@ namespace Saturn72.Core.Domain.Users
         /// <summary>
         ///     Gets or sets the permission records
         /// </summary>
-        public virtual ICollection<PermissionRecord> PermissionRecords
+        public virtual ICollection<PermissionRecordModel> PermissionRecords
         {
-            get { return _permissionRecords ?? (_permissionRecords = new List<PermissionRecord>()); }
+            get { return _permissionRecords ?? (_permissionRecords = new List<PermissionRecordModel>()); }
             protected set { _permissionRecords = value; }
         }
     }
