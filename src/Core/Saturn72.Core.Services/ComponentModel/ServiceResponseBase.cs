@@ -9,7 +9,7 @@ namespace Saturn72.Core.Services.ComponentModel
         private bool _isValid = true;
         private bool _authorized = true;
 
-        public virtual bool IsValid
+        public virtual bool Commited
         {
             get { return _isValid && !ErrorMessages.Any(); }
             set { _isValid = value; }

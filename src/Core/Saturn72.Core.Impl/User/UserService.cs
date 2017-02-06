@@ -38,8 +38,7 @@ namespace Saturn72.Core.Services.Impl.User
 
         public Task<IEnumerable<UserModel>> GetAllUsersAsync()
         {
-            return
-                Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUserCacheKey, () => _userRepository.GetAll()));
+            return Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUserCacheKey, () => _userRepository.GetAll()));
         }
 
         public async Task<UserModel> GetUserByUsername(string username)
