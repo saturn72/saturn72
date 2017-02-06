@@ -16,5 +16,9 @@
         ///     Gets or sets the permission category
         /// </summary>
         public string Category { get; set; }
+        /// <summary>
+        /// Gets or sets unique key for the permission
+        /// </summary>
+        public string UniqueKey { get; set; }
     }
 }
