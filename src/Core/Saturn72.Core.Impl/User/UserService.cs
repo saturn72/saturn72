@@ -33,7 +33,7 @@ namespace Saturn72.Core.Services.Impl.User
 
         public Task<IEnumerable<UserModel>> GetAllUsersAsync()
         {
-            return Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUserCacheKey, () => _userRepository.GetAll()));
+            return Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUsersCacheKey, () => _userRepository.GetAll()));
         }
 
         public async Task<UserModel> GetUserByUsername(string username)
@@ -49,11 +49,11 @@ namespace Saturn72.Core.Services.Impl.User
             return await GetUserBy(user => user.Email.EqualsTo(email));
         }
 
-        public Task<IEnumerable<UserRoleModel>> GetUserUserRolesByUserIdAsync(long userId)
+        public async Task<IEnumerable<UserRoleModel>> GetUserUserRolesByUserIdAsync(long userId)
         {
             Guard.GreaterThan(userId, (long)0);
 
-            return Task.FromResult(
+            return await Task.FromResult(
                 _cacheManager.Get(SystemSharedCacheKeys.UserRolesUserCacheKey.AsFormat(userId),
                     () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleModel[] { }));
         }
@@ -63,7 +63,7 @@ namespace Saturn72.Core.Services.Impl.User
             Guard.NotNull(user);
             _auditHelper.PrepareForUpdateAudity(user);
             await Task.Run(() => _userRepository.Update(user));
-            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUserCacheKey);
+            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUsersCacheKey);
             _eventPublisher.DomainModelUpdated(user);
         }
 
