@@ -8,7 +8,6 @@ using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Security;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.Events;
-using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.User;
 using Saturn72.Extensions;
 
@@ -23,12 +22,10 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IEventPublisher _eventPublisher;
 
         private readonly IUserRepository _userRepository;
-        private readonly IPermissionRecordRepository _permissionRepository;
 
-        public UserService(IUserRepository userRepository, IPermissionRecordRepository permissionRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, AuditHelper auditHelper)
+        public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager, AuditHelper auditHelper)
         {
             _userRepository = userRepository;
-            _permissionRepository = permissionRepository;
             _eventPublisher = eventPublisher;
             _cacheManager = cacheManager;
             _auditHelper = auditHelper;
@@ -74,7 +71,7 @@ namespace Saturn72.Core.Services.Impl.User
         {
             Guard.GreaterThan(userId, (long)0);
 
-            return await Task.Run(() => _permissionRepository.GetUserPermissions(userId));
+            return await Task.Run(() => _userRepository.GetUserPermissions(userId));
         }
 
         public async Task<UserModel> GetUserBy(Func<UserModel, bool> func)

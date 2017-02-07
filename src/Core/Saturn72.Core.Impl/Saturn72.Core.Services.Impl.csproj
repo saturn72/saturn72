@@ -71,7 +71,6 @@
     <Compile Include="Notifications\NotificationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\EncryptionService.cs" />
-    <Compile Include="Security\IPermissionRecordRepository.cs" />
     <Compile Include="Security\SecuritySettings.cs" />
     <Compile Include="SystemSharedCacheKeys.cs" />
     <Compile Include="Tasks\BackgroundTaskBase.cs" />
