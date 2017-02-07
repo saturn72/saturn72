@@ -57,6 +57,7 @@
     <Compile Include="ComponentModel\ServiceResponseBase.cs" />
     <Compile Include="Configuration\ISettingsService.cs" />
     <Compile Include="Events\IEventAsyncSubscriber.cs" />
+    <Compile Include="Events\PermissionGrantedEvent.cs" />
     <Compile Include="Extensibility\IPluginManager.cs" />
     <Compile Include="Events\CrudEventBase.cs" />
     <Compile Include="Events\DeletedEvent.cs" />

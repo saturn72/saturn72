@@ -18,8 +18,6 @@ namespace Saturn72.Core.Services.Impl.User
 {
     public class UserService : IUserService
     {
-        private const string UserRolesUserCacheKey = "Saturn72_User{0}_UserRoles";
-        private const string UserCacheKey = "saturn72. User-{0}";
         private readonly AuditHelper _auditHelper;
         private readonly ICacheManager _cacheManager;
         private readonly IEventPublisher _eventPublisher;
@@ -59,7 +57,7 @@ namespace Saturn72.Core.Services.Impl.User
             Guard.GreaterThan(userId, (long)0);
 
             return Task.FromResult(
-                _cacheManager.Get(UserRolesUserCacheKey.AsFormat(userId),
+                _cacheManager.Get(SystemSharedCacheKeys.UserRolesUserCacheKey.AsFormat(userId),
                     () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleDomainModel[] { }));
         }
 
@@ -92,7 +90,7 @@ namespace Saturn72.Core.Services.Impl.User
             var allUsers = await GetAllUsersAsync();
             var user = allUsers.FirstOrDefault(func);
             if (user.NotNull())
-                _cacheManager.SetIfNotExists(UserCacheKey.AsFormat(user.Id), user);
+                _cacheManager.SetIfNotExists(SystemSharedCacheKeys.UserCacheKey.AsFormat(user.Id), user);
             return user;
         }
     }
