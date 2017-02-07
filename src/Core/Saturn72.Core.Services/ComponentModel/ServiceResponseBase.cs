@@ -6,13 +6,13 @@ namespace Saturn72.Core.Services.ComponentModel
     public abstract class ServiceResponseBase
     {
         private IEnumerable<string> _errorMessages;
-        private bool _isValid = true;
+        private bool _hasErrors;
         private bool _authorized = true;
 
-        public virtual bool Commited
+        public virtual bool HasErrors
         {
-            get { return _isValid && !ErrorMessages.Any(); }
-            set { _isValid = value; }
+            get { return _hasErrors || ErrorMessages.Any(); }
+            set { _hasErrors = value; }
         }
 
         public virtual IEnumerable<string> ErrorMessages

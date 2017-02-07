@@ -12,29 +12,29 @@ namespace Saturn72.Core.Services.Tests.ComponentModel
         {
             //should return true
             var response1 = new TestResponse();
-            response1.Commited.ShouldBeTrue();
+            response1.HasErrors.ShouldBeTrue();
 
             //should return false ==> due to error messsages
             var response2 = new TestResponse();
             response2.AddErrorMessage("This is error message");
-            response2.Commited.ShouldBeFalse();
+            response2.HasErrors.ShouldBeFalse();
 
             //should return false ==> due to error messsages
             var response3 = new TestResponse();
             response3.AddErrorMessage("This is error message");
-            response3.Commited = true;
-            response3.Commited.ShouldBeFalse();
+            response3.HasErrors = true;
+            response3.HasErrors.ShouldBeFalse();
 
             //should return false ==> due to error messsages
             var response4 = new TestResponse();
             response4.AddErrorMessage("This is error message");
-            response4.Commited = false;
-            response4.Commited.ShouldBeFalse();
+            response4.HasErrors = false;
+            response4.HasErrors.ShouldBeFalse();
 
             //should return false due to is valid set to false
             var response5 = new TestResponse();
-            response5.Commited = false;
-            response5.Commited.ShouldBeFalse();
+            response5.HasErrors = false;
+            response5.HasErrors.ShouldBeFalse();
         }
 
         [Test]
@@ -43,13 +43,13 @@ namespace Saturn72.Core.Services.Tests.ComponentModel
             //should return true
             var response1 = new TestResponse();
             response1.Authorized.ShouldBeTrue();
-            response1.Commited.ShouldBeTrue();
+            response1.HasErrors.ShouldBeTrue();
 
             //should return false
             var response2 = new TestResponse();
             response2.Authorized = false;
             response2.Authorized.ShouldBeFalse();
-            response2.Commited.ShouldBeFalse();
+            response2.HasErrors.ShouldBeFalse();
         }
 
 

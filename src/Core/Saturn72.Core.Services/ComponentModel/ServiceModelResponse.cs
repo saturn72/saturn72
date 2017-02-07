@@ -5,10 +5,10 @@ namespace Saturn72.Core.Services.ComponentModel
     public class ServiceModelResponse<TModel> : ServiceResponseBase
         where TModel : DomainModelBase
     {
-        public override bool Commited
+        public override bool HasErrors
         {
-            get { return base.Commited && Model != null; }
-            set { base.Commited = value; }
+            get { return base.HasErrors ||  Model == null; }
+            set { base.HasErrors = value; }
         }
 
         public ServiceModelResponse(TModel model)

@@ -12,17 +12,17 @@ namespace Saturn72.Core.Services.Tests.ComponentModel
         {
             //on null model
             var response1 = new ServiceModelResponse<DummyModel>(null);
-            response1.Commited.ShouldBeFalse();
+            response1.HasErrors.ShouldBeFalse();
             //on error message
             var mdel2 = new DummyModel();
             var response2 = new ServiceModelResponse<DummyModel>(mdel2);
             response2.AddErrorMessage("RRR");
-            response2.Commited.ShouldBeFalse();
+            response2.HasErrors.ShouldBeFalse();
 
             var model3 = new DummyModel();
             var response3 = new ServiceModelResponse<DummyModel>(model3);
             response3.Authorized = false;
-            response3.Commited.ShouldBeFalse();
+            response3.HasErrors.ShouldBeFalse();
         }
 
         internal class DummyModel : DomainModelBase
