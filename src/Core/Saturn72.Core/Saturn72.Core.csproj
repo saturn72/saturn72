@@ -113,7 +113,7 @@
     <Compile Include="Domain\Users\SystemUserRoleNames.cs" />
     <Compile Include="Domain\Users\UserModel.cs" />
     <Compile Include="Domain\Users\UserExtensions.cs" />
-    <Compile Include="Domain\Users\UserRoleDomainModel.cs" />
+    <Compile Include="Domain\Users\UserRoleModel.cs" />
     <Compile Include="Exceptions\Saturn72Exception.cs" />
     <Compile Include="Extensibility\IConfigurable.cs" />
     <Compile Include="Extensibility\IModule.cs" />

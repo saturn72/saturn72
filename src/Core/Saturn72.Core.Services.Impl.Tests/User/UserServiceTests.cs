@@ -22,7 +22,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             //On not exists userroles
             var userRepo = new Mock<IUserRepository>();
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
-                .Returns((IEnumerable<UserRoleDomainModel>)null);
+                .Returns((IEnumerable<UserRoleModel>)null);
 
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.IsSet(It.IsAny<string>()))
@@ -33,7 +33,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
             //On exists userroles
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
-                .Returns(new List<UserRoleDomainModel>());
+                .Returns(new List<UserRoleModel>());
 
             srv = new UserService(userRepo.Object, null, cm.Object, null);
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.GetUserUserRolesByUserIdAsync(123));
@@ -44,13 +44,13 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var retVal = new[]
             {
-                new UserRoleDomainModel
+                new UserRoleModel
                 {
                     Active = true,
                     Name = "UserRole1",
                     IsSystemRole = false
                 },
-                new UserRoleDomainModel
+                new UserRoleModel
                 {
                     Active = true,
                     Name = "UserRole2",
@@ -59,13 +59,13 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             };
             var expectedVal = new[]
             {
-                new UserRoleDomainModel
+                new UserRoleModel
                 {
                     Active = true,
                     Name = "UserRole1",
                     IsSystemRole = false
                 },
-                new UserRoleDomainModel
+                new UserRoleModel
                 {
                     Active = true,
                     Name = "UserRole2",

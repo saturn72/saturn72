@@ -49,13 +49,13 @@ namespace Saturn72.Core.Services.Impl.User
             return await GetUserBy(user => user.Email.EqualsTo(email));
         }
 
-        public Task<IEnumerable<UserRoleDomainModel>> GetUserUserRolesByUserIdAsync(long userId)
+        public Task<IEnumerable<UserRoleModel>> GetUserUserRolesByUserIdAsync(long userId)
         {
             Guard.GreaterThan(userId, (long)0);
 
             return Task.FromResult(
                 _cacheManager.Get(SystemSharedCacheKeys.UserRolesUserCacheKey.AsFormat(userId),
-                    () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleDomainModel[] { }));
+                    () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleModel[] { }));
         }
 
         public async Task UpdateUser(UserModel user)

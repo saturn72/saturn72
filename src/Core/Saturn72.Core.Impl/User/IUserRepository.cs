@@ -12,7 +12,7 @@ namespace Saturn72.Core.Services.Impl.User
 {
     public interface IUserRepository : IRepository<UserModel>
     {
-        IEnumerable<UserRoleDomainModel> GetUserUserRoles(long userId);
+        IEnumerable<UserRoleModel> GetUserUserRoles(long userId);
         IEnumerable<PermissionRecordModel> GetUserPermissions(long userId);
     }
 }

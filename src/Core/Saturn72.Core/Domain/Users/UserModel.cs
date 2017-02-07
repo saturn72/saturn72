@@ -12,7 +12,7 @@ namespace Saturn72.Core.Domain.Users
     {
         #region Fields
 
-        private ICollection<UserRoleDomainModel> _userRoles;
+        private ICollection<UserRoleModel> _userRoles;
 
         #endregion
 
@@ -58,9 +58,9 @@ namespace Saturn72.Core.Domain.Users
         public string LastIpAddress { get; set; }
 
         //Audit
-        public virtual ICollection<UserRoleDomainModel> UserRoles
+        public virtual ICollection<UserRoleModel> UserRoles
         {
-            get { return _userRoles ?? (_userRoles = new List<UserRoleDomainModel>()); }
+            get { return _userRoles ?? (_userRoles = new List<UserRoleModel>()); }
         }
 
         public DateTime CreatedOnUtc { get; set; }
