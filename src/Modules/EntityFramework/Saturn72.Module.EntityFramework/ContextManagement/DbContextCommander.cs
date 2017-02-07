@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Reflection;
+using System.Threading;
 using Saturn72.Core;
 
 #endregion
 
 namespace Saturn72.Module.EntityFramework.ContextManagement
 {
-    public class DbContextCommander<TDbContext> : IDbContextCommander<TDbContext> where TDbContext:DbContext, new()
+    public class DbContextCommander<TDbContext> : IDbContextCommander<TDbContext> where TDbContext : DbContext, new()
     {
         public virtual int SaveChangesToContext(TDbContext ctx)
         {
@@ -35,12 +36,12 @@ namespace Saturn72.Module.EntityFramework.ContextManagement
             }
         }
 
-        public void CommandNewContext(Action<TDbContext> command)
+        public int CommandNewContext(Action<TDbContext> command)
         {
             using (var db = new TDbContext())
             {
                 command(db);
-                db.SaveChanges();
+                return db.SaveChanges();
             }
         }
 
