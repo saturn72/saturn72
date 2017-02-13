@@ -73,14 +73,11 @@ namespace Saturn72.Core.Services.Impl.User
 
             return await Task.Run(() => _userRepository.GetUserPermissions(userId));
         }
-
         public async Task<UserModel> GetUserBy(Func<UserModel, bool> func)
         {
             var users = await GetAllUsersAsync();
             return users.FirstOrDefault(func);
         }
-
-
         protected virtual async Task<UserModel> GetUserByFuncAndCacheIfExists(Func<UserModel, bool> func)
         {
             Guard.NotNull(func);
