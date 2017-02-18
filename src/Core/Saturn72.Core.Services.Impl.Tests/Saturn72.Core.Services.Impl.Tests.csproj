@@ -83,6 +83,7 @@
     <Compile Include="Tasks\BackgroundTaskServiceTests.cs" />
     <Compile Include="User\TestPermissionRecord.cs" />
     <Compile Include="User\UserActivityLogServiceTests.cs" />
+    <Compile Include="User\UsernameAndEmailRegistrationRequestValidatorTests.cs" />
     <Compile Include="User\UserServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

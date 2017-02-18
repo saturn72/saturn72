@@ -20,8 +20,6 @@ namespace Saturn72.Core.Services.User
 
 
         #endregion
-
-
         public string UsernameOrEmail { get; private set; }
         public string Password { get; set; }
         public PasswordFormat PasswordFormat { get; private set; }

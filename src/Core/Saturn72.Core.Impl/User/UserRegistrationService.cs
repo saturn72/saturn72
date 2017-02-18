@@ -18,12 +18,14 @@ namespace Saturn72.Core.Services.Impl.User
         #region ctor
 
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
-            UserSettings userSettings, IEventPublisher eventPublisher, IUserService userService,
-            ICacheManager cacheManager, IUserActivityLogService userActivityLogService, AuditHelper auditHelper)
+            UserSettings userSettings, UserRegistrationRequestValidatorBase registerRequestValidator,
+            IEventPublisher eventPublisher, IUserService userService, ICacheManager cacheManager,
+            IUserActivityLogService userActivityLogService, AuditHelper auditHelper)
         {
             _userRepository = userRepository;
             _encryptionService = encryptionService;
             _userSettings = userSettings;
+            _registerRequestValidator = registerRequestValidator;
             _eventPublisher = eventPublisher;
             _userService = userService;
             _cacheManager = cacheManager;
@@ -35,8 +37,8 @@ namespace Saturn72.Core.Services.Impl.User
 
         public async Task<UserRegistrationResponse> RegisterAsync(UserRegistrationRequest request)
         {
-            //TODO: check request (bots, unapprovedIp's etc.
-            var response = CheckUserRegistrationRequest(request);
+            var response = new UserRegistrationResponse();
+            _registerRequestValidator.ValidateRequest(request).ForEachItem(err=> response.AddError(err));
 
             if (!response.Success)
                 return response;
@@ -115,25 +117,6 @@ namespace Saturn72.Core.Services.Impl.User
             }
         }
 
-        private UserRegistrationResponse CheckUserRegistrationRequest(UserRegistrationRequest request)
-        {
-            var response = new UserRegistrationResponse();
-            //Check username
-            var usernameOrEmailNotEmpty = request.UsernameOrEmail.HasValue();
-            if (!usernameOrEmailNotEmpty)
-                response.AddError("Please specify user email or username");
-
-            if (usernameOrEmailNotEmpty && !_userSettings.ValidateByEmail &&
-                _userService.GetUserByUsername(request.UsernameOrEmail).NotNull())
-                response.AddError("Username already exists");
-
-            if (usernameOrEmailNotEmpty && _userSettings.ValidateByEmail &&
-                _userService.GetUserByEmail(request.UsernameOrEmail).NotNull())
-                response.AddError("Email already exists");
-
-            return response;
-        }
-
         #region Fields
 
         private readonly IUserRepository _userRepository;
@@ -141,6 +124,7 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IUserService _userService;
         private readonly ICacheManager _cacheManager;
         private readonly UserSettings _userSettings;
+        private readonly UserRegistrationRequestValidatorBase _registerRequestValidator;
         private readonly IEventPublisher _eventPublisher;
         private readonly IUserActivityLogService _userActivityLogService;
         private readonly AuditHelper _auditHelper;
