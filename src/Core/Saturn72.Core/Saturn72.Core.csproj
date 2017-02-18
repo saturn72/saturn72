@@ -56,10 +56,14 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audit\IActivableAudit.cs" />
     <Compile Include="Audit\ICreatedAudit.cs" />
     <Compile Include="Audit\IDeletedAudit.cs" />
     <Compile Include="Audit\IFullAudit.cs" />
+    <Compile Include="Audit\ISuspendableAudit.cs" />
     <Compile Include="Audit\IUpdatedAudit.cs" />
+    <Compile Include="Audit\SuspendPoint.cs" />
+    <Compile Include="Audit\SuspensionReason.cs" />
     <Compile Include="Caching\CacheManagerExtensions.cs" />
     <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Caching\MemoryCacheManager.cs" />
