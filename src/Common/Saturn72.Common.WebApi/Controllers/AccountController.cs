@@ -37,7 +37,7 @@ namespace Saturn72.Common.WebApi.Controllers
                 return BadRequest(ConvertModelStateErrorsToKeyValuePair());
 
             //TOD: get password format from settings
-            var request = new UserRegistrationRequest(model.UsernameOrEmail, model.Password, PasswordFormat.Encrypted,
+            var request = new UserRegistrationRequest(model.Username, model.Email, model.Password, PasswordFormat.Encrypted,
                 GetSenderIpAddress());
             var response = await _userRegistrationService.RegisterAsync(request);
 

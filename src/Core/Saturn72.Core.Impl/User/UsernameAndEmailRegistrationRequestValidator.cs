@@ -4,7 +4,7 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.User
 {
-    public class UsernameAndEmailRegistrationRequestValidator : UserRegistrationRequestValidatorBase
+    public class UsernameAndEmailRegistrationRequestValidator : IUserRegistrationRequestValidator
     {
         private readonly IUserService _userService;
         private readonly UserSettings _userSettings;
@@ -15,20 +15,20 @@ namespace Saturn72.Core.Services.Impl.User
             _userSettings = userSettings;
         }
 
-        public override IEnumerable<string> ValidateRequest(UserRegistrationRequest request)
+        public IEnumerable<string> ValidateRequest(UserRegistrationRequest request)
         {
             var response = new List<string>();
             //Check username
-            var usernameOrEmailNotEmpty = request.UsernameOrEmail.HasValue();
+            var usernameOrEmailNotEmpty = request.Username.HasValue();
             if (!usernameOrEmailNotEmpty)
                 response.Add("Please specify user email or username");
 
             if (usernameOrEmailNotEmpty && !_userSettings.ValidateByEmail &&
-                _userService.GetUserByUsername(request.UsernameOrEmail).NotNull())
+                _userService.GetUserByUsername(request.Username).NotNull())
                 response.Add("Username already exists");
 
             if (usernameOrEmailNotEmpty && _userSettings.ValidateByEmail &&
-                _userService.GetUserByEmail(request.UsernameOrEmail).NotNull())
+                _userService.GetUserByEmail(request.Username).NotNull())
                 response.Add("Email already exists");
 
             return response;

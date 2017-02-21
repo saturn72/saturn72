@@ -11,7 +11,7 @@ namespace Saturn72.Common.WebApi.Validation.Validators.Account
     {
         public UserRegistrationValidator()
         {
-            RuleFor(x => x.UsernameOrEmail)
+            RuleFor(x => x.Username)
                 .NotEmpty()
                 .When(x => ShouldUseUsername())
                 .WithMessage("UsernameOrEmail is mandatory")

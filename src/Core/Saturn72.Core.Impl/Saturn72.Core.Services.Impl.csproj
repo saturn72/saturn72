@@ -83,7 +83,7 @@
     <Compile Include="User\IUserRepository.cs" />
     <Compile Include="User\UserActivityLogService.cs" />
     <Compile Include="User\UsernameAndEmailRegistrationRequestValidator.cs" />
-    <Compile Include="User\UserRegistrationRequestValidatorBase.cs" />
+    <Compile Include="User\IUserRegistrationRequestValidator.cs" />
     <Compile Include="User\UserRegistrationService.cs" />
     <Compile Include="User\UserService.cs" />
     <Compile Include="User\UserSettings.cs" />

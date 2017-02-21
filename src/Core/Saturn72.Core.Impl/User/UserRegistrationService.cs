@@ -18,7 +18,7 @@ namespace Saturn72.Core.Services.Impl.User
         #region ctor
 
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
-            UserSettings userSettings, UserRegistrationRequestValidatorBase registerRequestValidator,
+            UserSettings userSettings, IUserRegistrationRequestValidator registerRequestValidator,
             IEventPublisher eventPublisher, IUserService userService, ICacheManager cacheManager,
             IUserActivityLogService userActivityLogService, AuditHelper auditHelper)
         {
@@ -47,9 +47,9 @@ namespace Saturn72.Core.Services.Impl.User
 
             var user = new UserModel
             {
-                Username = _userSettings.ValidateByEmail ? null : request.UsernameOrEmail,
+                Username = _userSettings.ValidateByEmail ? null : request.Username,
                 UserGuid = Guid.NewGuid(),
-                Email = _userSettings.ValidateByEmail ? request.UsernameOrEmail : null,
+                Email = _userSettings.ValidateByEmail ? request.Username : null,
                 Password = request.Password,
                 PasswordSalt = request.PasswordSalt,
                 PasswordFormat = request.PasswordFormat,
@@ -124,7 +124,7 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IUserService _userService;
         private readonly ICacheManager _cacheManager;
         private readonly UserSettings _userSettings;
-        private readonly UserRegistrationRequestValidatorBase _registerRequestValidator;
+        private readonly IUserRegistrationRequestValidator _registerRequestValidator;
         private readonly IEventPublisher _eventPublisher;
         private readonly IUserActivityLogService _userActivityLogService;
         private readonly AuditHelper _auditHelper;

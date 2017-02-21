@@ -10,9 +10,10 @@ namespace Saturn72.Core.Services.User
     {
         #region ctor
 
-        public UserRegistrationRequest(string usernameOrEmail, string password, PasswordFormat passwordFormat, string clientIp)
+        public UserRegistrationRequest(string username, string email, string password, PasswordFormat passwordFormat, string clientIp)
         {
-            UsernameOrEmail = usernameOrEmail;
+            Username = username;
+            Email = email;
             Password = password;
             PasswordFormat = passwordFormat;
             ClientIp = clientIp;
@@ -20,11 +21,12 @@ namespace Saturn72.Core.Services.User
 
 
         #endregion
-        public string UsernameOrEmail { get; private set; }
+        public string Username { get; private set; }
+        public string Email { get; private set; }
         public string Password { get; set; }
         public PasswordFormat PasswordFormat { get; private set; }
         public string PasswordSalt { get; set; }
-        public string ClientIp { get; set; }
+        public string ClientIp { get; private set; }
 
     }
 }
