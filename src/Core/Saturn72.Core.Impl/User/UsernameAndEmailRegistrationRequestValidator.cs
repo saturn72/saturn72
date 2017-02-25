@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Saturn72.Core.Services.User;
+using Saturn72.Core.Services.Validation;
 using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.User
@@ -15,9 +16,9 @@ namespace Saturn72.Core.Services.Impl.User
             _userSettings = userSettings;
         }
 
-        public IEnumerable<string> ValidateRequest(UserRegistrationRequest request)
+        public IEnumerable<SystemErrorCode> ValidateRequest(UserRegistrationRequest request)
         {
-            var response = new List<string>();
+            var response = new List<SystemErrorCode>();
             //Check username
             var usernameOrEmailNotEmpty = request.Username.HasValue();
             if (!usernameOrEmailNotEmpty)

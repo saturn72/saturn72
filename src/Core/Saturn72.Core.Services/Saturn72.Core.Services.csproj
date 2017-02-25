@@ -99,6 +99,7 @@
     <Compile Include="User\UserRegistrationRequest.cs" />
     <Compile Include="User\UserRegistrationResponse.cs" />
     <Compile Include="User\UserServiceExtensions.cs" />
+    <Compile Include="Validation\SystemErrorCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
