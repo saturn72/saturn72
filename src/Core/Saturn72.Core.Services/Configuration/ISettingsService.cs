@@ -13,7 +13,7 @@ namespace Saturn72.Core.Services.Configuration
         TSettings LoadSettings<TSettings>() where TSettings : SettingsBase;
         void DeleteSetting<TSettings>() where TSettings : SettingsBase, new();
 
-        IEnumerable<SettingEntryDomainModel> GetAllSettingEntries();
+        IEnumerable<SettingEntryModel> GetAllSettingEntries();
         void SaveSetting<TSettings>(TSettings settings) where TSettings : SettingsBase, new();
     }
 }

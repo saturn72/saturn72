@@ -90,7 +90,7 @@
     <Compile Include="DefaultOutput.cs" />
     <Compile Include="Domain\Clients\ApplicationType.cs" />
     <Compile Include="Domain\Clients\ClientAppDomainModel.cs" />
-    <Compile Include="Domain\Configuration\SettingEntryDomainMode.cs" />
+    <Compile Include="Domain\Configuration\SettingEntryModel.cs" />
     <Compile Include="Domain\IDomainModelBase.cs" />
     <Compile Include="Domain\Localization\LocaleResourceDomainModel.cs" />
     <Compile Include="Domain\Logging\LogLevel.cs" />
@@ -140,7 +140,7 @@
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LoggerCollectionExtensions.cs" />
     <Compile Include="Logging\LoggerExtensions.cs" />
-    <Compile Include="Patterns\Singleton.cs" />
+    <Compile Include="ComponentModel\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\MemoryTaskManager.cs" />
     <Compile Include="Tasks\IStartupTask.cs" />

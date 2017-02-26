@@ -2,7 +2,7 @@
 
 namespace Calculator.Common.Domain.Calculations
 {
-    public class ExpressionDomainModel:DomainModelBase<long>
+    public class ExpressionDomainModel:DomainModelBase
     {
         public string Message { get; set; }
     }

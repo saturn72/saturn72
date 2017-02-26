@@ -92,7 +92,7 @@ namespace Saturn72.Module.Notification.EmailNotifier
             _settings.DeliveryMethod = policy;
 
             if (_settings.DeliveryMethod == SmtpDeliveryMethod.SpecifiedPickupDirectory)
-                _settings.SettingEntries.Add(PickupdirectorylocationKey, new SettingEntryDomainModel
+                _settings.SettingEntries.Add(PickupdirectorylocationKey, new SettingEntryModel
                 {
                     Name = PickupdirectorylocationKey,
                     Value = config.GetValueAsString(PickupdirectorylocationKey)

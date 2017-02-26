@@ -8,8 +8,8 @@ using Saturn72.Core.Domain.Configuration;
 
 namespace Saturn72.Core.Services.Impl.Configuration
 {
-    public interface ISettingEntryRepository:IRepository<SettingEntryDomainModel>
+    public interface ISettingEntryRepository:IRepository<SettingEntryModel>
     {
-        void  Delete(IEnumerable<SettingEntryDomainModel> settings);
+        void  Delete(IEnumerable<SettingEntryModel> settings);
     }
 }

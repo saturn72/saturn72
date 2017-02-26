@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Saturn72.Core.ComponentModel;
 using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Patterns;
 using Saturn72.Extensions;
 
 #endregion

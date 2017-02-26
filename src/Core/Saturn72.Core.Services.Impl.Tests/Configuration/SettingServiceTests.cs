@@ -40,14 +40,14 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
                 IntValue = 100,
                 StringValue = "string1"
             };
-            var settingList = new List<SettingEntryDomainModel>();
+            var settingList = new List<SettingEntryModel>();
 
             var cacheManager = new Mock<ICacheManager>();
             var ePublisher = new Mock<IEventPublisher>();
 
             var repo = new Mock<ISettingEntryRepository>();
-            repo.Setup(r => r.Create(It.IsAny<SettingEntryDomainModel>()))
-                .Callback<SettingEntryDomainModel>(s =>
+            repo.Setup(r => r.Create(It.IsAny<SettingEntryModel>()))
+                .Callback<SettingEntryModel>(s =>
                 {
                     s.Id = settingList.Count + 1;
                     settingList.Add(s);
@@ -75,7 +75,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
 
             //flow assertion
             cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
-            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryDomainModel>>()), Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryModel>>()), Times.Exactly(3));
         }
 
         [Test]
@@ -87,14 +87,14 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
                 IntValue = 100,
                 StringValue = "string1"
             };
-            var settingList = new List<SettingEntryDomainModel>();
+            var settingList = new List<SettingEntryModel>();
 
             var cacheManager = new Mock<ICacheManager>();
             var ePublisher = new Mock<IEventPublisher>();
 
             var repo = new Mock<ISettingEntryRepository>();
-            repo.Setup(r => r.Create(It.IsAny<SettingEntryDomainModel>()))
-                .Callback<SettingEntryDomainModel>(s =>
+            repo.Setup(r => r.Create(It.IsAny<SettingEntryModel>()))
+                .Callback<SettingEntryModel>(s =>
                 {
                     s.Id = settingList.Count + 1;
                     settingList.Add(s);
@@ -126,8 +126,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
 
             //flow assertion
             cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
-            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryDomainModel>>()), Times.Exactly(3));
-            ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<SettingEntryDomainModel>>()),Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryModel>>()), Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<SettingEntryModel>>()),Times.Exactly(3));
         }
 
         [Test]
@@ -147,14 +147,14 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
                 Text = "string1"
             };
 
-            var settingList = new List<SettingEntryDomainModel>();
+            var settingList = new List<SettingEntryModel>();
 
             var cacheManager = new Mock<ICacheManager>();
             var ePublisher = new Mock<IEventPublisher>();
 
             var repo = new Mock<ISettingEntryRepository>();
-            repo.Setup(r => r.Create(It.IsAny<SettingEntryDomainModel>()))
-                .Callback<SettingEntryDomainModel>(s =>
+            repo.Setup(r => r.Create(It.IsAny<SettingEntryModel>()))
+                .Callback<SettingEntryModel>(s =>
                 {
                     s.Id = settingList.Count + 1;
                     settingList.Add(s);
@@ -183,7 +183,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             values.ShouldContainInstance(settings2.Text);
 
             //flow assertion
-            ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<SettingEntryDomainModel>>()), Times.Exactly(3));
+            ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<SettingEntryModel>>()), Times.Exactly(3));
         }
 
         [Test]
@@ -203,14 +203,14 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
                 Text = "string1"
             };
 
-            var settingList = new List<SettingEntryDomainModel>();
+            var settingList = new List<SettingEntryModel>();
 
             var cacheManager = new Mock<ICacheManager>();
             var ePublisher = new Mock<IEventPublisher>();
 
             var repo = new Mock<ISettingEntryRepository>();
-            repo.Setup(r => r.Create(It.IsAny<SettingEntryDomainModel>()))
-                .Callback<SettingEntryDomainModel>(s =>
+            repo.Setup(r => r.Create(It.IsAny<SettingEntryModel>()))
+                .Callback<SettingEntryModel>(s =>
                 {
                     s.Id = settingList.Count + 1;
                     settingList.Add(s);

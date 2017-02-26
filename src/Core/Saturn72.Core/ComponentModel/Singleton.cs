@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Saturn72.Core.Patterns
+namespace Saturn72.Core.ComponentModel
 {
     public abstract class Singleton<TService> : Singleton
     {

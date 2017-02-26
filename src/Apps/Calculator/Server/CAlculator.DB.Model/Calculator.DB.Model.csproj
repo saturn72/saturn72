@@ -47,51 +47,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculator.Context.cs">
+    <Compile Include="CalculatorDbEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Calculator.Context.tt</DependentUpon>
+      <DependentUpon>CalculatorDbEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Calculator.cs">
+    <Compile Include="CalculatorDbEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Calculator.tt</DependentUpon>
+      <DependentUpon>CalculatorDbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Calculator.Designer.cs">
+    <Compile Include="CalculatorDbEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Calculator.edmx</DependentUpon>
+      <DependentUpon>CalculatorDbEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Expression.cs">
-      <DependentUpon>Calculator.tt</DependentUpon>
+      <DependentUpon>CalculatorDbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ExpressionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Calculator.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Calculator.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Calculator.edmx.diagram">
-      <DependentUpon>Calculator.edmx</DependentUpon>
+    <EntityDeploy Include="CalculatorDbEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CalculatorDbEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CalculatorDbEntities.edmx.diagram">
+      <DependentUpon>CalculatorDbEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Calculator.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Calculator.edmx</DependentUpon>
-      <LastGenOutput>Calculator.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Calculator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Calculator.edmx</DependentUpon>
-      <LastGenOutput>Calculator.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -109,6 +95,18 @@
       <Project>{F732B9E8-6BC9-4CA4-B123-C09B4694F7F8}</Project>
       <Name>Calculator.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CalculatorDbEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CalculatorDbEntities.edmx</DependentUpon>
+      <LastGenOutput>CalculatorDbEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="CalculatorDbEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CalculatorDbEntities.edmx</DependentUpon>
+      <LastGenOutput>CalculatorDbEntities.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

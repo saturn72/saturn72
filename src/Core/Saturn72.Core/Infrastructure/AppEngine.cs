@@ -1,8 +1,8 @@
 ﻿#region
 
 using System.Runtime.CompilerServices;
+using Saturn72.Core.ComponentModel;
 using Saturn72.Core.Configuration;
-using Saturn72.Core.Patterns;
 
 #endregion
 

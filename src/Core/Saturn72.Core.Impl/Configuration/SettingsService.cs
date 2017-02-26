@@ -55,7 +55,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
                 //set property
                 prop.SetValue(settings, value, null);
                 settings.SettingEntries.Add(prop.Name,
-                    new SettingEntryDomainModel {Name = prop.Name, Value = value.ToString()});
+                    new SettingEntryModel {Name = prop.Name, Value = value.ToString()});
             }
 
             return settings;
@@ -63,7 +63,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
 
         public void DeleteSetting<TSettings>() where TSettings : SettingsBase, new()
         {
-            var settingsToDelete = new List<SettingEntryDomainModel>();
+            var settingsToDelete = new List<SettingEntryModel>();
             var allSettings = GetAllSettingEntries();
             foreach (var prop in typeof(TSettings).GetProperties())
             {
@@ -76,7 +76,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
         }
 
 
-        public virtual IEnumerable<SettingEntryDomainModel> GetAllSettingEntries()
+        public virtual IEnumerable<SettingEntryModel> GetAllSettingEntries()
         {
             return _settingEntryRepository.GetAll().OrderBy(s => s.Name).ToArray();
         }
@@ -106,7 +106,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
             ClearCache();
         }
 
-        public void DeleteSettingEntries(IEnumerable<SettingEntryDomainModel> settingEntries)
+        public void DeleteSettingEntries(IEnumerable<SettingEntryModel> settingEntries)
         {
             if (settingEntries.IsEmptyOrNull())
                 return;
@@ -115,7 +115,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
 
             ClearCache();
 
-            settingEntries.ForEachItem(_eventPublisher.DomainModelDeleted<SettingEntryDomainModel>);
+            settingEntries.ForEachItem(_eventPublisher.DomainModelDeleted<SettingEntryModel>);
         }
 
         public virtual T GetSettingByKey<T>(string key, T defaultValue = default(T))
@@ -177,7 +177,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
             else
             {
                 //insert
-                var setting = new SettingEntryDomainModel
+                var setting = new SettingEntryModel
                 {
                     Name = key,
                     Value = valueStr
@@ -186,7 +186,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
             }
         }
 
-        public virtual void InsertSetting(SettingEntryDomainModel setting, bool clearCache)
+        public virtual void InsertSetting(SettingEntryModel setting, bool clearCache)
         {
             Guard.NotNull(setting);
 
@@ -200,7 +200,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
             _eventPublisher.DomainModelCreated(setting);
         }
 
-        public virtual void UpdateSettingEntry(SettingEntryDomainModel settingEntry, bool clearCache = true)
+        public virtual void UpdateSettingEntry(SettingEntryModel settingEntry, bool clearCache = true)
         {
             Guard.NotNull(settingEntry);
             _settingEntryRepository.Update(settingEntry);
@@ -212,7 +212,7 @@ namespace Saturn72.Core.Services.Impl.Configuration
         }
 
 
-        public virtual SettingEntryDomainModel GetSettingById(long settingId)
+        public virtual SettingEntryModel GetSettingById(long settingId)
         {
             return settingId == 0
                 ? null

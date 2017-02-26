@@ -9,11 +9,11 @@ namespace Saturn72.Core.Configuration
 {
     public abstract class SettingsBase
     {
-        private IDictionary<string, SettingEntryDomainModel> _settingEntries;
+        private IDictionary<string, SettingEntryModel> _settingEntries;
 
-        public IDictionary<string, SettingEntryDomainModel> SettingEntries
+        public IDictionary<string, SettingEntryModel> SettingEntries
         {
-            get { return _settingEntries ?? (_settingEntries = new Dictionary<string, SettingEntryDomainModel>()); }
+            get { return _settingEntries ?? (_settingEntries = new Dictionary<string, SettingEntryModel>()); }
         }
     }
 }
