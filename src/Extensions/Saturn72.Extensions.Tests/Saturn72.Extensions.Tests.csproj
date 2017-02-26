@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Saturn72.Extensions.Tests</RootNamespace>
     <AssemblyName>Saturn72.Extensions.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>65975cc3</NuGetPackageImportStamp>
     <SccProjectName>SAK</SccProjectName>
