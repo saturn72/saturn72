@@ -72,7 +72,7 @@ namespace Saturn72.Core.Services.Impl.User
 
             var user = await (_userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(usernameOrEmail)
-                : _userService.GetUserByUsername(usernameOrEmail));
+                : _userService.GetUserByUsernameAsync(usernameOrEmail));
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
             return true;

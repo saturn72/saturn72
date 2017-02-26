@@ -99,7 +99,7 @@ namespace Saturn72.Module.Owin.Providers
 
             var user = await (_userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(context.UserName)
-                : _userService.GetUserByUsername(context.UserName));
+                : _userService.GetUserByUsernameAsync(context.UserName));
 
             Guard.NotNull(user);
 
