@@ -37,6 +37,7 @@ namespace Saturn72.Core.Services.Impl.User
 
         public async Task<UserRegistrationResponse> RegisterAsync(UserRegistrationRequest request)
         {
+            Guard.NotNull(request);
             var response = new UserRegistrationResponse();
             _registerRequestValidator.ValidateRequest(request).ForEachItem(err=> response.AddError(err));
 
