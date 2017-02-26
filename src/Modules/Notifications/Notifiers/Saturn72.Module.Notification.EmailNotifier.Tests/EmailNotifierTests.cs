@@ -48,8 +48,8 @@ namespace Saturn72.Module.Notification.EmailNotifier.Tests
             notificationServiceMock.Setup(x => x.GetNotificationSubscribers(It.IsAny<string>()))
                 .Returns(new[]
                 {
-                    new NotificationSubscriber {UserDomainModel = new UserDomainModel {Email = "subscriber1@email.com"}},
-                    new NotificationSubscriber {UserDomainModel = new UserDomainModel {Email = "subscriber2@email.com"}}
+                    new NotificationSubscriber {UserDomainModel = new UserModel {Email = "subscriber1@email.com"}},
+                    new NotificationSubscriber {UserDomainModel = new UserModel {Email = "subscriber2@email.com"}}
                 });
 
             notificationServiceMock.Setup(x => x.GetSystemNotificationSender(It.IsAny<string>()))

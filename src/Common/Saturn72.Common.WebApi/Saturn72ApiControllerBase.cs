@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
+using Newtonsoft.Json;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
@@ -25,6 +27,11 @@ namespace Saturn72.Common.WebApi
 {
     public abstract class Saturn72ApiControllerBase : ApiController
     {
+        protected IHttpActionResult BadRequestResult(object data)
+        {
+            return BadRequest(JsonConvert.SerializeObject(data));
+        }
+
         protected NameValueCollection FormData { get; private set; }
 
         protected ClaimsIdentity Identity

@@ -1,6 +1,8 @@
 ﻿#region
 
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Saturn72.Common.WebApi.Models.Account;
@@ -44,7 +46,7 @@ namespace Saturn72.Common.WebApi.Controllers
             if (response.Success)
                 return Ok();
 
-            return BadRequest(response.Errors.Aggregate((x, y) => x + "\n" + y));
+            return BadRequestResult(response.Errors);
         }
     }
 }
