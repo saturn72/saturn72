@@ -20,7 +20,7 @@ namespace Saturn72.Common.App
     {
         #region Fields
 
-        private readonly string _appId;
+        protected readonly string AppId;
         protected readonly IConfigManager ConfigManager;
 
         #endregion
@@ -44,7 +44,7 @@ namespace Saturn72.Common.App
         /// <param name="configManager">Config holder</param>
         protected Saturn72AppBase(string appId, IConfigManager configManager)
         {
-            _appId = appId;
+            AppId = appId;
             ConfigManager = configManager;
         }
 
@@ -59,7 +59,7 @@ namespace Saturn72.Common.App
 
         public virtual void Start()
         {
-            Console.Out.WriteLine("Start {0} application".AsFormat(_appId));
+            Console.Out.WriteLine("Start {0} application".AsFormat(AppId));
 
             var data = ConfigManager.AppDomainLoadData;
             Console.Out.WriteLine("Read configuration file data and load external assemblies...");
@@ -132,7 +132,7 @@ namespace Saturn72.Common.App
 
         private void DisplayExitCounter()
         {
-            Console.WriteLine(_appId + " will be closed in ");
+            Console.WriteLine(AppId + " will be closed in ");
             var counter = 5;
             do
             {

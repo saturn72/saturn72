@@ -12,10 +12,6 @@
             {
             }
 
-            public HelloWorldApp(string appId, string configRootPath) : base(appId)
-            {
-            }
-
             public HelloWorldApp(string appId, IConfigManager configManager) : base(appId, configManager)
             {
             }
@@ -29,7 +25,6 @@
 
             public override string Name => "HelloWorldApp";
             public override IEnumerable<IAppVersion> Versions => new [] {_version};
-            public override IAppVersion LatestVersion => _version;
         }
 
         public class AppVersion:IAppVersion
@@ -38,6 +33,6 @@
             public int Index => 0;
             public bool IsLatest => true;
             public bool Publish => true;
-            public AppVersionStatus Status=> AppVersionStatus.Alpha;
+            public AppVersionStatusType Status=> AppVersionStatusType.ReleaseCandidate;
         }
     }
