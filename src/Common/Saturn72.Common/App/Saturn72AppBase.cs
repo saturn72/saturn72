@@ -28,19 +28,10 @@ namespace Saturn72.Common.App
         #region ctors
 
         /// <summary>
-        ///     Creates new insta nce of Saturn72App
-        /// </summary>
-        /// <param name="appId">application code</param>
-        protected Saturn72AppBase(string appId) : this(appId, "Config/ConfigRoot.xml")
-        {
-        }
-
-        /// <summary>
         ///     Creates new instance of Saturn72App
         /// </summary>
         /// <param name="appId">application code</param>
-        /// <param name="configRootPath">Root config file path</param>
-        protected Saturn72AppBase(string appId, string configRootPath)
+        protected Saturn72AppBase(string appId)
             : this(appId, Core.Configuration.ConfigManager.Current)
 
         {
@@ -63,7 +54,6 @@ namespace Saturn72.Common.App
 
         public abstract string Name { get; }
         public abstract IEnumerable<IAppVersion> Versions { get; }
-        public abstract IAppVersion LatestVersion { get; }
 
         #endregion
 

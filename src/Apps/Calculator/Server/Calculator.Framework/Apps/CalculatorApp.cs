@@ -17,7 +17,6 @@ namespace Calculator.Framework.Apps
         public CalculatorApp() : base(AppName)
         {
             _versions = LoadVersions();
-            LatestVersion = _versions.First(v => v.IsLatest);
         }
 
         public override string Name
@@ -30,7 +29,6 @@ namespace Calculator.Framework.Apps
             get { return _versions; }
         }
 
-        public override IAppVersion LatestVersion { get; }
 
         private IEnumerable<IAppVersion> LoadVersions()
         {

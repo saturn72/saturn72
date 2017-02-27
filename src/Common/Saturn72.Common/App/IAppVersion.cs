@@ -23,6 +23,6 @@ namespace Saturn72.Common.App
 
         bool Publish { get; }
 
-        AppVersionStatus Status { get; }
+        AppVersionStatusType Status { get; }
     }
 }

@@ -15,6 +15,7 @@ namespace Saturn72.Core.Configuration
 {
     public class XmlConfigLoader : ConfigLoaderBase
     {
+        private const string ConfigRootPathElementName = "ConfigRootPath";
         private AppDomainLoadData _appDomainLoadData;
 
         /// <summary>
@@ -23,7 +24,8 @@ namespace Saturn72.Core.Configuration
         /// <param name="data">object contains data for config loading</param>
         public override void Load(IDictionary<string, string> data)
         {
-            var configPath = data["FilePath"];
+            
+            var configPath = data[ConfigRootPathElementName];
             Guard.HasValue(configPath);
 
             configPath = FileSystemUtil.RelativePathToAbsolutePath(configPath);

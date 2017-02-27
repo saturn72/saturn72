@@ -20,10 +20,5 @@ namespace Saturn72.Common.App
         /// Application versions
         /// </summary>
         IEnumerable<IAppVersion> Versions { get; }
-
-        /// <summary>
-        /// Gets the latest app version
-        /// </summary>
-        IAppVersion LatestVersion { get; }
     }
 }

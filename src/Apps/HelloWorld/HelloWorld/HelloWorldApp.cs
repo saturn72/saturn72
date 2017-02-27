@@ -12,7 +12,7 @@
             {
             }
 
-            public HelloWorldApp(string appId, string configRootPath) : base(appId, configRootPath)
+            public HelloWorldApp(string appId, string configRootPath) : base(appId)
             {
             }
 

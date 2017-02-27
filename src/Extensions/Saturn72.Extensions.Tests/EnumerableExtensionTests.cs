@@ -7,7 +7,7 @@ using Saturn72.UnitTesting.Framework;
 
 #endregion
 
-namespace Saturn72.Extensions.UT
+namespace Saturn72.Extensions.Tests
 {
     public class EnumerableExtensionTests
     {
