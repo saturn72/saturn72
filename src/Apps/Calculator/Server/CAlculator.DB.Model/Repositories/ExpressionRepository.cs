@@ -2,9 +2,8 @@
 
     using Calculator.Common.Domain.Calculations;
     using Saturn72.Common.Data;
-    using Saturn72.Common.Data.Repositories;
 
-    #endregion
+#endregion
 
     namespace Calculator.DB.Model.Repositories
     {

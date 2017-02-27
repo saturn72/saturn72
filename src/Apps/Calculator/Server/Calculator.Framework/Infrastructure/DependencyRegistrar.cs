@@ -4,9 +4,10 @@ using System;
 using System.Linq;
 using System.Web.Http.Tracing;
 using Calculator.Common.Domain.Calculations;
+using Calculator.DB.Model;
 using Calculator.DB.Model.Repositories;
 using Calculator.Server.Services.Calculation;
-using Saturn72.Common.Data.Repositories;
+using Saturn72.Common.Data;
 using Saturn72.Common.WebApi;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Configuration.Maps;
@@ -40,10 +41,10 @@ namespace Calculator.Framework.Infrastructure
                 {
                     throw new NullReferenceException("Missing connectionString");
                 }
-                reg.Register<IUnitOfWork<long>>(() => new EfUnitOfWork<long>(connectionString.Name),
+                reg.Register<IUnitOfWork<ExpressionModel>>(() => new EfUnitOfWork<ExpressionModel, Expression>(connectionString.Name),
                     LifeCycle.PerDependency);
 
-                reg.RegisterType<ExpressionRepository, IRepository<ExpressionModel, long>>(LifeCycle.PerRequest);
+                reg.RegisterType<ExpressionRepository, IRepository<ExpressionModel>>(LifeCycle.PerRequest);
             };
         }
 

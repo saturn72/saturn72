@@ -17,11 +17,11 @@ namespace Calculator.Server.Tests.Services.Calculation
     public class CalculationServiceTests
     {
         private static readonly IList<ExpressionModel> ExpressionList = new List<ExpressionModel>();
-        private readonly IRepository<ExpressionModel, long> _expressionRepoMock = CreateNockRepository();
+        private readonly IRepository<ExpressionModel> _expressionRepoMock = CreateNockRepository();
 
-        private static IRepository<ExpressionModel, long> CreateNockRepository()
+        private static IRepository<ExpressionModel> CreateNockRepository()
         {
-            var mockRepo = new Mock<IRepository<ExpressionModel, long>>();
+            var mockRepo = new Mock<IRepository<ExpressionModel>>();
             mockRepo.Setup(r => r.GetAll())
                 .Returns(ExpressionList);
             mockRepo.Setup(r => r.Create(It.IsAny<ExpressionModel>()))
