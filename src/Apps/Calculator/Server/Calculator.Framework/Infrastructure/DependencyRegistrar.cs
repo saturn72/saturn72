@@ -43,7 +43,7 @@ namespace Calculator.Framework.Infrastructure
                 reg.Register<IUnitOfWork<long>>(() => new EfUnitOfWork<long>(connectionString.Name),
                     LifeCycle.PerDependency);
 
-                reg.RegisterType<ExpressionRepository, IRepository<ExpressionDomainModel, long>>(LifeCycle.PerRequest);
+                reg.RegisterType<ExpressionRepository, IRepository<ExpressionModel, long>>(LifeCycle.PerRequest);
             };
         }
 

@@ -16,16 +16,16 @@ namespace Calculator.Server.Tests.Services.Calculation
 {
     public class CalculationServiceTests
     {
-        private static readonly IList<ExpressionDomainModel> ExpressionList = new List<ExpressionDomainModel>();
-        private readonly IRepository<ExpressionDomainModel, long> _expressionRepoMock = CreateNockRepository();
+        private static readonly IList<ExpressionModel> ExpressionList = new List<ExpressionModel>();
+        private readonly IRepository<ExpressionModel, long> _expressionRepoMock = CreateNockRepository();
 
-        private static IRepository<ExpressionDomainModel, long> CreateNockRepository()
+        private static IRepository<ExpressionModel, long> CreateNockRepository()
         {
-            var mockRepo = new Mock<IRepository<ExpressionDomainModel, long>>();
+            var mockRepo = new Mock<IRepository<ExpressionModel, long>>();
             mockRepo.Setup(r => r.GetAll())
                 .Returns(ExpressionList);
-            mockRepo.Setup(r => r.Create(It.IsAny<ExpressionDomainModel>()))
-                .Callback<ExpressionDomainModel>(edm =>
+            mockRepo.Setup(r => r.Create(It.IsAny<ExpressionModel>()))
+                .Callback<ExpressionModel>(edm =>
                 {
                     edm.Id = ExpressionList.Count;
                     ExpressionList.Add(edm);
