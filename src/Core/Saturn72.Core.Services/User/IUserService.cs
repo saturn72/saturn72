@@ -9,7 +9,7 @@ namespace Saturn72.Core.Services.User
     {
         Task<IEnumerable<UserModel>> GetAllUsersAsync();
 
-        Task<UserModel> GetUserByUsername(string username);
+        Task<UserModel> GetUserByUsernameAsync(string username);
         Task<UserModel> GetUserByEmail(string email);
         Task<IEnumerable<UserRoleModel>> GetUserUserRolesByUserIdAsync(long userId);
         Task UpdateUser(UserModel user);

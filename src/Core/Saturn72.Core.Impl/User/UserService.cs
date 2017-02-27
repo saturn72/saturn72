@@ -36,7 +36,7 @@ namespace Saturn72.Core.Services.Impl.User
             return Task.Run(() => _cacheManager.Get(SystemSharedCacheKeys.AllUsersCacheKey, () => _userRepository.GetAll()));
         }
 
-        public async Task<UserModel> GetUserByUsername(string username)
+        public async Task<UserModel> GetUserByUsernameAsync(string username)
         {
             Guard.HasValue(username);
             return await GetUserByFuncAndCacheIfExists(u => u.Active && u.Username == username);

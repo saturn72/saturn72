@@ -37,6 +37,7 @@ namespace Saturn72.Core.Services.Impl.User
 
         public async Task<UserRegistrationResponse> RegisterAsync(UserRegistrationRequest request)
         {
+            Guard.NotNull(request);
             var response = new UserRegistrationResponse();
             _registerRequestValidator.ValidateRequest(request).ForEachItem(err=> response.AddError(err));
 
@@ -72,7 +73,7 @@ namespace Saturn72.Core.Services.Impl.User
 
             var user = await (_userSettings.ValidateByEmail
                 ? _userService.GetUserByEmail(usernameOrEmail)
-                : _userService.GetUserByUsername(usernameOrEmail));
+                : _userService.GetUserByUsernameAsync(usernameOrEmail));
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
             return true;
