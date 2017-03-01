@@ -24,8 +24,7 @@ namespace Saturn72.Common.WebApi
             get { return 100; }
         }
 
-        public void Configure(IAppBuilder app, HttpConfiguration httpConfig,
-            IDictionary<string, IConfigMap> configurations)
+        public void Configure(IAppBuilder app, HttpConfiguration httpConfig)
         {
             FluentValidationModelValidatorProvider
                 .Configure(httpConfig, provider =>

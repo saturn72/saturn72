@@ -15,17 +15,17 @@ namespace Saturn72.Modules.NotificationManager
 {
     public class NotificationManagerModule : IModule
     {
-        public void Load(IDictionary<string, IConfigMap> configurations)
+        public void Load()
         {
             var typeFinder = AppEngine.Current.Resolve<ITypeFinder>();
             AppEngine.Current.ResolveAll<INotifier>().ForEachItem(n => n.Configure(typeFinder));
         }
 
-        public void Start(IDictionary<string, IConfigMap> configuration)
+        public void Start()
         {
         }
 
-        public void Stop(IDictionary<string, IConfigMap> configurations)
+        public void Stop()
         {
         }
     }

@@ -133,17 +133,18 @@ namespace Saturn72.Module.Notification.EmailNotifier
 
         protected virtual ICredentialsByHost SetCredentials(string userName, string password)
         {
-            SecureString securePassword;
-            unsafe
-            {
-                fixed (char* passwordChars = password)
-                {
-                    securePassword = new SecureString(passwordChars, password.Length);
-                    securePassword.MakeReadOnly();
-                }
-            }
+            throw new NotImplementedException("need to compile in unsafe --> redesign");
+            //SecureString securePassword;
+            //unsafe
+            //{
+            //    fixed (char* passwordChars = password)
+            //    {
+            //        securePassword = new SecureString(passwordChars, password.Length);
+            //        securePassword.MakeReadOnly();
+            //    }
+            //}
 
-            return new NetworkCredential(userName, securePassword);
+            //return new NetworkCredential(userName, securePassword);
         }
     }
 }

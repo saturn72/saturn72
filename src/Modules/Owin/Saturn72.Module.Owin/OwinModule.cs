@@ -1,14 +1,12 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Saturn72.Core;
 using Saturn72.Core.Configuration;
-using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Extensibility;
 using Saturn72.Extensions;
 
@@ -21,30 +19,29 @@ namespace Saturn72.Module.Owin
         private string _baseUri;
         private CancellationTokenSource _tokenSource;
 
-        public void Load(IDictionary<string, IConfigMap> configurations)
+        public void Load()
         {
-            var config = ConfigManager.GetConfigMap<OwinConfigMap>("OwinConfigMap");
-            _baseUri = config.Config.ServerUri;
+            _baseUri = ConfigManager.GetConfigMap<OwinConfigMap>().Config.ServerUri;
         }
 
-        public void Start(IDictionary<string, IConfigMap> configuration)
+        public void Start()
         {
             Guard.HasValue(_baseUri);
             DefaultOutput.WriteLine("Starting web Server. Feel free to browse to {0}...".AsFormat(_baseUri));
             _tokenSource = new CancellationTokenSource();
 
-            Task.Run(() => StartWebServer(configuration), _tokenSource.Token);
+            Task.Run(() => StartWebServer(), _tokenSource.Token);
         }
 
-        public void Stop(IDictionary<string, IConfigMap> configurations)
+        public void Stop()
         {
             _tokenSource.Cancel();
         }
 
-        private void StartWebServer(IDictionary<string, IConfigMap> configuration)
+        private void StartWebServer()
         {
             Action<IAppBuilder> startupAction =
-                appBuilder => new Startup(configuration).Configure(appBuilder);
+                appBuilder => new Startup().Configure(appBuilder);
             
             using (WebApp.Start(_baseUri, startupAction))
             {

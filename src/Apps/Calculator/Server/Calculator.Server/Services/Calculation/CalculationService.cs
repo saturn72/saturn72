@@ -15,9 +15,9 @@ namespace Calculator.Server.Services.Calculation
     {
         private const int MaxRecords = 10;
         private const string InsertionMessageFormat = "Perform {0} Expression with X: {1} and Y: {2}";
-        private readonly IRepository<ExpressionDomainModel, long> _expressionRepository;
+        private readonly IRepository<ExpressionModel> _expressionRepository;
 
-        public CalculationService(IRepository<ExpressionDomainModel, long> expressionRepository)
+        public CalculationService(IRepository<ExpressionModel> expressionRepository)
         {
             _expressionRepository = expressionRepository;
         }
@@ -61,7 +61,7 @@ namespace Calculator.Server.Services.Calculation
         {
             return Task.Run(() =>
             {
-                _expressionRepository.Create(new ExpressionDomainModel {Message = message});
+                _expressionRepository.Create(new ExpressionModel {Message = message});
                 return exp();
             });
         }

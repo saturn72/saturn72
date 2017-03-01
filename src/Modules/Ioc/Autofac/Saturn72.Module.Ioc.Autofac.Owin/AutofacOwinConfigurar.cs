@@ -16,8 +16,7 @@ namespace Saturn72.Module.Ioc.Autofac.Owin
     {
         public int ConfigurationOrder => 100;
 
-        public void Configure(IAppBuilder app, HttpConfiguration httpConfig,
-            IDictionary<string, IConfigMap> configurations)
+        public void Configure(IAppBuilder app, HttpConfiguration httpConfig)
         {
             //Autofac
             var autofacContainerManager = AppEngine.Current.IocContainerManager as AutofacIocContainerManager;

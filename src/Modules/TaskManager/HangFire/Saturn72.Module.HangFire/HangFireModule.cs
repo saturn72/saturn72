@@ -12,16 +12,16 @@ namespace Saturn72.Module.HangFire
 {
     public class HangFireModule : IModule
     {
-        public void Load(IDictionary<string, IConfigMap> configurations)
+        public void Load()
         {
         }
 
-        public void Start(IDictionary<string, IConfigMap> configuration)
+        public void Start()
         {
             AppEngine.Current.Resolve<ITaskManager>().Initialize();
         }
 
-        public void Stop(IDictionary<string, IConfigMap> configurations)
+        public void Stop()
         {
         }
     }

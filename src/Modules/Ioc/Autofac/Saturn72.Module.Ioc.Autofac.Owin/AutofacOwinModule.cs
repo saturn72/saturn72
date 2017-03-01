@@ -10,15 +10,15 @@ namespace Saturn72.Module.Ioc.Autofac.Owin
 {
     public class AutofacOwinModule : IModule
     {
-        public void Load(IDictionary<string, IConfigMap> configurations)
+        public void Load()
         {
         }
 
-        public void Start(IDictionary<string, IConfigMap> configuration)
+        public void Start()
         {
         }
 
-        public void Stop(IDictionary<string, IConfigMap> configurations)
+        public void Stop()
         {
         }
     }

@@ -17,7 +17,6 @@ using Newtonsoft.Json.Serialization;
 using Owin;
 using Saturn72.Core;
 using Saturn72.Core.Configuration;
-using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Extensions;
@@ -32,13 +31,6 @@ namespace Saturn72.Module.Owin
 {
     internal class Startup
     {
-        private readonly IDictionary<string, IConfigMap> _configurations;
-
-        public Startup(IDictionary<string, IConfigMap> configurations)
-        {
-            _configurations = configurations;
-        }
-
         public void Configure(IAppBuilder app)
         {
             //TODO: there is third option for httpConfiguration when the app is self hosted (webservice for instance). Need to use <code>System.Web.Http.SelfHost.HttpSelfHostConfiguration</code> in this case
@@ -70,7 +62,7 @@ namespace Saturn72.Module.Owin
         {
             var typeFinder = AppEngine.Current.Resolve<ITypeFinder>();
             typeFinder.FindClassesOfTypeAndRunMethod<IOwinConfigurar>(
-                w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig, _configurations)),
+                w => TryCatchWrapperForOwinConfiguration(() => w.Configure(app, httpConfig)),
                 o => o.ConfigurationOrder);
         }
 
