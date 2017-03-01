@@ -39,6 +39,9 @@
       <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Moq.4.5.28\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\NUnit.3.5.0\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="Saturn72.UnitTesting.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Saturn72.UnitTesting.Framework.2.0.3\Saturn72.UnitTesting.Framework.dll</HintPath>
       <Private>True</Private>
