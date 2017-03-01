@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
-      <HintPath>..\..\..\libs\EntityFramework.6.1.3\EntityFramework.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\EntityFramework.6.1.3\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="Saturn72.Mappers">
-      <HintPath>..\..\..\libs\Saturn72.Mappers.1.0.0\Saturn72.Mappers.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Saturn72.Mappers.1.0.0\Saturn72.Mappers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

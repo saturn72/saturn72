@@ -40,7 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\libs\Newtonsoft.Json.9.0.1\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\submodules\Saturn72.ThirdParty\Newtonsoft.Json.9.0.1\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Saturn72.UnitTesting.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

@@ -38,11 +38,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hangfire.Core, Version=1.5.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\libs\Hangfire.Core.1.5.7\Hangfire.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Hangfire.Core.1.5.7\Hangfire.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\libs\Owin.1.0\Owin.dll</HintPath>
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Owin.1.0\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

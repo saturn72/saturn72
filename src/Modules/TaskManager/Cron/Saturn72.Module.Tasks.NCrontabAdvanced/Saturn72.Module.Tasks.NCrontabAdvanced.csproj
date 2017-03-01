@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NCrontab.Advanced, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\libs\NCrontab.Advanced.1.1.1.0\NCrontab.Advanced.dll</HintPath>
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\NCrontab.Advanced.1.1.1.0\NCrontab.Advanced.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

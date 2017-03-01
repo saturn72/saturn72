@@ -36,84 +36,84 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.Identity.Core.2.2.1\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.Identity.Core.2.2.1\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.Identity.Owin.2.2.1\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.Identity.Owin.2.2.1\Microsoft.AspNet.Identity.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.3.0.1\Microsoft.Owin.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.3.0.1\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Cors, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Cors.3.0.1\Microsoft.Owin.Cors.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Cors.3.0.1\Microsoft.Owin.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Host.HttpListener.3.0.1\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Host.HttpListener.3.0.1\Microsoft.Owin.Host.HttpListener.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Host.SystemWeb.3.0.1\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Host.SystemWeb.3.0.1\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Hosting.3.0.1\Microsoft.Owin.Hosting.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Hosting.3.0.1\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Security.3.0.1\Microsoft.Owin.Security.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Security.3.0.1\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Security.Cookies.2.1.0\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Security.Cookies.2.1.0\Microsoft.Owin.Security.Cookies.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Security.Facebook.3.0.1\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Security.Facebook.3.0.1\Microsoft.Owin.Security.Facebook.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Security.Google.3.0.1\Microsoft.Owin.Security.Google.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Security.Google.3.0.1\Microsoft.Owin.Security.Google.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.Owin.Security.OAuth.2.1.0\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Security.OAuth.2.1.0\Microsoft.Owin.Security.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\libs\Newtonsoft.Json.9.0.1\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Newtonsoft.Json.9.0.1\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
-      <HintPath>..\..\..\libs\Owin.1.0\Owin.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Owin.1.0\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.WebApi.Client.5.2.3\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.WebApi.Client.5.2.3\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Cors, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.Cors.5.0.0\System.Web.Cors.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.Cors.5.0.0\System.Web.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.WebApi.Core.5.2.3\System.Web.Http.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.WebApi.Core.5.2.3\System.Web.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.Owin, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.WebApi.Owin.5.2.3\System.Web.Http.Owin.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.WebApi.Owin.5.2.3\System.Web.Http.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\libs\Microsoft.AspNet.WebApi.WebHost.5.2.3\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.AspNet.WebApi.WebHost.5.2.3\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
