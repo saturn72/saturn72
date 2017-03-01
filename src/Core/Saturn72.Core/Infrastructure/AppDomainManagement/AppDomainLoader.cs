@@ -66,6 +66,12 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         private static void LoadAllModules(DynamicLoadingData data)
         {
+            if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
+            {
+                Trace.TraceWarning("No Modules were found in modules root directory or unaccessible directory: " + data.RootDirectory);
+                return;
+            }
+
             using (new WriteLockDisposable(Locker))
             {
                 if (!PrepareFileSystemForPluginsOrModules(data))
@@ -77,6 +83,11 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         private static void LoadAllPlugins(DynamicLoadingData data)
         {
+            if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
+            {
+                Trace.TraceWarning("No PLUGINS were found in modules root directory or unaccessible directory: " + data.RootDirectory);
+                return;
+            }
             using (new WriteLockDisposable(Locker))
             {
                 if (!PrepareFileSystemForPluginsOrModules(data))
@@ -99,6 +110,19 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 }
 
                 DeployPluginOrModuleDlls(data);
+            }
+        }
+
+        private static bool DirectoryIsAccessibleAndHaveFilesOrDirectories(string directory)
+        {
+            try
+            {
+                return Directory.Exists(directory) &&  Directory.GetDirectories(directory).Any() ||
+                       !Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).Any();
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                return false;
             }
         }
 

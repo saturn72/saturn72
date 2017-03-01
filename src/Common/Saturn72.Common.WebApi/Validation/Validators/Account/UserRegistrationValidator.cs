@@ -14,9 +14,13 @@ namespace Saturn72.Common.WebApi.Validation.Validators.Account
             RuleFor(x => x.Username)
                 .NotEmpty()
                 .When(x => ShouldUseUsername())
-                .WithMessage("UsernameOrEmail is mandatory")
+                .WithMessage("Username is mandatory")
                 .Length(6, 124)
-                .WithMessage("UsernameOrEmail shouldbe at least 6 characters, and max 124");
+                .WithMessage("Username should be at least 6 characters, and max 124");
+
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .WithMessage("Email is mandatory");
 
             RuleFor(x => x.Password)
                 .Equal(x => x.PasswordConfirm)
