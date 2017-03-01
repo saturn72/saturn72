@@ -4,8 +4,6 @@ namespace Saturn72.Core.Domain.Logging
 {
     public sealed class LogLevel
     {
-        private static LogLevel[] _allSystemLogLevels;
-
         public static readonly LogLevel Debug = new LogLevel(10, "debug");
         public static readonly LogLevel Trace = new LogLevel(20, "trace");
         public static readonly LogLevel Information = new LogLevel(30, "information");
