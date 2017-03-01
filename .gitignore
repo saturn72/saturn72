@@ -565,7 +565,7 @@ SchemaComparisons/
 !**/*.Tests/Resources/*
 !**/*.Tests/Plugin*/**/ShouldBeLoaded.dll
 #modules libs
-!**/libs/
+!**/libs/**
 
 #webstorm config
 .idea
