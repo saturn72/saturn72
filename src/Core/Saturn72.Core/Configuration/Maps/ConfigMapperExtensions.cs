@@ -15,7 +15,7 @@ namespace Saturn72.Core.Configuration.Maps
 
         public static string GetValueAsString(this IConfigMap configMap, string key)
         {
-            return configMap.GetValue(key).ToString();
+            return configMap.AllConfigRecords[key].ToString();
         }
     }
 }

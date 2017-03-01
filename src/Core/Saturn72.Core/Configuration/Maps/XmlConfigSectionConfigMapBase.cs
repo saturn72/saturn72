@@ -8,34 +8,22 @@ using System.Xml;
 
 namespace Saturn72.Core.Configuration.Maps
 {
-    public abstract class XmlConfigSectionConfigMapBase<TConfigSection> : ConfigMapBase
+    public abstract class XmlConfigSectionConfigMapBase<TConfigSection> : ConfigFileMapBase
         where TConfigSection : class, IConfigurationSectionHandler, new()
     {
-        private IDictionary<string, object> _allConfigRecords;
-
         protected XmlConfigSectionConfigMapBase(string name, string configFilePath) : base(name, configFilePath)
         {
         }
 
         public TConfigSection Config { get; protected set; }
-
-        public override IDictionary<string, object> AllConfigRecords
-        {
-            get { return _allConfigRecords; }
-        }
-
-        public override object GetValue(string key)
-        {
-            return AllConfigRecords[key];
-        }
-
-        public override void Load()
+        
+        protected override void LoadFile()
         {
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(ConfigFilePath);
 
             var config = new TConfigSection().Create(null, null, xmlDoc) as TConfigSection;
-            _allConfigRecords = new Dictionary<string, object>
+            AllConfigRecords = new Dictionary<string, object>
             {
                 {Name, config}
             };

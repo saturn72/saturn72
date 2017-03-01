@@ -72,7 +72,7 @@
     <Compile Include="Configuration\Maps\IConfigMap.cs" />
     <Compile Include="Configuration\Maps\KeyValueConfigMapper.cs" />
     <Compile Include="Configuration\IConfigLoader.cs" />
-    <Compile Include="Configuration\Maps\ConfigMapBase.cs" />
+    <Compile Include="Configuration\Maps\ConfigFileMapBase.cs" />
     <Compile Include="Configuration\Saturn72Config.cs" />
     <Compile Include="Configuration\SettingsBase.cs" />
     <Compile Include="Configuration\SystemDefaults.cs" />

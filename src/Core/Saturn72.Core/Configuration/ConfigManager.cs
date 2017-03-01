@@ -39,12 +39,12 @@ namespace Saturn72.Core.Configuration
 
         public static TConfigMap GetConfigMap<TConfigMap>() where TConfigMap : class, IConfigMap
         {
-            return Current.ConfigMaps.Values.FirstOrDefault(cm => (cm as TConfigMap).NotNull()) as TConfigMap;
+            return Current.ConfigMaps.Values.FirstOrDefault(cm => (cm.Value is TConfigMap)).Value as TConfigMap;
         }
 
         public static TConfigMap GetConfigMap<TConfigMap>(string key) where TConfigMap : class, IConfigMap
         {
-            return Current.ConfigMaps[key] as TConfigMap;
+            return Current.ConfigMaps[key]?.Value as TConfigMap;
         }
 
         #region Properties

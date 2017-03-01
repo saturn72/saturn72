@@ -91,7 +91,7 @@ namespace Saturn72.Core.Configuration
             Guard.FileExists(path);
 
             var parserType = configMapElement.GetAttributeValue("ParserType");
-            var cm = new Lazy<IConfigMap>(()=> CommonHelper.CreateInstance<ConfigMapBase>(parserType, name, path));
+            var cm = new Lazy<IConfigMap>(()=> CommonHelper.CreateInstance<ConfigFileMapBase>(parserType, name, path));
             return new KeyValuePair<string, Lazy<IConfigMap>>(name, cm);
         }
 

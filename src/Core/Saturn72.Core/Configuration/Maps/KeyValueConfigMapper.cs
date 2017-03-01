@@ -8,34 +8,20 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Configuration.Maps
 {
-    public class KeyValueConfigMap : ConfigMapBase
+    public class KeyValueConfigMap : ConfigFileMapBase
     {
         public const string ConfigMapElementName = "configMap";
         public const string ConfigMapRecordElementName = "config";
         public const string KeyAttributeName = "Key";
         public const string ValueAttributeName = "Value";
-        private IDictionary<string, object> _allConfigRecords;
-        private bool _alreadyLoaded;
 
         public KeyValueConfigMap(string name, string configFilePath) : base(name, configFilePath)
         {
         }
 
-        public override IDictionary<string, object> AllConfigRecords
+        protected override void LoadFile()
         {
-            get { return _allConfigRecords; }
-        }
-
-        public override object GetValue(string key)
-        {
-            return AllConfigRecords[key];
-        }
-
-        public override void Load()
-        {
-            if (_alreadyLoaded)
-                return;
-            _allConfigRecords = new Dictionary<string, object>();
+            AllConfigRecords = new Dictionary<string, object>();
 
             var xDoc = XDocument.Load(ConfigFilePath);
             var configMapElements = xDoc.Descendants(ConfigMapRecordElementName);
@@ -47,8 +33,6 @@ namespace Saturn72.Core.Configuration.Maps
 
                 AllConfigRecords.Add(key, value);
             });
-
-            _alreadyLoaded = true;
         }
     }
 }

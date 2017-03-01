@@ -17,19 +17,11 @@ namespace Saturn72.Core.Configuration.Maps
         private IDictionary<string, object> _allConfigurations;
 
 
-        public NameValueCollection AppSettings
-        {
-            get { return AllConfigRecords[AppSettingsKey] as NameValueCollection; }
-        }
+        public NameValueCollection AppSettings => AllConfigRecords[AppSettingsKey] as NameValueCollection;
 
-        public ConnectionStringSettingsCollection ConnectionStrings
-        {
-            get { return AllConfigRecords[ConnectionStringsKey] as ConnectionStringSettingsCollection; }
-        }
-        public IDictionary<string, object> AllConfigRecords
-        {
-            get { return _allConfigurations ?? (_allConfigurations = GetAllConfigurations()); }
-        }
+        public ConnectionStringSettingsCollection ConnectionStrings => AllConfigRecords[ConnectionStringsKey] as ConnectionStringSettingsCollection;
+
+        public IDictionary<string, object> AllConfigRecords => _allConfigurations ?? (_allConfigurations = GetAllConfigurations());
 
 
         public object GetValue(string key)

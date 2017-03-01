@@ -14,6 +14,7 @@ namespace Saturn72.Module.Owin
         public OwinConfigMap(string name, string configFilePath) : base(name, configFilePath)
         {
         }
+
     }
 
     public class OwinConfig : ConfigurationSectionHandlerBase
