@@ -14,7 +14,7 @@ namespace Saturn72.Module.TaskManager
     public class TaskManagerModule : IModule
     {
         private ITaskManager _taskManager;
-        public void Load(IDictionary<string, IConfigMap> configurations)
+        public void Load()
         {
             _taskManager = AppEngine.Current.Resolve<ITaskManager>();
 
@@ -22,14 +22,14 @@ namespace Saturn72.Module.TaskManager
             _taskManager.Initialize();
         }
 
-        public void Start(IDictionary<string, IConfigMap> configuration)
+        public void Start()
         {
             Console.Out.WriteLine("Starts task manager...");
             _taskManager.Start();
 
         }
 
-        public void Stop(IDictionary<string, IConfigMap> configurations)
+        public void Stop()
         {
             Console.Out.WriteLine("Stops task manager...");
             _taskManager.Stop();

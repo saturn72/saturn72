@@ -21,7 +21,6 @@ namespace Saturn72.Module.Owin.Adapters
         /// </summary>
         /// <param name="app">Owin app</param>
         /// <param name="httpConfig"></param>
-        /// <param name="configurations"></param>
-        void Configure(IAppBuilder app, HttpConfiguration httpConfig, IDictionary<string, IConfigMap> configurations);
+        void Configure(IAppBuilder app, HttpConfiguration httpConfig);
     }
 }

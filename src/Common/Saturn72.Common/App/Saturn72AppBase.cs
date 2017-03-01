@@ -99,7 +99,7 @@ namespace Saturn72.Common.App
                 DefaultOutput.WriteLine("Starting " + m.Type);
                 try
                 {
-                    m.Module.Start(ConfigManager.ConfigMaps);
+                    m.Module.Start();
                 }
                 catch (Exception ex)
                 {
@@ -115,7 +115,7 @@ namespace Saturn72.Common.App
                 .ForEachItem(m =>
                 {
                     DefaultOutput.WriteLine("Stopping " + m.Type);
-                    m.Module.Stop(ConfigManager.ConfigMaps);
+                    m.Module.Stop();
                 });
         }
 
@@ -124,7 +124,7 @@ namespace Saturn72.Common.App
             GetActiveModuleInstancesOnly(data).ForEachItem(mi =>
             {
                 mi.SetModule(CommonHelper.CreateInstance<IModule>(mi.Type));
-                mi.Module.Load(ConfigManager.ConfigMaps);
+                mi.Module.Load();
             });
         }
 

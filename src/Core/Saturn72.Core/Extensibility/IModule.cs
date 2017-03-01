@@ -12,19 +12,16 @@ namespace Saturn72.Core.Extensibility
         /// <summary>
         ///     Loads the module
         /// </summary>
-        /// <param name="configurations"></param>
-        void Load(IDictionary<string, IConfigMap> configurations);
+        void Load();
 
         /// <summary>
         ///     starts the module
         /// </summary>
-        /// <param name="configuration"></param>
-        void Start(IDictionary<string, IConfigMap> configuration);
+        void Start();
 
         /// <summary>
         ///     Stops the module
         /// </summary>
-        /// <param name="configurations"></param>
-        void Stop(IDictionary<string, IConfigMap> configurations);
+        void Stop();
     }
 }

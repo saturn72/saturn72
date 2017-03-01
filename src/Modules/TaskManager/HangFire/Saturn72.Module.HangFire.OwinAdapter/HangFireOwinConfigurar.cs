@@ -1,12 +1,11 @@
 ﻿#region
 
-using System.Collections.Generic;
 using System.Web.Http;
 using Hangfire;
 using Owin;
 using Saturn72.Core.Configuration;
-using Saturn72.Extensions;
 using Saturn72.Core.Configuration.Maps;
+using Saturn72.Extensions;
 using Saturn72.Module.Owin.Adapters;
 
 #endregion
@@ -19,9 +18,9 @@ namespace Saturn72.Module.HangFire.OwinAdapter
 
         public int ConfigurationOrder => 100;
 
-        public void Configure(IAppBuilder app, HttpConfiguration httpConfig, IDictionary<string, IConfigMap> configurations)
+        public void Configure(IAppBuilder app, HttpConfiguration httpConfig)
         {
-            var connectionString = GetConnectionString(configurations);
+            var connectionString = GetConnectionString();
 
             GlobalConfiguration.Configuration.UseSqlServerStorage(connectionString);
             app.UseHangfireServer();
@@ -29,7 +28,7 @@ namespace Saturn72.Module.HangFire.OwinAdapter
             app.UseHangfireDashboard();
         }
 
-        private string GetConnectionString(IDictionary<string, IConfigMap> configurations)
+        private string GetConnectionString()
         {
             var cMap = ConfigManager.GetConfigMap<DefaultConfigMap>("Default");
             var conString = cMap.ConnectionStrings["HangFireDb"];
