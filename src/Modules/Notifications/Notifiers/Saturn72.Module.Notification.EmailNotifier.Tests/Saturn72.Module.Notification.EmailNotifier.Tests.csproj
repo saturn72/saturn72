@@ -64,7 +64,6 @@
     <None Include="EmailTemplates\Example.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Core\Saturn72.Core.Services\Saturn72.Core.Services.csproj">
