@@ -1,0 +1,4 @@
+[submodule "submodules/Saturn72.ThirdParty"]
+	path = submodules/Saturn72.ThirdParty
+	url = https://github.com/saturn72/Saturn72.ThirdParty.git
+	branch = master
