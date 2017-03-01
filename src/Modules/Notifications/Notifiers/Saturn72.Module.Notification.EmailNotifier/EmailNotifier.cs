@@ -81,30 +81,30 @@ namespace Saturn72.Module.Notification.EmailNotifier
             var config = ConfigManager.Current.ConfigMaps["EmailNotifierConfig"];
             _settings = new EmailNotifierSettings
             {
-                Host = config.GetValueAsString("Host"),
-                Port = CommonHelper.ToInt(config.GetValueAsString("Port")),
-                EnableSsl = config.GetValueAsString("EnableSsl").ToBoolean()
+                Host = config.Value.GetValueAsString("Host"),
+                Port = CommonHelper.ToInt(config.Value.GetValueAsString("Port")),
+                EnableSsl = config.Value.GetValueAsString("EnableSsl").ToBoolean()
             };
 
             //delivery method
             SmtpDeliveryMethod policy;
-            Enum.TryParse(config.GetValueAsString("SmtpDeliveryMethod"), true, out policy);
+            Enum.TryParse(config.Value.GetValueAsString("SmtpDeliveryMethod"), true, out policy);
             _settings.DeliveryMethod = policy;
 
             if (_settings.DeliveryMethod == SmtpDeliveryMethod.SpecifiedPickupDirectory)
                 _settings.SettingEntries.Add(PickupdirectorylocationKey, new SettingEntryModel
                 {
                     Name = PickupdirectorylocationKey,
-                    Value = config.GetValueAsString(PickupdirectorylocationKey)
+                    Value = config.Value.GetValueAsString(PickupdirectorylocationKey)
                 });
 
             //credentials
-            var username = config.GetValueAsString("UsernameOrEmail");
-            var password = config.GetValueAsString("Password");
+            var username = config.Value.GetValueAsString("UsernameOrEmail");
+            var password = config.Value.GetValueAsString("Password");
             _settings.Credentials = SetCredentials(username, password);
 
             //Razor views path
-            var viewsPath = config.GetValueAsString("EmailTemplatesPath");
+            var viewsPath = config.Value.GetValueAsString("EmailTemplatesPath");
             _settings.RazorViewsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, viewsPath);
 
             //Incase 

@@ -182,13 +182,13 @@ namespace Saturn72.Core.Tests.Configuration
             configMaps.ToList().ShouldCount(3);
 
             var elem = configMaps["ConfigMap1"];
-            elem.GetValue("Key1").ShouldEqual("Value1");
-            elem.GetValue("Key2").ShouldEqual("Value2");
+            elem.Value.GetValue("Key1").ShouldEqual("Value1");
+            elem.Value.GetValue("Key2").ShouldEqual("Value2");
 
 
             elem = configMaps["ConfigMap2"];
-            elem.GetValue("Key1").ShouldEqual("Value1");
-            elem.GetValue("Key2").ShouldEqual("Value2");
+            elem.Value.GetValue("Key1").ShouldEqual("Value1");
+            elem.Value.GetValue("Key2").ShouldEqual("Value2");
         }
     }
 }

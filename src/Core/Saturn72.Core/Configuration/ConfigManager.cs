@@ -49,7 +49,7 @@ namespace Saturn72.Core.Configuration
 
         #region Properties
 
-        public IDictionary<string, IConfigMap> ConfigMaps { get; private set; }
+        public IDictionary<string, Lazy<IConfigMap>> ConfigMaps { get; private set; }
         public AppDomainLoadData AppDomainLoadData { get; private set; }
 
         #endregion

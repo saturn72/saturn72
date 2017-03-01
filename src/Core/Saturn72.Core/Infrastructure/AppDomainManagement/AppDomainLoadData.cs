@@ -1,5 +1,6 @@
 #region
 
+using System;
 using System.Collections.Generic;
 using Saturn72.Extensions;
 using Saturn72.Core.Configuration.Maps;
@@ -15,7 +16,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         public AppDomainLoadData(string[] assemblies, DynamicLoadingData modulesDynamicLoadData,
             DynamicLoadingData pluginsDynamicLoadData, ModuleInstance[] moduleInstances,
-            IDictionary<string, IConfigMap> configMaps)
+            IDictionary<string, Lazy<IConfigMap>> configMaps)
         {
             Assemblies = assemblies;
             ModulesDynamicLoadingData = modulesDynamicLoadData;
@@ -32,7 +33,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         /// <summary>
         ///     Gets the config section maps
         /// </summary>
-        public IDictionary<string, IConfigMap> ConfigMaps { get; private set; }
+        public IDictionary<string, Lazy<IConfigMap>> ConfigMaps { get; private set; }
 
         /// <summary>
         ///     Gets list of specific assemblies to be loaded to app domain

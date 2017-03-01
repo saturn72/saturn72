@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -62,7 +63,7 @@ namespace Saturn72.Core.Configuration
                 moduleInstances, configMaps);
         }
 
-        protected virtual IDictionary<string, IConfigMap> LoadConfigMaps(XNode configRoot)
+        protected virtual IDictionary<string, Lazy<IConfigMap>> LoadConfigMaps(XNode configRoot)
         {
             var configMapsNode = configRoot.XPathSelectElement("configMaps");
             var configMapFile = configMapsNode.NotNull()
@@ -78,20 +79,20 @@ namespace Saturn72.Core.Configuration
             var configMapData = configMapDoc.XPathSelectElements("configMap");
 
             var configMaps = configMapData.Select(GetConfigMap).ToDictionary(x => x.Key, x => x.Value);
-            configMaps.Add("Default", new DefaultConfigMap());
+
+            configMaps.Add("Default", new Lazy<IConfigMap>(() => new DefaultConfigMap()));
             return configMaps;
         }
 
-        private KeyValuePair<string, IConfigMap> GetConfigMap(XElement configMapElement)
+        private KeyValuePair<string, Lazy<IConfigMap>> GetConfigMap(XElement configMapElement)
         {
             var name = configMapElement.GetAttributeValue("Name");
             var path = FileSystemUtil.RelativePathToAbsolutePath(configMapElement.GetAttributeValue("Path"));
             Guard.FileExists(path);
 
             var parserType = configMapElement.GetAttributeValue("ParserType");
-            var cm = CommonHelper.CreateInstance<ConfigMapBase>(parserType, name, path);
-            cm.Load();
-            return new KeyValuePair<string, IConfigMap>(name, cm);
+            var cm = new Lazy<IConfigMap>(()=> CommonHelper.CreateInstance<ConfigMapBase>(parserType, name, path));
+            return new KeyValuePair<string, Lazy<IConfigMap>>(name, cm);
         }
 
 

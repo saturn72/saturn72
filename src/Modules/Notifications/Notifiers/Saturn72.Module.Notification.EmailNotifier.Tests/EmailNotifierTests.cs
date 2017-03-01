@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.IO;
 using System.Threading;
 using Moq;
@@ -27,7 +28,7 @@ namespace Saturn72.Module.Notification.EmailNotifier.Tests
                 FileSystemUtil.RelativePathToAbsolutePath(smtpTestConfig.GetValueAsString("PickupDirectoryLocation"));
             FileSystemUtil.DeleteDirectoryContent(emailPath);
 
-            ConfigManager.Current.ConfigMaps.Add("EmailNotifierConfig", smtpTestConfig);
+            ConfigManager.Current.ConfigMaps.Add("EmailNotifierConfig", new Lazy<IConfigMap>(()=> smtpTestConfig));
             var t = "DDD";
             var notificationServiceMock = CreateMockForNotificationService();
             var notifier = new EmailNotifier(notificationServiceMock);

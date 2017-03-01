@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
@@ -14,9 +15,6 @@ namespace Saturn72.Core.Configuration
 
         public abstract void Load(IDictionary<string, string> data);
 
-        public IDictionary<string, IConfigMap> ConfigMaps
-        {
-            get { return AppDomainLoadData.ConfigMaps; }
-        }
+        public IDictionary<string, Lazy<IConfigMap>> ConfigMaps => AppDomainLoadData.ConfigMaps;
     }
 }
