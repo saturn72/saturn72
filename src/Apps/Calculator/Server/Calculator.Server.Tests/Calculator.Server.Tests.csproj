@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{38A3E8D9-87D8-4C85-A0A6-2E03C06F6F4D}</ProjectGuid>
+    <ProjectGuid>{F8F48F67-3B03-4DD6-9FAF-B4BB44F0089C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Calculator.WebApi.Tests</RootNamespace>
-    <AssemblyName>Calculator.WebApi.Tests</AssemblyName>
+    <RootNamespace>Calculator.Server.Tests</RootNamespace>
+    <AssemblyName>Calculator.Server.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -32,54 +32,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Castle.Core.3.3.3\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.5.28.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\Moq.4.5.28\lib\net45\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\submodules\Saturn72.ThirdParty\Newtonsoft.Json.9.0.1\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Moq.4.5.28\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Saturn72.UnitTesting.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\Saturn72.UnitTesting.Framework.2.0.3\lib\net461\Saturn72.UnitTesting.Framework.dll</HintPath>
+      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Saturn72.UnitTesting.Framework.2.0.3\Saturn72.UnitTesting.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\CalculatorControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Common\Saturn72.Common.WebApi\Saturn72.Common.WebApi.csproj">
-      <Project>{71B3565D-1351-4978-9877-724E05103A08}</Project>
-      <Name>Saturn72.Common.WebApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Calculator.Server\Calculator.Server.csproj">
-      <Project>{E2736069-2055-4156-A2E5-1D3EF31C15BD}</Project>
-      <Name>Calculator.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Calculator.WebApi\Calculator.WebApi.csproj">
-      <Project>{06D80C3C-3FA7-4763-9944-599407B15251}</Project>
-      <Name>Calculator.WebApi</Name>
-    </ProjectReference>
+    <Compile Include="Services\Calculation\CalculationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
+      <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
+      <Name>Saturn72.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
+      <Project>{F732B9E8-6BC9-4CA4-B123-C09B4694F7F8}</Project>
+      <Name>Calculator.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calculator.Server\Calculator.Server.csproj">
+      <Project>{E2736069-2055-4156-A2E5-1D3EF31C15BD}</Project>
+      <Name>Calculator.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
