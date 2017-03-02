@@ -28,10 +28,18 @@ namespace Saturn72.Module.Owin
         public void Start()
         {
             Guard.HasValue(_baseUri);
-            Trace.WriteLine("Starting web Server. Feel free to browse to {0}...".AsFormat(_baseUri));
+            PublishUrlMessage();
             _tokenSource = new CancellationTokenSource();
 
             Task.Run(() => StartWebServer(), _tokenSource.Token);
+        }
+
+        private void PublishUrlMessage()
+        {
+            var tmpColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Trace.WriteLine("Starting web Server. Feel free to browse to {0}...".AsFormat(_baseUri));
+            Console.ForegroundColor = tmpColor;
         }
 
         public void Stop()
