@@ -166,6 +166,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     msg = msg + exception.Message + Environment.NewLine;
 
                 var fail = new Exception(msg, ex);
+                Trace.WriteLine(fail.Message);
                 Debug.WriteLine(fail.Message, fail);
 
                 throw fail;
@@ -177,6 +178,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     msg += e.Message + Environment.NewLine;
 
                 var fail = new Exception(msg, ex);
+                Trace.WriteLine(fail.Message);
                 Debug.WriteLine(fail.Message, fail);
 
                 throw fail;
@@ -324,13 +326,13 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             //First register using given path, if fail let .Net to figure how to load the assembly
             var asmFullName = GetDeploymentPathInfo(component, shadowCopyDirectory).FullName;
             VerifyAssemblyIsNotAlreadyLoaded(asmFullName);
-
+            
             var shadowCopyAssembly = Assembly.Load(AssemblyName.GetAssemblyName(asmFullName));
-
+            Trace.WriteLine(asmFullName + " was loaded");
             //add the reference to the build manager
             if (CommonHelper.IsWebApp())
             {
-                Debug.WriteLine("Adding to BuildManager: '{0}'", shadowCopyAssembly.FullName);
+                Trace.WriteLine("Adding to BuildManager: '{0}'", shadowCopyAssembly.FullName);
                 BuildManager.AddReferencedAssembly(shadowCopyAssembly);
             }
         }

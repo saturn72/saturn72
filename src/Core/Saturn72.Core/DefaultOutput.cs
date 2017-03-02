@@ -11,16 +11,11 @@ namespace Saturn72.Core
     {
         private const string OutputPrefix = ">>>>>>";
 
-        private static TextWriter _outputStream;
+        private static TextWriter OutputStream =>  Console.Out;
 
-        private static TextWriter OutputStream
+        public static void WriteLine(string format, params object[] args)
         {
-            get { return _outputStream ?? (_outputStream = Console.Out); }
-        }
-
-        public static void WriteLine(string line)
-        {
-            OutputStream.WriteLine(OutputPrefix + line);
+            OutputStream.WriteLine(OutputPrefix + string.Format(format, args));
         }
 
         public static void WriteLine(object value)

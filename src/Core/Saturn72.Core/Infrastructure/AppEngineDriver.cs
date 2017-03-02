@@ -62,6 +62,11 @@ namespace Saturn72.Core.Infrastructure
             IocContainerManager.ExecuteInNewScope(action);
         }
 
+        public void Dispose()
+        {
+            RunDisposeTasks();
+        }
+
         protected virtual ITypeFinder GetTypeFinder()
         {
             return new AppDomainTypeFinder();
@@ -107,6 +112,10 @@ namespace Saturn72.Core.Infrastructure
             typeFinder.FindClassesOfTypeAndRunMethod<IStartupTask>(s => s.Execute(), s => s.ExecutionIndex);
         }
 
+        protected virtual void RunDisposeTasks()
+        {
+            Resolve<ITypeFinder>().FindClassesOfTypeAndRunMethod<IDisposeTask>(s => s.Execute(), s => s.ExecutionIndex);
+        }
         #endregion Utilities
     }
 }

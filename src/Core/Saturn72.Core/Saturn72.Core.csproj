@@ -102,6 +102,7 @@
     <Compile Include="Infrastructure\DependencyManagement\IocRegistrationRecord.cs" />
     <Compile Include="Infrastructure\DependencyManagement\IocResolverExtensions.cs" />
     <Compile Include="IWorkContext.cs" />
+    <Compile Include="Tasks\IDisposeTask.cs" />
     <Compile Include="WorkContext.cs" />
     <Compile Include="Tasks\IBackgroundTaskType.cs" />
     <Compile Include="Domain\Users\PasswordFormat.cs" />

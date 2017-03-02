@@ -37,5 +37,10 @@ namespace Saturn72.Core.Infrastructure
         /// </summary>
         /// <param name="action">Action to be executed</param>
         void ExecuteInNewScope(Action action);
+
+        /// <summary>
+        /// Disposes engine instance 
+        /// </summary>
+        void Dispose();
     }
 }

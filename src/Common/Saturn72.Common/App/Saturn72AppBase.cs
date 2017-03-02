@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Saturn72.Core;
@@ -59,22 +60,22 @@ namespace Saturn72.Common.App
 
         public virtual void Start()
         {
-            Console.Out.WriteLine("Start {0} application".AsFormat(AppId));
+            Trace.WriteLine("Start {0} application".AsFormat(AppId));
 
             var data = ConfigManager.AppDomainLoadData;
-            Console.Out.WriteLine("Read configuration file data and load external assemblies...");
+            Trace.WriteLine("Read configuration file data and load external assemblies...");
             AppDomainLoader.Load(data);
 
-            Console.Out.WriteLine("Start application engine...");
+            Trace.WriteLine("Start application engine...");
             AppEngine.Initialize(true);
 
             Console.Out.WriteLine("Loading modules...");
             LoadAllModules(data);
 
-            Console.Out.WriteLine("Start all modules...");
+            Trace.WriteLine("Start all modules...");
             StartAllModules(data);
 
-            Console.WriteLine("Press CTRL+C to quit application...");
+            Trace.WriteLine("Press CTRL+C to quit application...");
 
             var exitEvent = new ManualResetEvent(false);
             Console.CancelKeyPress += (sender, eventArgs) =>
@@ -85,9 +86,15 @@ namespace Saturn72.Common.App
 
             exitEvent.WaitOne();
 
-            Console.Out.WriteLine("Stop all modules...");
+            Trace.WriteLine("Stop all modules...");
             StopAllModules(data);
+            RunDisposeTasks();
             DisplayExitCounter();
+        }
+
+        protected virtual void RunDisposeTasks()
+        {
+            AppEngine.Current.Dispose();
         }
 
 
@@ -132,11 +139,11 @@ namespace Saturn72.Common.App
 
         private void DisplayExitCounter()
         {
-            Console.WriteLine(AppId + " will be closed in ");
+            Trace.WriteLine(AppId + " will be closed in ");
             var counter = 5;
             do
             {
-                Console.WriteLine(counter--);
+                Trace.WriteLine(counter--);
                 Thread.Sleep(1000);
             } while (counter > 0);
             Console.WriteLine("Closing...");
