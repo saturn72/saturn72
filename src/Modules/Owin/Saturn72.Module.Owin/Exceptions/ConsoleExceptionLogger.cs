@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
 using System.Web.Http.ExceptionHandling;
 using Saturn72.Core;
@@ -9,7 +10,7 @@ namespace Saturn72.Module.Owin.Exceptions
     {
         public override void Log(ExceptionLoggerContext context)
         {
-            DefaultOutput.WriteLine("Error has accured: " + RequestToString(context.Request));
+            Trace.WriteLine("Error has accured: {0}", RequestToString(context.Request));
             base.Log(context);
         }
 

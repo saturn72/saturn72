@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -93,8 +94,7 @@ namespace Saturn72.Common.Extensibility
             }
             catch (Exception ex)
             {
-                DefaultOutput.WriteLine(ex.Message);
-                DefaultOutput.WriteLine(ex);
+                Debug.WriteLine(ex.Message, ex);
             }
             finally
             {

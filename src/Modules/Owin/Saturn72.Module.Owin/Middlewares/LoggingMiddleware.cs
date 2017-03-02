@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Saturn72.Core;
 using Saturn72.Extensions;
@@ -27,19 +28,19 @@ namespace Saturn72.Module.Owin.Middlewares
 
         public async Task Invoke(IDictionary<string, object> environment)
         {
-            DefaultOutput.WriteLine(GetRequestDetails(environment));
-            DefaultOutput.WriteLine("Start Request Processing ...");
+            Trace.WriteLine(GetRequestDetails(environment));
+            Trace.WriteLine("Start Request Processing ...");
 
             try
             {
                 await _next.Invoke(environment);
-                DefaultOutput.WriteLine(GetResponseDetails(environment));
+                Trace.WriteLine(GetResponseDetails(environment));
             }
             catch (Exception ex)
             {
                 //TODO: add log here
-                DefaultOutput.WriteLine(ex.Message);
-                DefaultOutput.WriteLine(ex);
+                Trace.WriteLine(ex.Message);
+                Trace.WriteLine(ex.ToString());
             }
         }
 

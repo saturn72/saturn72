@@ -46,7 +46,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
 
             proc.OutputDataReceived += (sender, e) => WriteOutputData(e.Data);
 
-            proc.ErrorDataReceived += (sender, e) => WriteErrorData(e.Data, _ted);
+            proc.ErrorDataReceived += (sender, e) => WriteOutputData(e.Data);
 
             proc.StartInfo = GetProcessStartInfo();
             _ted.SetPocessStartInfo(proc.StartInfo);
@@ -88,21 +88,15 @@ namespace Saturn72.Core.Services.Impl.Tasks
             EventPublisher.DomainModelCreated(_ted);
         }
 
-        private static void WriteErrorData(string data, BackgroundTaskExecutionDataDomainModel ted)
-        {
-            ted.ErrorData += NewLine + data;
-            DefaultOutput.WriteLine(data);
-        }
-
         private void WriteOutputData(string data)
         {
             _ted.OutputData += NewLine + data;
-            DefaultOutput.WriteLine(data);
+            Trace.WriteLine(_ted.OutputData);
         }
 
         private void HandleException(Exception ex, Process process)
         {
-            DefaultOutput.WriteLine(ex);
+            Trace.WriteLine(ex.ToString());
             _ted.SetException(ex);
 
             try

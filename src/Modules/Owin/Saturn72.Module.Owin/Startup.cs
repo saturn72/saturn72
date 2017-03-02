@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
@@ -39,7 +40,7 @@ namespace Saturn72.Module.Owin
                 ? GlobalConfiguration.Configuration
                 : new HttpConfiguration();
 
-            DefaultOutput.WriteLine("Configure Formatters");
+            Trace.WriteLine("Configure Formatters");
             ConfigureFormatters(httpConfig);
             ConfigureOwinCommon(app, httpConfig);
 
@@ -52,7 +53,7 @@ namespace Saturn72.Module.Owin
 
         private void ConfigureFormatters(HttpConfiguration httpConfig)
         {
-            DefaultOutput.WriteLine("Configure Formatters: Add json formatter");
+            Trace.WriteLine("Configure Formatters: Add json formatter");
             var jsonFormatterSettings = httpConfig.Formatters.JsonFormatter.SerializerSettings;
             jsonFormatterSettings.Formatting = Formatting.None;
             jsonFormatterSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -68,16 +69,16 @@ namespace Saturn72.Module.Owin
 
         private void ConfigureOwinCommon(IAppBuilder app, HttpConfiguration httpConfig)
         {
-            DefaultOutput.WriteLine("Configure Owin Common features");
+            Trace.WriteLine("Configure Owin Common features");
             TryCatchWrapperForOwinConfiguration(() =>
             {
-                DefaultOutput.WriteLine("Configure Owin Commons: Add logging middleware");
+                Trace.WriteLine("Configure Owin Commons: Add logging middleware");
                 app.Use(typeof(LoggingMiddleware));
                 var owinConfig = ConfigManager.GetConfigMap<OwinConfigMap>("OwinConfigMap").Config;
 
                 if (owinConfig.UseExtrnalCookies)
                 {
-                    DefaultOutput.WriteLine("Configure Owin Commons: Use extenal cookies set to true");
+                    Trace.WriteLine("Configure Owin Commons: Use extenal cookies set to true");
                     app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
                 }
                 if (owinConfig.UseOAuth)
@@ -94,7 +95,7 @@ namespace Saturn72.Module.Owin
                 //Cors
                 if (owinConfig.UseCors)
                 {
-                    DefaultOutput.WriteLine("Configure Owin Commons: Use Cors");
+                    Trace.WriteLine("Configure Owin Commons: Use Cors");
                     app.UseCors(CorsOptions.AllowAll);
                 }
             });
@@ -102,7 +103,7 @@ namespace Saturn72.Module.Owin
 
         private static void RegisterRoutes(HttpConfiguration httpConfig)
         {
-            DefaultOutput.WriteLine("Configure Owin Commons: Register default routes");
+            Trace.WriteLine("Configure Owin Commons: Register default routes");
             httpConfig.MapHttpAttributeRoutes();
 
 
@@ -164,14 +165,14 @@ namespace Saturn72.Module.Owin
             }
             catch (Exception e)
             {
-                DefaultOutput.WriteLine(e.Message);
-                DefaultOutput.WriteLine(e.ToString());
+                Debug.WriteLine(e.Message, e);
+                throw e;
             }
         }
 
         private void RegisterExternalOAuthProvider(IEnumerable<OAuthProvider> providers, IAppBuilder app)
         {
-            DefaultOutput.WriteLine("Configure Owin Commons: Register extenal oauth providers");
+            Trace.WriteLine("Configure Owin Commons: Register extenal oauth providers");
             providers.ForEachItem(p =>
             {
                 var appId = p.AppId;
@@ -179,7 +180,7 @@ namespace Saturn72.Module.Owin
                 switch (p.Name.ToLower())
                 {
                     case "facebook":
-                        DefaultOutput.WriteLine("Configure Owin Commons: Configure facebook oauth");
+                        Trace.WriteLine("Configure Owin Commons: Configure facebook oauth");
                         app.UseFacebookAuthentication(new FacebookAuthenticationOptions
                         {
                             AppId = appId,
@@ -188,7 +189,7 @@ namespace Saturn72.Module.Owin
                         });
                         break;
                     case "google":
-                        DefaultOutput.WriteLine("Configure Owin Commons: Configure google oauth");
+                        Trace.WriteLine("Configure Owin Commons: Configure google oauth");
                         app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
                         {
                             ClientId = appId,
@@ -202,7 +203,7 @@ namespace Saturn72.Module.Owin
 
         private void ConfigureOAuth(IAppBuilder app)
         {
-            DefaultOutput.WriteLine("Configure Owin Commons: Configure OAuth");
+            Trace.WriteLine("Configure Owin Commons: Configure OAuth");
             var oAuthServerOptions = new OAuthAuthorizationServerOptions
             {
                 AllowInsecureHttp = true,

@@ -78,7 +78,6 @@
     <Compile Include="Configuration\SystemDefaults.cs" />
     <Compile Include="Configuration\XmlConfigLoader.cs" />
     <Compile Include="Data\IRepository.cs" />
-    <Compile Include="DefaultOutput.cs" />
     <Compile Include="Domain\Clients\ApplicationType.cs" />
     <Compile Include="Domain\Clients\ClientAppDomainModel.cs" />
     <Compile Include="Domain\Configuration\SettingEntryModel.cs" />

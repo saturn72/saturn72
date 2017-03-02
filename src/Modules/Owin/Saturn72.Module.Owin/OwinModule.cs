@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
@@ -27,7 +28,7 @@ namespace Saturn72.Module.Owin
         public void Start()
         {
             Guard.HasValue(_baseUri);
-            DefaultOutput.WriteLine("Starting web Server. Feel free to browse to {0}...".AsFormat(_baseUri));
+            Trace.WriteLine("Starting web Server. Feel free to browse to {0}...".AsFormat(_baseUri));
             _tokenSource = new CancellationTokenSource();
 
             Task.Run(() => StartWebServer(), _tokenSource.Token);
@@ -45,7 +46,7 @@ namespace Saturn72.Module.Owin
             
             using (WebApp.Start(_baseUri, startupAction))
             {
-                DefaultOutput.WriteLine("web server started. uri: " + _baseUri);
+                Trace.WriteLine("web server started. uri: " + _baseUri);
 
                 //TODO: remove busy wait from here . replace with HttpServer
                 while (true)

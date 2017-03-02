@@ -69,7 +69,7 @@ namespace Saturn72.Common.App
             Trace.WriteLine("Start application engine...");
             AppEngine.Initialize(true);
 
-            Console.Out.WriteLine("Loading modules...");
+            Trace.WriteLine("Loading modules...");
             LoadAllModules(data);
 
             Trace.WriteLine("Start all modules...");
@@ -103,14 +103,14 @@ namespace Saturn72.Common.App
             var modules = GetModulesOrderedBy(data, m => m.StartupOrder);
             modules.ForEachItem(m =>
             {
-                DefaultOutput.WriteLine("Starting " + m.Type);
+                Trace.WriteLine("Starting " + m.Type);
                 try
                 {
                     m.Module.Start();
                 }
                 catch (Exception ex)
                 {
-                    DefaultOutput.WriteLine(">>>>>> Fail to start module!");
+                    Trace.WriteLine(">>>>>> Fail to start module!");
                     throw ex;
                 }
             });
@@ -121,7 +121,7 @@ namespace Saturn72.Common.App
             GetModulesOrderedBy(data, m => m.StopOrder)
                 .ForEachItem(m =>
                 {
-                    DefaultOutput.WriteLine("Stopping " + m.Type);
+                    Trace.WriteLine("Stopping " + m.Type);
                     m.Module.Stop();
                 });
         }

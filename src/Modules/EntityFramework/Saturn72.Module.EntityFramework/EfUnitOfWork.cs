@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 using Saturn72.Common.Data;
@@ -177,9 +178,8 @@ namespace Saturn72.Module.EntityFramework
 
             catch (Exception ex)
             {
-                DefaultOutput.WriteLine(ex.Message);
-                DefaultOutput.WriteLine(ex);
-                throw;
+                Debug.WriteLine(ex.Message, ex);
+                throw ex;
             }
         }
 
