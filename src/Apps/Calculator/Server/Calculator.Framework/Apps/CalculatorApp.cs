@@ -18,10 +18,7 @@ namespace Calculator.Framework.Apps
             Versions = LoadVersions();
         }
 
-        public override string Name
-        {
-            get { return AppName; }
-        }
+        public override string Name => AppName;
 
         public override IEnumerable<IAppVersion> Versions { get; }
 

@@ -46,6 +46,8 @@
     <Compile Include="App\AppVersionAttribute.cs" />
     <Compile Include="App\AppExtensions.cs" />
     <Compile Include="App\AppVersionStatus.cs" />
+    <Compile Include="App\Events\ApplicationStartedEvent.cs" />
+    <Compile Include="App\Events\ApplicationStoppedEvent.cs" />
     <Compile Include="App\IApp.cs" />
     <Compile Include="App\IAppVersion.cs" />
     <Compile Include="Data\IUnitOfWork.cs" />
