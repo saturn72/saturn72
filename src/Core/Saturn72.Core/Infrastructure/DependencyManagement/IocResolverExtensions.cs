@@ -53,9 +53,12 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
             return ResolveUnregistered(resolver, typeof(TService)) as TService;
         }
 
-        public static object ResolveUnregistered(this IIocResolver resolver, Type type)
+        public static object ResolveUnregistered(this IIocResolver resolver, Type serviceType)
         {
-            var constructors = type.GetConstructors();
+            if (resolver.IsRegistered(serviceType))
+                return resolver.Resolve(serviceType);
+
+            var constructors = serviceType.GetConstructors();
             foreach (var constructor in constructors)
                 try
                 {
@@ -67,7 +70,7 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
                         if (service == null) throw new Saturn72Exception("Unknown dependency");
                         parameterInstances.Add(service);
                     }
-                    return Activator.CreateInstance(type, parameterInstances.ToArray());
+                    return Activator.CreateInstance(serviceType, parameterInstances.ToArray());
                 }
                 catch (Saturn72Exception)
                 {

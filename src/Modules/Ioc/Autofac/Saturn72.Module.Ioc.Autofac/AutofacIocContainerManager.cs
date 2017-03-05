@@ -31,6 +31,11 @@ namespace Saturn72.Module.Ioc.Autofac
                 : scope.ResolveKeyed(key, type);
         }
 
+        public bool IsRegistered(Type serviceType)
+        {
+            return Container.IsRegistered(serviceType);
+        }
+
         public IocRegistrationRecord RegisterInstance<TService>(TService implementer, object key = null,
             Type[] interceptorTypes = null)
             where TService : class

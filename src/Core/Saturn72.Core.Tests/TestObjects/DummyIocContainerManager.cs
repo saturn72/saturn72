@@ -22,6 +22,11 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
+        public bool IsRegistered(Type serviceType)
+        {
+            throw new NotImplementedException();
+        }
+
         public TService[] ResolveAll<TService>(object key = null)
         {
             throw new NotImplementedException();
