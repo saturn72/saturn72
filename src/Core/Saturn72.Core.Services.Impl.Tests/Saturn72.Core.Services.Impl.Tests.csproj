@@ -55,6 +55,7 @@
     <Compile Include="AuditHelperTests.cs" />
     <Compile Include="Authentication\AuthenticationServiceTests.cs" />
     <Compile Include="Configuration\SettingServiceTests.cs" />
+    <Compile Include="Events\EventPublisherTests.cs" />
     <Compile Include="Localization\LocaleServiceTests.cs" />
     <Compile Include="Logging\DefaultLoggerTests.cs" />
     <Compile Include="Logging\LogManagerTests.cs" />

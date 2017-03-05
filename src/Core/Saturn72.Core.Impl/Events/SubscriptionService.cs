@@ -10,7 +10,8 @@ namespace Saturn72.Core.Services.Impl.Events
 {
     public class SubscriptionService : ISubscriptionService
     {
-        public IEnumerable<IEventSubscriber<TEvent>> GetSubscriptions<TEvent>() where TEvent : EventBase
+        //TODO: filter plugins and modules that are not part of the runtime domain
+        public IEnumerable<IEventSubscriber<TEvent>> GetSyncedSubscriptions<TEvent>() where TEvent : EventBase
         {
             return AppEngine.Current.ResolveAll<IEventSubscriber<TEvent>>();
         }
