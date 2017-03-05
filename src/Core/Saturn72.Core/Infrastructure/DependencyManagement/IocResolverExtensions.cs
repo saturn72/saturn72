@@ -7,26 +7,37 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
 {
     public static class IocResolverExtensions
     {
-        public static TService TryResolve<TService>(this IIocResolver resolver, Type type) where TService : class
+        public static bool IsRegistered(this IIocResolver resolver, Type serviceType)
+        {
+            try
+            {
+                return resolver.Resolve(serviceType) != null;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public static TService TryResolve<TService>(this IIocResolver resolver, Type serviceType) where TService : class
         {
             TService result;
-            TryResolve(resolver, type, out result);
+            TryResolve(resolver, serviceType, out result);
             return result;
         }
 
-        public static bool TryResolve<TService>(this IIocResolver resolver, Type type, out TService result)
+        public static bool TryResolve<TService>(this IIocResolver resolver, Type serviceType, out TService result)
             where TService : class
         {
             try
             {
-                result = resolver.Resolve(type) as TService;
+                result = resolver.Resolve(serviceType) as TService;
                 return true;
             }
             catch
             {
                 try
                 {
-                    result = resolver.ResolveUnregistered(type) as TService;
+                    result = resolver.ResolveUnregistered(serviceType) as TService;
                     return true;
                 }
                 catch

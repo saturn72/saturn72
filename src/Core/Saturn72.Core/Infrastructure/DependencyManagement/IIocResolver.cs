@@ -9,6 +9,5 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
     public interface IIocResolver
     {
         object Resolve(Type type, object key = null);
-        bool IsRegistered(Type serviceType);
     }
 }
