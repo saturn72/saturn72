@@ -1,9 +1,9 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Saturn72.Common.App;
-using Saturn72.Extensions;
 
 #endregion
 
@@ -12,11 +12,10 @@ namespace Calculator.Framework.Apps
     public class CalculatorApp : Saturn72AppBase
     {
         private const string AppName = "calculator_server";
-        private readonly IEnumerable<IAppVersion> _versions;
 
         public CalculatorApp() : base(AppName)
         {
-            _versions = LoadVersions();
+            Versions = LoadVersions();
         }
 
         public override string Name
@@ -24,10 +23,7 @@ namespace Calculator.Framework.Apps
             get { return AppName; }
         }
 
-        public override IEnumerable<IAppVersion> Versions
-        {
-            get { return _versions; }
-        }
+        public override IEnumerable<IAppVersion> Versions { get; }
 
 
         private IEnumerable<IAppVersion> LoadVersions()
@@ -37,8 +33,8 @@ namespace Calculator.Framework.Apps
                 new CalculatorVersion1()
             };
 
-            Guard.MustFollow(() => versions.Count(v => v.IsLatest) == 1,
-                "Multiple versions marked as latest, Or noversion is marked as latest");
+            if (versions.Count(v => v.IsLatest) > 1)
+                throw new ArgumentException("Multiple versions marked as latest, Or noversion is marked as latest");
 
             return versions;
         }

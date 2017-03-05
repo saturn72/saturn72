@@ -63,7 +63,7 @@
       <Name>Saturn72.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.Common\Calculator.Common.csproj">
-      <Project>{F732B9E8-6BC9-4CA4-B123-C09B4694F7F8}</Project>
+      <Project>{f732b9e8-6bc9-4ca4-b123-c09b4694f7f8}</Project>
       <Name>Calculator.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Calculator.Server\Calculator.Server.csproj">

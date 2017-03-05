@@ -27,12 +27,12 @@ namespace Calculator.Framework.Apps
 
         public bool Publish
         {
-            get { return Status == AppVersionStatus.Stable || Status == AppVersionStatus.ReleaseCandidate; }
+            get { return Status == AppVersionStatusType.Stable || Status == AppVersionStatusType.ReleaseCandidate; }
         }
 
-        public AppVersionStatus Status
+        public AppVersionStatusType Status
         {
-            get { return AppVersionStatus.Alpha; }
+            get { return AppVersionStatusType.Alpha; }
         }
     }
 }
