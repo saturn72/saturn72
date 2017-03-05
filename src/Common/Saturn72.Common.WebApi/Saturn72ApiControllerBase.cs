@@ -3,22 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Results;
 using Newtonsoft.Json;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
-using Saturn72.Core;
 using Saturn72.Core.Services.FileUpload;
-using Saturn72.Core.Services.Security;
 using Saturn72.Extensions;
 
 #endregion
@@ -27,16 +22,16 @@ namespace Saturn72.Common.WebApi
 {
     public abstract class Saturn72ApiControllerBase : ApiController
     {
-        protected IHttpActionResult BadRequestResult(object data)
-        {
-            return BadRequest(JsonConvert.SerializeObject(data));
-        }
-
         protected NameValueCollection FormData { get; private set; }
 
         protected ClaimsIdentity Identity
         {
             get { return User.Identity as ClaimsIdentity; }
+        }
+
+        protected IHttpActionResult BadRequestResult(object data)
+        {
+            return BadRequest(JsonConvert.SerializeObject(data));
         }
 
         protected Task<IHttpActionResult> ValidateModelStateAndRunActionAsync(Action action)
@@ -111,13 +106,6 @@ namespace Saturn72.Common.WebApi
             return string.Join("\n", modelStateErrorsList);
         }
 
-        protected virtual string GetSenderIpAddress()
-        {
-            return CommonHelper.IsWebApp()
-                ? HttpContext.Current.Request.UserHostAddress
-                : Request.GetOwinContext().Request.RemoteIpAddress;
-        }
-
         protected IEnumerable<Claim> GetClaims()
         {
             return Identity.Claims;
@@ -127,6 +115,7 @@ namespace Saturn72.Common.WebApi
         {
             return Identity.FindFirst(ClaimTypes.NameIdentifier);
         }
+
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
             (ICollection<FileUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
