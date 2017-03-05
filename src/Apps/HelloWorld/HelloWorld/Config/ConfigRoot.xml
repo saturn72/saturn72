@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
   <assemblies>
-    <assembly Path="Modules\Saturn72.Module.Owin\Saturn72.Module.Owin.dll"/>
-    <assembly Path="Modules\Saturn72.Module.Owin\System.Net.Http.Formatting.dll"/>
-    <assembly Path="Modules\Saturn72.Module.Owin\Microsoft.Owin.Host.HttpListener.dll"/>
-    <assembly Path="Modules\Saturn72.Module.Owin\System.Net.Http.Formatting.dll"/>
   </assemblies>/>
   <env>
     <!--This section contains the environment data-->
