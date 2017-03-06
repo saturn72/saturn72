@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Saturn72.Common.WebApi.Models.Account;
+using Saturn72.Core;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.User;
 using Saturn72.Extensions;
@@ -21,14 +22,16 @@ namespace Saturn72.Common.WebApi.Controllers
         #region Fields
 
         private readonly IUserRegistrationService _userRegistrationService;
+        private readonly IWorkContext _workContext;
 
         #endregion
 
         #region ctor
 
-        public AccountController(IUserRegistrationService userRegistrationService)
+        public AccountController(IUserRegistrationService userRegistrationService, IWorkContext workContext)
         {
             _userRegistrationService = userRegistrationService;
+            _workContext = workContext;
         }
 
         #endregion
@@ -42,9 +45,8 @@ namespace Saturn72.Common.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ConvertModelStateErrorsToKeyValuePair());
 
-            //TOD: get password format from settings
-            var request = new UserRegistrationRequest(model.Username, model.Email, model.Password, PasswordFormat.Encrypted,
-                GetSenderIpAddress());
+            var request = new UserRegistrationRequest(model.Username, model.Email, model.Password, 
+                PasswordFormat.Encrypted, _workContext.CurrentUserIpAddress);
             var response = await _userRegistrationService.RegisterAsync(request);
 
             if (response.Success)
