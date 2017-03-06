@@ -97,6 +97,7 @@
     <Compile Include="Domain\Users\UserActivityType.cs" />
     <Compile Include="Extensibility\IPlugin.cs" />
     <Compile Include="Extensibility\PluginState.cs" />
+    <Compile Include="Infrastructure\AppEngineDriverExtensions.cs" />
     <Compile Include="Infrastructure\DependencyManagement\ActivatorType.cs" />
     <Compile Include="Infrastructure\DependencyManagement\IocRegistrationRecord.cs" />
     <Compile Include="Infrastructure\DependencyManagement\IocResolverExtensions.cs" />

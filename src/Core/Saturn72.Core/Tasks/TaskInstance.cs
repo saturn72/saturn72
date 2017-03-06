@@ -46,7 +46,7 @@ namespace Saturn72.Core.Tasks
             if (taskInstance.IsNull() && throwException)
                 throw new ArgumentException("Failed to create {0} instance", Type);
 
-            AppEngine.Current.ExecuteInNewScope(() => ExecuteTaskInNewScopeAction(taskInstance, throwException));
+            AppEngine.Current.IocContainerManager.ExecuteInNewScope(() => ExecuteTaskInNewScopeAction(taskInstance, throwException));
         }
 
         private void ExecuteTaskInNewScopeAction(ITask taskInstance, bool throwException)

@@ -42,26 +42,6 @@ namespace Saturn72.Core.Infrastructure
             RunStartupTasks(typeFinder);
         }
 
-        public IEnumerable<TService> ResolveAll<TService>() where TService : class
-        {
-            return IocContainerManager.ResolveAll<TService>();
-        }
-
-        public TService Resolve<TService>(object key = null) where TService : class
-        {
-            return IocContainerManager.Resolve<TService>(key);
-        }
-
-        public TService TryResolve<TService>(Type type) where TService : class
-        {
-            return IocContainerManager.TryResolve<TService>(type);
-        }
-
-        public void ExecuteInNewScope(Action action)
-        {
-            IocContainerManager.ExecuteInNewScope(action);
-        }
-
         public void Dispose()
         {
             RunDisposeTasks();
@@ -114,7 +94,7 @@ namespace Saturn72.Core.Infrastructure
 
         protected virtual void RunDisposeTasks()
         {
-            Resolve<ITypeFinder>().FindClassesOfTypeAndRunMethod<IDisposeTask>(s => s.Execute(), s => s.ExecutionIndex);
+            this.Resolve<ITypeFinder>().FindClassesOfTypeAndRunMethod<IDisposeTask>(s => s.Execute(), s => s.ExecutionIndex);
         }
         #endregion Utilities
     }
