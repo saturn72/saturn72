@@ -39,6 +39,7 @@ namespace Saturn72.Core.Services.Impl.User
         {
             Guard.NotNull(request);
             var response = new UserRegistrationResponse();
+
             _registerRequestValidator.ValidateRequest(request).ForEachItem(err=> response.AddError(err));
 
             if (!response.Success)
