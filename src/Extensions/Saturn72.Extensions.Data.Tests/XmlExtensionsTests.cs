@@ -84,7 +84,7 @@ namespace Saturn72.Extensions.Data.Tests
         }
 
         [Test]
-        public void XmlExtensions_GetInnerElementValue()
+        public void XmlExtensions_XElement_GetInnerElementValue()
         {
             var innerElemName = "innerElemName";
             var innerElemValue = "innerElemValue";
@@ -101,6 +101,25 @@ namespace Saturn72.Extensions.Data.Tests
             var rootElem = new XElement("Root", innerElem);
 
             rootElem.GetInnerElementValue(innerElemName).ShouldEqual(innerElemValue);
+        }
+
+        [Test]
+        public void XmlExtensions_XmlNode_GetInnerElementValue()
+        {
+            //Throws when attribute does not exists
+            var doc = new XmlDocument();
+            doc.LoadXml("<book>" +
+                        "  <title>Oberon's Legacy</title>" +
+                        "  <price>5.95</price>" +
+                        "</book>");
+            //throws On Null source element
+            typeof(NullReferenceException).ShouldBeThrownBy(() => ((XmlNode)null).GetInnerElementValue("DDD"));
+
+            //throws On Null inner Element
+            var xmlNode = doc.SelectSingleNode("book");
+            typeof(NullReferenceException).ShouldBeThrownBy(() => xmlNode.GetInnerElementValue("CCC"));
+
+            xmlNode.GetInnerElementValue("price").ShouldEqual("5.95");
         }
     }
 }

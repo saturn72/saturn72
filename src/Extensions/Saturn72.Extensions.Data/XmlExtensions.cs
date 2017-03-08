@@ -45,6 +45,17 @@ namespace Saturn72.Extensions
 
             return innerElement.Value;
         }
+        public static string GetInnerElementValue(this XmlNode source, string innerElementName)
+        {
+            if (source == null)
+                throw new NullReferenceException("");
+
+            var innerElement = source.SelectSingleNode(innerElementName);
+            if (innerElement == null)
+                throw new NullReferenceException();
+
+            return innerElement.InnerText;
+        }
 
         public static XmlNode ToXmlNode(this XElement source, XmlDocument xmlDoc = null)
         {
