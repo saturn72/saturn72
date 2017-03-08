@@ -2,6 +2,8 @@
 
 using FluentValidation;
 using Saturn72.Common.WebApi.Models.Account;
+using Saturn72.Core;
+using Saturn72.Extensions;
 
 #endregion
 
@@ -13,28 +15,39 @@ namespace Saturn72.Common.WebApi.Validation.Validators.Account
         {
             RuleFor(x => x.Username)
                 .NotEmpty()
-                .When(x => ShouldUseUsername())
-                .WithMessage("Username is mandatory")
+                .WithMessage("Username is required")
                 .Length(6, 124)
                 .WithMessage("Username should be at least 6 characters, and max 124");
 
             RuleFor(x => x.Email)
                 .NotEmpty()
-                .WithMessage("Email is mandatory");
+                .WithMessage("Email is required");
+            RuleFor(x => x.Email)
+                .Must(CommonHelper.IsValidEmail)
+                .WithMessage("Illegal email address");
 
             RuleFor(x => x.Password)
-                .Equal(x => x.PasswordConfirm)
-                .WithMessage("Passwords do not match")
+                .NotEmpty()
+                .WithMessage("Password is required");
+
+            RuleFor(x => x.PasswordConfirm)
+                .NotEmpty()
+                .WithMessage("Password confirm is required");
+
+            RuleFor(x => x.Password)
+                .Equal(m => m.PasswordConfirm)
+                .When(x => x.Password.NotEmptyOrNull())
+                .When(x => x.PasswordConfirm.NotEmptyOrNull())
+                .WithMessage("Passwords do not match");
+
+            RuleFor(x => x.Password)
                 .Must(CheckPasswordComplexity)
-                .WithMessage("PAssword does not match complexity");
+                .When(x => x.Password.NotEmptyOrNull())
+                .When(x => x.PasswordConfirm.NotEmptyOrNull())
+                .WithMessage("Password does not match complexity");
         }
 
         private bool CheckPasswordComplexity(string password)
-        {
-            return true;
-        }
-
-        private bool ShouldUseUsername()
         {
             return true;
         }
