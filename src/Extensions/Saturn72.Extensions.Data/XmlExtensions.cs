@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -21,13 +22,28 @@ namespace Saturn72.Extensions
             return element.Attribute(attributeName).Value;
         }
 
+        public static string GetAttributeValue(this XmlNode node, string attributeName)
+        {
+            return node.Attributes[attributeName].Value;
+        }
+
+        public static string GetAttributeValueOrDefault(this XmlNode node, string attributeName)
+        {
+            var att = node.Attributes[attributeName];
+
+            return att == null ? null : att.Value;
+        }
+
         public static string GetInnerElementValue(this XElement source, string innerElementName)
         {
             if (source == null)
-                return string.Empty;
+                throw new NullReferenceException("");
 
             var innerElement = source.Element(innerElementName);
-            return innerElement == null ? string.Empty : innerElement.Value;
+            if (innerElement == null)
+                throw new NullReferenceException();
+
+            return innerElement.Value;
         }
 
         public static XmlNode ToXmlNode(this XElement source, XmlDocument xmlDoc = null)
