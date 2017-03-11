@@ -20,7 +20,7 @@ namespace Saturn72.Core.Services.Impl.User
         public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
             UserSettings userSettings, IUserRegistrationRequestValidator registerRequestValidator,
             IEventPublisher eventPublisher, IUserService userService, ICacheManager cacheManager,
-            IUserActivityLogService userActivityLogService, AuditHelper auditHelper)
+            IUserActivityLogService userActivityLogService, AuditHelper auditHelper, IWorkContext workContext)
         {
             _userRepository = userRepository;
             _encryptionService = encryptionService;
@@ -31,6 +31,7 @@ namespace Saturn72.Core.Services.Impl.User
             _cacheManager = cacheManager;
             _userActivityLogService = userActivityLogService;
             _auditHelper = auditHelper;
+            _workContext = workContext;
         }
 
         #endregion
@@ -40,22 +41,25 @@ namespace Saturn72.Core.Services.Impl.User
             Guard.NotNull(request);
             var response = new UserRegistrationResponse();
 
-            _registerRequestValidator.ValidateRequest(request).ForEachItem(err=> response.AddError(err));
+            _registerRequestValidator.ValidateRequest(request).ForEachItem(err => response.AddError(err));
 
             if (!response.Success)
                 return response;
 
             EncryptPassword(request);
 
+
             var user = new UserModel
             {
-                Username = _userSettings.ValidateByEmail ? null : request.Username,
+                Username = request.Username,
                 UserGuid = Guid.NewGuid(),
-                Email = _userSettings.ValidateByEmail ? request.Username : null,
+                Email = request.Email,
                 Password = request.Password,
                 PasswordSalt = request.PasswordSalt,
                 PasswordFormat = request.PasswordFormat,
-                Active = _userSettings.ActivateUserAfterRegistration
+                Active = _userSettings.ActivateUserAfterRegistration,
+                LastIpAddress = _workContext.CurrentUserIpAddress,
+                LastClientAppId = _workContext.ClientId
             };
             _auditHelper.PrepareForCreateAudity(user);
             await Task.Run(() => _userRepository.Create(user));
@@ -130,6 +134,7 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IEventPublisher _eventPublisher;
         private readonly IUserActivityLogService _userActivityLogService;
         private readonly AuditHelper _auditHelper;
+        private readonly IWorkContext _workContext;
 
         #endregion
     }
