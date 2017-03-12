@@ -79,7 +79,8 @@ namespace Saturn72.Module.Owin.Providers
 
         private string GetClientIpAddress(IOwinRequest request)
         {
-            return (request.Environment["owin.RequestHeaders"] as IDictionary<string, string[]>)["Origin"].First();
+            return request.RemoteIpAddress ??
+                   (request.Environment["owin.RequestHeaders"] as IDictionary<string, string[]>)["Origin"].First();
         }
 
 
@@ -105,7 +106,7 @@ namespace Saturn72.Module.Owin.Providers
 
             user.LastClientAppId = context.ClientId;
             user.LastIpAddress = GetClientIpAddress(context.Request);
-            Task.Run(()=> _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
+            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
@@ -187,7 +188,7 @@ namespace Saturn72.Module.Owin.Providers
         private bool NativeAppCriteria(ClientAppDomainModel client, string clientSecret)
         {
             return client.ApplicationType == ApplicationType.NativeApp
-                ? clientSecret.HasValue() && (_encryptionService.DecryptText(client.Secret) == clientSecret)
+                ? clientSecret.HasValue() && _encryptionService.DecryptText(client.Secret) == clientSecret
                 : true;
         }
 
