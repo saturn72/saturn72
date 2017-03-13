@@ -158,9 +158,7 @@ namespace Saturn72.Common.App
 
         private IEnumerable<ModuleInstance> GetActiveModuleInstancesOnly(AppDomainLoadData data)
         {
-            var res = data.ModuleInstances.Where(m => m.Active);
-
-            return res;
+            return data.ModuleInstances.Where(m => m.Active);
         }
 
         #endregion

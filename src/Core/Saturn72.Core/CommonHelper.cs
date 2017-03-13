@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,6 +19,31 @@ namespace Saturn72.Core
     public class CommonHelper
     {
         private const string TypeNameFormat = "{0}, {1}";
+
+        public static T Copy<T>(T source) where T : class, new()
+        {
+            var destination = CreateInstance<T>(typeof(T));
+            Copy(source, destination);
+            return destination;
+        }
+
+        public static void Copy<T>(T source, T destination)
+        {
+            if (source.GetType() != destination.GetType())
+                throw new InvalidOperationException("Source and destination must be of the same type");
+
+            var type = typeof(T);
+
+            do
+            {
+                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (var f in fields)
+                    f.SetValue(destination, f.GetValue(source));
+                type = type.BaseType;
+
+            } while (type != null);
+
+        }
 
         /// <summary>
         ///     Creates new instance of an object.
