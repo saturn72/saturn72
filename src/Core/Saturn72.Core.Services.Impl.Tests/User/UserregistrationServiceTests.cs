@@ -16,7 +16,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserRegistrationService_RegisterAsync_ThrowsOnNullRequest()
         {
-            var urs = new UserRegistrationService(null, null, null, null, null, null, null, null, null);
+            var urs = new UserRegistrationService(null, null, null, null, null, null, null, null, null, null);
             typeof(NullReferenceException).ShouldBeThrownBy(() =>
             {
                 try
@@ -38,7 +38,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var erroCode = new SystemErrorCode("code", "msg", "category", "sub-cate");
 
             urv.Setup(o => o.ValidateRequest(It.IsAny<UserRegistrationRequest>())).Returns(new[] {erroCode});
-            var urs = new UserRegistrationService(null, null, null, urv.Object, null, null, null, null, null);
+            var urs = new UserRegistrationService(null, null, null, urv.Object, null, null, null, null, null, null);
             var req = new UserRegistrationRequest("un", "eml", "pw", PasswordFormat.Clear, "clientIp");
 
             var res = urs.RegisterAsync(req).Result;
@@ -58,7 +58,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var ah = new Mock<AuditHelper>(null);
             var us = new Mock<UserSettings>();
 
-            var urs = new UserRegistrationService(uRepo.Object, null, us.Object, urv.Object,ep.Object, null,cm.Object, ual.Object, ah.Object);
+            var urs = new UserRegistrationService(uRepo.Object, null, us.Object, urv.Object,ep.Object, null,cm.Object, ual.Object, ah.Object, null);
             var req = new UserRegistrationRequest("un", "eml", "pw", PasswordFormat.Clear, "clientIp");
 
             var res = urs.RegisterAsync(req).Result;
