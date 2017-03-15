@@ -106,7 +106,7 @@ namespace Saturn72.Module.Owin.Providers
 
             user.LastClientAppId = context.ClientId;
             user.LastIpAddress = GetClientIpAddress(context.Request);
-            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Login, user));
+            Task.Run(() => _userActivityLogService.AddUserActivityLogAsync(UserActivityType.UserLoggedIn, user));
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));

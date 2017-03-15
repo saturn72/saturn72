@@ -67,7 +67,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             ah.Verify(a=>a.PrepareForCreateAudity(It.IsAny<UserModel>()),Times.Once);
             uRepo.Verify(a=>a.Create(It.IsAny<UserModel>()),Times.Once);
-            ual.Verify(a=>a.AddUserActivityLogAsync(UserActivityType.Register, It.IsAny<UserModel>()),Times.Once);
+            ual.Verify(a=>a.AddUserActivityLogAsync(UserActivityType.UserRegistered, It.IsAny<UserModel>()),Times.Once);
             cm.Verify(c => c.Remove(It.IsAny<string>()), Times.Once);
             ep.Verify(e => e.Publish(It.IsAny<CreatedEvent<UserModel>>()), Times.Once);
         }

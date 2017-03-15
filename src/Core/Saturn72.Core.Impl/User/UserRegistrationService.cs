@@ -63,7 +63,7 @@ namespace Saturn72.Core.Services.Impl.User
             };
             _auditHelper.PrepareForCreateAudity(user);
             await Task.Run(() => _userRepository.Create(user));
-            await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.Register, user);
+            await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.UserRegistered, user);
 
             _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUsersCacheKey);
             _eventPublisher.DomainModelCreated(user);

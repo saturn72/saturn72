@@ -16,7 +16,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             //on null activityType
             typeof(NullReferenceException).ShouldBeThrownBy(() => srv.AddUserActivityLogAsync(null, null));
             typeof(NullReferenceException).ShouldBeThrownBy(
-                () => srv.AddUserActivityLogAsync(UserActivityType.Login, null));
+                () => srv.AddUserActivityLogAsync(UserActivityType.UserLoggedIn, null));
         }
 
         [Test]
@@ -44,12 +44,12 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 LastIpAddress = ipaddress
             };
 
-            var actual = srv.AddUserActivityLogAsync(UserActivityType.Login, user).Result;
+            var actual = srv.AddUserActivityLogAsync(UserActivityType.UserLoggedIn, user).Result;
             actual.Id.ShouldEqual(123);
             actual.UserId.ShouldEqual(user.Id);
             actual.ActivityDateUtc.ShouldBeSmallerThan(DateTime.UtcNow);
             actual.ActivityDateUtc.ShouldBeGreaterThan(testStartedOnUtc);
-            actual.ActivityTypeCode.ShouldEqual(UserActivityType.Login.Code);
+            actual.ActivityTypeCode.ShouldEqual(UserActivityType.UserLoggedIn.Code);
             actual.ClientAppId.ShouldEqual(clientid);
             actual.UserIpAddress.ShouldEqual(ipaddress);
         }
