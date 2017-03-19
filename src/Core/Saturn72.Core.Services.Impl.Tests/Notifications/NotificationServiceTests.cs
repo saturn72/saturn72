@@ -30,7 +30,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         public void NotificationService_GetById()
         {
             const int notificationId = 4;
-            var ndm = new NotificationDomainModel
+            var ndm = new NotificationModel
             {
                 Id = notificationId,
                 Name = "this is name",
@@ -53,10 +53,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             var nRepo = new Mock<INotificationRepository>();
             var allNotifications = new[]
             {
-                new NotificationDomainModel {Id = 1},
-                new NotificationDomainModel {Id = 2},
-                new NotificationDomainModel {Id = 3},
-                new NotificationDomainModel {Id = 4}
+                new NotificationModel {Id = 1},
+                new NotificationModel {Id = 2},
+                new NotificationModel {Id = 3},
+                new NotificationModel {Id = 4}
             };
             nRepo.Setup(nr => nr.GetAll())
                 .Returns(allNotifications);
@@ -78,14 +78,14 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         [Test]
         public void NotificationService_CreateNotification_Creates()
         {
-            var ndm = new NotificationDomainModel
+            var ndm = new NotificationModel
             {
                 Name = "This is notificaiton"
             };
             const int expectedId = 99;
             var repo = new Mock<INotificationRepository>();
-            repo.Setup(r => r.Create(It.IsAny<NotificationDomainModel>()))
-                .Returns<NotificationDomainModel>(n =>
+            repo.Setup(r => r.Create(It.IsAny<NotificationModel>()))
+                .Returns<NotificationModel>(n =>
                 {
                     n.Id = expectedId;
                     n.Name = ndm.Name;
@@ -104,7 +104,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             (result.CreatedOnUtc != default(DateTime)).ShouldBeTrue();
             (result.UpdatedOnUtc >= result.CreatedOnUtc).ShouldBeTrue();
 
-            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<NotificationDomainModel>>()), Times.Exactly(1));
+            ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<NotificationModel>>()), Times.Exactly(1));
         }
 
         [Test]
@@ -115,13 +115,13 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
                 () => new NotificationService(null, null, null, null).UpdateNotificationAsync(null));
 
             var repo = new Mock<INotificationRepository>();
-            repo.Setup(x => x.Update(It.IsAny<NotificationDomainModel>()))
+            repo.Setup(x => x.Update(It.IsAny<NotificationModel>()))
                 .Throws<ArgumentException>();
 
             var ePublisher = new Mock<IEventPublisher>();
 
             //missing Id/default
-            var ndm = new NotificationDomainModel
+            var ndm = new NotificationModel
             {
                 Name = "This is new name"
             };
@@ -148,7 +148,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
         [Test]
         public void NotificationService_UpdateNotification_Updates()
         {
-            var ndm = new NotificationDomainModel
+            var ndm = new NotificationModel
             {
                 Id = 99,
                 Name = "This is new notificaiton value"
@@ -163,7 +163,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             result.PropertyValuesAreEquals(ndm, new string[] {});
 
             (result.UpdatedOnUtc != default(DateTime)).ShouldBeTrue();
-            ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<NotificationDomainModel>>()), Times.Exactly(1));
+            ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<NotificationModel>>()), Times.Exactly(1));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
 
             var srv = new NotificationService(repo.Object, ePublisher.Object, null, null);
             srv.DeleteNotificationAsync(123).Wait();
-            ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<NotificationDomainModel>>()), Times.Exactly(1));
+            ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<NotificationModel>>()), Times.Exactly(1));
 
             //no assertion in the controller as this method is void
         }

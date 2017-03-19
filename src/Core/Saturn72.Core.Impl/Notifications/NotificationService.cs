@@ -57,12 +57,12 @@ namespace Saturn72.Core.Services.Impl.Notifications
             return "saturn72test@gmail.com";
         }
 
-        public IEnumerable<NotificationDomainModel> GetAllNotifications()
+        public IEnumerable<NotificationModel> GetAllNotifications()
         {
             return _notificationRepository.GetAll();
         }
 
-        public async Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification)
+        public async Task<NotificationModel> CreateNotificationAsync(NotificationModel notification)
         {
             Guard.NotNull(notification);
             _auditHelper.PrepareForCreateAudity(notification);
@@ -73,7 +73,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
             return notification;
         }
 
-        public async Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification)
+        public async Task<NotificationModel> UpdateNotificationAsync(NotificationModel notification)
         {
             Guard.NotNull(notification);
             _auditHelper.PrepareForUpdateAudity(notification);
@@ -87,7 +87,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
         public async Task DeleteNotificationAsync(long id)
         {
             Guard.GreaterThan(id, 0);
-            NotificationDomainModel notification = null;
+            NotificationModel notification = null;
 
             await Task.Run(() =>
             {
@@ -99,7 +99,7 @@ namespace Saturn72.Core.Services.Impl.Notifications
             _cacheManager.RemoveByPattern(AllNotificationCacheKey);
         }
 
-        public async Task<NotificationDomainModel> GetNotificationByIdAsync(long id)
+        public async Task<NotificationModel> GetNotificationByIdAsync(long id)
         {
             return
                 await

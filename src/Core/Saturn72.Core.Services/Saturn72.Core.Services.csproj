@@ -47,6 +47,7 @@
     <Compile Include="Authentication\IAuthenticationService.cs" />
     <Compile Include="ComponentModel\ServiceResponseBase.cs" />
     <Compile Include="Configuration\ISettingsService.cs" />
+    <Compile Include="Events\CreatedErrorEvent.cs" />
     <Compile Include="Events\IEventAsyncSubscriber.cs" />
     <Compile Include="Events\PermissionGrantedEvent.cs" />
     <Compile Include="Extensibility\IPluginManager.cs" />

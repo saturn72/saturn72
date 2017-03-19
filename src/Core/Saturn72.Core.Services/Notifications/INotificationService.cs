@@ -12,10 +12,10 @@ namespace Saturn72.Core.Services.Notifications
     {
         IEnumerable<NotificationSubscriber> GetNotificationSubscribers(string notificationKey);
         string GetSystemNotificationSender(string notificationKey);
-        IEnumerable<NotificationDomainModel> GetAllNotifications();
-        Task<NotificationDomainModel> CreateNotificationAsync(NotificationDomainModel notification);
-        Task<NotificationDomainModel> UpdateNotificationAsync(NotificationDomainModel notification);
+        IEnumerable<NotificationModel> GetAllNotifications();
+        Task<NotificationModel> CreateNotificationAsync(NotificationModel notification);
+        Task<NotificationModel> UpdateNotificationAsync(NotificationModel notification);
         Task DeleteNotificationAsync(long id);
-        Task<NotificationDomainModel> GetNotificationByIdAsync(long id);
+        Task<NotificationModel> GetNotificationByIdAsync(long id);
     }
 }

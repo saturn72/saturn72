@@ -26,7 +26,14 @@ namespace Saturn72.Core.Services.Events
             var eventMessage = new CreatedEvent<TDomainModel>(domainModel);
             eventPublisher.Publish(eventMessage);
         }
-
+        public static void DomainModelCreatedError<TDomainModel>(this IEventPublisher eventPublisher,
+           TDomainModel domainModel)
+           where TDomainModel : DomainModelBase
+        {
+            var eventMessage = new CreatedErrorEvent<TDomainModel>(domainModel);
+            eventPublisher.Publish(eventMessage);
+        }
+        
         public static void DomainModelDeleted<TDomainModel>(this IEventPublisher eventPublisher,
             TDomainModel domainModel)
             where TDomainModel : DomainModelBase
