@@ -27,10 +27,10 @@ namespace Saturn72.Core.Services.Events
             eventPublisher.Publish(eventMessage);
         }
         public static void DomainModelCreatedError<TDomainModel>(this IEventPublisher eventPublisher,
-           TDomainModel domainModel)
+           TDomainModel domainModel, string errorMessage, Exception exception)
            where TDomainModel : DomainModelBase
         {
-            var eventMessage = new CreatedErrorEvent<TDomainModel>(domainModel);
+            var eventMessage = new CreatedErrorEvent<TDomainModel>(domainModel, errorMessage, exception);
             eventPublisher.Publish(eventMessage);
         }
         
