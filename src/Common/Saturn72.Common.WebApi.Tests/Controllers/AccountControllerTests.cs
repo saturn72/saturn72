@@ -25,7 +25,7 @@ namespace Saturn72.Common.WebApi.Tests.Controllers
 
             wc.Setup(w => w.CurrentUserIpAddress).Returns("ip-address");
             var badRegResponse = new UserRegistrationResponse();
-            badRegResponse.Errors.Add(new SystemErrorCode("123","dadad", "dada", "fff"));
+            badRegResponse.Errors.Add(new SystemErrorCode("123", "dadad", "dada", "fff"));
             userRegSrv.Setup(u => u.RegisterAsync(It.IsAny<UserRegistrationRequest>()))
                 .Returns(Task.FromResult(badRegResponse));
 
