@@ -53,7 +53,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var urv = new Mock<IUserRegistrationRequestValidator>();
             var ep = new Mock<IEventPublisher>();
             var cm = new Mock<ICacheManager>();
-            cm.Setup(c => c.Keys).Returns(new[] {SystemSharedCacheKeys.AllUsersCacheKey});
+            cm.Setup(c => c.Keys).Returns(new[] {SystemSharedCacheKeys.UserPatternCacheKey});
             var ual = new Mock<IUserActivityLogService>();
             var ah = new Mock<AuditHelper>(null);
             var us = new Mock<UserSettings>();

@@ -2,8 +2,8 @@
 {
     public sealed class SystemSharedCacheKeys
     {
-        public const string UserCacheKey = "saturn72.user-{0}";
-        public const string UserRolesUserCacheKey = "saturn72.user-{0}.userroles";
-        public const string AllUsersCacheKey = "saturn72.all-users";
+        public const string UserPatternCacheKey = "saturn72.user";
+        public const string UserByIdCacheKey = UserPatternCacheKey + ".id-{0}";
+        public const string UserRolesUserCacheKey = UserByIdCacheKey + ".userroles";
     }
 }

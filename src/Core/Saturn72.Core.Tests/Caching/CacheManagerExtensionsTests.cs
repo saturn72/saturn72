@@ -13,6 +13,19 @@ namespace Saturn72.Core.Tests.Caching
     public class CacheManagerExtensionsTests
     {
         [Test]
+        public void CacheManage_Set()
+        {
+            object t = null;
+            var cm = new Mock<ICacheManager>();
+            cm.Setup(c => c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<int>()))
+                .Callback<string, object, int>((s, o, i) => t = i);
+
+            var value = "value";
+            cm.Object.Set("key", value);
+            t.ShouldEqual(60);
+        }
+
+        [Test]
         public void CacheManage_Get_Aquire_NewItem()
         {
             object t = null;

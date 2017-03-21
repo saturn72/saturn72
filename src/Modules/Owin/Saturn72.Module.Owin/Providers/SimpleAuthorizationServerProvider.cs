@@ -99,7 +99,7 @@ namespace Saturn72.Module.Owin.Providers
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
 
             var user = await (_userSettings.ValidateByEmail
-                ? _userService.GetUserByEmail(context.UserName)
+                ? _userService.GetUserByEmailAsync(context.UserName)
                 : _userService.GetUserByUsernameAsync(context.UserName));
 
             Guard.NotNull(user);

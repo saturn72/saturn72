@@ -40,7 +40,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             //email already exists
             req = new UserRegistrationRequest("dadada", "", null, PasswordFormat.Clear, null);
             userSettings.Setup(u => u.ValidateByEmail).Returns(true);
-            userSrv.Setup(u => u.GetUserByEmail(It.IsAny<string>())).Returns(Task.FromResult(new UserModel()));
+            userSrv.Setup(u => u.GetUserByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(new UserModel()));
             errMsg = validator.ValidateRequest(req);
             errMsg.Count().ShouldEqual(1);
             errMsg.Last().ShouldEqual("Email already exists");

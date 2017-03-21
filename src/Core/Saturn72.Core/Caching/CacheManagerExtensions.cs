@@ -11,7 +11,19 @@ namespace Saturn72.Core.Caching
 {
     public static class CacheManagerExtensions
     {
-        const int DefaultCacheTime = 60;
+        private const int DefaultCacheTime = 60;
+
+
+        /// <summary>
+        ///     Add datato cache
+        /// </summary>
+        /// <param name="cacheManager"></param>
+        /// <param name="key">Cahce key</param>
+        /// <param name="data">cached data</param>
+        public static void Set(this ICacheManager cacheManager, string key, object data)
+        {
+            cacheManager.Set(key, data, DefaultCacheTime);
+        }
 
         /// <summary>
         ///     Addsite to cache only if not already exists
@@ -23,7 +35,7 @@ namespace Saturn72.Core.Caching
         {
             if (cacheManager.IsSet(key))
                 return;
-            cacheManager.Set(key, data, DefaultCacheTime);
+            cacheManager.Set(key, data);
         }
 
         /// <summary>

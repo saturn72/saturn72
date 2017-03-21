@@ -65,7 +65,7 @@ namespace Saturn72.Core.Services.Impl.User
             await Task.Run(() => _userRepository.Create(user));
             await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.UserRegistered, user);
 
-            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUsersCacheKey);
+            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.UserPatternCacheKey);
             _eventPublisher.DomainModelCreated(user);
 
             return response;
@@ -77,7 +77,7 @@ namespace Saturn72.Core.Services.Impl.User
                 return false;
 
             var user = await (_userSettings.ValidateByEmail
-                ? _userService.GetUserByEmail(usernameOrEmail)
+                ? _userService.GetUserByEmailAsync(usernameOrEmail)
                 : _userService.GetUserByUsernameAsync(usernameOrEmail));
             if (user.IsNull() || !ValidatePassword(user, password))
                 return false;
