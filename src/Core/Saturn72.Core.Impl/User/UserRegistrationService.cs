@@ -2,7 +2,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Security;
@@ -17,10 +16,7 @@ namespace Saturn72.Core.Services.Impl.User
     {
         #region ctor
 
-        public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService,
-            UserSettings userSettings, IUserRegistrationRequestValidator registerRequestValidator,
-            IEventPublisher eventPublisher, IUserService userService, ICacheManager cacheManager,
-            IUserActivityLogService userActivityLogService, AuditHelper auditHelper, IWorkContext workContext)
+        public UserRegistrationService(IUserRepository userRepository, IEncryptionService encryptionService, UserSettings userSettings, IUserRegistrationRequestValidator registerRequestValidator, IEventPublisher eventPublisher, IUserService userService, IUserActivityLogService userActivityLogService, AuditHelper auditHelper, IWorkContext workContext)
         {
             _userRepository = userRepository;
             _encryptionService = encryptionService;
@@ -28,7 +24,6 @@ namespace Saturn72.Core.Services.Impl.User
             _registerRequestValidator = registerRequestValidator;
             _eventPublisher = eventPublisher;
             _userService = userService;
-            _cacheManager = cacheManager;
             _userActivityLogService = userActivityLogService;
             _auditHelper = auditHelper;
             _workContext = workContext;
@@ -65,7 +60,6 @@ namespace Saturn72.Core.Services.Impl.User
             await Task.Run(() => _userRepository.Create(user));
             await _userActivityLogService.AddUserActivityLogAsync(UserActivityType.UserRegistered, user);
 
-            _cacheManager.RemoveByPattern(SystemSharedCacheKeys.AllUsersCacheKey);
             _eventPublisher.DomainModelCreated(user);
 
             return response;
@@ -128,7 +122,6 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IUserRepository _userRepository;
         private readonly IEncryptionService _encryptionService;
         private readonly IUserService _userService;
-        private readonly ICacheManager _cacheManager;
         private readonly UserSettings _userSettings;
         private readonly IUserRegistrationRequestValidator _registerRequestValidator;
         private readonly IEventPublisher _eventPublisher;

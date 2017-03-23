@@ -62,7 +62,7 @@ namespace Saturn72.Module.Owin
                     //Console.ReadLine();
                 }
             }
-            Console.WriteLine("web server stoped");
+            Console.WriteLine("web server stopped");
         }
     }
 }
