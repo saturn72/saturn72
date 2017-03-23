@@ -13,12 +13,60 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 {
     public class UserServiceTests
     {
+        [Test]
+        public void UserService_GetUserByUsernameAsync_ReturnsNull()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public void UserService_GetUserByUsernameAsync_MultipleActiveUsersWithSameUsername()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public void UserService_GetUserByUsernameAsync_ReturnsUser()
+        {
+            //mutiple users
+
+            //single user
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public void UserService_GetUserByEmailAsync_InvalidEmail()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public void UserService_GetUserByEmailAsync_ReturnsNull()
+        {
+            throw new NotImplementedException();
+        }
+        [Test]
+        public void UserService_GetUserByEmailAsync_MultipleActiveUsersWithSameUsername()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Test]
+        public void UserService_GetUserByEmailAsync_ReturnsUser()
+        {
+            //mutiple users
+
+            //single user
+            throw new NotImplementedException();
+        }
+
+
         #region UserRoles
 
         [Test]
         public void UserService_GetUserUserRolesByUserId_Throws()
         {
-            var srv = new UserService(null, null, null, null);
+            var srv = new UserService(null, null, null, null, null);
             //on illegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
             {
@@ -56,7 +104,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns((IEnumerable<UserRoleModel>)null);
 
-            var srv1 = new UserService(userRepo.Object, null, cm.Object, null);
+            var srv1 = new UserService(userRepo.Object, null, cm.Object, null, null);
             var res1 = srv1.GetUserUserRolesByUserIdAsync(123).Result;
             res1.ShouldNotBeNull();
             res1.Count().ShouldEqual(0);
@@ -66,7 +114,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(new List<UserRoleModel>());
 
-            var srv2 = new UserService(userRepo.Object, null, cm.Object, null);
+            var srv2 = new UserService(userRepo.Object, null, cm.Object, null, null);
             var res2 = srv2.GetUserUserRolesByUserIdAsync(123).Result;
             res2.ShouldNotBeNull();
             res2.Count().ShouldEqual(0);
@@ -114,7 +162,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             cm.Setup(c => c.Keys)
                 .Returns(new string[] { });
 
-            var srv = new UserService(userRepo.Object, null, cm.Object, null);
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
             var userId = 123;
             var actural = srv.GetUserUserRolesByUserIdAsync(userId).Result;
 
@@ -143,7 +191,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserPermissions_Throws()
         {
-            var srv = new UserService(null, null, null, null);
+            var srv = new UserService(null, null, null, null, null);
 
             //on ilegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
@@ -179,7 +227,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             userRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
                 .Returns(() => expected);
 
-            var srv = new UserService(userRepo.Object, null, null, null);
+            var srv = new UserService(userRepo.Object, null, null, null, null);
             var res = srv.GetUserPermissionsAsync(111).Result;
 
             res.Count().ShouldEqual(expected.Count());

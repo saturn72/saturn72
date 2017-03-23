@@ -26,19 +26,27 @@ namespace Saturn72.Core.Services.Impl.User
         private ILogger _logger;
 
         public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
+<<<<<<< HEAD
+            AuditHelper auditHelper)
+=======
             AuditHelper auditHelper, ILogger logger)
+>>>>>>> c132ac108816cfcb4d5878332d62aecfe912b1d9
         {
             _userRepository = userRepository;
             _eventPublisher = eventPublisher;
             _cacheManager = cacheManager;
             _auditHelper = auditHelper;
-            _logger = logger;
         }
 
         public Task<IEnumerable<UserModel>> GetAllUsersAsync(Func<UserModel, bool> filter = null)
         {
             if (filter.IsNull())
+<<<<<<< HEAD
+                filter = um => um.Active;
+
+=======
                 filter = u => u.Active;
+>>>>>>> c132ac108816cfcb4d5878332d62aecfe912b1d9
             return Task.Run(() => _userRepository.GetBy(filter));
         }
 
@@ -64,6 +72,11 @@ namespace Saturn72.Core.Services.Impl.User
         {
             Guard.HasValue(email);
             Guard.MustFollow(CommonHelper.IsValidEmail(email), "invalid email address");
+<<<<<<< HEAD
+            var user = await GetUserBy(u => u.Email.EqualsTo(email));
+            _cacheManager.Set(SystemSharedCacheKeys.UserbyIdCacheKey.AsFormat(user.Id), user);
+            return user;
+=======
             Func<UserModel, bool> filter = u => u.Active && u.Email.EqualsTo(email);
 
             var allMatchingUsers = await GetAllUsersAsync(filter);
@@ -77,6 +90,7 @@ namespace Saturn72.Core.Services.Impl.User
             allMatchingUsers.ForEachItem(
                 u => _cacheManager.Set(SystemSharedCacheKeys.UserByIdCacheKey.AsFormat(u.Id), u));
             return allMatchingUsers.OrderByDescending(u => u.Id).FirstOrDefault();
+>>>>>>> c132ac108816cfcb4d5878332d62aecfe912b1d9
         }
 
         public async Task<IEnumerable<UserRoleModel>> GetUserUserRolesByUserIdAsync(long userId)
@@ -103,5 +117,26 @@ namespace Saturn72.Core.Services.Impl.User
 
             return await Task.Run(() => _userRepository.GetUserPermissions(userId));
         }
+<<<<<<< HEAD
+
+        public async Task<UserModel> GetUserBy(Func<UserModel, bool> func)
+        {
+            var allMatchingUsers = await GetAllUsersAsync(func);
+            allMatchingUsers.ForEachItem(
+                u => _cacheManager.Set(SystemSharedCacheKeys.UserPatternCacheKey.AsFormat(u.Id), u));
+            return allMatchingUsers?.FirstOrDefault();
+        }
+
+        protected virtual async Task<UserModel> GetUserByFuncAndCacheIfExists(Func<UserModel, bool> func)
+        {
+            Guard.NotNull(func);
+            var allUsers = await GetAllUsersAsync();
+            var user = allUsers.FirstOrDefault(func);
+            if (user.NotNull())
+                _cacheManager.SetIfNotExists(SystemSharedCacheKeys.UserbyIdCacheKey.AsFormat(user.Id), user);
+            return user;
+        }
+=======
+>>>>>>> c132ac108816cfcb4d5878332d62aecfe912b1d9
     }
 }
