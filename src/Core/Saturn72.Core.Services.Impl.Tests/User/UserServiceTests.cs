@@ -4,7 +4,9 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
+using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Domain.Users;
+using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Extensions;
 using Saturn72.UnitTesting.Framework;
@@ -16,22 +18,46 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserByUsernameAsync_ReturnsNull()
         {
-            throw new NotImplementedException();
+            var userRepo = new Mock<IUserRepository>();
+            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns<UserModel>(null);
+            var srv = new UserService(userRepo.Object, null, null, null, null);
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
         }
 
         [Test]
         public void UserService_GetUserByUsernameAsync_MultipleActiveUsersWithSameUsername()
         {
-            throw new NotImplementedException();
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel {Id = 3};
+            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns(new[]
+            {
+                result,
+                new UserModel {Id = 1},
+                new UserModel {Id = 2},
+            });
+
+            var logger = new Mock<ILogger>();
+            logger.Setup(l => l.SupportedLogLevels).Returns(new []{LogLevel.Error});
+
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object);
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
+            logger.Verify(l=>l.InsertLog(It.Is<LogLevel>(ll=>ll== LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),It.IsAny<Guid>()), Times.Once);
         }
 
         [Test]
         public void UserService_GetUserByUsernameAsync_ReturnsUser()
         {
-            //mutiple users
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel { Id = 3 };
+            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns(new[]
+            {
+                result,
+            });
 
-            //single user
-            throw new NotImplementedException();
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
         }
 
         [Test]
