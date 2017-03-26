@@ -27,32 +27,38 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserByUsernameAsync_MultipleActiveUsersWithSameUsername()
         {
+            var username = "ffff";
+
             var userRepo = new Mock<IUserRepository>();
-            var result = new UserModel {Id = 3};
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns(new[]
+            var result = new UserModel {Id = 3, Username = username, Active = true};
+            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns<Func<UserModel, bool>>(f => new[]
             {
                 result,
-                new UserModel {Id = 1},
-                new UserModel {Id = 2},
-            });
+                new UserModel {Id = 1,Username =username,  Active = true},
+                new UserModel {Id = 2,Username =username,},
+                new UserModel {Id = 5,Username =username, Active = false}
+            }.Where(f).ToArray());
 
             var logger = new Mock<ILogger>();
-            logger.Setup(l => l.SupportedLogLevels).Returns(new []{LogLevel.Error});
+            logger.Setup(l => l.SupportedLogLevels).Returns(new[] {LogLevel.Error});
 
             var cm = new Mock<ICacheManager>();
             var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object);
-            srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
-            logger.Verify(l=>l.InsertLog(It.Is<LogLevel>(ll=>ll== LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),It.IsAny<Guid>()), Times.Once);
+            srv.GetUserByUsernameAsync(username).Result.ShouldEqual(result);
+            logger.Verify(
+                l =>
+                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
+                        It.IsAny<Guid>()), Times.Once);
         }
 
         [Test]
         public void UserService_GetUserByUsernameAsync_ReturnsUser()
         {
             var userRepo = new Mock<IUserRepository>();
-            var result = new UserModel { Id = 3 };
+            var result = new UserModel {Id = 3};
             userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns(new[]
             {
-                result,
+                result
             });
 
             var cm = new Mock<ICacheManager>();
@@ -71,6 +77,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             throw new NotImplementedException();
         }
+
         [Test]
         public void UserService_GetUserByEmailAsync_MultipleActiveUsersWithSameUsername()
         {
@@ -85,7 +92,6 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             //single user
             throw new NotImplementedException();
         }
-
 
         #region UserRoles
 
@@ -123,12 +129,12 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.Keys)
-                .Returns(new string[] { });
+                .Returns(new string[] {});
 
             //Repository returns null
             var userRepo = new Mock<IUserRepository>();
             userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
-                .Returns((IEnumerable<UserRoleModel>)null);
+                .Returns((IEnumerable<UserRoleModel>) null);
 
             var srv1 = new UserService(userRepo.Object, null, cm.Object, null, null);
             var res1 = srv1.GetUserUserRolesByUserIdAsync(123).Result;
@@ -186,7 +192,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.Keys)
-                .Returns(new string[] { });
+                .Returns(new string[] {});
 
             var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
             var userId = 123;

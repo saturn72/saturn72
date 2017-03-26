@@ -10,7 +10,7 @@ using FluentValidation.Results;
 
 namespace Saturn72.Common.WebApi.Validation
 {
-    public class Saturn72ValidatorBase<TModel> : AbstractValidator<TModel>
+    public abstract class Saturn72ValidatorBase<TModel> : AbstractValidator<TModel>
     {
         public virtual bool AllowNullObject { get; protected set; }
 
