@@ -16,7 +16,6 @@ namespace Saturn72.Extensions
             foreach (var s in source)
                 action(s);
         }
-
         public static bool IsEmptyOrNull(this IEnumerable source)
         {
             return source == null || !source.GetEnumerator().MoveNext();

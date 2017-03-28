@@ -50,20 +50,6 @@ namespace Saturn72.Module.EntityFramework
             });
         }
 
-        public Task<TDomainModel> CreateAsync(TDomainModel model)
-        {
-            return QueryNewContextAsync(async ctx =>
-            {
-                var entity = model.ToEntity<TDomainModel, TEntity>();
-                GetSet(ctx).Add(entity);
-
-                return await ctx.SaveChangesAsync() == 0
-                    ? null
-                    : entity.MapToInstance(model);
-            });
-        }
-
-
         public TDomainModel Create(TDomainModel model)
 
         {

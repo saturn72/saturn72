@@ -25,7 +25,7 @@ namespace Saturn72.Common.Data
 
         public virtual IEnumerable<TDomainModel> GetAll()
         {
-            return UnitOfWork.GetAll();
+            return UnitOfWork.GetAll() ?? new TDomainModel[] {};
         }
 
         public virtual TDomainModel GetById(long id)
