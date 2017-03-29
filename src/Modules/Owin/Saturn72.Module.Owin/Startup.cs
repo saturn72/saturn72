@@ -213,8 +213,8 @@ namespace Saturn72.Module.Owin
                 RefreshTokenProvider = AppEngine.Current.Resolve<IAuthenticationTokenProvider>()
             };
             // Token Generation
-            app.UseOAuthAuthorizationServer(oAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            app.UseOAuthAuthorizationServer(oAuthServerOptions);
         }
     }
 }
