@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Saturn72.Core.Domain.Security;
 
-namespace Saturn72.Core.Services.Authentication
+namespace Saturn72.Core.Services.Security
 {
     public interface IAuthenticationService
     {

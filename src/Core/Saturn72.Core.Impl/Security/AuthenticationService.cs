@@ -2,12 +2,12 @@
 
 using System.Threading.Tasks;
 using Saturn72.Core.Domain.Security;
-using Saturn72.Core.Services.Authentication;
+using Saturn72.Core.Services.Security;
 using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Core.Services.Impl.Authentication
+namespace Saturn72.Core.Services.Impl.Security
 {
     public class AuthenticationService : IAuthenticationService
     {

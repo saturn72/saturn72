@@ -1,8 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Saturn72.Core.Domain.Clients;
 
-namespace Saturn72.Core.Services.Authentication
+namespace Saturn72.Core.Services.Security
 {
     public interface IClientAppService
     {

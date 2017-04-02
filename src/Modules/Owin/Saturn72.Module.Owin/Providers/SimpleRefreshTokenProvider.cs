@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Security.Infrastructure;
 using Saturn72.Core;
 using Saturn72.Core.Domain.Security;
-using Saturn72.Core.Services.Authentication;
 using Saturn72.Core.Services.Security;
 using Saturn72.Extensions;
 

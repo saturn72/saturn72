@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Clients;
-using Saturn72.Core.Services.Authentication;
+using Saturn72.Core.Services.Security;
 
 #endregion
 
-namespace Saturn72.Core.Services.Impl.Authentication
+namespace Saturn72.Core.Services.Impl.Security
 {
     public class ClientAppService : IClientAppService
     {
@@ -36,7 +36,7 @@ namespace Saturn72.Core.Services.Impl.Authentication
         {
             return GetAllClientApps()
                 .FirstOrDefault(
-                    ca => ca.Active && (ca.ClientId == clientId) && Regex.IsMatch(clientIpAddress, ca.AllowedOrigin));
+                    ca => ca.Active && ca.ClientId == clientId && Regex.IsMatch(clientIpAddress, ca.AllowedOrigin));
         }
 
         public IEnumerable<ClientAppDomainModel> GetAllClientApps()

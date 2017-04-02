@@ -2,10 +2,10 @@
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Security;
-using Saturn72.Core.Services.Impl.Authentication;
+using Saturn72.Core.Services.Impl.Security;
 using Saturn72.UnitTesting.Framework;
 
-namespace Saturn72.Core.Services.Impl.Tests.Authentication
+namespace Saturn72.Core.Services.Impl.Tests.Security
 {
     public class AuthenticationServiceTests
     {

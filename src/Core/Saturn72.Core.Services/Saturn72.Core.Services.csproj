@@ -43,8 +43,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\IClientAppService.cs" />
-    <Compile Include="Authentication\IAuthenticationService.cs" />
+    <Compile Include="Security\IClientAppService.cs" />
+    <Compile Include="Security\IAuthenticationService.cs" />
     <Compile Include="ComponentModel\ServiceResponseBase.cs" />
     <Compile Include="Configuration\ISettingsService.cs" />
     <Compile Include="Events\CreatedErrorEvent.cs" />
@@ -82,7 +82,8 @@
     <Compile Include="Security\FileValidationResultCode.cs" />
     <Compile Include="Security\IEncryptionService.cs" />
     <Compile Include="Security\IFileValidationManager.cs" />
-    <Compile Include="Security\ISecurityService.cs" />
+    <Compile Include="Security\IPermissionRecordProvider.cs" />
+    <Compile Include="Security\IPermissionRecordService.cs" />
     <Compile Include="Tasks\IBackgroundTaskExecutionService.cs" />
     <Compile Include="Tasks\IBackgroundTaskService.cs" />
     <Compile Include="User\IUserActivityLogService.cs" />

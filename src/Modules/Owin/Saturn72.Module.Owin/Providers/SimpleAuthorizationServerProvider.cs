@@ -10,7 +10,6 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json;
 using Saturn72.Core.Domain.Clients;
 using Saturn72.Core.Domain.Users;
-using Saturn72.Core.Services.Authentication;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Core.Services.Security;
 using Saturn72.Core.Services.User;
