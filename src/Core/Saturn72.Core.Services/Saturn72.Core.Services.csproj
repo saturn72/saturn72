@@ -82,7 +82,6 @@
     <Compile Include="Security\FileValidationResultCode.cs" />
     <Compile Include="Security\IEncryptionService.cs" />
     <Compile Include="Security\IFileValidationManager.cs" />
-    <Compile Include="Security\IPermissionRecordProvider.cs" />
     <Compile Include="Security\IPermissionRecordService.cs" />
     <Compile Include="Tasks\IBackgroundTaskExecutionService.cs" />
     <Compile Include="Tasks\IBackgroundTaskService.cs" />
