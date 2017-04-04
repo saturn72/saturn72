@@ -57,6 +57,9 @@ namespace Saturn72.Module.Owin
             var jsonFormatterSettings = httpConfig.Formatters.JsonFormatter.SerializerSettings;
             jsonFormatterSettings.Formatting = Formatting.None;
             jsonFormatterSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            Trace.WriteLine("Configure Formatters: Activate Xml Serializer");
+            httpConfig.Formatters.XmlFormatter.UseXmlSerializer = true;
         }
 
         private void ConfigureOwinModules(IAppBuilder app, HttpConfiguration httpConfig)
