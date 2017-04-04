@@ -51,7 +51,6 @@ namespace Saturn72.Module.EntityFramework
         }
 
         public TDomainModel Create(TDomainModel model)
-
         {
             return QueryNewContext(ctx =>
             {
