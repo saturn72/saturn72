@@ -43,7 +43,6 @@ namespace Saturn72.Core.Services.Impl.User
 
             EncryptPassword(request);
 
-
             var user = new UserModel
             {
                 Username = request.Username,

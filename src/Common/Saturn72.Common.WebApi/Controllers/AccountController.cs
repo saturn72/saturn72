@@ -16,7 +16,7 @@ using Saturn72.Extensions;
 namespace Saturn72.Common.WebApi.Controllers
 {
     [AllowAnonymous]
-    [RoutePrefix("Account")]
+    [RoutePrefix("api/Account")]
     public class AccountController : Saturn72ApiControllerBase
     {
         #region Fields

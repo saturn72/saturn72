@@ -27,7 +27,7 @@ namespace Saturn72.Core.Services.Impl.User
                 ClientAppId = user.LastClientAppId,
                 UserIpAddress = user.LastIpAddress
             };
-            return new Task(()=> _userActivityLogRepository.AddUserActivityLog(ual));
+            return Task.Run(()=> _userActivityLogRepository.AddUserActivityLog(ual));
         }
     }
 }
