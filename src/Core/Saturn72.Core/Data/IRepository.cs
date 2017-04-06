@@ -19,7 +19,7 @@ namespace Saturn72.Core.Data
 
         TDomainModel Update(TDomainModel model);
 
-        TDomainModel Create(TDomainModel model);
+        void Create(TDomainModel model);
 
         void Delete(long id);
 

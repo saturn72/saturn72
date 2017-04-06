@@ -16,7 +16,7 @@ namespace Saturn72.Common.Data
         TDomainModel GetById(long id);
         TDomainModel Replace(TDomainModel model);
         TDomainModel Update(TDomainModel model);
-        TDomainModel Create(TDomainModel model);
+        object Create(TDomainModel model);
         int Delete(long id);
         int Delete(IEnumerable<long> ids);
     }

@@ -14,7 +14,7 @@ namespace Saturn72.Extensions
         {
             var att = element.Attribute(attributeName);
 
-            return att == null ? null : att.Value;
+            return att?.Value;
         }
 
         public static string GetAttributeValue(this XElement element, string attributeName)
@@ -31,7 +31,7 @@ namespace Saturn72.Extensions
         {
             var att = node.Attributes[attributeName];
 
-            return att == null ? null : att.Value;
+            return att?.Value;
         }
 
         public static string GetInnerElementValue(this XElement source, string innerElementName)

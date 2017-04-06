@@ -68,7 +68,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
         {
             var attachtments = task.Attachtments;
 
-            task = await Task.Run(()=> _backgroundTaskRepository.Create(task));
+            await Task.Run(()=> _backgroundTaskRepository.Create(task));
             task.Attachtments = attachtments;
 
             HandleAttachtments(task);

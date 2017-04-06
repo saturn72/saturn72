@@ -50,15 +50,15 @@ namespace Saturn72.Module.EntityFramework
             });
         }
 
-        public TDomainModel Create(TDomainModel model)
+        public object Create(TDomainModel model)
         {
             return QueryNewContext(ctx =>
             {
                 var entity = model.ToEntity<TDomainModel, TEntity>();
                 GetSet(ctx).Add(entity);
-                return SaveChangesToContext(ctx) == 0
-                    ? default(TDomainModel)
-                    : entity.MapToInstance(model);
+                var res = SaveChangesToContext(ctx);
+                entity.MapToInstance(model);
+                return res as object;
             });
         }
 

@@ -15,8 +15,7 @@ namespace Saturn72.Core.Services.Impl.User
             _userActivityLogRepository = userActivityLogRepository;
         }
 
-        public Task<UserActivityLogModel> AddUserActivityLogAsync(UserActivityType userActivityType,
-            UserModel user)
+        public Task AddUserActivityLogAsync(UserActivityType userActivityType, UserModel user)
         {
             Guard.NotNull(new object[] {userActivityType, user});
             var ual = new UserActivityLogModel
@@ -28,7 +27,7 @@ namespace Saturn72.Core.Services.Impl.User
                 ClientAppId = user.LastClientAppId,
                 UserIpAddress = user.LastIpAddress
             };
-            return Task.FromResult(_userActivityLogRepository.AddUserActivityLog(ual));
+            return new Task(()=> _userActivityLogRepository.AddUserActivityLog(ual));
         }
     }
 }

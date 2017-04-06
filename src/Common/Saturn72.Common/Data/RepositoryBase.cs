@@ -40,11 +40,11 @@ namespace Saturn72.Common.Data
             return UnitOfWork.Update(model);
         }
 
-        public virtual TDomainModel Create(TDomainModel model)
+        public virtual void Create(TDomainModel model)
         {
             Guard.NotNull(model);
 
-            return UnitOfWork.Create(model);
+            UnitOfWork.Create(model);
         }
         public virtual void Delete(long id)
         {

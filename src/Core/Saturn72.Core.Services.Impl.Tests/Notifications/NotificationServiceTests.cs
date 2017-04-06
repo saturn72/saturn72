@@ -85,12 +85,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Notifications
             const int expectedId = 99;
             var repo = new Mock<INotificationRepository>();
             repo.Setup(r => r.Create(It.IsAny<NotificationModel>()))
-                .Returns<NotificationModel>(n =>
-                {
-                    n.Id = expectedId;
-                    n.Name = ndm.Name;
-                    return n;
-                });
+                .Callback<NotificationModel>(n =>n.Id = expectedId);
 
             var ePublisher = new Mock<IEventPublisher>();
 
