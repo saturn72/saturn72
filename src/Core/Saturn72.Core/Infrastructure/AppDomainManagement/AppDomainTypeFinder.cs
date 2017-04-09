@@ -299,11 +299,10 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 var implementedInterfaces = type.FindInterfaces((objType, objCriteria) => true, null);
                 foreach (var implementedInterface in implementedInterfaces)
                 {
-                    if (!implementedInterface.IsGenericType)
+                    if (!implementedInterface.IsGenericType
+                         || !genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition()))
                         continue;
-
-                    var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
-                    return isMatch;
+                    return true;
                 }
                 return false;
             }
