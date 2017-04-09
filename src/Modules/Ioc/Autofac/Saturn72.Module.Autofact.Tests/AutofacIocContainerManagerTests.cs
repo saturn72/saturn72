@@ -64,16 +64,6 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.Keys.Count().ShouldEqual(1);
             regRecord.Keys.First().ShouldEqual(key);
 
-            regRecord = cm.RegisterType(typeof(TestService),
-                new[] {typeof(ITestService1), typeof(ITestService2)}, LifeCycle.PerDependency);
-            regRecord.Metadata.ShouldNotBeNull();
-            regRecord.ServiceTypes.Count().ShouldEqual(2);
-            regRecord.ServiceTypes.First().ShouldBeType<ITestService1>();
-            regRecord.ServiceTypes.Last().ShouldBeType<ITestService2>();
-            regRecord.RegistrationId.ShouldNotEqual(Guid.Empty);
-            regRecord.ImplementedType.ShouldBeType<TestService>();
-            regRecord.ActivatorType.ShouldEqual(ActivatorType.Constractor);
-
             //register single instance
             var srv3 = new TestService3();
             regRecord = cm.RegisterInstance<ITestService3>(srv3);
