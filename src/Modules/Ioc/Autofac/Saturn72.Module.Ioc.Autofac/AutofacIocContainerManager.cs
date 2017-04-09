@@ -106,24 +106,6 @@ namespace Saturn72.Module.Ioc.Autofac
 
             return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, key, serviceType));
         }
-
-
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle,
-            Type[] interceptorTypes = null)
-        {
-            Func<ContainerBuilder,
-                    IRegistrationBuilder<object, ReflectionActivatorData, object>>
-                regFunc = cb => interceptorTypes.NotEmptyOrNull()
-                    ? RegisterType(serviceImplType, cb)
-                        .As(serviceTypes)
-                        .EnableInterfaceInterceptors()
-                        .InterceptedBy(interceptorTypes)
-                    : RegisterType(serviceImplType, cb).As(serviceTypes);
-
-            return ToIocRegistrationRecord(RegisterAndAssign(regFunc, lifecycle, null, null));
-        }
-
-
         public void Register(IEnumerable<Action<IIocRegistrator>> registerActions)
         {
             var builder = new ContainerBuilder();

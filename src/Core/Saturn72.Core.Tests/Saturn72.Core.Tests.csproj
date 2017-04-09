@@ -64,6 +64,7 @@
     <Compile Include="Configuration\Saturn72ConfigTests.cs" />
     <Compile Include="Configuration\XmlConfigManagerTests.cs" />
     <Compile Include="Infrastructure\AppDomainLoaderTests.cs" />
+    <Compile Include="Infrastructure\DependencyManagement\IocRegistratorExtensionsTests.cs" />
     <Compile Include="Infrastructure\DependencyManagement\IocResolverExtensionsTests.cs" />
     <Compile Include="Infrastructure\EngineDriverTests.cs" />
     <Compile Include="Infrastructure\TypeFinderExtensionsTests.cs" />

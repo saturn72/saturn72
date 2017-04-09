@@ -73,12 +73,6 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
-        public IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle,
-            Type[] interceptorTypes = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Register(IEnumerable<Action<IIocRegistrator>> registerActions)
         {
             foreach (var action in registerActions)

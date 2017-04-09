@@ -23,9 +23,6 @@ namespace Saturn72.Core.Infrastructure.DependencyManagement
         void RegisterType<TServiceImpl>(LifeCycle lifeCycle = LifeCycle.PerDependency);
 
         IocRegistrationRecord RegisterType(Type serviceImplType, Type serviceType, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null);
-
-        IocRegistrationRecord RegisterType(Type serviceImplType, Type[] serviceTypes, LifeCycle lifecycle, Type[] interceptorTypes = null);
-
         void Register(IEnumerable<Action<IIocRegistrator>> registerActions);
 
         IocRegistrationRecord Register<TService>(Func<TService> resolveHandler, LifeCycle lifecycle, object key = null, Type[] interceptorTypes = null);
