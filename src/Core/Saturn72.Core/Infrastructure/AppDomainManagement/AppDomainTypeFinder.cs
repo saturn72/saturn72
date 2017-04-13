@@ -263,12 +263,6 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         /// <returns></returns>
         protected virtual bool DoesTypeImplementOpenGeneric(Type type, Type openGeneric)
         {
-            return //DoesImplementOpenGenericAbstractClass(type, openGeneric) ||
-                   DoesImplenmentOpenGenericInterface(type, openGeneric);
-        }
-
-        private static bool DoesImplenmentOpenGenericInterface(Type type, Type openGeneric)
-        {
             try
             {
                 var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
@@ -287,57 +281,6 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             {
                 return false;
             }
-
-
-            /*
-             
-              try
-            {
-                var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
-                foreach (var implementedInterface in type.FindInterfaces((objType, objCriteria) => true, null))
-                {
-                    if (!implementedInterface.IsGenericType)
-                        continue;
-
-                    var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
-                    return isMatch;
-                }
-                return false;
-            }catch
-            {
-                return false;
-            }
-            */
-        }
-
-        private static bool DoesImplementOpenGenericAbstractClass(Type type, Type openGeneric)
-        {
-            //due to performance issues -- allow only 3 level depth
-            var curDepth = 3;
-            try
-            {
-                var curBaseType = type;
-
-                do
-                {
-                    curBaseType = curBaseType.BaseType;
-                    if (curBaseType.IsAbstract)
-                    {
-                        curDepth--;
-                        continue;
-                        
-                    }
-                    if (openGeneric.IsAssignableFrom(curBaseType.GetGenericTypeDefinition()))
-                        return true;
-                //} while (curDepth-- <= 0 || curBaseType != null);
-                } while (curBaseType != null);
-
-            }
-            catch
-            {
-                return false;
-            }
-            return false;
         }
 
         protected virtual IEnumerable<MethodInfo> SearchMethodsMatchesSearchCriteria(IEnumerable<Assembly> assemblies,
