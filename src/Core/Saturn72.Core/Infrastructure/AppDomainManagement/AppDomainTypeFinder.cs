@@ -16,15 +16,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
     {
         #region Fields
 
-        private bool _loadAppDomainAssemblies = true;
-
-        private IList<string> assemblyNames = new List<string>();
-        private string assemblyRestrictToLoadingPattern = ".*";
-
-        private string assemblySkipLoadingPattern =
-            "^System|^mscorlib|^vshost|^Microsoft|^Autofac|^AutoMapper|^Castle|^EntityFramework|^FluentValidation|^log4net|^Newtonsoft|^nunit|^xunit|^Recaptcha|^Telerik|^MongoDB|^Sqlite|^NLog|^RestSharp|^Antlr|^Owin|^WebGrease";
-
-        private bool ignoreReflectionErrors = true;
+        private readonly bool ignoreReflectionErrors = true;
 
         #endregion Fields
 
@@ -40,25 +32,15 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         ///     Gets or sets wether Nop should iterate assemblies in the app domain when loading Nop types. Loading patterns
         ///     are applied when loading these assemblies.
         /// </summary>
-        public bool LoadAppDomainAssemblies
-        {
-            get { return _loadAppDomainAssemblies; }
-            set { _loadAppDomainAssemblies = value; }
-        }
+        public bool LoadAppDomainAssemblies { get; set; } = true;
 
         /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-        public IList<string> AssemblyNames
-        {
-            get { return assemblyNames; }
-            set { assemblyNames = value; }
-        }
+        public IList<string> AssemblyNames { get; set; } = new List<string>();
 
         /// <summary>Gets the pattern for dlls that we know don'type need to be investigated.</summary>
-        public string AssemblySkipLoadingPattern
-        {
-            get { return assemblySkipLoadingPattern; }
-            set { assemblySkipLoadingPattern = value; }
-        }
+        public string AssemblySkipLoadingPattern { get; set; } =
+            "^System|^mscorlib|^vshost|^Microsoft|^Autofac|^AutoMapper|^Castle|^EntityFramework|^FluentValidation|^log4net|^Newtonsoft|^nunit|^xunit|^Recaptcha|^Telerik|^MongoDB|^Sqlite|^NLog|^RestSharp|^Antlr|^Owin|^WebGrease"
+            ;
 
         /// <summary>
         ///     Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to
@@ -68,11 +50,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         ///     If you change this so that Nop assemblies arn'type investigated (e.g. by not including something like
         ///     "^Nop|..." you may break core functionality.
         /// </remarks>
-        public string AssemblyRestrictToLoadingPattern
-        {
-            get { return assemblyRestrictToLoadingPattern; }
-            set { assemblyRestrictToLoadingPattern = value; }
-        }
+        public string AssemblyRestrictToLoadingPattern { get; set; } = ".*";
 
         #endregion Properties
 
@@ -80,7 +58,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         public IEnumerable<Type> FindClassesOfType<TType>(bool onlyConcreteClasses = true)
         {
-            return FindClassesOfType(typeof (TType), onlyConcreteClasses);
+            return FindClassesOfType(typeof(TType), onlyConcreteClasses);
         }
 
         public IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, bool onlyConcreteClasses = true)
@@ -90,24 +68,24 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         public IEnumerable<Type> FindClassesOfType<T>(IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
         {
-            return FindClassesOfType(typeof (T), assemblies, onlyConcreteClasses);
+            return FindClassesOfType(typeof(T), assemblies, onlyConcreteClasses);
         }
 
         public IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, IEnumerable<Assembly> assemblies,
             bool onlyConcreteClasses = true)
         {
-            Func<Type, IEnumerable<Type>> func = t => 
-                assignTypeFrom.IsAssignableFrom(t) || (assignTypeFrom.IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(t, assignTypeFrom))
-
-                ? ReturnTypeEnumerableWhenOnlyConcreteClassesRequired(t, onlyConcreteClasses)
-                : new Type[] {};
+            Func<Type, IEnumerable<Type>> func = t =>
+                assignTypeFrom.IsAssignableFrom(t) ||
+                assignTypeFrom.IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(t, assignTypeFrom)
+                    ? ReturnTypeEnumerableWhenOnlyConcreteClassesRequired(t, onlyConcreteClasses)
+                    : new Type[] {};
 
             return SearchAssembliesBySearchCriteria(assemblies, func);
         }
 
         public IEnumerable<MethodInfo> FindMethodsOfReturnType<TReturnType>(bool onlyConcreteClasses = true)
         {
-            return FindMethodsOfReturnType(typeof (TReturnType), onlyConcreteClasses);
+            return FindMethodsOfReturnType(typeof(TReturnType), onlyConcreteClasses);
         }
 
         public IEnumerable<MethodInfo> FindMethodsOfReturnType(Type returnType, bool onlyConcreteClasses = true)
@@ -191,16 +169,12 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
         {
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
                 if (Matches(assembly.FullName))
-                {
                     if (!addedAssemblyNames.Contains(assembly.FullName))
                     {
                         assemblies.Add(assembly);
                         addedAssemblyNames.Add(assembly.FullName);
                     }
-                }
-            }
         }
 
         /// <summary>
@@ -269,20 +243,16 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 return;
 
             foreach (var dllPath in Directory.GetFiles(directoryPath, "*.dll"))
-            {
                 try
                 {
                     var an = AssemblyName.GetAssemblyName(dllPath);
                     if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
-                    {
                         WatchedAppDomain.Load(an);
-                    }
                 }
                 catch (BadImageFormatException ex)
                 {
                     Trace.TraceError(ex.ToString());
                 }
-            }
         }
 
         /// <summary>
@@ -293,16 +263,23 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         /// <returns></returns>
         protected virtual bool DoesTypeImplementOpenGeneric(Type type, Type openGeneric)
         {
+            return //DoesImplementOpenGenericAbstractClass(type, openGeneric) ||
+                   DoesImplenmentOpenGenericInterface(type, openGeneric);
+        }
+
+        private static bool DoesImplenmentOpenGenericInterface(Type type, Type openGeneric)
+        {
             try
             {
                 var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
+
+                //generic interface
                 var implementedInterfaces = type.FindInterfaces((objType, objCriteria) => true, null);
-                foreach (var implementedInterface in implementedInterfaces)
+                foreach (var ii in implementedInterfaces)
                 {
-                    if (!implementedInterface.IsGenericType
-                         || !genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition()))
+                    if (!ii.IsGenericType)
                         continue;
-                    return true;
+                    return genericTypeDefinition.IsAssignableFrom(ii.GetGenericTypeDefinition());
                 }
                 return false;
             }
@@ -310,6 +287,57 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             {
                 return false;
             }
+
+
+            /*
+             
+              try
+            {
+                var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
+                foreach (var implementedInterface in type.FindInterfaces((objType, objCriteria) => true, null))
+                {
+                    if (!implementedInterface.IsGenericType)
+                        continue;
+
+                    var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
+                    return isMatch;
+                }
+                return false;
+            }catch
+            {
+                return false;
+            }
+            */
+        }
+
+        private static bool DoesImplementOpenGenericAbstractClass(Type type, Type openGeneric)
+        {
+            //due to performance issues -- allow only 3 level depth
+            var curDepth = 3;
+            try
+            {
+                var curBaseType = type;
+
+                do
+                {
+                    curBaseType = curBaseType.BaseType;
+                    if (curBaseType.IsAbstract)
+                    {
+                        curDepth--;
+                        continue;
+                        
+                    }
+                    if (openGeneric.IsAssignableFrom(curBaseType.GetGenericTypeDefinition()))
+                        return true;
+                //} while (curDepth-- <= 0 || curBaseType != null);
+                } while (curBaseType != null);
+
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
 
         protected virtual IEnumerable<MethodInfo> SearchMethodsMatchesSearchCriteria(IEnumerable<Assembly> assemblies,
@@ -341,10 +369,8 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     }
 
                     if (types != null)
-                    {
                         foreach (var t in types)
                             result.AddRange(func(t));
-                    }
                 }
             }
             catch (ReflectionTypeLoadException ex)
