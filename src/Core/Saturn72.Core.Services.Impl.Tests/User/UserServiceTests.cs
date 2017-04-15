@@ -7,6 +7,7 @@ using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Logging;
+using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Extensions;
 using Saturn72.UnitTesting.Framework;
@@ -19,8 +20,8 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         public void UserService_GetUserByUsernameAsync_ReturnsNull()
         {
             var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns<UserModel>(null);
-            var srv = new UserService(userRepo.Object, null, null, null, null);
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns<UserModel>(null);
+            var srv = new UserService(userRepo.Object, null, null, null, null, null);
             srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
         }
 
@@ -31,7 +32,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var userRepo = new Mock<IUserRepository>();
             var result = new UserModel {Id = 3, Username = username, Active = true};
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns<Func<UserModel, bool>>(f => new[]
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns<Func<UserModel, bool>>(f => new[]
             {
                 result,
                 new UserModel {Id = 1,Username =username,  Active = true},
@@ -43,7 +44,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             logger.Setup(l => l.SupportedLogLevels).Returns(new[] {LogLevel.Error});
 
             var cm = new Mock<ICacheManager>();
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object);
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
             srv.GetUserByUsernameAsync(username).Result.ShouldEqual(result);
             logger.Verify(
                 l =>
@@ -56,13 +57,13 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var userRepo = new Mock<IUserRepository>();
             var result = new UserModel {Id = 3};
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns(new[]
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns(new[]
             {
                 result
             });
 
             var cm = new Mock<ICacheManager>();
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
             srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
         }
 
@@ -98,7 +99,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserUserRolesByUserId_Throws()
         {
-            var srv = new UserService(null, null, null, null, null);
+            var srv = new UserService(null, null, null, null, null, null);
             //on illegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
             {
@@ -132,21 +133,21 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 .Returns(new string[] {});
 
             //Repository returns null
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
+            var prRepo = new Mock<IPermissionRecordRepository>();
+            prRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns((IEnumerable<UserRoleModel>) null);
 
-            var srv1 = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv1 = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var res1 = srv1.GetUserUserRolesByUserIdAsync(123).Result;
             res1.ShouldNotBeNull();
             res1.Count().ShouldEqual(0);
 
 
             //Repository returns empty collection
-            userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
+            prRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(new List<UserRoleModel>());
 
-            var srv2 = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv2 = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var res2 = srv2.GetUserUserRolesByUserIdAsync(123).Result;
             res2.ShouldNotBeNull();
             res2.Count().ShouldEqual(0);
@@ -186,15 +187,15 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                     IsSystemRole = true
                 }
             };
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
+            var prRepo = new Mock<IPermissionRecordRepository>();
+            prRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(retVal);
 
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.Keys)
                 .Returns(new string[] {});
 
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var userId = 123;
             var actural = srv.GetUserUserRolesByUserIdAsync(userId).Result;
 
@@ -223,7 +224,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserPermissions_Throws()
         {
-            var srv = new UserService(null, null, null, null, null);
+            var srv = new UserService(null, null, null, null, null, null);
 
             //on ilegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
@@ -255,11 +256,11 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var expected = TestPermissionRecords.PermisisonCollection1;
 
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
+            var prRepo = new Mock<IPermissionRecordRepository>();
+            prRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
                 .Returns(() => expected);
 
-            var srv = new UserService(userRepo.Object, null, null, null, null);
+            var srv = new UserService(null, null, null, null, null, prRepo.Object);
             var res = srv.GetUserPermissionsAsync(111).Result;
 
             res.Count().ShouldEqual(expected.Count());

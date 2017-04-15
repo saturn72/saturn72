@@ -85,8 +85,6 @@
     <Compile Include="Domain\Localization\LocaleResourceDomainModel.cs" />
     <Compile Include="Domain\Logging\LogLevel.cs" />
     <Compile Include="Domain\Logging\LogRecordModel.cs" />
-    <Compile Include="Domain\Notifications\NotificationModel.cs" />
-    <Compile Include="Domain\Notifications\NotificationSubscription.cs" />
     <Compile Include="Domain\Security\PermissionRecordModel.cs" />
     <Compile Include="Domain\Security\RefreshTokenDomainModel.cs" />
     <Compile Include="Domain\Tasks\BackgroundTaskAttachtmentDomainModel.cs" />

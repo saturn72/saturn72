@@ -68,8 +68,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
                     var originalTask = btList.FirstOrDefault(b => b.Id == t.Id);
                     btList.Remove(originalTask);
                     btList.Add(t);
-                })
-                .Returns<BackgroundTaskDomainModel>(t => t);
+                });
 
             btRepository.Setup(r => r.GetById(It.IsAny<long>()))
                 .Returns<long>(id => btList.FirstOrDefault(t => t.Id == id));

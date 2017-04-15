@@ -9,6 +9,7 @@ using Saturn72.Core.Domain.Security;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
+using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.User;
 using Saturn72.Extensions;
 
@@ -24,22 +25,24 @@ namespace Saturn72.Core.Services.Impl.User
 
         private readonly IUserRepository _userRepository;
         private ILogger _logger;
+        private readonly IPermissionRecordRepository _permissionRecordRepository;
 
         public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
-            AuditHelper auditHelper, ILogger logger)
+            AuditHelper auditHelper, ILogger logger, IPermissionRecordRepository permissionRecordRepository)
         {
             _userRepository = userRepository;
             _eventPublisher = eventPublisher;
             _cacheManager = cacheManager;
             _auditHelper = auditHelper;
             _logger = logger;
+            _permissionRecordRepository = permissionRecordRepository;
         }
 
         public Task<IEnumerable<UserModel>> GetAllUsersAsync(Func<UserModel, bool> filter = null)
         {
             if (filter.IsNull())
                 filter = u => u.Active;
-            return Task.Run(() => _userRepository.GetBy(filter));
+            return Task.Run(() => _userRepository.GetAll().Where(filter));
         }
 
         public async Task<UserModel> GetUserByUsernameAsync(string username)
@@ -85,7 +88,7 @@ namespace Saturn72.Core.Services.Impl.User
 
             return await Task.FromResult(
                 _cacheManager.Get(SystemSharedCacheKeys.UserRolesUserCacheKey.AsFormat(userId),
-                    () => _userRepository.GetUserUserRoles(userId) ?? new UserRoleModel[] {}));
+                    () => _permissionRecordRepository.GetUserUserRoles(userId) ?? new UserRoleModel[] {}));
         }
 
         public async Task UpdateUser(UserModel user)
@@ -101,7 +104,7 @@ namespace Saturn72.Core.Services.Impl.User
         {
             Guard.GreaterThan(userId, (long) 0);
 
-            return await Task.Run(() => _userRepository.GetUserPermissions(userId));
+            return await Task.Run(() => _permissionRecordRepository.GetUserPermissions(userId));
         }
     }
 }

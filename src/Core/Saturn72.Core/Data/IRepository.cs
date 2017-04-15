@@ -17,7 +17,7 @@ namespace Saturn72.Core.Data
         TDomainModel GetById(long id);
         IEnumerable<TDomainModel> GetBy(Func<TDomainModel, bool> func);
 
-        TDomainModel Update(TDomainModel model);
+        void Update(TDomainModel model);
 
         void Create(TDomainModel model);
 
