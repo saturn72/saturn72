@@ -97,7 +97,7 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit.CreatedOnUtc.ShouldBeSmallerThan(DateTime.Now);
 
             audit.UpdatedByUserId.ShouldEqual(userId);
-            audit.UpdatedOnUtc.ShouldBeGreaterThan(audit.CreatedOnUtc);
+            audit.UpdatedOnUtc.ShouldBeGreaterOrEqualTo(audit.CreatedOnUtc);
             audit.UpdatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
 
         }
