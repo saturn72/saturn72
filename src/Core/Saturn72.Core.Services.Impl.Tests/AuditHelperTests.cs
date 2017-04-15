@@ -87,8 +87,7 @@ namespace Saturn72.Core.Services.Impl.Tests
             var wc = new Mock<IWorkContext>();
             var userId = 100;
             wc.Setup(w => w.CurrentUserId)
-                .Returns(userId)
-                .Callback(() => Thread.Sleep(50));
+                .Returns(userId);
 
             var aHelper = new AuditHelper(wc.Object);
             var audit = new DummyFullAudit();
