@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Components.DictionaryAdapter.Xml;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
@@ -16,41 +17,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 {
     public class UserServiceTests
     {
-        [Test]
-        public void UserService_GetUserByUsernameAsync_ReturnsNull()
-        {
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns<UserModel>(null);
-            var srv = new UserService(userRepo.Object, null, null, null, null, null);
-            srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
-        }
-
-        [Test]
-        public void UserService_GetUserByUsernameAsync_MultipleActiveUsersWithSameUsername()
-        {
-            var username = "ffff";
-
-            var userRepo = new Mock<IUserRepository>();
-            var result = new UserModel {Id = 3, Username = username, Active = true};
-            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns<Func<UserModel, bool>>(f => new[]
-            {
-                result,
-                new UserModel {Id = 1,Username =username,  Active = true},
-                new UserModel {Id = 2,Username =username,},
-                new UserModel {Id = 5,Username =username, Active = false}
-            }.Where(f).ToArray());
-
-            var logger = new Mock<ILogger>();
-            logger.Setup(l => l.SupportedLogLevels).Returns(new[] {LogLevel.Error});
-
-            var cm = new Mock<ICacheManager>();
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
-            srv.GetUserByUsernameAsync(username).Result.ShouldEqual(result);
-            logger.Verify(
-                l =>
-                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
-                        It.IsAny<Guid>()), Times.Once);
-        }
+        #region Get user by username
 
         [Test]
         public void UserService_GetUserByUsernameAsync_ReturnsUser()
@@ -66,33 +33,180 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
             srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
         }
-
+        
         [Test]
-        public void UserService_GetUserByEmailAsync_InvalidEmail()
+        public void UserService_GetUserByUsernameAsync_InvalidUsername()
         {
-            throw new NotImplementedException();
+            var srv = new UserService(null, null, null, null, null, null);
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByUsernameAsync("   ").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByUsernameAsync(null).Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByUsernameAsync("").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
         }
 
+        [Test]
+        public void UserService_GetUserByUsernameAsync_ReturnsNull()
+        {
+            var userRepo = new Mock<IUserRepository>();
+            IEnumerable<UserModel> uRepoResult = null;
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns(uRepoResult);
+            var srv = new UserService(userRepo.Object, null, null, null, null, null);
+
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
+
+            uRepoResult = new UserModel[] {};
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
+        }
+
+        [Test]
+        public void UserService_GetUserByUsernameAsync_MultipleNonDeletedUsersWithSameUsername()
+        {
+            var username = "ffff";
+
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel {Id = 3, Username = username};
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns(new[]
+            {
+                result,
+                new UserModel {Id = 1, Username = username, Deleted = true},
+                new UserModel {Id = 2, Username = username},
+                new UserModel {Id = 5, Username = username, Deleted = true}
+            }.AsEnumerable());
+
+            var logger = new Mock<ILogger>();
+            logger.Setup(l => l.SupportedLogLevels).Returns(new[] {LogLevel.Error});
+
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
+            srv.GetUserByUsernameAsync(username).Result.ShouldEqual(result);
+            logger.Verify(
+                l =>
+                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
+                        It.IsAny<Guid>()), Times.Once);
+        }
+
+        #endregion
+
+        #region Get user by email
         [Test]
         public void UserService_GetUserByEmailAsync_ReturnsNull()
         {
-            throw new NotImplementedException();
-        }
+            var userRepo = new Mock<IUserRepository>();
+            IEnumerable<UserModel> uRepoResult = null;
+            userRepo.Setup(u => u.GetUsersByEmail(It.IsAny<string>())).Returns(uRepoResult);
+            var srv = new UserService(userRepo.Object, null, null, null, null, null);
 
+            srv.GetUserByEmailAsync("ttt@gmail.com").Result.ShouldBeNull();
+
+            uRepoResult = new UserModel[] { };
+            srv.GetUserByEmailAsync("ttt@gmail.com").Result.ShouldBeNull();
+        }
+        [Test]
+        public void UserService_GetUserByEmailAsync_InvalidEmail()
+        {
+            var srv = new UserService(null, null, null, null, null, null);
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByEmailAsync("   ").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+            typeof(InvalidOperationException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByEmailAsync("ttt").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+        }
         [Test]
         public void UserService_GetUserByEmailAsync_MultipleActiveUsersWithSameUsername()
         {
-            throw new NotImplementedException();
+            var email = "ffff@ddd.com";
+
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel { Id = 3, Username = email };
+            userRepo.Setup(u => u.GetUsersByEmail(It.IsAny<string>())).Returns(new[]
+            {
+                result,
+                new UserModel {Id = 1, Username = email, Deleted = true},
+                new UserModel {Id = 2, Username = email},
+                new UserModel {Id = 5, Username = email, Deleted = true}
+            }.AsEnumerable());
+
+            var logger = new Mock<ILogger>();
+            logger.Setup(l => l.SupportedLogLevels).Returns(new[] { LogLevel.Error });
+
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
+            srv.GetUserByEmailAsync(email).Result.ShouldEqual(result);
+            logger.Verify(
+                l =>
+                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
+                        It.IsAny<Guid>()), Times.Once);
         }
 
         [Test]
         public void UserService_GetUserByEmailAsync_ReturnsUser()
         {
-            //mutiple users
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel { Id = 3 };
+            userRepo.Setup(u => u.GetUsersByEmail(It.IsAny<string>())).Returns(new[]
+            {
+                result
+            });
 
-            //single user
-            throw new NotImplementedException();
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
+            srv.GetUserByEmailAsync("www@ffff.com").Result.ShouldEqual(result);
         }
+
+
+        #endregion
 
         #region UserRoles
 

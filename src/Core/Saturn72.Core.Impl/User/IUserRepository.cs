@@ -15,5 +15,6 @@ namespace Saturn72.Core.Services.Impl.User
         void Update(UserModel user);
         UserModel GetById(long userId);
         IEnumerable<UserModel> GetUsersByUsername(string username);
+        IEnumerable<UserModel> GetUsersByEmail(string email);
     }
 }

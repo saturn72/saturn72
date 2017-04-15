@@ -24,7 +24,7 @@ namespace Saturn72.Core.Services.Impl.User
         private readonly IEventPublisher _eventPublisher;
 
         private readonly IUserRepository _userRepository;
-        private ILogger _logger;
+        private readonly ILogger _logger;
         private readonly IPermissionRecordRepository _permissionRecordRepository;
 
         public UserService(IUserRepository userRepository, IEventPublisher eventPublisher, ICacheManager cacheManager,
@@ -38,25 +38,17 @@ namespace Saturn72.Core.Services.Impl.User
             _permissionRecordRepository = permissionRecordRepository;
         }
 
-        public Task<IEnumerable<UserModel>> GetAllUsersAsync(Func<UserModel, bool> filter = null)
-        {
-            if (filter.IsNull())
-                filter = u => u.Active;
-            return Task.Run(() => _userRepository.GetAll().Where(filter));
-        }
-
         public async Task<UserModel> GetUserByUsernameAsync(string username)
         {
             Guard.HasValue(username);
-            Func<UserModel, bool> filter = u => u.Active && u.Username == username;
+            var allMatchingUsers =
+                await Task.FromResult(_userRepository.GetUsersByUsername(username)?.Where(u => !u.Deleted));
 
-            var allMatchingUsers = await GetAllUsersAsync(filter);
-
-            if (allMatchingUsers.IsNull())
+            if (allMatchingUsers.IsEmptyOrNull())
                 return null;
 
             if (allMatchingUsers.Count() > 1)
-                _logger.Error("Found more than sinlg eactive users with the same username. Username = {0}.".AsFormat(username));
+                _logger.Error("Found more than single active users with the same username. Username = {0}.".AsFormat(username));
 
             allMatchingUsers.ForEachItem(
                 u => _cacheManager.Set(SystemSharedCacheKeys.UserByIdCacheKey.AsFormat(u.Id), u));
@@ -67,10 +59,8 @@ namespace Saturn72.Core.Services.Impl.User
         {
             Guard.HasValue(email);
             Guard.MustFollow(CommonHelper.IsValidEmail(email), "invalid email address");
-            Func<UserModel, bool> filter = u => u.Active && u.Email.EqualsTo(email);
 
-            var allMatchingUsers = await GetAllUsersAsync(filter);
-
+            var allMatchingUsers = await Task.FromResult(_userRepository.GetUsersByEmail(email)?.Where(u => !u.Deleted));
             if (allMatchingUsers.IsNull())
                 return null;
 
@@ -91,7 +81,7 @@ namespace Saturn72.Core.Services.Impl.User
                     () => _permissionRecordRepository.GetUserUserRoles(userId) ?? new UserRoleModel[] {}));
         }
 
-        public async Task UpdateUser(UserModel user)
+        public async Task UpdateUserAsync(UserModel user)
         {
             Guard.NotNull(user);
             _auditHelper.PrepareForUpdateAudity(user);
