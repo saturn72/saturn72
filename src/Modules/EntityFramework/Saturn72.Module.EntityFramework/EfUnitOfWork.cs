@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 using Saturn72.Common.Data;
-using Saturn72.Core;
 using Saturn72.Core.Domain;
 
 #endregion
@@ -124,10 +123,20 @@ namespace Saturn72.Module.EntityFramework
                 var srcValue = pInfo.GetValue(source, null);
                 var destValue = pInfo.GetValue(destination, null);
 
-                if (srcValue == destValue)
+                if (WasNotModified(srcValue, destValue))
                     result.Add(pInfo.Name);
             }
             return result;
+        }
+
+        private static bool WasNotModified(object srcValue, object destValue)
+        {
+            if (srcValue == destValue)
+                return true;
+            if ((srcValue == null && destValue != null) || (srcValue != null && destValue == null))
+                return false;
+
+            return srcValue.Equals(destValue);
         }
 
         protected virtual TReturnType QueryNewContext<TReturnType>(Func<DbContext, TReturnType> query)
