@@ -178,7 +178,7 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit2.Deleted.ShouldBeTrue();
         }
 
-        internal class DummyFullAudit : IFullAudit
+        internal class DummyFullAudit : ICrudAudit
         {
             public DateTime CreatedOnUtc { get; set; }
             public long CreatedByUserId { get; set; }

@@ -49,8 +49,9 @@
   <ItemGroup>
     <Compile Include="Audit\IActivableAudit.cs" />
     <Compile Include="Audit\ICreatedAudit.cs" />
+    <Compile Include="Audit\ICrudAudit.cs" />
     <Compile Include="Audit\IDeletedAudit.cs" />
-    <Compile Include="Audit\IFullAudit.cs" />
+    <Compile Include="Audit\IPrivacyAudit.cs" />
     <Compile Include="Audit\ISuspendableAudit.cs" />
     <Compile Include="Audit\IUpdatedAudit.cs" />
     <Compile Include="Audit\SuspendPoint.cs" />
