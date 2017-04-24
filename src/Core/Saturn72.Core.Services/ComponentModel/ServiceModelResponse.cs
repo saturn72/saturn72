@@ -11,11 +11,6 @@ namespace Saturn72.Core.Services.ComponentModel
             set { base.HasErrors = value; }
         }
 
-        public ServiceModelResponse(TModel model)
-        {
-            Model = model;
-        }
-
-        public TModel Model { get; }
+        public TModel Model { get; set; }
     }
 }
