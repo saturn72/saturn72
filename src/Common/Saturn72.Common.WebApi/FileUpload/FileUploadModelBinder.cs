@@ -9,7 +9,7 @@ using System.Web.Http.ModelBinding;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
-using Saturn72.Core.Services.FileUpload;
+using Saturn72.Core.Services.Media;
 using Saturn72.Extensions;
 
 namespace Saturn72.Common.WebApi.FileUpload
@@ -26,7 +26,7 @@ namespace Saturn72.Common.WebApi.FileUpload
 
             var model = new FileUploadContent<TApiModel>();
             TApiModel content = null;
-            var attachtments = new List<FileUploadRequest>();
+            var attachtments = new List<MediaUploadRequest>();
 
             //In case of files container
             var streamProvider = new InMemoryMultipartFormDataStreamProvider();
@@ -51,7 +51,7 @@ namespace Saturn72.Common.WebApi.FileUpload
                 {
                     var getBytesTask = new Func<byte[]>(() => httpContent.ReadAsStreamAsync().Result.ToByteArray());
                     var fileName = httpContent.GetContentDispositionFileName();
-                    attachtments.Add(new FileUploadRequest
+                    attachtments.Add(new MediaUploadRequest
                     {
                         Bytes = getBytesTask,
                         FileName = fileName

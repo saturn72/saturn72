@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
-using Saturn72.Core.Services.FileUpload;
+using Saturn72.Core.Services.Media;
 using Saturn72.Extensions;
 
 #endregion
@@ -117,7 +117,7 @@ namespace Saturn72.Common.WebApi
         }
 
         protected virtual async Task<bool> TryExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (ICollection<FileUploadRequest> attachtments, TApiModel result)
+            (ICollection<MediaUploadRequest> attachtments, TApiModel result)
             where TApiModel : ApiModelBase, new()
         {
             try
@@ -132,14 +132,14 @@ namespace Saturn72.Common.WebApi
         }
 
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (ICollection<FileUploadRequest> attachtments)
+            (ICollection<MediaUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
         {
             return await ExtractDomainModelFromMultipartRequestAsync<TApiModel>(Request, attachtments);
         }
 
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (HttpRequestMessage request, ICollection<FileUploadRequest> attachtments)
+            (HttpRequestMessage request, ICollection<MediaUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
         {
             TApiModel model = null;
@@ -148,7 +148,7 @@ namespace Saturn72.Common.WebApi
         }
 
         protected virtual async Task<TApiModel> ExtractDomainModelFromMultipartRequestAsync<TApiModel>
-            (HttpRequestMessage request, TApiModel model, ICollection<FileUploadRequest> attachtments)
+            (HttpRequestMessage request, TApiModel model, ICollection<MediaUploadRequest> attachtments)
             where TApiModel : ApiModelBase, new()
         {
             Guard.NotNull(request);
@@ -180,7 +180,7 @@ namespace Saturn72.Common.WebApi
                 {
                     var getBytesTask = new Func<byte[]>(() => httpContent.ReadAsStreamAsync().Result.ToByteArray());
                     var fileName = httpContent.GetContentDispositionFileName();
-                    attachtments.Add(new FileUploadRequest
+                    attachtments.Add(new MediaUploadRequest
                     {
                         Bytes = getBytesTask,
                         FileName = fileName

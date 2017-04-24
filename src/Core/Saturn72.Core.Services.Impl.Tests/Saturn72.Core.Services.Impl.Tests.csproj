@@ -59,7 +59,7 @@
     <Compile Include="Localization\LocaleServiceTests.cs" />
     <Compile Include="Logging\DefaultLoggerTests.cs" />
     <Compile Include="Logging\LogManagerTests.cs" />
-    <Compile Include="Media\UploadServiceTests.cs" />
+    <Compile Include="Media\MediaUploadManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\PermissionRecordServiceTests.cs" />
     <Compile Include="Tasks\BackgroundTaskBaseTests.cs" />

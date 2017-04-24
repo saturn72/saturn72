@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Saturn72.Core.Domain
+﻿namespace Saturn72.Core.Domain
 {
     public interface IDomainModelBase<out TId>
     {
