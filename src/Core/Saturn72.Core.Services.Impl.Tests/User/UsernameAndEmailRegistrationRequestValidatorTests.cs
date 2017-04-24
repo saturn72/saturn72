@@ -12,7 +12,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
     public class UsernameAndEmailRegistrationRequestValidatorTests
     {
         [Test]
-        public void ValidateRequest()
+        public void UsernameAndEmailRegistrationRequestValidator_ValidateRequest()
         {
             var userSrv = new Mock<IUserService>();
             var userSettings = new Mock<UserSettings>();

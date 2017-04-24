@@ -49,8 +49,9 @@
   <ItemGroup>
     <Compile Include="Audit\IActivableAudit.cs" />
     <Compile Include="Audit\ICreatedAudit.cs" />
+    <Compile Include="Audit\ICrudAudit.cs" />
     <Compile Include="Audit\IDeletedAudit.cs" />
-    <Compile Include="Audit\IFullAudit.cs" />
+    <Compile Include="Audit\IPrivacyAudit.cs" />
     <Compile Include="Audit\ISuspendableAudit.cs" />
     <Compile Include="Audit\IUpdatedAudit.cs" />
     <Compile Include="Audit\SuspendPoint.cs" />
@@ -85,8 +86,6 @@
     <Compile Include="Domain\Localization\LocaleResourceDomainModel.cs" />
     <Compile Include="Domain\Logging\LogLevel.cs" />
     <Compile Include="Domain\Logging\LogRecordModel.cs" />
-    <Compile Include="Domain\Notifications\NotificationModel.cs" />
-    <Compile Include="Domain\Notifications\NotificationSubscription.cs" />
     <Compile Include="Domain\Security\PermissionRecordModel.cs" />
     <Compile Include="Domain\Security\RefreshTokenDomainModel.cs" />
     <Compile Include="Domain\Tasks\BackgroundTaskAttachtmentDomainModel.cs" />

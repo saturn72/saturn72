@@ -23,21 +23,18 @@ namespace Saturn72.Common.Data
             UnitOfWork = unitOfWork;
         }
 
-        public virtual IEnumerable<TDomainModel> GetAll()
-        {
-            return UnitOfWork.GetAll() ?? new TDomainModel[] {};
-        }
+        public virtual IEnumerable<TDomainModel> GetAll() => UnitOfWork.GetAll() ?? new TDomainModel[] {};
 
         public virtual TDomainModel GetById(long id)
         {
             return UnitOfWork.GetById(id);
         }
 
-        public virtual TDomainModel Update(TDomainModel model)
+        public virtual void Update(TDomainModel model)
         {
             Guard.NotNull(model);
 
-            return UnitOfWork.Update(model);
+            UnitOfWork.Update(model);
         }
 
         public virtual void Create(TDomainModel model)

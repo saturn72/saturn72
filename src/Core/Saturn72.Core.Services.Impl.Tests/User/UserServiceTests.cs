@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Components.DictionaryAdapter.Xml;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Logging;
+using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Extensions;
 using Saturn72.UnitTesting.Framework;
@@ -15,35 +17,100 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 {
     public class UserServiceTests
     {
+        #region Get user by username
+
+        [Test]
+        public void UserService_GetUserByUsernameAsync_ReturnsUser()
+        {
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel {Id = 3};
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns(new[]
+            {
+                result
+            });
+
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
+        }
+        
+        [Test]
+        public void UserService_GetUserByUsernameAsync_InvalidUsername()
+        {
+            var srv = new UserService(null, null, null, null, null, null);
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByUsernameAsync("   ").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByUsernameAsync(null).Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByUsernameAsync("").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+        }
+
         [Test]
         public void UserService_GetUserByUsernameAsync_ReturnsNull()
         {
             var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns<UserModel>(null);
-            var srv = new UserService(userRepo.Object, null, null, null, null);
+            IEnumerable<UserModel> uRepoResult = null;
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns(uRepoResult);
+            var srv = new UserService(userRepo.Object, null, null, null, null, null);
+
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
+
+            uRepoResult = new UserModel[] {};
             srv.GetUserByUsernameAsync("ffff").Result.ShouldBeNull();
         }
 
         [Test]
-        public void UserService_GetUserByUsernameAsync_MultipleActiveUsersWithSameUsername()
+        public void UserService_GetUserByUsernameAsync_MultipleNonDeletedUsersWithSameUsername()
         {
             var username = "ffff";
 
             var userRepo = new Mock<IUserRepository>();
-            var result = new UserModel {Id = 3, Username = username, Active = true};
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns<Func<UserModel, bool>>(f => new[]
+            var result = new UserModel {Id = 3, Username = username};
+            userRepo.Setup(u => u.GetUsersByUsername(It.IsAny<string>())).Returns(new[]
             {
                 result,
-                new UserModel {Id = 1,Username =username,  Active = true},
-                new UserModel {Id = 2,Username =username,},
-                new UserModel {Id = 5,Username =username, Active = false}
-            }.Where(f).ToArray());
+                new UserModel {Id = 1, Username = username, Deleted = true},
+                new UserModel {Id = 2, Username = username},
+                new UserModel {Id = 5, Username = username, Deleted = true}
+            }.AsEnumerable());
 
             var logger = new Mock<ILogger>();
             logger.Setup(l => l.SupportedLogLevels).Returns(new[] {LogLevel.Error});
 
             var cm = new Mock<ICacheManager>();
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object);
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
             srv.GetUserByUsernameAsync(username).Result.ShouldEqual(result);
             logger.Verify(
                 l =>
@@ -51,54 +118,102 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                         It.IsAny<Guid>()), Times.Once);
         }
 
-        [Test]
-        public void UserService_GetUserByUsernameAsync_ReturnsUser()
-        {
-            var userRepo = new Mock<IUserRepository>();
-            var result = new UserModel {Id = 3};
-            userRepo.Setup(u => u.GetBy(It.IsAny<Func<UserModel, bool>>())).Returns(new[]
-            {
-                result
-            });
+        #endregion
 
-            var cm = new Mock<ICacheManager>();
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
-            srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
-        }
-
-        [Test]
-        public void UserService_GetUserByEmailAsync_InvalidEmail()
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Get user by email
         [Test]
         public void UserService_GetUserByEmailAsync_ReturnsNull()
         {
-            throw new NotImplementedException();
-        }
+            var userRepo = new Mock<IUserRepository>();
+            IEnumerable<UserModel> uRepoResult = null;
+            userRepo.Setup(u => u.GetUsersByEmail(It.IsAny<string>())).Returns(uRepoResult);
+            var srv = new UserService(userRepo.Object, null, null, null, null, null);
 
+            srv.GetUserByEmailAsync("ttt@gmail.com").Result.ShouldBeNull();
+
+            uRepoResult = new UserModel[] { };
+            srv.GetUserByEmailAsync("ttt@gmail.com").Result.ShouldBeNull();
+        }
+        [Test]
+        public void UserService_GetUserByEmailAsync_InvalidEmail()
+        {
+            var srv = new UserService(null, null, null, null, null, null);
+            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByEmailAsync("   ").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+            typeof(InvalidOperationException).ShouldBeThrownBy(() =>
+            {
+                try
+                {
+
+                    var res = srv.GetUserByEmailAsync("ttt").Result;
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException;
+                }
+            });
+        }
         [Test]
         public void UserService_GetUserByEmailAsync_MultipleActiveUsersWithSameUsername()
         {
-            throw new NotImplementedException();
+            var email = "ffff@ddd.com";
+
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel { Id = 3, Username = email };
+            userRepo.Setup(u => u.GetUsersByEmail(It.IsAny<string>())).Returns(new[]
+            {
+                result,
+                new UserModel {Id = 1, Username = email, Deleted = true},
+                new UserModel {Id = 2, Username = email},
+                new UserModel {Id = 5, Username = email, Deleted = true}
+            }.AsEnumerable());
+
+            var logger = new Mock<ILogger>();
+            logger.Setup(l => l.SupportedLogLevels).Returns(new[] { LogLevel.Error });
+
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
+            srv.GetUserByEmailAsync(email).Result.ShouldEqual(result);
+            logger.Verify(
+                l =>
+                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
+                        It.IsAny<Guid>()), Times.Once);
         }
 
         [Test]
         public void UserService_GetUserByEmailAsync_ReturnsUser()
         {
-            //mutiple users
+            var userRepo = new Mock<IUserRepository>();
+            var result = new UserModel { Id = 3 };
+            userRepo.Setup(u => u.GetUsersByEmail(It.IsAny<string>())).Returns(new[]
+            {
+                result
+            });
 
-            //single user
-            throw new NotImplementedException();
+            var cm = new Mock<ICacheManager>();
+            var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
+            srv.GetUserByEmailAsync("www@ffff.com").Result.ShouldEqual(result);
         }
+
+
+        #endregion
 
         #region UserRoles
 
         [Test]
         public void UserService_GetUserUserRolesByUserId_Throws()
         {
-            var srv = new UserService(null, null, null, null, null);
+            var srv = new UserService(null, null, null, null, null, null);
             //on illegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
             {
@@ -132,21 +247,21 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 .Returns(new string[] {});
 
             //Repository returns null
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
+            var prRepo = new Mock<IPermissionRecordRepository>();
+            prRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns((IEnumerable<UserRoleModel>) null);
 
-            var srv1 = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv1 = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var res1 = srv1.GetUserUserRolesByUserIdAsync(123).Result;
             res1.ShouldNotBeNull();
             res1.Count().ShouldEqual(0);
 
 
             //Repository returns empty collection
-            userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
+            prRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(new List<UserRoleModel>());
 
-            var srv2 = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv2 = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var res2 = srv2.GetUserUserRolesByUserIdAsync(123).Result;
             res2.ShouldNotBeNull();
             res2.Count().ShouldEqual(0);
@@ -186,15 +301,15 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                     IsSystemRole = true
                 }
             };
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
+            var prRepo = new Mock<IPermissionRecordRepository>();
+            prRepo.Setup(u => u.GetUserUserRoles(It.IsAny<long>()))
                 .Returns(retVal);
 
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.Keys)
                 .Returns(new string[] {});
 
-            var srv = new UserService(userRepo.Object, null, cm.Object, null, null);
+            var srv = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var userId = 123;
             var actural = srv.GetUserUserRolesByUserIdAsync(userId).Result;
 
@@ -223,7 +338,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserService_GetUserPermissions_Throws()
         {
-            var srv = new UserService(null, null, null, null, null);
+            var srv = new UserService(null, null, null, null, null, null);
 
             //on ilegal userId
             typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
@@ -255,11 +370,11 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var expected = TestPermissionRecords.PermisisonCollection1;
 
-            var userRepo = new Mock<IUserRepository>();
-            userRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
+            var prRepo = new Mock<IPermissionRecordRepository>();
+            prRepo.Setup(r => r.GetUserPermissions(It.IsAny<long>()))
                 .Returns(() => expected);
 
-            var srv = new UserService(userRepo.Object, null, null, null, null);
+            var srv = new UserService(null, null, null, null, null, prRepo.Object);
             var res = srv.GetUserPermissionsAsync(111).Result;
 
             res.Count().ShouldEqual(expected.Count());

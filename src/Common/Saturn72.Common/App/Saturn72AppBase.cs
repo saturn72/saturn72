@@ -66,11 +66,11 @@ namespace Saturn72.Common.App
             Trace.WriteLine("Read configuration file data and load external assemblies...");
             AppDomainLoader.Load(data);
 
-            Trace.WriteLine("Start application engine...");
-            AppEngine.Initialize(true);
-
             Trace.WriteLine("Loading modules...");
             LoadAllModules(data);
+
+            Trace.WriteLine("Start application engine...");
+            AppEngine.Initialize(true);
 
             Trace.WriteLine("Start all modules...");
             StartAllModules(data);

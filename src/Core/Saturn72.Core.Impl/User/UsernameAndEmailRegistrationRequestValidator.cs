@@ -27,7 +27,7 @@ namespace Saturn72.Core.Services.Impl.User
             //    response.Add("Please specify user email or username");
 
             //if (usernameOrEmailNotEmpty && !_userSettings.ValidateByEmail &&
-            //    _userService.GetUserByUsername(request.Username).NotNull())
+            //    _userService.GetUsersByUsername(request.Username).NotNull())
             //    response.Add("Username already exists");
 
             //if (usernameOrEmailNotEmpty && _userSettings.ValidateByEmail &&

@@ -26,6 +26,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         private static readonly ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
         private static ICollection<PluginDescriptor> _pluginDescriptors;
         public static AppDomainLoadData AppDomainLoadData { get; private set; }
+
         public static IEnumerable<PluginDescriptor> PluginDescriptors
         {
             get { return _pluginDescriptors; }
@@ -68,7 +69,8 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
             {
-                Trace.TraceWarning("No Modules were found in modules root directory or unaccessible directory: " + data.RootDirectory);
+                Trace.TraceWarning("No Modules were found in modules root directory or unaccessible directory: " +
+                                   data.RootDirectory);
                 return;
             }
 
@@ -85,7 +87,8 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
             {
-                Trace.TraceWarning("No PLUGINS were found in modules root directory or unaccessible directory: " + data.RootDirectory);
+                Trace.TraceWarning("No PLUGINS were found in modules root directory or unaccessible directory: " +
+                                   data.RootDirectory);
                 return;
             }
             using (new WriteLockDisposable(Locker))
@@ -105,7 +108,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     ValidatePluginBySystemName(dfd, _pluginDescriptors);
 
                     pluginDescriptor.State = GetPluginState(installedOrSuspendedPlugins, pluginDescriptor.SystemName);
-                    
+
                     _pluginDescriptors.Add(pluginDescriptor);
                 }
 
@@ -117,7 +120,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             try
             {
-                return Directory.Exists(directory) &&  Directory.GetDirectories(directory).Any() ||
+                return Directory.Exists(directory) && Directory.GetDirectories(directory).Any() ||
                        !Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).Any();
             }
             catch (DirectoryNotFoundException e)
@@ -326,7 +329,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             //First register using given path, if fail let .Net to figure how to load the assembly
             var asmFullName = GetDeploymentPathInfo(component, shadowCopyDirectory).FullName;
             VerifyAssemblyIsNotAlreadyLoaded(asmFullName);
-            
+
             var shadowCopyAssembly = Assembly.Load(AssemblyName.GetAssemblyName(asmFullName));
             Trace.WriteLine(asmFullName + " was loaded");
             //add the reference to the build manager
@@ -341,9 +344,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             var allAppDomainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
             if (allAppDomainAssemblies.Any(asm => GetAssemblyLocalPath(asm).Equals(assemblyPath)))
-            {
                 throw new Saturn72Exception("{0} was already loaded to app domaim".AsFormat(assemblyPath));
-            }
         }
 
         private static string GetAssemblyLocalPath(Assembly asm)
@@ -406,7 +407,6 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             }
 
             if (shouldCopy)
-            {
                 try
                 {
                     File.Copy(component.FullName, shadowCopiedPlug.FullName, true);
@@ -430,7 +430,6 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     //ok, we've made it this far, now retry the shadow copy
                     File.Copy(component.FullName, shadowCopiedPlug.FullName, true);
                 }
-            }
 
             return shadowCopiedPlug;
         }

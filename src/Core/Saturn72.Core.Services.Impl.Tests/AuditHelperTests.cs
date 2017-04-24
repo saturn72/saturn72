@@ -87,8 +87,7 @@ namespace Saturn72.Core.Services.Impl.Tests
             var wc = new Mock<IWorkContext>();
             var userId = 100;
             wc.Setup(w => w.CurrentUserId)
-                .Returns(userId)
-                .Callback(() => Thread.Sleep(50));
+                .Returns(userId);
 
             var aHelper = new AuditHelper(wc.Object);
             var audit = new DummyFullAudit();
@@ -98,7 +97,7 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit.CreatedOnUtc.ShouldBeSmallerThan(DateTime.Now);
 
             audit.UpdatedByUserId.ShouldEqual(userId);
-            audit.UpdatedOnUtc.ShouldBeGreaterThan(audit.CreatedOnUtc);
+            audit.UpdatedOnUtc.ShouldBeGreaterOrEqualTo(audit.CreatedOnUtc);
             audit.UpdatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
 
         }
@@ -179,7 +178,7 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit2.Deleted.ShouldBeTrue();
         }
 
-        internal class DummyFullAudit : IFullAudit
+        internal class DummyFullAudit : ICrudAudit
         {
             public DateTime CreatedOnUtc { get; set; }
             public long CreatedByUserId { get; set; }

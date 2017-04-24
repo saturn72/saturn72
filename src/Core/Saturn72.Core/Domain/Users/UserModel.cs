@@ -8,7 +8,7 @@ using Saturn72.Core.Audit;
 
 namespace Saturn72.Core.Domain.Users
 {
-    public class UserModel : DomainModelBase, IFullAudit
+    public class UserModel : DomainModelBase, ICrudAudit
     {
         #region Fields
 
