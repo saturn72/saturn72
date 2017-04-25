@@ -42,7 +42,10 @@
   <ItemGroup>
     <Compile Include="AuditHelper.cs" />
     <Compile Include="Media\IMediaRepository.cs" />
+    <Compile Include="Media\IMediaUploadValidationFactory.cs" />
+    <Compile Include="Media\IMediaValidator.cs" />
     <Compile Include="Media\MediaUploadManager.cs" />
+    <Compile Include="Media\MediaUploadValidationFactory.cs" />
     <Compile Include="Security\ClientAppService.cs" />
     <Compile Include="Security\AuthenticationService.cs" />
     <Compile Include="Security\IClientAppRepository.cs" />

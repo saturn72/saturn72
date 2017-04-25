@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditHelperTests.cs" />
+    <Compile Include="Media\MediaUploadValidationFactoryTests.cs" />
     <Compile Include="Security\AuthenticationServiceTests.cs" />
     <Compile Include="Configuration\SettingServiceTests.cs" />
     <Compile Include="Events\EventPublisherTests.cs" />

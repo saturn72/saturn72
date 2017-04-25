@@ -72,7 +72,6 @@
     <Compile Include="Media\MediaUploadRequest.cs" />
     <Compile Include="ComponentModel\ServiceModelResponse.cs" />
     <Compile Include="Security\IEncryptionService.cs" />
-    <Compile Include="Media\IMediaUploadValidationFactory.cs" />
     <Compile Include="Security\IPermissionRecordService.cs" />
     <Compile Include="Tasks\IBackgroundTaskExecutionService.cs" />
     <Compile Include="Tasks\IBackgroundTaskService.cs" />
