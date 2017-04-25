@@ -2,9 +2,9 @@
 using Saturn72.Core.Services.Impl.Media;
 using Saturn72.Core.Services.Media;
 
-namespace Saturn72.Module.ExcelMediaVerifier
+namespace Saturn72.Module.ExcelMediaValidator
 {
-    public class ExcelMediaVerifier:IMediaValidator
+    public class ExcelMediaValidator:IMediaValidator
     {
         public IEnumerable<string> SupportedExtensions { get; } = new []{"xls", "xlsx"};
 

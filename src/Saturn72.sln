@@ -107,9 +107,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.WebApi.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Common.WebApi.Tests", "Common\Saturn72.Common.WebApi.Tests\Saturn72.Common.WebApi.Tests.csproj", "{36FA2FBC-5959-4222-8107-3C693D582CA8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaVerifiers", "MediaVerifiers", "{390D3B1A-C0CE-4730-AC7A-8E803BD0CC1C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaValidators", "MediaValidators", "{390D3B1A-C0CE-4730-AC7A-8E803BD0CC1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Module.ExcelMediaVerifier", "Modules\MediaVerifiers\Saturn72.Module.ExcelMediaVerifier\Saturn72.Module.ExcelMediaVerifier.csproj", "{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Module.ExcelMediaValidator", "Modules\MediaVerifiers\Saturn72.Module.ExcelMediaValidator\Saturn72.Module.ExcelMediaValidator.csproj", "{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

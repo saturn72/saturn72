@@ -7,8 +7,8 @@
     <ProjectGuid>{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Saturn72.Module.ExcelMediaVerifier</RootNamespace>
-    <AssemblyName>Saturn72.Module.ExcelMediaVerifier</AssemblyName>
+    <RootNamespace>Saturn72.Module.ExcelMediaValidator</RootNamespace>
+    <AssemblyName>Saturn72.Module.ExcelMediaValidator</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\Saturn72.Module.ExcelMediaVerifier\</OutputPath>
+    <OutputPath>..\..\bin\Saturn72.Module.ExcelMediaValidator\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,18 +24,22 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Saturn72.Module.ExcelMediaVerifier\</OutputPath>
+    <OutputPath>..\..\bin\Saturn72.Module.ExcelMediaValidator\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\src\Application\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelMediaVerifier.cs" />
-    <Compile Include="ExcelMediaVerifierModule.cs" />
+    <Compile Include="ExcelMediaValidator.cs" />
+    <Compile Include="ExcelMediaValidatorModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +55,9 @@
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

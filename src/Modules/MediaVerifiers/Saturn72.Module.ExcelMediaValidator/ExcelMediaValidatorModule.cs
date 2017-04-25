@@ -1,8 +1,8 @@
 ﻿using Saturn72.Core.Extensibility;
 
-namespace Saturn72.Module.ExcelMediaVerifier
+namespace Saturn72.Module.ExcelMediaValidator
 {
-    public class ExcelMediaVerifierModule : IModule
+    public class ExcelMediaValidatorModule : IModule
     {
         public void Load()
         {
