@@ -17,7 +17,6 @@ namespace Saturn72.Core.Services.Media
         public MediaStatusCode Status { get; }
         public MediaModel Media { get; }
         public string Message { get; }
-
-        public bool WasUploaded => Status == MediaStatusCode.Uploaded && Media.NotNull() && Media.Guid != Guid.Empty;
+        public bool WasUploaded => Status == MediaStatusCode.Uploaded && Media.NotNull() && Media.UploadSessionId != Guid.Empty;
     }
 }

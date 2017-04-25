@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Saturn72.Core.Domain.FileUpload;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
@@ -9,15 +12,17 @@ namespace Saturn72.Core.Services.Impl.Media
     public class MediaUploadManager : IMediaUploadManager
     {
         private readonly IEventPublisher _eventPublisher;
-        private readonly IMediaUploadValidationFactory _mediaUploadValidationFactory;
         private readonly ILogger _logger;
+        private readonly IMediaRepository _mediaRepository;
+        private readonly IMediaUploadValidationFactory _mediaUploadValidationFactory;
 
         public MediaUploadManager(IMediaUploadValidationFactory mediaUploadValidationFactory, ILogger logger,
-            IEventPublisher eventPublisher)
+            IEventPublisher eventPublisher, IMediaRepository mediaRepository)
         {
             _mediaUploadValidationFactory = mediaUploadValidationFactory;
             _logger = logger;
             _eventPublisher = eventPublisher;
+            _mediaRepository = mediaRepository;
         }
 
         public bool IsSupportedExtension(string extension)
@@ -25,36 +30,52 @@ namespace Saturn72.Core.Services.Impl.Media
             return _mediaUploadValidationFactory.IsSupportedExtension(extension);
         }
 
-        public MediaUploadResponse Upload(MediaUploadRequest mediaUploadRequest)
+        public async Task<IEnumerable<MediaUploadResponse>> UploadAsync(IEnumerable<MediaUploadRequest> requests)
         {
-            Guard.NotNull(mediaUploadRequest);
+            Guard.NotNull(requests);
+            var fileUploadResponses = new List<MediaUploadResponse>();
+            if (requests.IsEmptyOrNull())
+                return fileUploadResponses;
 
-            byte[] bytes;
-            if(mediaUploadRequest.Bytes.IsNull() || (bytes = mediaUploadRequest.Bytes()).IsEmptyOrNull())
-                return new MediaUploadResponse(mediaUploadRequest, MediaStatusCode.Invalid, null, "Invalid upload request");
+            var uploadSessionId = new Guid();
+            await Task.Run(() =>
+                requests.ForEachItem(req => fileUploadResponses.Add(Upload(req,uploadSessionId))));
+            return fileUploadResponses;
+        }
 
-            if (!IsSupportedExtension(mediaUploadRequest.Extension))
-                return new MediaUploadResponse(mediaUploadRequest, MediaStatusCode.NotSupported, null, "failed to validate");
+        private MediaUploadResponse Upload(MediaUploadRequest request, Guid uploadSessionId)
+        {
+            if (request.Bytes.IsEmptyOrNull())
+                return new MediaUploadResponse(request, MediaStatusCode.Invalid, null, "Invalid upload request");
 
-            var fileStatusCode = _mediaUploadValidationFactory.Validate(mediaUploadRequest);
+            if (!IsSupportedExtension(request.Extension))
+                return new MediaUploadResponse(request, MediaStatusCode.NotSupported, null, "failed to validate");
+
+            var fileStatusCode = _mediaUploadValidationFactory.Validate(request);
             if (fileStatusCode != MediaStatusCode.Valid)
-                return new MediaUploadResponse(mediaUploadRequest, fileStatusCode, null, "failed to validate");
+                return new MediaUploadResponse(request, fileStatusCode, null, "failed to validate");
 
-            _logger.Information("Start uploading file to server. File name {0}".AsFormat(mediaUploadRequest.FileName));
+            _logger.Information("Start uploading file to server. File name {0}".AsFormat(request.FileName));
 
             var media = new MediaModel
             {
-                FilePath = mediaUploadRequest.FileName,
-                Bytes = bytes
+                FileName = request.FileName,
+                Bytes = request.Bytes,
+                UploadSessionId = uploadSessionId
             };
-
-            //   _mediaRepository.Create(media);
+            _mediaRepository.Create(media);
+            if (media.Id == default(long))
+            {
+                _logger.Information(
+                    "Failed to upload file to server. File name {0}, RecordId: {1}, UploadSessionId: {2}".AsFormat(request.FileName, media, uploadSessionId));
+                return new MediaUploadResponse(request, MediaStatusCode.FailedToUpload, media,
+                    "File failed to upload");
+            }
 
             _logger.Information(
-                "Finish uploading file to server. File name {0}, RecordId: {1}".AsFormat(mediaUploadRequest.FileName,
-                    media));
+                "Finish uploading file to server. File name {0}, RecordId: {1}, UploadSessionId: {2}".AsFormat(request.FileName, media, uploadSessionId));
             _eventPublisher.DomainModelCreated(media);
-            return new MediaUploadResponse(mediaUploadRequest, MediaStatusCode.Uploaded, media,
+            return new MediaUploadResponse(request, MediaStatusCode.Uploaded, media,
                 "File uploaded successfully");
         }
     }

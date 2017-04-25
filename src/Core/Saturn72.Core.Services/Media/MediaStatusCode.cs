@@ -12,6 +12,7 @@
         public static MediaStatusCode Valid = new MediaStatusCode(1200, "The file was validated");
         public static MediaStatusCode Invalid = new MediaStatusCode(200, "The file is invalid");
         public static MediaStatusCode Uploaded = new MediaStatusCode(1400, "The file was uploaded");
+        public static MediaStatusCode FailedToUpload = new MediaStatusCode(1600, "The file faild to upload");
 
         private MediaStatusCode(int code, string message)
         {

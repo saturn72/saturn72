@@ -9,11 +9,9 @@ namespace Saturn72.Core.Services.Tests.Media
     public class MediaUploadResponseTests
     {
         [Test]
-        public void FileUploadResponseTests_WasUploaded()
+        public void MediaUploadResponseTests_WasUploaded()
         {
-            var fileUploadRecordGuid = Guid.NewGuid();
-
-            var media = new MediaModel {Guid = new Guid()};
+            var media = new MediaModel {UploadSessionId = Guid.NewGuid() };
             new MediaUploadResponse(null, MediaStatusCode.Uploaded, media, "").WasUploaded.ShouldBeTrue();
             new MediaUploadResponse(null, MediaStatusCode.NotSupported, media, "").WasUploaded.ShouldBeFalse();
             new MediaUploadResponse(null, MediaStatusCode.Uploaded, null, "").WasUploaded.ShouldBeFalse();

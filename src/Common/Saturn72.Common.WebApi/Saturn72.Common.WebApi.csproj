@@ -69,8 +69,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\UiController.cs" />
-    <Compile Include="FileUpload\FileUploadContent.cs" />
-    <Compile Include="FileUpload\FileUploadModelBinder.cs" />
+    <Compile Include="Media\MediaUploadContent.cs" />
+    <Compile Include="Media\MediaUploadModelBinder.cs" />
     <Compile Include="Models\Account\UserRegistrationApiModel.cs" />
     <Compile Include="Models\ApiModelBase.cs" />
     <Compile Include="MultistreamProviders\InMemoryMultipartFormDataStreamProvider.cs" />

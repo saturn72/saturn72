@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditHelper.cs" />
+    <Compile Include="Media\IMediaRepository.cs" />
     <Compile Include="Media\MediaUploadManager.cs" />
     <Compile Include="Security\ClientAppService.cs" />
     <Compile Include="Security\AuthenticationService.cs" />

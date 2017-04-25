@@ -1,8 +1,12 @@
-﻿namespace Saturn72.Core.Services.Media
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Saturn72.Core.Services.Media
 {
     public interface IMediaUploadManager
     {
         bool IsSupportedExtension(string extension);
-        MediaUploadResponse Upload(MediaUploadRequest mediaUploadRequest);
+        Task<IEnumerable<MediaUploadResponse>> UploadAsync(IEnumerable<MediaUploadRequest> requests);
     }
 }

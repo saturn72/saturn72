@@ -37,6 +37,10 @@ namespace Saturn72.Core.Services.Tests.Media
             fsc = MediaStatusCode.Uploaded;
             fsc.Code.ShouldEqual(1400);
             fsc.Message.ShouldEqual("The file was uploaded");
+
+            fsc = MediaStatusCode.FailedToUpload;
+            fsc.Code.ShouldEqual(1600);
+            fsc.Message.ShouldEqual("The file faild to upload");
         }
     }
 }

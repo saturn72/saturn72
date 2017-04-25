@@ -4,8 +4,8 @@ namespace Saturn72.Core.Domain.FileUpload
 {
     public class MediaModel:DomainModelBase
     {
-        public string FilePath { get; set; }
+        public string FileName { get; set; }
         public byte[] Bytes { get; set; }
-        public Guid Guid { get; set; }
+        public Guid UploadSessionId { get; set; }
     }
 }

@@ -12,9 +12,9 @@ using Saturn72.Common.WebApi.Utils;
 using Saturn72.Core.Services.Media;
 using Saturn72.Extensions;
 
-namespace Saturn72.Common.WebApi.FileUpload
+namespace Saturn72.Common.WebApi.Media
 {
-    public class FileUploadModelBinder<TApiModel> : IModelBinder where TApiModel : ApiModelBase, new()
+    public class MediaUploadModelBinder<TApiModel> : IModelBinder where TApiModel : ApiModelBase, new()
     {
         public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
         {
@@ -24,7 +24,7 @@ namespace Saturn72.Common.WebApi.FileUpload
                 throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotAcceptable,
                     "This request does not contain multipart data"));
 
-            var model = new FileUploadContent<TApiModel>();
+            var model = new MediaUploadContent<TApiModel>();
             TApiModel content = null;
             var attachtments = new List<MediaUploadRequest>();
 
@@ -49,7 +49,7 @@ namespace Saturn72.Common.WebApi.FileUpload
 
                 if (ct == HttpContentType.File)
                 {
-                    var getBytesTask = new Func<byte[]>(() => httpContent.ReadAsStreamAsync().Result.ToByteArray());
+                    var getBytesTask = httpContent.ReadAsStreamAsync().Result.ToByteArray();
                     var fileName = httpContent.GetContentDispositionFileName();
                     attachtments.Add(new MediaUploadRequest
                     {

@@ -178,7 +178,7 @@ namespace Saturn72.Common.WebApi
 
                 if (ct == HttpContentType.File)
                 {
-                    var getBytesTask = new Func<byte[]>(() => httpContent.ReadAsStreamAsync().Result.ToByteArray());
+                    var getBytesTask = httpContent.ReadAsStreamAsync().Result.ToByteArray();
                     var fileName = httpContent.GetContentDispositionFileName();
                     attachtments.Add(new MediaUploadRequest
                     {
