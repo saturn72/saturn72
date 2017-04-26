@@ -18,7 +18,7 @@ namespace Saturn72.Core.Services.Tests.Media
             fsc.Code.ShouldEqual(0);
             fsc.Message.ShouldEqual("The file type is blocked by the system");
 
-            fsc = MediaStatusCode.NotSupported;
+            fsc = MediaStatusCode.Unsupported;
             fsc.Code.ShouldEqual(50);
             fsc.Message.ShouldEqual("The file type is not supported");
 

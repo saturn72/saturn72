@@ -13,7 +13,7 @@ namespace Saturn72.Core.Services.Tests.Media
         {
             var media = new MediaModel {UploadSessionId = Guid.NewGuid() };
             new MediaUploadResponse(null, MediaStatusCode.Uploaded, media, "").WasUploaded.ShouldBeTrue();
-            new MediaUploadResponse(null, MediaStatusCode.NotSupported, media, "").WasUploaded.ShouldBeFalse();
+            new MediaUploadResponse(null, MediaStatusCode.Unsupported, media, "").WasUploaded.ShouldBeFalse();
             new MediaUploadResponse(null, MediaStatusCode.Uploaded, null, "").WasUploaded.ShouldBeFalse();
             new MediaUploadResponse(null, MediaStatusCode.Corrupted, null, "").WasUploaded.ShouldBeFalse();
         }

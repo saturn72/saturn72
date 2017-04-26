@@ -28,7 +28,7 @@ namespace Saturn72.Core.Services.Impl.Media
                 _mediaValidators.FirstOrDefault(bv => bv.SupportedExtensions.Contains(mediaUploadRequest.Extension));
 
             return validator?.Validate(mediaUploadRequest.Bytes, mediaUploadRequest.Extension) ??
-                   MediaStatusCode.NotSupported;
+                   MediaStatusCode.Unsupported;
         }
     }
 }

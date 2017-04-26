@@ -5,7 +5,7 @@
         public static MediaStatusCode Blocked = new MediaStatusCode(0,
             "The file type is blocked by the system");
 
-        public static MediaStatusCode NotSupported = new MediaStatusCode(50,
+        public static MediaStatusCode Unsupported = new MediaStatusCode(50,
             "The file type is not supported");
 
         public static MediaStatusCode Corrupted = new MediaStatusCode(100, "The file is corrupted");

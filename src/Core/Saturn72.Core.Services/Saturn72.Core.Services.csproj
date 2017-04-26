@@ -43,6 +43,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Media\IMediaUploadValidationFactory.cs" />
+    <Compile Include="Media\IMediaValidator.cs" />
     <Compile Include="Media\MediaStatusCode.cs" />
     <Compile Include="Security\IClientAppService.cs" />
     <Compile Include="Security\IAuthenticationService.cs" />

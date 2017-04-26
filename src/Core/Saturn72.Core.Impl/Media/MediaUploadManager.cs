@@ -49,7 +49,7 @@ namespace Saturn72.Core.Services.Impl.Media
                 return new MediaUploadResponse(request, MediaStatusCode.Invalid, null, "Invalid upload request");
 
             if (!IsSupportedExtension(request.Extension))
-                return new MediaUploadResponse(request, MediaStatusCode.NotSupported, null, "failed to validate");
+                return new MediaUploadResponse(request, MediaStatusCode.Unsupported, null, "failed to validate");
 
             var fileStatusCode = _mediaUploadValidationFactory.Validate(request);
             if (fileStatusCode != MediaStatusCode.Valid)

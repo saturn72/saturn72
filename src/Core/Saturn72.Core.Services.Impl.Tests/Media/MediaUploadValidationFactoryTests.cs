@@ -64,7 +64,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
             {
                 FileName = "ttt." + fileExtension
             };
-            mvFactory.Validate(mediaUploadRequest).ShouldEqual(MediaStatusCode.NotSupported);
+            mvFactory.Validate(mediaUploadRequest).ShouldEqual(MediaStatusCode.Unsupported);
 
         }
         [Test]

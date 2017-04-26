@@ -102,7 +102,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
             var uMgr = new MediaUploadManager(vFactory.Object, null, null, null);
             var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
 
-            res.Status.ShouldEqual(MediaStatusCode.NotSupported);
+            res.Status.ShouldEqual(MediaStatusCode.Unsupported);
             res.WasUploaded.ShouldBeFalse();
         }
 

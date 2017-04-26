@@ -1,7 +1,5 @@
 ﻿
-using Saturn72.Core.Services.Media;
-
-namespace Saturn72.Core.Services.Impl.Media
+namespace Saturn72.Core.Services.Media
 {
     public interface IMediaUploadValidationFactory
     {
