@@ -30,8 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EPPlus">
-      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\EPPlus.4.1.0\EPPlus.dll</HintPath>
+    <Reference Include="Excel">
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\ExcelDataReader.2.1.2.3\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\ExcelDataReader.2.1.2.3\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,6 +57,9 @@
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

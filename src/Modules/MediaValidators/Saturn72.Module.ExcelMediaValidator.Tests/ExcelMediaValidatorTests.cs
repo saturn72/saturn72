@@ -31,8 +31,9 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
             var nv = new ExcelMediaValidator();
             foreach (var f in allGoodFiles)
             {
+                var ext = Path.GetExtension(f).Replace(".", string.Empty);
                 var fs = File.ReadAllBytes(f);
-                nv.Validate(fs, "xls").ShouldEqual(MediaStatusCode.Valid);
+                nv.Validate(fs, ext).ShouldEqual(MediaStatusCode.Valid);
             }
         }
 

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml;
+using Excel;
 using Saturn72.Core.Services.Media;
 
 namespace Saturn72.Module.ExcelMediaValidator
 {
     public class ExcelMediaValidator : IMediaValidator
     {
-        public IEnumerable<string> SupportedExtensions { get; } = new[] {"xls", "xlsx"};
+        private const string XlsExtension = "xls";
+        private const string XlsxExtension = "xlsx";
+
+        public IEnumerable<string> SupportedExtensions { get; } = new[] {XlsExtension, XlsxExtension};
 
         public MediaStatusCode Validate(byte[] bytes, string extension)
         {
@@ -19,10 +22,17 @@ namespace Saturn72.Module.ExcelMediaValidator
             try
             {
                 using (var ms = new MemoryStream(bytes))
-                using (var package = new ExcelPackage(ms))
                 {
+                    var excel = extension == XlsExtension
+                        ? ExcelReaderFactory.CreateBinaryReader(ms)
+                        : ExcelReaderFactory.CreateOpenXmlReader(ms);
                     return MediaStatusCode.Valid;
                 }
+                //using (var ms = new MemoryStream(bytes))
+                //using (var package = ExcelReaderFactory(ms))
+                //{
+                //    return MediaStatusCode.Valid;
+                //}
             }
             catch
             {
