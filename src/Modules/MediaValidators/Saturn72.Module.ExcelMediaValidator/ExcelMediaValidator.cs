@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Excel;
 using Saturn72.Core.Services.Media;
+using Saturn72.Extensions;
 
 namespace Saturn72.Module.ExcelMediaValidator
 {
@@ -26,13 +27,11 @@ namespace Saturn72.Module.ExcelMediaValidator
                     var excel = extension == XlsExtension
                         ? ExcelReaderFactory.CreateBinaryReader(ms)
                         : ExcelReaderFactory.CreateOpenXmlReader(ms);
-                    return MediaStatusCode.Valid;
+
+                    return excel.ExceptionMessage.HasValue()
+                        ? MediaStatusCode.UnexpectedError
+                        : MediaStatusCode.Valid;
                 }
-                //using (var ms = new MemoryStream(bytes))
-                //using (var package = ExcelReaderFactory(ms))
-                //{
-                //    return MediaStatusCode.Valid;
-                //}
             }
             catch
             {

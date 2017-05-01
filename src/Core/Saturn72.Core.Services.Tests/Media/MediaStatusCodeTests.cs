@@ -41,6 +41,10 @@ namespace Saturn72.Core.Services.Tests.Media
             fsc = MediaStatusCode.FailedToUpload;
             fsc.Code.ShouldEqual(1600);
             fsc.Message.ShouldEqual("The file faild to upload");
-        }
+
+            fsc = MediaStatusCode.UnexpectedError; fsc.Code.ShouldEqual(1800);
+            fsc.Message.ShouldEqual("Unexpected error occured");
+
     }
+}
 }

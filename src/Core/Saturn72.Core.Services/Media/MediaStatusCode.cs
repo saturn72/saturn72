@@ -13,7 +13,7 @@
         public static MediaStatusCode Invalid = new MediaStatusCode(200, "The file is invalid");
         public static MediaStatusCode Uploaded = new MediaStatusCode(1400, "The file was uploaded");
         public static MediaStatusCode FailedToUpload = new MediaStatusCode(1600, "The file faild to upload");
-
+        public static MediaStatusCode UnexpectedError = new MediaStatusCode(1800, "Unexpected error occured");
         private MediaStatusCode(int code, string message)
         {
             Code = code;
