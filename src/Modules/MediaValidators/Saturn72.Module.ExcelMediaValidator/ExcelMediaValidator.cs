@@ -29,7 +29,7 @@ namespace Saturn72.Module.ExcelMediaValidator
                         : ExcelReaderFactory.CreateOpenXmlReader(ms);
 
                     return excel.ExceptionMessage.HasValue()
-                        ? MediaStatusCode.UnexpectedError
+                        ? MediaStatusCode.Corrupted
                         : MediaStatusCode.Valid;
                 }
             }
