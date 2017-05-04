@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,12 +8,12 @@ using System.Web.Http.ModelBinding;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
-using Saturn72.Core.Services.Media;
+using Saturn72.Core.Services.File;
 using Saturn72.Extensions;
 
-namespace Saturn72.Common.WebApi.Media
+namespace Saturn72.Common.WebApi.File
 {
-    public class MediaUploadModelBinder<TApiModel> : IModelBinder where TApiModel : ApiModelBase, new()
+    public class FileUploadModelBinder<TApiModel> : IModelBinder where TApiModel : ApiModelBase, new()
     {
         public bool BindModel(HttpActionContext actionContext, ModelBindingContext bindingContext)
         {
@@ -24,9 +23,9 @@ namespace Saturn72.Common.WebApi.Media
                 throw new HttpResponseException(request.CreateResponse(HttpStatusCode.NotAcceptable,
                     "This request does not contain multipart data"));
 
-            var model = new MediaUploadContent<TApiModel>();
+            var model = new FileUploadContent<TApiModel>();
             TApiModel content = null;
-            var attachtments = new List<MediaUploadRequest>();
+            var attachtments = new List<FileUploadRequest>();
 
             //In case of files container
             var streamProvider = new InMemoryMultipartFormDataStreamProvider();
@@ -51,7 +50,7 @@ namespace Saturn72.Common.WebApi.Media
                 {
                     var getBytesTask = httpContent.ReadAsStreamAsync().Result.ToByteArray();
                     var fileName = httpContent.GetContentDispositionFileName();
-                    attachtments.Add(new MediaUploadRequest
+                    attachtments.Add(new FileUploadRequest
                     {
                         Bytes = getBytesTask,
                         FileName = fileName

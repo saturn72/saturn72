@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Saturn72.Core;
-using Saturn72.Core.Infrastructure;
 using Saturn72.Extensions;
 
 namespace Saturn72.Module.Owin.Middlewares

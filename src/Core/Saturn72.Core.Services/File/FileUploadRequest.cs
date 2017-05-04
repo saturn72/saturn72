@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-namespace Saturn72.Core.Services.Media
+namespace Saturn72.Core.Services.File
 {
-    public class MediaUploadRequest
+    public class FileUploadRequest
     {
         private string _extension;
         public byte[] Bytes { get; set; }

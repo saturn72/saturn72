@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 using Saturn72.Core.Domain.FileUpload;
-using Saturn72.Core.Services.Media;
+using Saturn72.Core.Services.File;
 using Saturn72.UnitTesting.Framework;
 
 namespace Saturn72.Core.Services.Tests.Media
@@ -11,11 +11,11 @@ namespace Saturn72.Core.Services.Tests.Media
         [Test]
         public void MediaUploadResponseTests_WasUploaded()
         {
-            var media = new MediaModel {UploadSessionId = Guid.NewGuid() };
-            new MediaUploadResponse(null, MediaStatusCode.Uploaded, media, "").WasUploaded.ShouldBeTrue();
-            new MediaUploadResponse(null, MediaStatusCode.Unsupported, media, "").WasUploaded.ShouldBeFalse();
-            new MediaUploadResponse(null, MediaStatusCode.Uploaded, null, "").WasUploaded.ShouldBeFalse();
-            new MediaUploadResponse(null, MediaStatusCode.Corrupted, null, "").WasUploaded.ShouldBeFalse();
+            var media = new FileUploadRecordModel {UploadSessionId = 111};
+            new FileUploadResponse(null, FileStatusCode.Uploaded, media, "").WasUploaded.ShouldBeTrue();
+            new FileUploadResponse(null, FileStatusCode.Unsupported, media, "").WasUploaded.ShouldBeFalse();
+            new FileUploadResponse(null, FileStatusCode.Uploaded, null, "").WasUploaded.ShouldBeFalse();
+            new FileUploadResponse(null, FileStatusCode.Corrupted, null, "").WasUploaded.ShouldBeFalse();
         }
     }
 }
