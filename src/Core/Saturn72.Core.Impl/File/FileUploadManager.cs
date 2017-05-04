@@ -70,6 +70,7 @@ namespace Saturn72.Core.Services.Impl.File
                 FileName = request.FileName,
                 Bytes = request.Bytes,
                 UploadId = Guid.NewGuid(),
+                UploadSession = session,
                 UploadSessionId = session.Id
             };
 
