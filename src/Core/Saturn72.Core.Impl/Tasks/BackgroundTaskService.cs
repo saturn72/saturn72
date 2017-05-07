@@ -169,7 +169,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
                     continue;
                 var fileLocalPath = Path.Combine(taskFolder, attachtment.FilePath);
 
-                File.WriteAllBytes(fileLocalPath, attachtment.Bytes);
+                System.IO.File.WriteAllBytes(fileLocalPath, attachtment.Bytes);
                 attachtment.FilePath = fileLocalPath;
             }
         }
@@ -180,7 +180,7 @@ namespace Saturn72.Core.Services.Impl.Tasks
             foreach (var attachtment in task.Attachtments)
             {
                 Guard.HasValue(attachtment.FilePath);
-                using (var stream = File.OpenRead(attachtment.FilePath))
+                using (var stream = System.IO.File.OpenRead(attachtment.FilePath))
                 {
                     var newFile = stream.ToByteArray();
                     if (attachtment.Bytes.SequenceEqual(newFile))

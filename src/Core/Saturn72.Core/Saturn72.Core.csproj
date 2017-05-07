@@ -82,7 +82,8 @@
     <Compile Include="Domain\Clients\ApplicationType.cs" />
     <Compile Include="Domain\Clients\ClientAppDomainModel.cs" />
     <Compile Include="Domain\Configuration\SettingEntryModel.cs" />
-    <Compile Include="Domain\FileUpload\MediaModel.cs" />
+    <Compile Include="Domain\FileUpload\FileUploadRecordModel.cs" />
+    <Compile Include="Domain\FileUpload\FileUploadSessionModel.cs" />
     <Compile Include="Domain\IDomainModelBase.cs" />
     <Compile Include="Domain\Localization\LocaleResourceDomainModel.cs" />
     <Compile Include="Domain\Logging\LogLevel.cs" />

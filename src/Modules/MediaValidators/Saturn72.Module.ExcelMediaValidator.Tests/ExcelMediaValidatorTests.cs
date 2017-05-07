@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Saturn72.Core.Services.Media;
+using Saturn72.Core.Services.File;
 using Saturn72.UnitTesting.Framework;
 
 namespace Saturn72.Module.ExcelMediaValidator.Tests
@@ -13,14 +13,14 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
         [Test]
         public void ExcelMediaValidator_Validate_Unsupportedtypes()
         {
-            new ExcelMediaValidator().Validate(null, "ddd").ShouldEqual(MediaStatusCode.Unsupported);
+            new ExcelMediaValidator().Validate(null, "ddd").ShouldEqual(FileStatusCode.Unsupported);
         }
         [Test]
         public void ExcelMediaValidator_Validate_ReturnsCorruptedFileError()
         {
             var nv = new ExcelMediaValidator();
             var cossuptedXlsFile = new byte[] {1, 1, 1, 1, 1};
-            nv.Validate(cossuptedXlsFile, "xls").ShouldEqual(MediaStatusCode.Corrupted);
+            nv.Validate(cossuptedXlsFile, "xls").ShouldEqual(FileStatusCode.Corrupted);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
             {
                 var ext = Path.GetExtension(f).Replace(".", string.Empty);
                 var fs = File.ReadAllBytes(f);
-                nv.Validate(fs, ext).ShouldEqual(MediaStatusCode.Valid);
+                nv.Validate(fs, ext).ShouldEqual(FileStatusCode.Valid);
             }
         }
 

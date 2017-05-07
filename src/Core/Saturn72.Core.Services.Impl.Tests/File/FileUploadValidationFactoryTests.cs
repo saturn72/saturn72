@@ -2,32 +2,32 @@
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using Saturn72.Core.Services.Impl.Media;
-using Saturn72.Core.Services.Media;
+using Saturn72.Core.Services.Impl.File;
+using Saturn72.Core.Services.File;
 using Saturn72.UnitTesting.Framework;
 
-namespace Saturn72.Core.Services.Impl.Tests.Media
+namespace Saturn72.Core.Services.Impl.Tests.File
 {
-    public class MediaUploadValidationFactoryTests
+    public class FileUploadValidationFactoryTests
     {
         [Test]
-        public void MediaUploadValidationFactory_IsSupportedExtension_Throws()
+        public void FileUploadValidationFactory_IsSupportedExtension_Throws()
         {
-            var mv = new MediaUploadValidationFactory(null);
+            var mv = new FileUploadValidationFactory(null);
             typeof(ArgumentNullException).ShouldBeThrownBy(()=>mv.IsSupportedExtension("ttt").ShouldBeFalse());
         }
 
         [Test]
-        public void MediaUploadValidationFactory_IsSupportedExtension_ReturnsTrueAndFalse()
+        public void FileUploadValidationFactory_IsSupportedExtension_ReturnsTrueAndFalse()
         {
-            var mv = new List<IMediaValidator>();
+            var mv = new List<IFileValidator>();
 
-            var mvFactory = new MediaUploadValidationFactory(mv);
+            var mvFactory = new FileUploadValidationFactory(mv);
             //EmptyCollection
             var fileExtension = "ttt";
             mvFactory.IsSupportedExtension(fileExtension).ShouldBeFalse();
 
-            var mvMock = new Mock<IMediaValidator>();
+            var mvMock = new Mock<IFileValidator>();
             var mvResult = fileExtension+"ert";
             mvMock.Setup(m => m.SupportedExtensions).Returns(()=> new[] {mvResult});
             mv.Add(mvMock.Object);
@@ -40,47 +40,47 @@ namespace Saturn72.Core.Services.Impl.Tests.Media
         }
 
         [Test]
-        public void MediaUploadValidationFactory_Validate_ReturnsInvalidOnNullObject()
+        public void FileUploadValidationFactory_Validate_ReturnsInvalidOnNullObject()
         {
-            var mv = new List<IMediaValidator>();
-            var mvFactory = new MediaUploadValidationFactory(mv);
-            mvFactory.Validate(null).ShouldEqual(MediaStatusCode.Invalid);
+            var mv = new List<IFileValidator>();
+            var mvFactory = new FileUploadValidationFactory(mv);
+            mvFactory.Validate(null).ShouldEqual(FileStatusCode.Invalid);
 
         }
 
         [Test]
-        public void MediaUploadValidationFactory_Validate_HasNoSupportForExtension_ReturnNotSupported()
+        public void FileUploadValidationFactory_Validate_HasNoSupportForExtension_ReturnNotSupported()
         {
             const string fileExtension = "ttt";
-            var mvMock = new Mock<IMediaValidator>();
+            var mvMock = new Mock<IFileValidator>();
             var mvExtension = fileExtension + "eee";
             mvMock.Setup(m => m.SupportedExtensions).Returns(() => new[] {mvExtension});
 
-            var mv = new List<IMediaValidator> {mvMock.Object};
+            var mv = new List<IFileValidator> {mvMock.Object};
 
-            var mvFactory = new MediaUploadValidationFactory(mv);
+            var mvFactory = new FileUploadValidationFactory(mv);
 
-            var mediaUploadRequest = new MediaUploadRequest
+            var mediaUploadRequest = new FileUploadRequest
             {
                 FileName = "ttt." + fileExtension
             };
-            mvFactory.Validate(mediaUploadRequest).ShouldEqual(MediaStatusCode.Unsupported);
+            mvFactory.Validate(mediaUploadRequest).ShouldEqual(FileStatusCode.Unsupported);
 
         }
         [Test]
-        public void MediaUploadValidationFactory_Validate_ReturnsValueFromValidator()
+        public void FileUploadValidationFactory_Validate_ReturnsValueFromValidator()
         {
             const string fileExtension = "ttt";
-            var mvMock = new Mock<IMediaValidator>();
+            var mvMock = new Mock<IFileValidator>();
             mvMock.Setup(m => m.SupportedExtensions).Returns(() => new[] { fileExtension });
-            var result = MediaStatusCode.Blocked;
+            var result = FileStatusCode.Blocked;
             mvMock.Setup(m => m.Validate(It.IsAny<byte[]>(), It.IsAny<string>()))
                 .Returns(result);
-            var mv = new List<IMediaValidator> { mvMock.Object };
+            var mv = new List<IFileValidator> { mvMock.Object };
 
-            var mvFactory = new MediaUploadValidationFactory(mv);
+            var mvFactory = new FileUploadValidationFactory(mv);
 
-            var mediaUploadRequest = new MediaUploadRequest
+            var mediaUploadRequest = new FileUploadRequest
             {
                 FileName = "ttt." + fileExtension
             };

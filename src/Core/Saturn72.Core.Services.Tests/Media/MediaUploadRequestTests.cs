@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using Saturn72.Core.Services.Media;
+using Saturn72.Core.Services.File;
 
 namespace Saturn72.Core.Services.Tests.Media
 {
@@ -9,7 +9,7 @@ namespace Saturn72.Core.Services.Tests.Media
         [Test]
         public void FileUploadRequestTests_GetsExtensionWithoutDot()
         {
-            var r = new MediaUploadRequest
+            var r = new FileUploadRequest
             {
                 FileName = "ccc.e"
             };
