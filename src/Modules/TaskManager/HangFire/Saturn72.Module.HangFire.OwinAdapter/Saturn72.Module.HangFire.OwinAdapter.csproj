@@ -63,13 +63,13 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\submodules\Saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj">
+      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
+      <Name>Saturn72.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Extensions\Saturn72.Extensions\Saturn72.Extensions.csproj">
-      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
-      <Name>Saturn72.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Owin\Saturn72.Module.Owin\Saturn72.Module.Owin.csproj">
       <Project>{23AF9C5A-A707-44A5-9D2F-83705BA2B570}</Project>

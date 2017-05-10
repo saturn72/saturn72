@@ -1,0 +1,9 @@
+﻿[
+  {
+    "name": "plugin1",
+    "Description": "beast pulgin ever",
+    "author": "roishabta",
+    "typeFullName": "test.plugin",//<==plugin name goes here
+    "group": "data"
+  }
+]
