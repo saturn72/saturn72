@@ -5,7 +5,6 @@ namespace Saturn72.Core.Audit
     public interface ICreatedAudit
     {
         DateTime CreatedOnUtc { get; set; }
-
         long CreatedByUserId { get; set; }
     }
 }

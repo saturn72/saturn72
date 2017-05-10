@@ -8,7 +8,7 @@ using Saturn72.Core.Audit;
 
 namespace Saturn72.Core.Domain.Users
 {
-    public class UserModel : DomainModelBase, ICrudAudit
+    public class UserModel : DomainModelBase, ICrudAudit, IBrowseDataAudit
     {
         #region Fields
 
@@ -53,16 +53,14 @@ namespace Saturn72.Core.Domain.Users
         /// </summary>
         public bool Active { get; set; }
 
-
+        //Audit
         public string LastClientAppId { get; set; }
         public string LastIpAddress { get; set; }
-
-        //Audit
+        public DateTime LastBrowsedOnUtc { get; set; }
         public virtual ICollection<UserRoleModel> UserRoles
         {
             get { return _userRoles ?? (_userRoles = new List<UserRoleModel>()); }
         }
-
         public DateTime CreatedOnUtc { get; set; }
         public long CreatedByUserId { get; set; }
         public DateTime? UpdatedOnUtc { get; set; }

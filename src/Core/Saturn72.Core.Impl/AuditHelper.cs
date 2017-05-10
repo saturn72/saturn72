@@ -24,6 +24,7 @@ namespace Saturn72.Core.Services.Impl
             audit.CreatedByUserId = _workContext.CurrentUserId;
             ResetUpdatedAudity(audit as IUpdatedAudit);
             ResetDeletedAudity(audit as IDeletedAudit);
+            SetBrowseData(audit as IBrowseDataAudit);
         }
 
         public virtual void PrepareForUpdateAudity(IUpdatedAudit audit)
@@ -37,9 +38,9 @@ namespace Saturn72.Core.Services.Impl
             audit.UpdatedByUserId = _workContext.CurrentUserId;
 
             ResetDeletedAudity(audit as IDeletedAudit);
-        }
+    }
 
-        public virtual void PrepareForDeleteAudity(IDeletedAudit audit)
+    public virtual void PrepareForDeleteAudity(IDeletedAudit audit)
         {
             if (audit.IsNull())
                 return;
@@ -51,9 +52,20 @@ namespace Saturn72.Core.Services.Impl
             audit.DeletedOnUtc = DateTime.UtcNow;
             audit.DeletedByUserId = _workContext.CurrentUserId;
             audit.Deleted = true;
+
+            SetBrowseData(audit as IBrowseDataAudit);
+        }
+        #region Utilities
+
+        private void SetBrowseData(IBrowseDataAudit audit)
+        {
+            if (audit.IsNull())
+                return;
+            audit.LastBrowsedOnUtc = DateTime.UtcNow;
+            audit.LastIpAddress = _workContext.CurrentUserIpAddress;
+            audit.LastClientAppId = _workContext.ClientId;
         }
 
-        #region Utilities
 
         private void ResetUpdatedAudity(IUpdatedAudit audit)
         {
@@ -62,7 +74,6 @@ namespace Saturn72.Core.Services.Impl
             audit.UpdatedByUserId = null;
             audit.UpdatedOnUtc = null;
         }
-
         private void ResetDeletedAudity(IDeletedAudit audit)
         {
             if (audit.IsNull())

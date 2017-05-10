@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audit\IActivableAudit.cs" />
+    <Compile Include="Audit\IBrowseDataAudit.cs" />
     <Compile Include="Audit\ICreatedAudit.cs" />
     <Compile Include="Audit\ICrudAudit.cs" />
     <Compile Include="Audit\IDeletedAudit.cs" />
