@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Tests.Caching
 {
@@ -13,7 +13,7 @@ namespace Saturn72.Core.Tests.Caching
         public void CacheManger_Get_ItemNotCached_Throws()
         {
             var cm = new MemoryCacheManager();
-            typeof(NullReferenceException).ShouldBeThrownBy(() => cm.Get<int>("not_cached"));
+            Should.Throw<NullReferenceException>(() => cm.Get<int>("not_cached"));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace Saturn72.Core.Tests.Caching
             string key = "cached",
                 value = "valeu";
             cm.TempCache.Set(key, value, DateTimeOffset.MaxValue);
-            cm.Get<string>(key).ShouldEqual(value);
+            cm.Get<string>(key).ShouldBe(value);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Saturn72.Core.Tests.Caching
                 value = "valeu";
             cm.Set(key, value, 100);
 
-            cm.TempCache[key].ShouldEqual(value);
+            cm.TempCache[key].ShouldBe(value);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Saturn72.Core.Tests.Caching
                 value = "valeu";
             cm.Set(key, value, 1);
             Thread.Sleep(60100);
-            typeof(NullReferenceException).ShouldBeThrownBy(() => cm.Get<int>(key));
+            Should.Throw<NullReferenceException>(() => cm.Get<int>(key));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Saturn72.Core.Tests.Caching
             var value2 = "val2";
             cm.Set(key, value2, 100);
 
-            (cm.TempCache[key] as string).ShouldEqual(value2);
+            (cm.TempCache[key] as string).ShouldBe(value2);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Saturn72.Core.Tests.Caching
         {
             var cm = new TestMemoryCacheManager();
             cm.Clear();
-            cm.TempCache.GetCount().ShouldEqual(0);
+            cm.TempCache.GetCount().ShouldBe(0);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Saturn72.Core.Tests.Caching
             cm.TempCache["key3"] = "value3";
             cm.Clear();
 
-            cm.TempCache.GetCount().ShouldEqual(0);
+            cm.TempCache.GetCount().ShouldBe(0);
         }
 
 
@@ -89,13 +89,13 @@ namespace Saturn72.Core.Tests.Caching
             var cm = new TestMemoryCacheManager();
             //On empty cache
             cm.Clear();
-            cm.TempCache.GetCount().ShouldEqual(0);
+            cm.TempCache.GetCount().ShouldBe(0);
 
             //on flled cache
             var key1 = "key1";
             cm.TempCache[key1] = "value1";
             cm.Clear();
-            cm.TempCache.GetCount().ShouldEqual(0);
+            cm.TempCache.GetCount().ShouldBe(0);
         }
 
         [Test]
@@ -105,13 +105,13 @@ namespace Saturn72.Core.Tests.Caching
             cm.Flush();
             //On not exists cache key
             cm.Remove("123");
-            cm.TempCache.GetCount().ShouldEqual(0);
+            cm.TempCache.GetCount().ShouldBe(0);
 
             //on flled cache
             var key1 = "key1";
             cm.TempCache[key1] = "value1";
             cm.Remove(key1);
-            cm.TempCache.GetCount().ShouldEqual(0);
+            cm.TempCache.GetCount().ShouldBe(0);
         }
 
         [Test]
@@ -120,13 +120,13 @@ namespace Saturn72.Core.Tests.Caching
             var cm = new TestMemoryCacheManager();
             cm.Flush();
             //On not exists cache key
-            cm.Keys.Count().ShouldEqual(0);
+            cm.Keys.Count().ShouldBe(0);
 
             var key1 = "key1";
             cm.TempCache[key1] = "value1";
             var keys = cm.Keys;
-            keys.Count().ShouldEqual(1);
-            keys.ElementAt(0).ShouldEqual(key1);
+            keys.Count().ShouldBe(1);
+            keys.ElementAt(0).ShouldBe(key1);
         }
     }
 }

@@ -3,7 +3,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 using Saturn72.Core.Configuration;
 
 #endregion
@@ -20,11 +20,11 @@ namespace Saturn72.Core.Tests.Configuration
             SetAppConfig("Config\\EmptyAppConfig.config");
 
             var actual = Saturn72Config.GetConfiguration();
-            actual.ConfigLoader.ShouldEqual("Saturn72.Core.Configuration.XmlConfigLoader, Saturn72.Core");
+            actual.ConfigLoader.ShouldBe("Saturn72.Core.Configuration.XmlConfigLoader, Saturn72.Core");
             actual.ConfigLoaderData.ShouldBeNull();
-            actual.ContainerManager.ShouldEqual(
+            actual.ContainerManager.ShouldBe(
                     "Saturn72.Module.Ioc.Autofac.AutofacIocContainerManager, Saturn72.Module.Ioc.Autofac");
-            actual.EngineDriver.ShouldEqual("Saturn72.Core.Infrastructure.AppEngineDriver, Saturn72.Core");
+            actual.EngineDriver.ShouldBe("Saturn72.Core.Infrastructure.AppEngineDriver, Saturn72.Core");
             SetAppConfig(tmp);
         }
 
@@ -39,14 +39,14 @@ namespace Saturn72.Core.Tests.Configuration
             SetAppConfig("Config\\NonEmptyAppConfig.config");
 
             var actual = Saturn72Config.GetConfiguration();
-            actual.ConfigLoader.ShouldEqual("containerManager, containerManagerNamespace");
-            actual.ConfigLoaderData.Count.ShouldEqual(3);
-            actual.ConfigLoaderData["Key1"].ShouldEqual("Value1");
-            actual.ConfigLoaderData["Key2"].ShouldEqual("Value2");
-            actual.ConfigLoaderData["Key3"].ShouldEqual("Value3");
+            actual.ConfigLoader.ShouldBe("containerManager, containerManagerNamespace");
+            actual.ConfigLoaderData.Count.ShouldBe(3);
+            actual.ConfigLoaderData["Key1"].ShouldBe("Value1");
+            actual.ConfigLoaderData["Key2"].ShouldBe("Value2");
+            actual.ConfigLoaderData["Key3"].ShouldBe("Value3");
 
-            actual.ContainerManager.ShouldEqual("containerManager, containerManagerNamespace");
-            actual.EngineDriver.ShouldEqual("engineDriver, engineDriverNamespace");
+            actual.ContainerManager.ShouldBe("containerManager, containerManagerNamespace");
+            actual.EngineDriver.ShouldBe("engineDriver, engineDriverNamespace");
 
             SetAppConfig(tmp);
         }

@@ -1,8 +1,7 @@
-using System;
 using NUnit.Framework;
 using Saturn72.Core.Domain.FileUpload;
 using Saturn72.Core.Services.File;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Tests.Media
 {

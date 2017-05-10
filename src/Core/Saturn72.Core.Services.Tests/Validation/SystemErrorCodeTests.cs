@@ -1,7 +1,7 @@
 ﻿
 using NUnit.Framework;
 using Saturn72.Core.Services.Validation;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Tests.Validation
 {
@@ -17,7 +17,7 @@ namespace Saturn72.Core.Services.Tests.Validation
             var expected = string.Format("<= Code: {0} <=> Message: {1} <=> Category: {2} <=> Subcategory: {3} =>", code,
                 message, category, subcategory);
 
-                new SystemErrorCode(code, message, category, subcategory).Flatten().ShouldEqual(expected);
+                new SystemErrorCode(code, message, category, subcategory).Flatten().ShouldBe(expected);
         }
     }
 }

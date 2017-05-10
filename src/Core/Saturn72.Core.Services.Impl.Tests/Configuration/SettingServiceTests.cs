@@ -11,7 +11,7 @@ using Saturn72.Core.Domain.Configuration;
 using Saturn72.Core.Services.Configuration;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.Configuration;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -28,7 +28,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
 
             var service = new SettingsService(cacheManager.Object, repo.Object, ePublisher.Object);
 
-            typeof(NullReferenceException).ShouldBeThrownBy(() => service.SaveSetting<TSettings1>(null));
+            Should.Throw<NullReferenceException>(() => service.SaveSetting<TSettings1>(null));
         }
 
         [Test]
@@ -63,15 +63,15 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             service.SaveSetting(settings);
 
             //Assert
-            settingList.Count.ShouldEqual(3);
-            settingList.ElementAt(0).Name.ShouldEqual("TSettings1.IntValue".ToLower());
-            settingList.ElementAt(0).Value.ShouldEqual(settings.IntValue.ToString());
+            settingList.Count.ShouldBe(3);
+            settingList.ElementAt(0).Name.ShouldBe("TSettings1.IntValue".ToLower());
+            settingList.ElementAt(0).Value.ShouldBe(settings.IntValue.ToString());
 
-            settingList.ElementAt(1).Name.ShouldEqual("TSettings1.StringValue".ToLower());
-            settingList.ElementAt(1).Value.ShouldEqual(settings.StringValue);
+            settingList.ElementAt(1).Name.ShouldBe("TSettings1.StringValue".ToLower());
+            settingList.ElementAt(1).Value.ShouldBe(settings.StringValue);
 
-            settingList.ElementAt(2).Name.ShouldEqual("TSettings1.Menu".ToLower());
-            settingList.ElementAt(2).Value.ShouldEqual(string.Empty);
+            settingList.ElementAt(2).Name.ShouldBe("TSettings1.Menu".ToLower());
+            settingList.ElementAt(2).Value.ShouldBe(string.Empty);
 
             //flow assertion
             cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
@@ -114,15 +114,15 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             service.SaveSetting(settings);
 
             //Assert
-            settingList.Count.ShouldEqual(3);
-            settingList.ElementAt(0).Name.ShouldEqual("TSettings1.IntValue".ToLower());
-            settingList.ElementAt(0).Value.ShouldEqual(settings.IntValue.ToString());
+            settingList.Count.ShouldBe(3);
+            settingList.ElementAt(0).Name.ShouldBe("TSettings1.IntValue".ToLower());
+            settingList.ElementAt(0).Value.ShouldBe(settings.IntValue.ToString());
 
-            settingList.ElementAt(1).Name.ShouldEqual("TSettings1.StringValue".ToLower());
-            settingList.ElementAt(1).Value.ShouldEqual(settings.StringValue.ToLower());
+            settingList.ElementAt(1).Name.ShouldBe("TSettings1.StringValue".ToLower());
+            settingList.ElementAt(1).Value.ShouldBe(settings.StringValue.ToLower());
 
-            settingList.ElementAt(2).Name.ShouldEqual("TSettings1.Menu".ToLower());
-            settingList.ElementAt(2).Value.ShouldEqual(string.Empty);
+            settingList.ElementAt(2).Name.ShouldBe("TSettings1.Menu".ToLower());
+            settingList.ElementAt(2).Value.ShouldBe(string.Empty);
 
             //flow assertion
             cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
@@ -172,15 +172,15 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             service.DeleteSetting<TSettings1>();
 
             var allsettings = service.GetAllSettingEntries();
-            allsettings.Count().ShouldEqual(5);
+            allsettings.Count().ShouldBe(5);
 
             var names = allsettings.Select(x => x.Name).ToList();
-            names.ShouldContainInstance("TSettings2.Numeric".ToLower());
-            names.ShouldContainInstance("TSettings2.Text".ToLower());
+            names.ShouldContain("TSettings2.Numeric".ToLower());
+            names.ShouldContain("TSettings2.Text".ToLower());
 
             var values = allsettings.Select(x => x.Value).ToList();
-            values.ShouldContainInstance(settings2.Numeric.ToString());
-            values.ShouldContainInstance(settings2.Text);
+            values.ShouldContain(settings2.Numeric.ToString());
+            values.ShouldContain(settings2.Text);
 
             //flow assertion
             ePublisher.Verify(e => e.Publish(It.IsAny<DeletedEvent<SettingEntryModel>>()), Times.Exactly(3));
@@ -227,21 +227,21 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             service.SaveSetting(settings2);
 
             var allsettings = service.GetAllSettingEntries();
-            allsettings.Count().ShouldEqual(5);
+            allsettings.Count().ShouldBe(5);
 
             var names = allsettings.Select(x => x.Name).ToList();
-            names.ShouldContainInstance("TSettings1.IntValue".ToLower());
-            names.ShouldContainInstance("TSettings1.StringValue".ToLower());
-            names.ShouldContainInstance("TSettings1.Menu".ToLower());
-            names.ShouldContainInstance("TSettings2.Numeric".ToLower());
-            names.ShouldContainInstance("TSettings2.Text".ToLower());
+            names.ShouldContain("TSettings1.IntValue".ToLower());
+            names.ShouldContain("TSettings1.StringValue".ToLower());
+            names.ShouldContain("TSettings1.Menu".ToLower());
+            names.ShouldContain("TSettings2.Numeric".ToLower());
+            names.ShouldContain("TSettings2.Text".ToLower());
 
             var values = allsettings.Select(x => x.Value).ToList();
-            values.ShouldContainInstance(settings1.IntValue.ToString());
-            values.ShouldContainInstance(settings1.StringValue);
-            values.ShouldContainInstance(settings1.Menu);
-            values.ShouldContainInstance(settings2.Numeric.ToString());
-            values.ShouldContainInstance(settings2.Text);
+            values.ShouldContain(settings1.IntValue.ToString());
+            values.ShouldContain(settings1.StringValue);
+            values.ShouldContain(settings1.Menu);
+            values.ShouldContain(settings2.Numeric.ToString());
+            values.ShouldContain(settings2.Text);
 
         }
 

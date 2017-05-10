@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Services.Impl.File;
 using Saturn72.Core.Services.File;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.File
 {
@@ -14,7 +14,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
         public void FileUploadValidationFactory_IsSupportedExtension_Throws()
         {
             var mv = new FileUploadValidationFactory(null);
-            typeof(ArgumentNullException).ShouldBeThrownBy(()=>mv.IsSupportedExtension("ttt").ShouldBeFalse());
+            Should.Throw<ArgumentNullException>(()=>mv.IsSupportedExtension("ttt").ShouldBeFalse());
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
         {
             var mv = new List<IFileValidator>();
             var mvFactory = new FileUploadValidationFactory(mv);
-            mvFactory.Validate(null).ShouldEqual(FileStatusCode.Invalid);
+            mvFactory.Validate(null).ShouldBe(FileStatusCode.Invalid);
 
         }
 
@@ -64,7 +64,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             {
                 FileName = "ttt." + fileExtension
             };
-            mvFactory.Validate(mediaUploadRequest).ShouldEqual(FileStatusCode.Unsupported);
+            mvFactory.Validate(mediaUploadRequest).ShouldBe(FileStatusCode.Unsupported);
 
         }
         [Test]
@@ -84,7 +84,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             {
                 FileName = "ttt." + fileExtension
             };
-            mvFactory.Validate(mediaUploadRequest).ShouldEqual(result);
+            mvFactory.Validate(mediaUploadRequest).ShouldBe(result);
         }
     }
 }

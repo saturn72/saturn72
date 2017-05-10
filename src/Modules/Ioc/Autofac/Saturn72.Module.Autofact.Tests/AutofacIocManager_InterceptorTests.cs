@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Module.Ioc.Autofac.Tests.TestObjects;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Module.Ioc.Autofac.Tests
 {

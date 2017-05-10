@@ -4,7 +4,7 @@ using System.Threading;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Audit;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests
 {
@@ -24,13 +24,13 @@ namespace Saturn72.Core.Services.Impl.Tests
             {
                 CreatedOnUtc = DateTime.Now.AddDays(10)
             };
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => aHelper.PrepareForCreateAudity(audit));
+            Should.Throw<InvalidOperationException>(() => aHelper.PrepareForCreateAudity(audit));
 
             audit = new DummyFullAudit
             {
                 CreatedByUserId = 100
             };
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => aHelper.PrepareForCreateAudity(audit));
+            Should.Throw<InvalidOperationException>(() => aHelper.PrepareForCreateAudity(audit));
         }
 
         [Test]
@@ -44,9 +44,9 @@ namespace Saturn72.Core.Services.Impl.Tests
             var audit = new DummyFullAudit();
             aHelper.PrepareForCreateAudity(audit)
                 ;
-            audit.CreatedByUserId.ShouldEqual(userId);
-            audit.CreatedOnUtc.ShouldNotEqual(default(DateTime));
-            audit.CreatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
+            audit.CreatedByUserId.ShouldBe(userId);
+            audit.CreatedOnUtc.ShouldNotBe(default(DateTime));
+            audit.CreatedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
         }
 
         [Test]
@@ -73,12 +73,12 @@ namespace Saturn72.Core.Services.Impl.Tests
                 CreatedByUserId = createdByUserId
             };
             aHelper.PrepareForUpdateAudity(audit);
-            audit.CreatedByUserId.ShouldEqual(createdByUserId);
-            audit.CreatedOnUtc.ShouldEqual(createdOn);
+            audit.CreatedByUserId.ShouldBe(createdByUserId);
+            audit.CreatedOnUtc.ShouldBe(createdOn);
 
-            audit.UpdatedByUserId.ShouldEqual(userId);
+            audit.UpdatedByUserId.ShouldBe(userId);
             audit.UpdatedOnUtc.ShouldBeGreaterThan(audit.CreatedOnUtc);
-            audit.UpdatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
+            audit.UpdatedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
 
         }
         [Test]
@@ -92,13 +92,13 @@ namespace Saturn72.Core.Services.Impl.Tests
             var aHelper = new AuditHelper(wc.Object);
             var audit = new DummyFullAudit();
             aHelper.PrepareForUpdateAudity(audit);
-            audit.CreatedByUserId.ShouldEqual(userId);
-            audit.CreatedOnUtc.ShouldNotEqual(default(DateTime));
-            audit.CreatedOnUtc.ShouldBeSmallerThan(DateTime.Now);
+            audit.CreatedByUserId.ShouldBe(userId);
+            audit.CreatedOnUtc.ShouldNotBe(default(DateTime));
+            audit.CreatedOnUtc.ShouldBeLessThan(DateTime.Now);
 
-            audit.UpdatedByUserId.ShouldEqual(userId);
-            audit.UpdatedOnUtc.ShouldBeGreaterOrEqualTo(audit.CreatedOnUtc);
-            audit.UpdatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
+            audit.UpdatedByUserId.ShouldBe(userId);
+            audit.UpdatedOnUtc.ShouldBeGreaterThanOrEqualTo(audit.CreatedOnUtc);
+            audit.UpdatedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
 
         }
         [Test]
@@ -114,19 +114,19 @@ namespace Saturn72.Core.Services.Impl.Tests
             {
                 DeletedOnUtc = DateTime.Now.AddDays(100)
             };
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => aHelper.PrepareForDeleteAudity(audit));
+            Should.Throw<InvalidOperationException>(() => aHelper.PrepareForDeleteAudity(audit));
 
             audit = new DummyFullAudit
             {
                 DeletedByUserId = 100
             };
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => aHelper.PrepareForDeleteAudity(audit));
+            Should.Throw<InvalidOperationException>(() => aHelper.PrepareForDeleteAudity(audit));
 
             audit = new DummyFullAudit
             {
                 Deleted = true
             };
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => aHelper.PrepareForDeleteAudity(audit));
+            Should.Throw<InvalidOperationException>(() => aHelper.PrepareForDeleteAudity(audit));
         }
 
         [Test]
@@ -142,9 +142,9 @@ namespace Saturn72.Core.Services.Impl.Tests
             var audit = new DummyFullAudit();
             aHelper.PrepareForDeleteAudity(audit);
 
-            audit.DeletedByUserId.ShouldEqual(userId);
+            audit.DeletedByUserId.ShouldBe(userId);
             audit.DeletedOnUtc.ShouldNotBeNull();
-            audit.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit.DeletedOnUtc.Value.ShouldBeLessThan(DateTime.Now);
             audit.Deleted.ShouldBeTrue();
 
         }
@@ -163,18 +163,18 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit1.DeletedByUserId = 0;
             aHelper.PrepareForDeleteAudity(audit1);
 
-            audit1.DeletedByUserId.ShouldEqual(userId);
+            audit1.DeletedByUserId.ShouldBe(userId);
             audit1.DeletedOnUtc.ShouldNotBeNull();
-            audit1.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit1.DeletedOnUtc.Value.ShouldBeLessThan(DateTime.Now);
             audit1.Deleted.ShouldBeTrue();
 
             var audit2 = new DummyFullAudit();
             audit2.DeletedByUserId = -123;
             aHelper.PrepareForDeleteAudity(audit2);
 
-            audit2.DeletedByUserId.ShouldEqual(userId);
+            audit2.DeletedByUserId.ShouldBe(userId);
             audit2.DeletedOnUtc.ShouldNotBeNull();
-            audit2.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit2.DeletedOnUtc.Value.ShouldBeLessThan(DateTime.Now);
             audit2.Deleted.ShouldBeTrue();
         }
 

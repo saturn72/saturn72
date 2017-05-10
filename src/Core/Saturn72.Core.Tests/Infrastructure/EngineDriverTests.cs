@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
@@ -29,9 +29,9 @@ namespace Saturn72.Core.Tests.Infrastructure
             new AppEngineDriver().Initialize(config);
 
             var indexArray = DependencyIndexes.ToArray();
-            indexArray.Length.ShouldEqual(2);
-            indexArray[0].ShouldEqual(1);
-            indexArray[1].ShouldEqual(2);
+            indexArray.Length.ShouldBe(2);
+            indexArray[0].ShouldBe(1);
+            indexArray[1].ShouldBe(2);
         }
 
         [Test]
@@ -42,9 +42,9 @@ namespace Saturn72.Core.Tests.Infrastructure
             new AppEngineDriver().Initialize(Saturn72Config.GetConfiguration());
 
             var indexArray = StartupTaskIndexes.ToArray();
-            indexArray.Length.ShouldEqual(2);
-            indexArray[0].ShouldEqual(1);
-            indexArray[1].ShouldEqual(2);
+            indexArray.Length.ShouldBe(2);
+            indexArray[0].ShouldBe(1);
+            indexArray[1].ShouldBe(2);
         }
 
 

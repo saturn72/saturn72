@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Saturn72.Core.Tests.TestObjects;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -33,15 +33,15 @@ namespace Saturn72.Core.Tests
         {
             const string stringCompatibleName = "System.String, mscorlib";
 
-            CommonHelper.GetCompatibleTypeName<string>().ShouldEqual(stringCompatibleName);
-            CommonHelper.GetCompatibleTypeName(typeof(string)).ShouldEqual(stringCompatibleName);
+            CommonHelper.GetCompatibleTypeName<string>().ShouldBe(stringCompatibleName);
+            CommonHelper.GetCompatibleTypeName(typeof(string)).ShouldBe(stringCompatibleName);
         }
 
         [Test]
         public void TryGetTypeFromAppComain_ReturnsaType()
         {
-            CommonHelper.TryGetTypeFromAppDomain("string").ShouldBeType<string>();
-            CommonHelper.TryGetTypeFromAppDomain("System.String, mscorlib").ShouldBeType<string>();
+            CommonHelper.TryGetTypeFromAppDomain("string").ShouldBeOfType<string>();
+            CommonHelper.TryGetTypeFromAppDomain("System.String, mscorlib").ShouldBeOfType<string>();
         }
 
         [Test]
@@ -56,10 +56,10 @@ namespace Saturn72.Core.Tests
         public void GetTypeFromAppDomain_FromTypeName_ThrowsOnBadTypeName()
         {
             var typeName = "BlaBla, BlaBla";
-            typeof(ArgumentException).ShouldBeThrownBy(() => CommonHelper.GetTypeFromAppDomain(typeName));
+            Should.Throw<ArgumentException>(() => CommonHelper.GetTypeFromAppDomain(typeName));
 
             typeName = "RRR";
-            typeof(ArgumentException).ShouldBeThrownBy(() => CommonHelper.GetTypeFromAppDomain(typeName));
+            Should.Throw<ArgumentException>(() => CommonHelper.GetTypeFromAppDomain(typeName));
         }
 
         [Test]
@@ -74,14 +74,14 @@ namespace Saturn72.Core.Tests
         {
             var typeName = "Saturn72.Core.Tests.TestObjects.TestObject, Saturn72.Core.Tests";
             var t = CommonHelper.GetTypeFromAppDomain(typeName);
-            t.ShouldBeType<TestObject>();
+            t.ShouldBeOfType<TestObject>();
         }
 
         [Test]
         public void GetTypeFromAppDomain_FromTypeAndAssemblyNames_ThrowsOnBadTypeName()
         {
             var typeName = "RRR";
-            typeof(ArgumentException).ShouldBeThrownBy(() => CommonHelper.GetTypeFromAppDomain("", typeName));
+            Should.Throw<ArgumentException>(() => CommonHelper.GetTypeFromAppDomain("", typeName));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace Saturn72.Core.Tests
         public void GetTypeFromAppDomain_FromTypeAndAssemblyNames_GetsType()
         {
             CommonHelper.GetTypeFromAppDomain("Saturn72.Core.Tests.TestObjects.TestObject", "Saturn72.Core.Tests")
-                .ShouldBeType<TestObject>();
+                .ShouldBeOfType<TestObject>();
         }
 
         [Test]
@@ -116,8 +116,8 @@ namespace Saturn72.Core.Tests
             var instance = CommonHelper.CreateInstance<TestObject>(typeName, "objName", new List<string> {"1", "2", "3"});
 
             Assert.IsInstanceOf<TestObject>(instance);
-            instance.Name.ShouldEqual("objName");
-            instance.List.ToList().ShouldCount(3);
+            instance.Name.ShouldBe("objName");
+            instance.List.ToList().Count.ShouldBe(3);
         }
 
 
@@ -137,8 +137,8 @@ namespace Saturn72.Core.Tests
             var instance = CommonHelper.CreateInstance<TestObject>(type, "objName", new List<string> {"1", "2", "3"});
 
             Assert.IsInstanceOf<TestObject>(instance);
-            instance.Name.ShouldEqual("objName");
-            instance.List.ToList().ShouldCount(3);
+            instance.Name.ShouldBe("objName");
+            instance.List.ToList().Count.ShouldBe(3);
         }
 
         [Test]
@@ -162,27 +162,27 @@ namespace Saturn72.Core.Tests
         public void ToInt_returnsInteger()
         {
             var res = CommonHelper.To<int>("100");
-            res.ShouldEqual(100);
+            res.ShouldBe(100);
         }
 
         [Test]
         public void ToInt_ReturnsZeroResult()
         {
             var res = CommonHelper.ToInt("");
-            res.ShouldEqual(0);
+            res.ShouldBe(0);
 
             res = CommonHelper.ToInt("dwwd");
-            res.ShouldEqual(0);
+            res.ShouldBe(0);
 
             res = CommonHelper.ToInt(null);
-            res.ShouldEqual(0);
+            res.ShouldBe(0);
         }
 
         [Test]
         public void CommonHelper_Copy_Throws()
         {
             //different type
-            typeof(InvalidOperationException).ShouldBeThrownBy(
+            Should.Throw<InvalidOperationException>(
                 () => CommonHelper.Copy(new DummyClass(), new DummyClassChild()));
         }
 
@@ -192,9 +192,9 @@ namespace Saturn72.Core.Tests
             var source = new DummyClass();
             var dest = CommonHelper.Copy(source);
 
-            dest.InternalString.ShouldEqual(source.InternalString);
-            dest.StringWithSetter.ShouldEqual(source.StringWithSetter);
-            dest.StringWithoutSetter.ShouldEqual(source.StringWithoutSetter);
+            dest.InternalString.ShouldBe(source.InternalString);
+            dest.StringWithSetter.ShouldBe(source.StringWithSetter);
+            dest.StringWithoutSetter.ShouldBe(source.StringWithoutSetter);
         }
 
         [Test]
@@ -210,9 +210,9 @@ namespace Saturn72.Core.Tests
 
             CommonHelper.Copy(source, dest);
 
-            dest.InternalString.ShouldEqual(source.InternalString);
-            dest.StringWithSetter.ShouldEqual(source.StringWithSetter);
-            dest.StringWithoutSetter.ShouldEqual(source.StringWithoutSetter);
+            dest.InternalString.ShouldBe(source.InternalString);
+            dest.StringWithSetter.ShouldBe(source.StringWithSetter);
+            dest.StringWithoutSetter.ShouldBe(source.StringWithoutSetter);
         }
 
         [Test]
@@ -229,9 +229,9 @@ namespace Saturn72.Core.Tests
 
             CommonHelper.Copy(source, dest);
 
-            dest.InternalString.ShouldEqual(source.InternalString);
-            dest.StringWithSetter.ShouldEqual(source.StringWithSetter);
-            dest.StringWithoutSetter.ShouldEqual(source.StringWithoutSetter);
+            dest.InternalString.ShouldBe(source.InternalString);
+            dest.StringWithSetter.ShouldBe(source.StringWithSetter);
+            dest.StringWithoutSetter.ShouldBe(source.StringWithoutSetter);
         }
 
 

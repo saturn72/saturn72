@@ -1,7 +1,7 @@
 ﻿
 using NUnit.Framework;
 using Saturn72.Core.Services.ComponentModel;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Tests.ComponentModel
 {

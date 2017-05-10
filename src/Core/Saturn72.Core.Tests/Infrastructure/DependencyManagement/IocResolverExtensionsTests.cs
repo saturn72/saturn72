@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Infrastructure.DependencyManagement;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Tests.Infrastructure.DependencyManagement
 {
@@ -49,12 +49,12 @@ namespace Saturn72.Core.Tests.Infrastructure.DependencyManagement
                 .Returns(new DummyService(null));
 
             //Not Registered
-            resolver.Object.TryResolve<IDummyService>(typeof(IDummyService)).GetType().ShouldBeType<DummyService>();
+            resolver.Object.TryResolve<IDummyService>(typeof(IDummyService)).GetType().ShouldBeOfType<DummyService>();
 
             IDummyService service;
             resolver.Object.TryResolve(typeof(IDummyService), out service).ShouldBeTrue();
             service.ShouldNotBeNull();
-            service.GetType().ShouldBeType<DummyService>();
+            service.GetType().ShouldBeOfType<DummyService>();
         }
 
         [Test]

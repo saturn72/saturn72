@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Extensions;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -36,7 +36,7 @@ namespace Saturn72.Core.Tests.Infrastructure
                 .GetAssemblies()
                 .Select(t => t.GetName().Name).ToArray();
 
-            appDomainAsms.ShouldContainInstance("ShouldBeLoaded");
+            appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Saturn72.Core.Tests.Infrastructure
                 .GetAssemblies()
                 .Select(t => t.GetName().Name).ToArray();
 
-            appDomainAsms.ShouldContainInstance("ShouldBeLoaded");
+            appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
 
 
@@ -91,7 +91,7 @@ namespace Saturn72.Core.Tests.Infrastructure
                 .GetAssemblies()
                 .Select(t => t.GetName().Name).ToArray();
 
-            appDomainAsms.ShouldContainInstance("ShouldBeLoaded");
+            appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace Saturn72.Core.Tests.Infrastructure
                 null,
                 null);
 
-            typeof(Exception).ShouldBeThrownBy(() => AppDomainLoader.Load(data));
+            Should.Throw<Exception>(() => AppDomainLoader.Load(data));
         }
     }
 }
