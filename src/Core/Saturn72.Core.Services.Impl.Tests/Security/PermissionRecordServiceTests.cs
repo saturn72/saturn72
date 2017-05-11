@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Saturn72.Core.Domain.Security;
 using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Security;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Security
 {
@@ -15,10 +15,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Security
         {
             var srv = new PermissionRecordService(null);
 
-            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.CreatePermissionRecordIfNotExists(null));
-            typeof(ArgumentException).ShouldBeThrownBy(() => srv.CreatePermissionRecordIfNotExists(new PermissionRecordModel()));
-            typeof(ArgumentException).ShouldBeThrownBy(() => srv.CreatePermissionRecordIfNotExists(new PermissionRecordModel { Description = "123" }));
-            typeof(ArgumentException).ShouldBeThrownBy(() => srv.CreatePermissionRecordIfNotExists(new PermissionRecordModel {UniqueKey = "123"}));
+            Should.Throw<NullReferenceException>(() => srv.CreatePermissionRecordIfNotExists(null));
+            Should.Throw<ArgumentException>(() => srv.CreatePermissionRecordIfNotExists(new PermissionRecordModel()));
+            Should.Throw<ArgumentException>(() => srv.CreatePermissionRecordIfNotExists(new PermissionRecordModel { Description = "123" }));
+            Should.Throw<ArgumentException>(() => srv.CreatePermissionRecordIfNotExists(new PermissionRecordModel {UniqueKey = "123"}));
         }
 
         [Test]

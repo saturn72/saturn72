@@ -1,7 +1,7 @@
 ﻿#region
 
 using NUnit.Framework;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 
 #endregion
@@ -17,7 +17,7 @@ namespace Saturn72.Core.Tests.Infrastructure
             var typeFinder = new AppDomainTypeFinder();
             typeFinder.FindClassesOfTypeAndRunMethod<IMyInterface>(t => t.Do(ref i));
 
-            1.ShouldEqual(i);
+            1.ShouldBe(i);
         }
 
 

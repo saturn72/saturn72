@@ -11,7 +11,7 @@ using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.File;
 using Saturn72.Core.Services.File;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -22,7 +22,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
         [Test]
         public void FileUploadManager_UploadFile_ThrowsOnNullrequest()
         {
-            typeof(NullReferenceException).ShouldBeThrownBy(() =>
+            Should.Throw<NullReferenceException>(() =>
             {
                 try
                 {
@@ -39,7 +39,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
         public void FileUploadManager_UploadFile_ReturnsEmptyResult()
         {
             var res = new FileUploadManager(null, null, null, null, null).UploadAsync(new List<FileUploadRequest>()).Result;
-            res.Count().ShouldEqual(0);
+            res.Count().ShouldBe(0);
         }
 
         [Test]
@@ -57,19 +57,19 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             var uMgr = new FileUploadManager(null, null, null, null, sessionRepo.Object);
             var res1 = uMgr.UploadAsync(new [] {uReq}).Result.First();
 
-            res1.Status.ShouldEqual(FileStatusCode.Invalid);
+            res1.Status.ShouldBe(FileStatusCode.Invalid);
             res1.WasUploaded.ShouldBeFalse();
 
             uReq.Bytes = null;
             var res2 = uMgr.UploadAsync(new[] { uReq }).Result.First();
 
-            res2.Status.ShouldEqual(FileStatusCode.Invalid);
+            res2.Status.ShouldBe(FileStatusCode.Invalid);
             res2.WasUploaded.ShouldBeFalse();
 
             uReq.Bytes = new byte[] {};
             var res3 = uMgr.UploadAsync(new[] { uReq }).Result.First();
 
-            res3.Status.ShouldEqual(FileStatusCode.Invalid);
+            res3.Status.ShouldBe(FileStatusCode.Invalid);
             res3.WasUploaded.ShouldBeFalse();
         }
 
@@ -109,7 +109,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             var uMgr = new FileUploadManager(vFactory.Object, null, null, null, sessionRepo.Object);
             var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
 
-            res.Status.ShouldEqual(FileStatusCode.Unsupported);
+            res.Status.ShouldBe(FileStatusCode.Unsupported);
             res.WasUploaded.ShouldBeFalse();
         }
 
@@ -133,7 +133,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             var uMgr = new FileUploadManager(vFactory.Object, null, null, null, sessionRepo.Object);
             var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
 
-            res.Status.ShouldEqual(FileStatusCode.Corrupted);
+            res.Status.ShouldBe(FileStatusCode.Corrupted);
             res.WasUploaded.ShouldBeFalse();
         }
 
@@ -160,7 +160,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             var uMgr = new FileUploadManager(vFactory.Object, logger.Object, ePub.Object, mRepo.Object, sessionRepo.Object);
             var res = uMgr.UploadAsync(new[] { uReq }).Result.First();
 
-            res.Status.ShouldEqual(FileStatusCode.FailedToUpload);
+            res.Status.ShouldBe(FileStatusCode.FailedToUpload);
             res.WasUploaded.ShouldBeFalse();
             logger.Verify(
                 l =>
@@ -198,7 +198,7 @@ namespace Saturn72.Core.Services.Impl.Tests.File
             var uMgr = new FileUploadManager(vFactory.Object, logger.Object, ePub.Object, mRepo.Object, sessionRepo.Object);
             var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
 
-            res.Status.ShouldEqual(FileStatusCode.Uploaded);
+            res.Status.ShouldBe(FileStatusCode.Uploaded);
             res.WasUploaded.ShouldBeTrue();
             logger.Verify(
                 l =>

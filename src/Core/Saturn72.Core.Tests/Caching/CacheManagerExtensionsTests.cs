@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Tests.Caching
 {
@@ -22,7 +22,7 @@ namespace Saturn72.Core.Tests.Caching
 
             var value = "value";
             cm.Object.Set("key", value);
-            t.ShouldEqual(60);
+            t.ShouldBe(60);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Saturn72.Core.Tests.Caching
 
             var value = "value";
             cm.Object.Get("key", () => value);
-            t.ShouldEqual(value);
+            t.ShouldBe(value);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Saturn72.Core.Tests.Caching
             cm.Setup(c => c.Get<string>(It.IsAny<string>()))
                 .Returns(value);
 
-            cm.Object.Get(key, () => "AAA").ShouldEqual(value);
+            cm.Object.Get(key, () => "AAA").ShouldBe(value);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Saturn72.Core.Tests.Caching
             {
                 Thread.Sleep(10);
                 return value;
-            })).Result.ShouldEqual(value);
+            })).Result.ShouldBe(value);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace Saturn72.Core.Tests.Caching
             {
                 Thread.Sleep(10);
                 return value;
-            })).Result.ShouldEqual(value);
+            })).Result.ShouldBe(value);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace Saturn72.Core.Tests.Caching
             cm.TempCache["key1"] = "value1";
             cm.TempCache["key2"] = "value1";
             cm.RemoveByPattern("w");
-            cm.Keys.Count().ShouldEqual(2);
+            cm.Keys.Count().ShouldBe(2);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace Saturn72.Core.Tests.Caching
             cm.TempCache["key1"] = "value1";
             cm.TempCache["key2"] = "value1";
             cm.RemoveByPattern("key");
-            cm.Keys.Count().ShouldEqual(0);
+            cm.Keys.Count().ShouldBe(0);
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace Saturn72.Core.Tests.Caching
 
             cm.TempCache[key1] = val;
             cm.SetIfNotExists(key1, "value2");
-            cm.Get<string>(key1).ShouldEqual(val);
+            cm.Get<string>(key1).ShouldBe(val);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace Saturn72.Core.Tests.Caching
             var val = "value1";
 
             cm.SetIfNotExists(key1, val);
-            cm.Get<string>(key1).ShouldEqual(val);
+            cm.Get<string>(key1).ShouldBe(val);
         }
     }
 }

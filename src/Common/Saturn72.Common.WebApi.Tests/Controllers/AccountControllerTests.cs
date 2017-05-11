@@ -7,7 +7,7 @@ using Saturn72.Common.WebApi.Models.Account;
 using Saturn72.Core;
 using Saturn72.Core.Services.User;
 using Saturn72.Core.Services.Validation;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Common.WebApi.Tests.Controllers
 {

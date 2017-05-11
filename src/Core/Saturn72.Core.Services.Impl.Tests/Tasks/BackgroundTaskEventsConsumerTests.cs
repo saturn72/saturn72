@@ -13,7 +13,7 @@ using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.Tasks;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -44,10 +44,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         [Test]
         public void HandleEvent_ThrowsOnNull()
         {
-            typeof(NullReferenceException).ShouldBeThrownBy(() => new BackgroundTaskEventsEventSubscriber().HandleEvent(null));
+            Should.Throw<NullReferenceException>(() => new BackgroundTaskEventsEventSubscriber().HandleEvent(null));
             var eventMsg = new CreatedEvent<BackgroundTaskExecutionDataDomainModel>(null);
 
-            typeof(NullReferenceException).ShouldBeThrownBy(
+            Should.Throw<NullReferenceException>(
                 () => new BackgroundTaskEventsEventSubscriber().HandleEvent(eventMsg));
         }
 
@@ -61,9 +61,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             var handler = new BackgroundTaskEventsEventSubscriber();
             handler.HandleEvent(eventMsg);
 
-            Items.Count.ShouldEqual(1);
+            Items.Count.ShouldBe(1);
 
-            Items.First().ShouldEqual(model);
+            Items.First().ShouldBe(model);
         }
 
         private static BackgroundTaskExecutionDataDomainModel BuildCreateEventModel()

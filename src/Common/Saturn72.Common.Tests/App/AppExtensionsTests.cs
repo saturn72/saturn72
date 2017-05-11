@@ -2,7 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using Saturn72.Common.App;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Common.Tests.App
 {
@@ -16,7 +16,7 @@ namespace Saturn72.Common.Tests.App
             var app = new Mock<IApp>();
             app.Setup(a => a.Versions).Returns(new IAppVersion[] {v1, v2});
 
-            app.Object.GetLatestVersion().ShouldEqual(v2);
+            app.Object.GetLatestVersion().ShouldBe(v2);
         }
 
         internal class AppVersion1:IAppVersion

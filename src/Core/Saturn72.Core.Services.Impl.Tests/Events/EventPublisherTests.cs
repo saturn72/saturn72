@@ -9,7 +9,7 @@ using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.Events;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Events
 {
@@ -19,7 +19,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
         public void EventPublisher_ThrowsOnNullEvent()
         {
             var ep = new EventPublisher(null, null);
-            typeof(NullReferenceException).ShouldBeThrownBy(() => ep.Publish((EventBase) null));
+            Should.Throw<NullReferenceException>(() => ep.Publish((EventBase) null));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
             ep.Publish(new DummyEvent());
 
             Thread.Sleep(50);
-            logRecords.Count.ShouldEqual(3);
+            logRecords.Count.ShouldBe(3);
             logRecords.Any(m => m.Contains("-Asynced-")).ShouldBeTrue();
             logRecords.Any(m => m.Contains("-Synced-")).ShouldBeTrue();
         }

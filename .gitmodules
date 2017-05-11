@@ -1,7 +1,3 @@
-[submodule "submodules/Saturn72.ThirdParty"]
-	path = submodules/Saturn72.ThirdParty
-	url = https://github.com/saturn72/Saturn72.ThirdParty.git
-	branch = master
 [submodule "submodules/Saturn72.Extensions"]
 	path = submodules/Saturn72.Extensions
 	url = https://github.com/saturn72/Saturn72.Extensions.git

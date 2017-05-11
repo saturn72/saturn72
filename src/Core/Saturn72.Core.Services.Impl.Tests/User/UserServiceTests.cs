@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter.Xml;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
@@ -11,7 +10,7 @@ using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Extensions;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.User
 {
@@ -31,14 +30,14 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var cm = new Mock<ICacheManager>();
             var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
-            srv.GetUserByUsernameAsync("ffff").Result.ShouldEqual(result);
+            srv.GetUserByUsernameAsync("ffff").Result.ShouldBe(result);
         }
         
         [Test]
         public void UserService_GetUserByUsernameAsync_InvalidUsername()
         {
             var srv = new UserService(null, null, null, null, null, null);
-            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentException>(() =>
             {
                 try
                 {
@@ -50,7 +49,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                     throw ex.InnerException;
                 }
             });
-            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentException>(() =>
             {
                 try
                 {
@@ -63,7 +62,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 }
             });
 
-            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentException>(() =>
             {
                 try
                 {
@@ -111,7 +110,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var cm = new Mock<ICacheManager>();
             var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
-            srv.GetUserByUsernameAsync(username).Result.ShouldEqual(result);
+            srv.GetUserByUsernameAsync(username).Result.ShouldBe(result);
             logger.Verify(
                 l =>
                     l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
@@ -138,7 +137,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         public void UserService_GetUserByEmailAsync_InvalidEmail()
         {
             var srv = new UserService(null, null, null, null, null, null);
-            typeof(ArgumentException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentException>(() =>
             {
                 try
                 {
@@ -150,7 +149,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                     throw ex.InnerException;
                 }
             });
-            typeof(InvalidOperationException).ShouldBeThrownBy(() =>
+            Should.Throw<InvalidOperationException>(() =>
             {
                 try
                 {
@@ -183,7 +182,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var cm = new Mock<ICacheManager>();
             var srv = new UserService(userRepo.Object, null, cm.Object, null, logger.Object, null);
-            srv.GetUserByEmailAsync(email).Result.ShouldEqual(result);
+            srv.GetUserByEmailAsync(email).Result.ShouldBe(result);
             logger.Verify(
                 l =>
                     l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Error), It.IsAny<string>(), It.IsAny<string>(),
@@ -202,7 +201,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var cm = new Mock<ICacheManager>();
             var srv = new UserService(userRepo.Object, null, cm.Object, null, null, null);
-            srv.GetUserByEmailAsync("www@ffff.com").Result.ShouldEqual(result);
+            srv.GetUserByEmailAsync("www@ffff.com").Result.ShouldBe(result);
         }
 
 
@@ -215,7 +214,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var srv = new UserService(null, null, null, null, null, null);
             //on illegal userId
-            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentOutOfRangeException>(() =>
             {
                 try
                 {
@@ -226,7 +225,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                     throw ex.InnerException;
                 }
             });
-            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentOutOfRangeException>(() =>
             {
                 try
                 {
@@ -254,7 +253,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var srv1 = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var res1 = srv1.GetUserUserRolesByUserIdAsync(123).Result;
             res1.ShouldNotBeNull();
-            res1.Count().ShouldEqual(0);
+            res1.Count().ShouldBe(0);
 
 
             //Repository returns empty collection
@@ -264,7 +263,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var srv2 = new UserService(null, null, cm.Object, null, null, prRepo.Object);
             var res2 = srv2.GetUserUserRolesByUserIdAsync(123).Result;
             res2.ShouldNotBeNull();
-            res2.Count().ShouldEqual(0);
+            res2.Count().ShouldBe(0);
         }
 
 
@@ -318,11 +317,11 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                 var act = actural.ElementAt(i);
                 var exp = expectedVal[i];
 
-                act.Active.ShouldEqual(exp.Active);
-                act.IsSystemRole.ShouldEqual(exp.IsSystemRole);
-                act.Name.ShouldEqual(exp.Name);
-                act.PermissionRecords.ShouldEqual(exp.PermissionRecords);
-                act.SystemName.ShouldEqual(exp.SystemName);
+                act.Active.ShouldBe(exp.Active);
+                act.IsSystemRole.ShouldBe(exp.IsSystemRole);
+                act.Name.ShouldBe(exp.Name);
+                act.PermissionRecords.ShouldBe(exp.PermissionRecords);
+                act.SystemName.ShouldBe(exp.SystemName);
             }
 
             cm.Verify(
@@ -341,7 +340,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var srv = new UserService(null, null, null, null, null, null);
 
             //on ilegal userId
-            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentOutOfRangeException>(() =>
             {
                 try
                 {
@@ -352,7 +351,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                     throw e.InnerException;
                 }
             });
-            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() =>
+            Should.Throw<ArgumentOutOfRangeException>(() =>
             {
                 try
                 {
@@ -377,7 +376,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var srv = new UserService(null, null, null, null, null, prRepo.Object);
             var res = srv.GetUserPermissionsAsync(111).Result;
 
-            res.Count().ShouldEqual(expected.Count());
+            res.Count().ShouldBe(expected.Count());
             for (var i = 0; i < res.Count(); i++)
                 res.ElementAt(i).PropertyValuesAreEquals(expected.ElementAt(i));
         }

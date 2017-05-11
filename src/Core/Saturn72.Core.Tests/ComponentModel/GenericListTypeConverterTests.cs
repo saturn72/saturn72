@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using NUnit.Framework;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 using Saturn72.Core.ComponentModel;
 
 #endregion
@@ -25,14 +25,14 @@ namespace Saturn72.Core.Tests.ComponentModel
         public void Can_get_int_list_type_converter()
         {
             var converter = TypeDescriptor.GetConverter(typeof (List<int>));
-            converter.GetType().ShouldEqual(typeof (GenericListTypeConverter<int>));
+            converter.GetType().ShouldBe(typeof (GenericListTypeConverter<int>));
         }
 
         [Test]
         public void Can_get_string_list_type_converter()
         {
             var converter = TypeDescriptor.GetConverter(typeof (List<string>));
-            converter.GetType().ShouldEqual(typeof (GenericListTypeConverter<string>));
+            converter.GetType().ShouldBe(typeof (GenericListTypeConverter<string>));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Saturn72.Core.Tests.ComponentModel
             var converter = TypeDescriptor.GetConverter(typeof (List<int>));
             var result = converter.ConvertFrom(items) as IList<int>;
             result.ShouldNotBeNull();
-            result.Count.ShouldEqual(5);
+            result.Count.ShouldBe(5);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Saturn72.Core.Tests.ComponentModel
             var converter = TypeDescriptor.GetConverter(typeof (List<string>));
             var result = converter.ConvertFrom(items) as List<string>;
             result.ShouldNotBeNull();
-            result.Count.ShouldEqual(3);
+            result.Count.ShouldBe(3);
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace Saturn72.Core.Tests.ComponentModel
             var result = converter.ConvertTo(items, typeof (string)) as string;
 
             result.ShouldNotBeNull();
-            result.ShouldEqual("10,20,30,40,50");
+            result.ShouldBe("10,20,30,40,50");
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Saturn72.Core.Tests.ComponentModel
             var converter = TypeDescriptor.GetConverter(items.GetType());
             var result = converter.ConvertTo(items, typeof (string)) as string;
             result.ShouldNotBeNull();
-            result.ShouldEqual("foo,bar,day");
+            result.ShouldBe("foo,bar,day");
         }
     }
 }

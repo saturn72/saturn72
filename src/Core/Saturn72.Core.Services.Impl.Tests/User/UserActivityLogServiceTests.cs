@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.Impl.User;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.User
 {
@@ -14,8 +14,8 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         {
             var srv = new UserActivityLogService(null);
             //on null activityType
-            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.AddUserActivityLogAsync(null, null));
-            typeof(NullReferenceException).ShouldBeThrownBy(
+            Should.Throw<NullReferenceException>(() => srv.AddUserActivityLogAsync(null, null));
+            Should.Throw<NullReferenceException>(
                 () => srv.AddUserActivityLogAsync(UserActivityType.UserLoggedIn, null));
         }
 
@@ -41,7 +41,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             };
 
             srv.AddUserActivityLogAsync(UserActivityType.UserLoggedIn, user).Wait();
-            user.Id.ShouldEqual(123);
+            user.Id.ShouldBe(123);
         }
     }
 }

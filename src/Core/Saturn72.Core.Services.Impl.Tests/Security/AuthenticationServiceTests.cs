@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Security;
 using Saturn72.Core.Services.Impl.Security;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Security
 {
@@ -13,7 +13,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Security
         public void AuthenticationService_AddRefreshTokenAsync_ThrowsOnNullToekn()
         {
             var srv = new AuthenticationService(null);
-            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.AddRefreshTokenAsync(null));
+            Should.Throw<NullReferenceException>(() => srv.AddRefreshTokenAsync(null));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Security
 
             var srv = new AuthenticationService(repo.Object);
             srv.AddRefreshTokenAsync(new RefreshTokenDomainModel()).Wait();
-            i.ShouldEqual(1);
+            i.ShouldBe(1);
         }
     }
 }

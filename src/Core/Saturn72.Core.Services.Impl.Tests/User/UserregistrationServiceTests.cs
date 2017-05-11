@@ -7,7 +7,7 @@ using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Core.Services.User;
 using Saturn72.Core.Services.Validation;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.User
 {
@@ -17,7 +17,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         public void UserRegistrationService_RegisterAsync_ThrowsOnNullRequest()
         {
             var urs = new UserRegistrationService(null, null, null, null, null, null, null, null, null);
-            typeof(NullReferenceException).ShouldBeThrownBy(() =>
+            Should.Throw<NullReferenceException>(() =>
             {
                 try
                 {
@@ -43,7 +43,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var res = urs.RegisterAsync(req).Result;
             res.Success.ShouldBeFalse();
-            res.Errors.Count.ShouldEqual(1);
+            res.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             var res = urs.RegisterAsync(req).Result;
             res.Success.ShouldBeTrue();
-            res.Errors.Count.ShouldEqual(0);
+            res.Errors.Count.ShouldBe(0);
 
             ah.Verify(a=>a.PrepareForCreateAudity(It.IsAny<UserModel>()),Times.Once);
             uRepo.Verify(a=>a.Create(It.IsAny<UserModel>()),Times.Once);

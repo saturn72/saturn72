@@ -8,7 +8,7 @@ using Calculator.Server.Services.Calculation;
 using Calculator.WebApi.Controllers;
 using Moq;
 using NUnit.Framework;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -49,7 +49,7 @@ namespace Calculator.WebApi.Tests.Controllers
         public void CalculatorController_GetsExpressions()
         {
             var ctrl = new CalculatorController(_calcSrv);
-            (ctrl.Get(null).Result as OkNegotiatedContentResult<IEnumerable<string>>).Content.ShouldEqual(expectedExpressions);
+            (ctrl.Get(null).Result as OkNegotiatedContentResult<IEnumerable<string>>).Content.ShouldBe(expectedExpressions);
         }
 
         [Test]
@@ -57,13 +57,13 @@ namespace Calculator.WebApi.Tests.Controllers
         {
             var ctrl = new CalculatorController(_calcSrv);
             //2 positives
-            (ctrl.Add(null, 2, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(5);
+            (ctrl.Add(null, 2, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(5);
 
             //positive + negative
-            (ctrl.Add(null, -1, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(1);
+            (ctrl.Add(null, -1, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(1);
 
             //2 negatives
-            (ctrl.Add(null, -2, -3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(-5);
+            (ctrl.Add(null, -2, -3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(-5);
         }
 
         [Test]
@@ -71,45 +71,45 @@ namespace Calculator.WebApi.Tests.Controllers
         {
             var ctrl = new CalculatorController(_calcSrv);
             //2 positives
-            (ctrl.Subtract(null, 2, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(-1);
-            (ctrl.Subtract(null, 3, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(1);
+            (ctrl.Subtract(null, 2, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(-1);
+            (ctrl.Subtract(null, 3, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(1);
 
             //positive + negative
-            (ctrl.Subtract(null, -1, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(-3);
+            (ctrl.Subtract(null, -1, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(-3);
 
             //2 negatives
-            (ctrl.Subtract(null, -2, -3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(1);
+            (ctrl.Subtract(null, -2, -3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(1);
         }
 
         [Test]
         public void CalculatorController_MultipleTwoNumbers()
         {
             var ctrl = new CalculatorController(_calcSrv);
-            (ctrl.Multiple(null, 0, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(0);
+            (ctrl.Multiple(null, 0, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(0);
             //2 positives
-            (ctrl.Multiple(null, 2, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(6);
+            (ctrl.Multiple(null, 2, 3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(6);
 
             //positive + negative
-            (ctrl.Multiple(null, -1, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(-2);
+            (ctrl.Multiple(null, -1, 2).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(-2);
 
             //2 negatives
-            (ctrl.Multiple(null, -2, -3).Result as OkNegotiatedContentResult<int>).Content.ShouldEqual(6);
+            (ctrl.Multiple(null, -2, -3).Result as OkNegotiatedContentResult<int>).Content.ShouldBe(6);
         }
 
         [Test]
         public void CalculatorController_DivideTwoNumbers()
         {
             var ctrl = new CalculatorController(_calcSrv);
-            (ctrl.Divide(null, 0, 3).Result as OkNegotiatedContentResult<long>).Content.ShouldEqual(0);
-            (ctrl.Divide(null, 6, 2).Result as OkNegotiatedContentResult<long>).Content.ShouldEqual(3);
-            (ctrl.Divide(null, 2, 3).Result as OkNegotiatedContentResult<long>).Content.ShouldEqual(2/3);
+            (ctrl.Divide(null, 0, 3).Result as OkNegotiatedContentResult<long>).Content.ShouldBe(0);
+            (ctrl.Divide(null, 6, 2).Result as OkNegotiatedContentResult<long>).Content.ShouldBe(3);
+            (ctrl.Divide(null, 2, 3).Result as OkNegotiatedContentResult<long>).Content.ShouldBe(2/3);
 
 
-            (ctrl.Divide(null, -1, 2).Result as OkNegotiatedContentResult<long>).Content.ShouldEqual(-1/2);
-            (ctrl.Divide(null, -10, 2).Result as OkNegotiatedContentResult<long>).Content.ShouldEqual(-5);
+            (ctrl.Divide(null, -1, 2).Result as OkNegotiatedContentResult<long>).Content.ShouldBe(-1/2);
+            (ctrl.Divide(null, -10, 2).Result as OkNegotiatedContentResult<long>).Content.ShouldBe(-5);
 
 
-            (ctrl.Divide(null, -2, -3).Result as OkNegotiatedContentResult<long>).Content.ShouldEqual(2/3);
+            (ctrl.Divide(null, -2, -3).Result as OkNegotiatedContentResult<long>).Content.ShouldBe(2/3);
 
             (ctrl.Divide(null, -10, 0).Result as BadRequestResult).ShouldNotBeNull();
         }

@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Castle.Core.Internal;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Caching;
@@ -13,7 +12,7 @@ using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.Tasks;
 using Saturn72.Core.Services.Tasks;
 using Saturn72.Core.Tasks;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -124,9 +123,10 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
             var updated = _backgroundTaskService.GetTaskByIdAsync(task.Id).Result;
             updated.PropertyValuesAreEquals(task, new[] {"Id", "UpdatedOnUtc", "CreatedOnUtc", "Attachtments"});
 
-            task.Attachtments.ForEach(x => x.BackgroundTaskId = task.Id);
+            foreach (var tAtt in task.Attachtments)
+                tAtt.BackgroundTaskId = task.Id;
 
-            task.Attachtments.Count.ShouldEqual(updated.Attachtments.Count);
+            task.Attachtments.Count.ShouldBe(updated.Attachtments.Count);
             var expectedArray = task.Attachtments.ToArray();
             var actualArray = updated.Attachtments.ToArray();
 

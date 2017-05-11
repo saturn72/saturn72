@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Services.Impl.Logging;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Logging
 {
@@ -14,7 +14,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         public void DefaultLogger_IEnabled_ReturnsTrue()
         {
             var logger = new DefaultLogger(null);
-            logger.SupportedLogLevels.Length.ShouldEqual(LogLevel.AllSystemLogLevels.Count());
+            logger.SupportedLogLevels.Length.ShouldBe(LogLevel.AllSystemLogLevels.Count());
 
             logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Debug.Code).ShouldBeTrue();
             logger.SupportedLogLevels.Any(ll => ll.Code == LogLevel.Error.Code).ShouldBeTrue();
@@ -29,9 +29,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         {
             var logger = new DefaultLogger(null);
             //on null loglevel
-            typeof(NullReferenceException).ShouldBeThrownBy(() => logger.InsertLog(null, null));
-            typeof(ArgumentException).ShouldBeThrownBy(() => logger.InsertLog(LogLevel.Debug, null));
-            typeof(ArgumentException).ShouldBeThrownBy(() => logger.InsertLog(LogLevel.Debug, ""));
+            Should.Throw<NullReferenceException>(() => logger.InsertLog(null, null));
+            Should.Throw<ArgumentException>(() => logger.InsertLog(LogLevel.Debug, null));
+            Should.Throw<ArgumentException>(() => logger.InsertLog(LogLevel.Debug, ""));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
                 .Returns(expected);
             var logger = new DefaultLogger(lrRepo.Object);
 
-            logger.GetAllLogRecords().Count().ShouldEqual(expected.Length);
+            logger.GetAllLogRecords().Count().ShouldBe(expected.Length);
         }
 
         [Test]
@@ -80,8 +80,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         {
             var logger = new DefaultLogger(null);
             //on illegal id
-            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => logger.GetLogById(0));
-            typeof(ArgumentOutOfRangeException).ShouldBeThrownBy(() => logger.GetLogById(-123));
+            Should.Throw<ArgumentOutOfRangeException>(() => logger.GetLogById(0));
+            Should.Throw<ArgumentOutOfRangeException>(() => logger.GetLogById(-123));
         }
 
         [Test]

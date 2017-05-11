@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Saturn72.Core.Domain.Tasks;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.Tasks;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -19,7 +19,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         public void CreateTaskExecutionData_ThrowsOnNull()
         {
             var srv = new BackgroundTaskExecutionService(null, null);
-            typeof(NullReferenceException).ShouldBeThrownBy(() => srv.CreateTaskExecutionData(null));
+            Should.Throw<NullReferenceException>(() => srv.CreateTaskExecutionData(null));
         }
 
         [Test]

@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Impl.Logging;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Logging
 {
@@ -25,7 +25,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         public void LogManager_LoadsAllLoggersInAppDomain()
         {
             var logManager = new LogManager();
-            logManager.AllLoggers.Count().ShouldEqual(2);
+            logManager.AllLoggers.Count().ShouldBe(2);
             logManager.AllLoggers.ElementAt(0).ShouldNotBeNull();
             logManager.AllLoggers.ElementAt(1).ShouldNotBeNull();
 

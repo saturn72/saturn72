@@ -10,7 +10,7 @@ using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Impl.Localization;
 using Saturn72.Core.Services.Localization;
 using Saturn72.Extensions;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Localization
 {
@@ -62,11 +62,11 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
         public void GetResource_ReturnsNullOrEmptyOrDefaultValue_OnEmptyResourceKey()
         {
             var srv = new LocaleService(null, null, null);
-            srv.GetLocaleResource("", 0).ShouldEqual("");
-            srv.GetLocaleResource(null, 0).ShouldEqual("");
+            srv.GetLocaleResource("", 0).ShouldBe("");
+            srv.GetLocaleResource(null, 0).ShouldBe("");
             var defaultVal = "ggg";
-            srv.GetLocaleResource("", 0, defaultVal).ShouldEqual(defaultVal);
-            srv.GetLocaleResource(null, 0, defaultVal).ShouldEqual(defaultVal);
+            srv.GetLocaleResource("", 0, defaultVal).ShouldBe(defaultVal);
+            srv.GetLocaleResource(null, 0, defaultVal).ShouldBe(defaultVal);
 
             srv.GetLocaleResource("", 100, defaultVal, true).ShouldBeNull();
             srv.GetLocaleResource(null, 100, defaultVal, true).ShouldBeNull();
@@ -87,11 +87,11 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
             var srv = new LocaleService(_repo, _cacheManager, _logger.Object);
 
 
-            srv.GetLocaleResource("Key1ssssss", 0).ShouldEqual("");
+            srv.GetLocaleResource("Key1ssssss", 0).ShouldBe("");
             _logger.Verify(
                 l => l.InsertLog(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()),
                 Times.Exactly(++loggerInsertions));
-            srv.GetLocaleResource("Key1ssssss", 0, "defVal").ShouldEqual("defVal");
+            srv.GetLocaleResource("Key1ssssss", 0, "defVal").ShouldBe("defVal");
             _logger.Verify(
                 l => l.InsertLog(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()),
                 Times.Exactly(++loggerInsertions));
@@ -103,7 +103,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
                 Times.Exactly(++loggerInsertions));
 
 
-            srv.GetLocaleResource("Key1ssssss", 0).ShouldEqual(string.Empty);
+            srv.GetLocaleResource("Key1ssssss", 0).ShouldBe(string.Empty);
             _logger.Verify(
                 l => l.InsertLog(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()),
                 Times.Exactly(++loggerInsertions));
@@ -126,13 +126,13 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
             var res = srv.GetAllLocaleResources(langId).ToArray();
 
             var langLocaleResource = _localeResources.Where(lr => lr.LanguageId == langId);
-            res.Length.ShouldEqual(langLocaleResource.Count());
+            res.Length.ShouldBe(langLocaleResource.Count());
             for (var i = 0; i < langLocaleResource.Count(); i++)
             {
                 var lr = langLocaleResource.ElementAt(i);
-                res[i].Key.ShouldEqual(lr.Key.ToLowerInvariant());
-                res[i].Value.Key.ShouldEqual(lr.Id);
-                res[i].Value.Value.ShouldEqual(lr.Value);
+                res[i].Key.ShouldBe(lr.Key.ToLowerInvariant());
+                res[i].Value.Key.ShouldBe(lr.Id);
+                res[i].Value.Value.ShouldBe(lr.Value);
             }
         }
 
@@ -143,7 +143,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
             var resourceKeySuffix = "Suffix";
             var expected = "{0}.{1}.{2}".AsFormat(GetType().FullName,
                 "LocaleService_GetsLocaleResourceUsingCallerMethod", resourceKeySuffix);
-            srv.GetLocaleResourceByCallerMethod(resourceKeySuffix).ShouldEqual(expected);
+            srv.GetLocaleResourceByCallerMethod(resourceKeySuffix).ShouldBe(expected);
         }
     }
 

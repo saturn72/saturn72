@@ -14,7 +14,7 @@ using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.Tasks;
 using Saturn72.Extensions;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 
 #endregion
 
@@ -42,26 +42,26 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         {
             //no event publishing here since tha task was not start execution
             var task1 = new NotImplementedStartInfoBgTask();
-            typeof(NotImplementedException).ShouldBeThrownBy(() => task1.Execute());
+            Should.Throw<NotImplementedException>(() => task1.Execute());
 
             var task2 = new NotExistsProcessBgTask();
-            typeof(InvalidOperationException).ShouldBeThrownBy(() => task2.Execute());
+            Should.Throw<InvalidOperationException>(() => task2.Execute());
             _eventPublisher.Verify(
                 e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>()),
                 Times.Once);
 
             model = null;
             var task3 = new ExceptionFromProcessBgTask();
-            typeof(Win32Exception).ShouldBeThrownBy(() => task3.Execute());
+            Should.Throw<Win32Exception>(() => task3.Execute());
             _eventPublisher.Verify(
                 e => e.Publish(It.IsAny<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>()),
                 Times.Exactly(2));
-            model.ProcessExitCode.ShouldNotEqual(0);
+            model.ProcessExitCode.ShouldNotBe(0);
             model.ErrorData.HasValue().ShouldBeTrue();
             model.OutputData.HasValue().ShouldBeTrue();
             model.ProcessStartInfo.HasValue().ShouldBeTrue();
             model.ProcessExitedOnUtc.ShouldNotBeNull();
-            model.ProcessId.ShouldNotEqual(0);
+            model.ProcessId.ShouldNotBe(0);
         }
     }
 

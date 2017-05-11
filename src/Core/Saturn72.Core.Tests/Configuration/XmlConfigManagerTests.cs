@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Saturn72.Extensions;
-using Saturn72.UnitTesting.Framework;
+using Shouldly;
 using Saturn72.Core.Configuration;
 
 #endregion
@@ -21,7 +21,7 @@ namespace Saturn72.Core.Tests.Configuration
             var nonExistsFile = Path.GetTempPath() + DateTime.Now.ToTimeStamp();
 
             var xmlConfigManager = new XmlConfigLoader();
-            typeof (FileNotFoundException).ShouldBeThrownBy(
+            Should.Throw<FileNotFoundException>(
                 () => xmlConfigManager.Load(GetLoadDataDictionary(nonExistsFile)));
         }
 
@@ -39,30 +39,30 @@ namespace Saturn72.Core.Tests.Configuration
 
             //modules
             var moduleDynamicData = xmlConfigManager.AppDomainLoadData.ModulesDynamicLoadingData;
-            moduleDynamicData.DeleteShadowCopyOnStartup.ShouldEqual(
+            moduleDynamicData.DeleteShadowCopyOnStartup.ShouldBe(
                 SystemDefaults.DeleteModulesShadowDirectoriesOnStartup);
 
             var expectedModuleRootDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 SystemDefaults.DefaultModulesRoot);
-            moduleDynamicData.RootDirectory.ShouldEqual(expectedModuleRootDirectory);
+            moduleDynamicData.RootDirectory.ShouldBe(expectedModuleRootDirectory);
 
             var expectedModulesShadowCopyDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 SystemDefaults.DefaultModulesRoot, SystemDefaults.DefaultModulesShadowCopyDirectory);
-            moduleDynamicData.ShadowCopyDirectory.ShouldEqual(expectedModulesShadowCopyDir);
+            moduleDynamicData.ShadowCopyDirectory.ShouldBe(expectedModulesShadowCopyDir);
 
             //plugins
             var pluginsDynamicData = xmlConfigManager.AppDomainLoadData.PluginsDynamicLoadingData;
-            pluginsDynamicData.DeleteShadowCopyOnStartup.ShouldEqual(
+            pluginsDynamicData.DeleteShadowCopyOnStartup.ShouldBe(
                 SystemDefaults.DeletePluginsShadowDirectoriesOnStartup);
 
 
             var expectedPluginsModuleRootDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 SystemDefaults.DefaultPluginsRoot);
-            pluginsDynamicData.RootDirectory.ShouldEqual(expectedPluginsModuleRootDirectory);
+            pluginsDynamicData.RootDirectory.ShouldBe(expectedPluginsModuleRootDirectory);
 
             var expectedPluginsShadowCopyDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 SystemDefaults.DefaultPluginsRoot, SystemDefaults.DefaultPluginsShadowCopyDirectory);
-            pluginsDynamicData.ShadowCopyDirectory.ShouldEqual(expectedPluginsShadowCopyDir);
+            pluginsDynamicData.ShadowCopyDirectory.ShouldBe(expectedPluginsShadowCopyDir);
         }
 
         [Test]
@@ -77,11 +77,11 @@ namespace Saturn72.Core.Tests.Configuration
 
             var expectedModuleRootDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ModulesRootDir");
-            moduleDynamicData.RootDirectory.ShouldEqual(expectedModuleRootDirectory);
+            moduleDynamicData.RootDirectory.ShouldBe(expectedModuleRootDirectory);
 
             var expectedModulesShadowCopyDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ModulesRootDir\\ModulesShadowCopy");
-            moduleDynamicData.ShadowCopyDirectory.ShouldEqual(expectedModulesShadowCopyDir);
+            moduleDynamicData.ShadowCopyDirectory.ShouldBe(expectedModulesShadowCopyDir);
 
             //plugins
             var pluginsDynamicData = xmlConfigManager.AppDomainLoadData.PluginsDynamicLoadingData;
@@ -89,11 +89,11 @@ namespace Saturn72.Core.Tests.Configuration
 
             var expectedPluginsModuleRootDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "PluginsRootDir");
-            pluginsDynamicData.RootDirectory.ShouldEqual(expectedPluginsModuleRootDirectory);
+            pluginsDynamicData.RootDirectory.ShouldBe(expectedPluginsModuleRootDirectory);
 
             var expectedPluginsShadowCopyDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "PluginsRootDir\\PluginsShadowCopy");
-            pluginsDynamicData.ShadowCopyDirectory.ShouldEqual(expectedPluginsShadowCopyDir);
+            pluginsDynamicData.ShadowCopyDirectory.ShouldBe(expectedPluginsShadowCopyDir);
         }
 
         [Test]
@@ -107,22 +107,22 @@ namespace Saturn72.Core.Tests.Configuration
             moduleDynamicData.DeleteShadowCopyOnStartup.ShouldBeFalse();
 
             var expectedModuleRootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            moduleDynamicData.RootDirectory.ShouldEqual(expectedModuleRootDirectory);
+            moduleDynamicData.RootDirectory.ShouldBe(expectedModuleRootDirectory);
 
             var expectedModulesShadowCopyDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ModulesShadowCopy");
-            moduleDynamicData.ShadowCopyDirectory.ShouldEqual(expectedModulesShadowCopyDir);
+            moduleDynamicData.ShadowCopyDirectory.ShouldBe(expectedModulesShadowCopyDir);
 
             //plugins
             var pluginsDynamicData = xmlConfigManager.AppDomainLoadData.PluginsDynamicLoadingData;
             pluginsDynamicData.DeleteShadowCopyOnStartup.ShouldBeFalse();
 
             var expectedPluginsModuleRootDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            pluginsDynamicData.RootDirectory.ShouldEqual(expectedPluginsModuleRootDirectory);
+            pluginsDynamicData.RootDirectory.ShouldBe(expectedPluginsModuleRootDirectory);
 
             var expectedPluginsShadowCopyDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "PluginsShadowCopy");
-            pluginsDynamicData.ShadowCopyDirectory.ShouldEqual(expectedPluginsShadowCopyDir);
+            pluginsDynamicData.ShadowCopyDirectory.ShouldBe(expectedPluginsShadowCopyDir);
         }
 
         [Test]
@@ -136,8 +136,8 @@ namespace Saturn72.Core.Tests.Configuration
             var asms = xmlConfigManager.AppDomainLoadData.Assemblies;
             var expected = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 @"Assemblies\ShouldBeLoaded.dll");
-            asms.ShouldCount(1);
-            asms.ShouldContainInstance(expected);
+            asms.Length.ShouldBe(1);
+            asms.ShouldContain(expected);
         }
 
 
@@ -148,25 +148,25 @@ namespace Saturn72.Core.Tests.Configuration
             xmlConfigManager.Load(GetLoadDataDictionary(@"Config\ShouldUseConfigFileValues1.xml"));
 
             var moduleInstances = xmlConfigManager.AppDomainLoadData.ModuleInstances;
-            moduleInstances.ShouldCount(3);
+            moduleInstances.Length.ShouldBe(3);
 
             var mi = moduleInstances.ElementAt(0);
-            mi.Type.ShouldEqual("MyModuleType1");
+            mi.Type.ShouldBe("MyModuleType1");
             mi.Active.ShouldBeTrue();
-            mi.StartupOrder.ShouldEqual(30);
-            mi.StopOrder.ShouldEqual(130);
+            mi.StartupOrder.ShouldBe(30);
+            mi.StopOrder.ShouldBe(130);
 
             mi = moduleInstances.ElementAt(1);
-            mi.Type.ShouldEqual("MyModuleType2");
+            mi.Type.ShouldBe("MyModuleType2");
             mi.Active.ShouldBeFalse();
-            mi.StartupOrder.ShouldEqual(100);
-            mi.StopOrder.ShouldEqual(100);
+            mi.StartupOrder.ShouldBe(100);
+            mi.StopOrder.ShouldBe(100);
 
             mi = moduleInstances.ElementAt(2);
-            mi.Type.ShouldEqual("MyModuleType3");
+            mi.Type.ShouldBe("MyModuleType3");
             mi.Active.ShouldBeTrue();
-            mi.StartupOrder.ShouldEqual(100);
-            mi.StopOrder.ShouldEqual(100);
+            mi.StartupOrder.ShouldBe(100);
+            mi.StopOrder.ShouldBe(100);
         }
 
         [Test]
@@ -179,16 +179,16 @@ namespace Saturn72.Core.Tests.Configuration
 
 
             var configMaps = xmlConfigManager.AppDomainLoadData.ConfigMaps;
-            configMaps.ToList().ShouldCount(3);
+            configMaps.ToList().Count.ShouldBe(3);
 
             var elem = configMaps["ConfigMap1"];
-            elem.Value.AllConfigRecords["Key1"].ShouldEqual("Value1");
-            elem.Value.AllConfigRecords["Key2"].ShouldEqual("Value2");
+            elem.Value.AllConfigRecords["Key1"].ShouldBe("Value1");
+            elem.Value.AllConfigRecords["Key2"].ShouldBe("Value2");
 
 
             elem = configMaps["ConfigMap2"];
-            elem.Value.AllConfigRecords["Key1"].ShouldEqual("Value1");
-            elem.Value.AllConfigRecords["Key2"].ShouldEqual("Value2");
+            elem.Value.AllConfigRecords["Key1"].ShouldBe("Value1");
+            elem.Value.AllConfigRecords["Key2"].ShouldBe("Value2");
         }
     }
 }
