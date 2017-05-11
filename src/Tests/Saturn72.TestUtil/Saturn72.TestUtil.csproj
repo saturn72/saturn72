@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}</ProjectGuid>
+    <ProjectGuid>{2B165EC0-BF20-4B7D-9EF6-00EC9A4175FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Saturn72.Module.ExcelMediaValidator</RootNamespace>
-    <AssemblyName>Saturn72.Module.ExcelMediaValidator</AssemblyName>
+    <RootNamespace>Saturn72.TestUtil</RootNamespace>
+    <AssemblyName>Saturn72.TestUtil</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\Saturn72.Module.ExcelMediaValidator\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,44 +24,32 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\Saturn72.Module.ExcelMediaValidator\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Excel">
-      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\ExcelDataReader.2.1.2.3\Excel.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\ExcelDataReader.2.1.2.3\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Saturn72.Extensions.1.2.0\lib\net462\Saturn72.Extensions.dll</HintPath>
+    <Reference Include="Shouldly, Version=2.8.2.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Shouldly.2.8.2\lib\net451\Shouldly.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExcelMediaValidator.cs" />
-    <Compile Include="ExcelMediaValidatorModule.cs" />
+    <Compile Include="UnitTestUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\Saturn72.Core.Impl\Saturn72.Core.Services.Impl.csproj">
-      <Project>{BA702041-080D-459A-BCD1-37875D92C626}</Project>
-      <Name>Saturn72.Core.Services.Impl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Core\Saturn72.Core.Services\Saturn72.Core.Services.csproj">
-      <Project>{D92341E7-6B28-4CDC-A024-A204D0ED670E}</Project>
-      <Name>Saturn72.Core.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
-      <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
-      <Name>Saturn72.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

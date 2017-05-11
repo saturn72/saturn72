@@ -22,12 +22,12 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             var req = new UserRegistrationRequest("", "", null, PasswordFormat.Clear, null);
             var errMsg = validator.ValidateRequest(req);
             errMsg.Count().ShouldBe(1);
-            errMsg.Last().ShouldBe("Please specify user email or username");
+            errMsg.Last().Message.ShouldBe("Please specify user email or username");
 
             req = new UserRegistrationRequest(null, "", null, PasswordFormat.Clear, null);
             errMsg = validator.ValidateRequest(req);
             errMsg.Count().ShouldBe(1);
-            errMsg.Last().ShouldBe("Please specify user email or username");
+            errMsg.Last().Message.ShouldBe("Please specify user email or username");
 
             //username already exists
             req = new UserRegistrationRequest("dadada", "", null, PasswordFormat.Clear, null);
@@ -35,7 +35,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             userSrv.Setup(u => u.GetUserByUsernameAsync(It.IsAny<string>())).Returns(Task.FromResult(new UserModel()));
             errMsg = validator.ValidateRequest(req);
             errMsg.Count().ShouldBe(1);
-            errMsg.Last().ShouldBe("Username already exists");
+            errMsg.Last().Message.ShouldBe("Username already exists");
 
             //email already exists
             req = new UserRegistrationRequest("dadada", "", null, PasswordFormat.Clear, null);
@@ -43,7 +43,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
             userSrv.Setup(u => u.GetUserByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(new UserModel()));
             errMsg = validator.ValidateRequest(req);
             errMsg.Count().ShouldBe(1);
-            errMsg.Last().ShouldBe("Email already exists");
+            errMsg.Last().Message.ShouldBe("Email already exists");
         }
     }
 }

@@ -10,6 +10,7 @@ using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Extensions;
+using Saturn72.TestUtil;
 using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.User
@@ -378,7 +379,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             res.Count().ShouldBe(expected.Count());
             for (var i = 0; i < res.Count(); i++)
-                res.ElementAt(i).PropertyValuesAreEquals(expected.ElementAt(i)));
+                res.ElementAt(i).PropertyValuesAreEquals(expected.ElementAt(i));
         }
 
         #endregion

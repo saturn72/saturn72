@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Services.Impl.Logging;
+using Saturn72.TestUtil;
 using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.Logging
