@@ -44,8 +44,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\submodules\Saturn72.ThirdParty\Owin.1.0\Owin.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Saturn72.Extensions.1.1.9\lib\net45\Saturn72.Extensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -61,12 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\submodules\Saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj">
-      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
-      <Name>Saturn72.Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>

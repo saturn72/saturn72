@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Saturn72.Extensions.1.1.9\lib\net45\Saturn72.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web" />
@@ -83,10 +87,6 @@
     <Compile Include="User\UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\submodules\Saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj">
-      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
-      <Name>Saturn72.Extensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Saturn72.Core.Services\Saturn72.Core.Services.csproj">
       <Project>{D92341E7-6B28-4CDC-A024-A204D0ED670E}</Project>
       <Name>Saturn72.Core.Services</Name>
@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

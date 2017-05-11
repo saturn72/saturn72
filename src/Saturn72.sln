@@ -79,8 +79,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.DB.Model", "Apps
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Common", "Apps\Calculator\Server\Calculator.Common\Calculator.Common.csproj", "{F732B9E8-6BC9-4CA4-B123-C09B4694F7F8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{A669EF14-1A6C-4B3C-8E98-5C7DB025EBEB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Core.Tests", "Core\Saturn72.Core.Tests\Saturn72.Core.Tests.csproj", "{7BAB262A-0F0A-4CFD-A642-4E643E619CB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Core.Services.Impl.Tests", "Core\Saturn72.Core.Services.Impl.Tests\Saturn72.Core.Services.Impl.Tests.csproj", "{AC816B2D-3B7D-49CC-8D71-2A19938087AF}"
@@ -100,17 +98,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Module.ExcelMediaValidator.Tests", "Modules\MediaValidators\Saturn72.Module.ExcelMediaValidator.Tests\Saturn72.Module.ExcelMediaValidator.Tests.csproj", "{2A488C43-CE81-4BF2-B739-6D0B0493CC80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Module.ExcelMediaValidator", "Modules\MediaValidators\Saturn72.Module.ExcelMediaValidator\Saturn72.Module.ExcelMediaValidator.csproj", "{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Extensions", "..\submodules\Saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj", "{B1BD613F-441F-42D2-B73D-5CF0057E7A23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Extensions.Data", "..\submodules\Saturn72.Extensions\src\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj", "{A7B3E883-359C-45EC-B925-623D55984AD9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Extensions.Net", "..\submodules\Saturn72.Extensions\src\Saturn72.Extensions.Net\Saturn72.Extensions.Net.csproj", "{2601A20B-162D-4CD0-B6E3-4A467F5106C9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C46BBEDF-1550-4829-BF4B-39DF555A1832}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\nuget.config = .nuget\nuget.config
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -248,18 +235,6 @@ Global
 		{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47146B36-CBD1-4E53-B476-7B3C5DF36D3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1BD613F-441F-42D2-B73D-5CF0057E7A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1BD613F-441F-42D2-B73D-5CF0057E7A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1BD613F-441F-42D2-B73D-5CF0057E7A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1BD613F-441F-42D2-B73D-5CF0057E7A23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7B3E883-359C-45EC-B925-623D55984AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7B3E883-359C-45EC-B925-623D55984AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7B3E883-359C-45EC-B925-623D55984AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7B3E883-359C-45EC-B925-623D55984AD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2601A20B-162D-4CD0-B6E3-4A467F5106C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2601A20B-162D-4CD0-B6E3-4A467F5106C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2601A20B-162D-4CD0-B6E3-4A467F5106C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2601A20B-162D-4CD0-B6E3-4A467F5106C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -308,8 +283,5 @@ Global
 		{390D3B1A-C0CE-4730-AC7A-8E803BD0CC1C} = {AB0201BC-9C43-4B4E-AE62-85D25708F51D}
 		{2A488C43-CE81-4BF2-B739-6D0B0493CC80} = {390D3B1A-C0CE-4730-AC7A-8E803BD0CC1C}
 		{47146B36-CBD1-4E53-B476-7B3C5DF36D3B} = {390D3B1A-C0CE-4730-AC7A-8E803BD0CC1C}
-		{B1BD613F-441F-42D2-B73D-5CF0057E7A23} = {A669EF14-1A6C-4B3C-8E98-5C7DB025EBEB}
-		{A7B3E883-359C-45EC-B925-623D55984AD9} = {A669EF14-1A6C-4B3C-8E98-5C7DB025EBEB}
-		{2601A20B-162D-4CD0-B6E3-4A467F5106C9} = {A669EF14-1A6C-4B3C-8E98-5C7DB025EBEB}
 	EndGlobalSection
 EndGlobal

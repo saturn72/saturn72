@@ -378,7 +378,7 @@ namespace Saturn72.Core.Services.Impl.Tests.User
 
             res.Count().ShouldBe(expected.Count());
             for (var i = 0; i < res.Count(); i++)
-                res.ElementAt(i).PropertyValuesAreEquals(expected.ElementAt(i));
+                res.ElementAt(i).PropertyValuesAreEquals(expected.ElementAt(i)));
         }
 
         #endregion
