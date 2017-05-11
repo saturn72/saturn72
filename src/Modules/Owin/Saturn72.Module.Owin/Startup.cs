@@ -24,6 +24,7 @@ using Saturn72.Extensions;
 using Saturn72.Module.Owin.Adapters;
 using Saturn72.Module.Owin.Middlewares;
 using Saturn72.Module.Owin.Providers;
+using Formatting = Newtonsoft.Json.Formatting;
 using ITraceWriter = System.Web.Http.Tracing.ITraceWriter;
 
 #endregion

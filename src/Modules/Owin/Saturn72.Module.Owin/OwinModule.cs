@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Owin;
-using Saturn72.Core;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Extensibility;
 using Saturn72.Extensions;
@@ -34,6 +33,11 @@ namespace Saturn72.Module.Owin
             Task.Run(() => StartWebServer(), _tokenSource.Token);
         }
 
+        public void Stop()
+        {
+            _tokenSource.Cancel();
+        }
+
         private void PublishUrlMessage()
         {
             var tmpColor = Console.ForegroundColor;
@@ -42,16 +46,11 @@ namespace Saturn72.Module.Owin
             Console.ForegroundColor = tmpColor;
         }
 
-        public void Stop()
-        {
-            _tokenSource.Cancel();
-        }
-
         private void StartWebServer()
         {
             Action<IAppBuilder> startupAction =
                 appBuilder => new Startup().Configure(appBuilder);
-            
+
             using (WebApp.Start(_baseUri, startupAction))
             {
                 Trace.WriteLine("web server started. uri: " + _baseUri);
