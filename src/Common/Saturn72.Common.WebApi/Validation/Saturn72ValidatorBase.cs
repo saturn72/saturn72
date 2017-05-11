@@ -14,7 +14,7 @@ namespace Saturn72.Common.WebApi.Validation
     {
         public virtual bool AllowNullObject { get; protected set; }
 
-        public override ValidationResult Validate(TModel instance)
+        public ValidationResult Validate(TModel instance)
         {
             return CheckIfNullObjectBeforeValidation(instance, () => base.Validate(instance));
         }
