@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -24,7 +25,6 @@ using Saturn72.Extensions;
 using Saturn72.Module.Owin.Adapters;
 using Saturn72.Module.Owin.Middlewares;
 using Saturn72.Module.Owin.Providers;
-using Formatting = Newtonsoft.Json.Formatting;
 using ITraceWriter = System.Web.Http.Tracing.ITraceWriter;
 
 #endregion
