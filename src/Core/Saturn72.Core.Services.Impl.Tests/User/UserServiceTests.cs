@@ -10,6 +10,7 @@ using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Impl.Security;
 using Saturn72.Core.Services.Impl.User;
 using Saturn72.Extensions;
+using Saturn72.TestUtil;
 using Shouldly;
 
 namespace Saturn72.Core.Services.Impl.Tests.User

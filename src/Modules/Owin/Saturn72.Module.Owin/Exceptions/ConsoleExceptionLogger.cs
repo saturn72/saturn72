@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Text;
 using System.Web.Http.ExceptionHandling;
-using Saturn72.Core;
 
 namespace Saturn72.Module.Owin.Exceptions
 {

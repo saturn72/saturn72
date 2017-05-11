@@ -35,9 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\submodules\Saturn72.ThirdParty\Newtonsoft.Json.9.0.1\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Saturn72.Extensions.1.2.0\lib\net462\Saturn72.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Saturn72.Extensions.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Saturn72.Extensions.Data.1.1.9\lib\net462\Saturn72.Extensions.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -150,16 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\submodules\Saturn72.Extensions\src\Saturn72.Extensions.Data\Saturn72.Extensions.Data.csproj">
-      <Project>{A7B3E883-359C-45EC-B925-623D55984AD9}</Project>
-      <Name>Saturn72.Extensions.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\submodules\Saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj">
-      <Project>{B1BD613F-441F-42D2-B73D-5CF0057E7A23}</Project>
-      <Name>Saturn72.Extensions</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
