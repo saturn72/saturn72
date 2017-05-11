@@ -67,14 +67,14 @@ namespace Saturn72.Core.Services.Impl.Tests
             var audit = new DummyFull_Browsable_Audit();
             aHelper.PrepareForCreateAudity(audit)
                 ;
-            audit.CreatedByUserId.ShouldEqual(userId);
-            audit.CreatedOnUtc.ShouldNotEqual(default(DateTime));
-            audit.CreatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
-            audit.CreatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
+            audit.CreatedByUserId.ShouldBe(userId);
+            audit.CreatedOnUtc.ShouldNotBe(default(DateTime));
+            audit.CreatedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
+            audit.CreatedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
 
-            audit.LastBrowsedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
-            audit.LastClientAppId.ShouldBeSmallerOrEqualTo(clientId);
-            audit.LastIpAddress.ShouldBeSmallerOrEqualTo(ipAddress);
+            audit.LastBrowsedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
+            audit.LastClientAppId.ShouldBeLessThanOrEqualTo(clientId);
+            audit.LastIpAddress.ShouldBeLessThanOrEqualTo(ipAddress);
 
         }
         #endregion Create
@@ -153,17 +153,17 @@ namespace Saturn72.Core.Services.Impl.Tests
             var aHelper = new AuditHelper(wc.Object);
             var audit = new DummyFull_Browsable_Audit();
             aHelper.PrepareForUpdateAudity(audit);
-            audit.CreatedByUserId.ShouldEqual(userId);
-            audit.CreatedOnUtc.ShouldNotEqual(default(DateTime));
-            audit.CreatedOnUtc.ShouldBeSmallerThan(DateTime.Now);
+            audit.CreatedByUserId.ShouldBe(userId);
+            audit.CreatedOnUtc.ShouldNotBe(default(DateTime));
+            audit.CreatedOnUtc.ShouldBeLessThan(DateTime.Now);
 
-            audit.UpdatedByUserId.ShouldEqual(userId);
-            audit.UpdatedOnUtc.ShouldBeGreaterOrEqualTo(audit.CreatedOnUtc);
-            audit.UpdatedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
+            audit.UpdatedByUserId.ShouldBe(userId);
+            (audit.UpdatedOnUtc>=audit.CreatedOnUtc).ShouldBeTrue();
+            (audit.UpdatedOnUtc<=DateTime.Now).ShouldBeTrue();
 
-            audit.LastBrowsedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
-            audit.LastClientAppId.ShouldEqual(clientId);
-            audit.LastIpAddress.ShouldEqual(ipAddress);
+            audit.LastBrowsedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
+            audit.LastClientAppId.ShouldBe(clientId);
+            audit.LastIpAddress.ShouldBe(ipAddress);
         }
 
 
@@ -267,26 +267,26 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit1.DeletedByUserId = 0;
             aHelper.PrepareForDeleteAudity(audit1);
 
-            audit1.DeletedByUserId.ShouldEqual(userId);
+            audit1.DeletedByUserId.ShouldBe(userId);
             audit1.DeletedOnUtc.ShouldNotBeNull();
-            audit1.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit1.DeletedOnUtc.Value.ShouldBeLessThan(DateTime.Now);
             audit1.Deleted.ShouldBeTrue();
-            audit1.LastBrowsedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
-            audit1.LastClientAppId.ShouldEqual(clientId);
-            audit1.LastIpAddress.ShouldEqual(ipAddress);
+            audit1.LastBrowsedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
+            audit1.LastClientAppId.ShouldBe(clientId);
+            audit1.LastIpAddress.ShouldBe(ipAddress);
 
             var audit2 = new DummyFull_Browsable_Audit();
             audit2.DeletedByUserId = -123;
             aHelper.PrepareForDeleteAudity(audit2);
 
-            audit2.DeletedByUserId.ShouldEqual(userId);
+            audit2.DeletedByUserId.ShouldBe(userId);
             audit2.DeletedOnUtc.ShouldNotBeNull();
-            audit2.DeletedOnUtc.Value.ShouldBeSmallerThan(DateTime.Now);
+            audit2.DeletedOnUtc.Value.ShouldBeLessThan(DateTime.Now);
             audit2.Deleted.ShouldBeTrue();
 
-            audit2.LastBrowsedOnUtc.ShouldBeSmallerOrEqualTo(DateTime.Now);
-            audit2.LastClientAppId.ShouldEqual(clientId);
-            audit2.LastIpAddress.ShouldEqual(ipAddress);
+            audit2.LastBrowsedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
+            audit2.LastClientAppId.ShouldBe(clientId);
+            audit2.LastIpAddress.ShouldBe(ipAddress);
         }
         #endregion
 
