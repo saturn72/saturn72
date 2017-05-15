@@ -34,15 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\EntityFramework.6.1.3\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\EntityFramework.6.1.3\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.HttpListener">
-      <HintPath>..\..\..\..\submodules\Saturn72.ThirdParty\Microsoft.Owin.Host.HttpListener.3.0.1\Microsoft.Owin.Host.HttpListener.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -85,6 +76,29 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>SET sourceDir=$(SolutionDir)..\..\submodules\saturn72\src\Modules\bin
+SET destDir=$(ProjectDir)$(OutputPath)Modules
+SET remDirCmd=rmDir %25destDir%25
+SET mkLinkCmd=mklink /J %25destDir%25  %25sourceDir%25
+ECHO Create symbolic link to modules binary directory
+ECHO Source directory: %25sourceDir%25
+ECHO Destination Directory :  %25destDir%25
+ECHO Delete local modules directory - running %25remDirCmd%25
+%25remDirCmd%25
+Echo Command: %25mkLinkCmd%25
+%25mkLinkCmd%25
+REM mklink /J Plugins "$(ProjectDir)Plugins"
+
+ECHO  mkLink command result code: %25errorlevel%25
+
+if %25errorlevel%25==1 (
+  ECHO WARNING - Failed to create smbolic link when running "%25command%25"
+
+  exit 0
+)
+exit %25errorlevel%25</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
