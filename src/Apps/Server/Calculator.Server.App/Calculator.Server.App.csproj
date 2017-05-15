@@ -77,7 +77,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET sourceDir=$(SolutionDir)..\..\submodules\saturn72\src\Modules\bin
+    <PostBuildEvent>SET sourceDir=$(SolutionDir)..\..\..\submodules\saturn72\src\Modules\bin
 SET destDir=$(ProjectDir)$(OutputPath)Modules
 SET remDirCmd=rmDir %25destDir%25
 SET mkLinkCmd=mklink /J %25destDir%25  %25sourceDir%25
