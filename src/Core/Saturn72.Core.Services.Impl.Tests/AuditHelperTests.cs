@@ -130,9 +130,8 @@ namespace Saturn72.Core.Services.Impl.Tests
 
             audit.UpdatedByUserId.ShouldBe(userId);
             audit.UpdatedOnUtc.HasValue.ShouldBeTrue();
-            audit.UpdatedOnUtc.Value.ShouldBeGreaterThanOrEqualTo(audit.CreatedOnUtc);
-            audit.UpdatedOnUtc.HasValue.ShouldBeTrue();
-            audit.UpdatedOnUtc.Value.ShouldBeLessThanOrEqualTo(DateTime.Now);
+            (audit.UpdatedOnUtc >= audit.CreatedOnUtc).ShouldBeTrue();
+            (audit.UpdatedOnUtc <= DateTime.Now).ShouldBeTrue();
 
         }
 
@@ -158,7 +157,8 @@ namespace Saturn72.Core.Services.Impl.Tests
             audit.CreatedOnUtc.ShouldBeLessThan(DateTime.Now);
 
             audit.UpdatedByUserId.ShouldBe(userId);
-            (audit.UpdatedOnUtc>=audit.CreatedOnUtc).ShouldBeTrue();
+            audit.UpdatedOnUtc.HasValue.ShouldBeTrue();
+            (audit.UpdatedOnUtc>= audit.CreatedOnUtc).ShouldBeTrue();
             (audit.UpdatedOnUtc<=DateTime.Now).ShouldBeTrue();
 
             audit.LastBrowsedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
