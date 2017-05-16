@@ -553,9 +553,6 @@ paket-files/
 .idea/
 *.sln.iml
 
-
-#Rhea/Titan exclusions
-!**/Titan.Adapters.NUnit/lib/*.dll
 *.dbmdl
 
 #db comparison
@@ -564,6 +561,7 @@ SchemaComparisons/
 #exclude patterns
 !**/*.Tests/Resources/*
 !**/*.Tests/Plugin*/**/ShouldBeLoaded.dll
+!**/*.Tests/Module*/**/ShouldBeLoaded.dll
 #modules libs
 !**/libs/**
 
