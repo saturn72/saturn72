@@ -17,7 +17,7 @@ namespace Saturn72.Core.Tests.Infrastructure
         [Test]
         public void LoadAppDomain_LoadsExternalAssemblies()
         {
-            var asm = FileSystemUtil.RelativePathToAbsolutePath("Modules\\ShouldBeLoaded.dll");
+            var asm = FileSystemUtil.RelativePathToAbsolutePath("Modules\\DummyModule\\ShouldBeLoaded.dll");
 
             var modulesDynamicLoadData = new DynamicLoadingData(
                 SystemDefaults.DefaultModulesRoot, SystemDefaults.DefaultModulesShadowCopyDirectory,
