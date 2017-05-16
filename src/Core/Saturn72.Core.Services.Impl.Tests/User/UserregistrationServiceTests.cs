@@ -1,7 +1,6 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Users;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Impl.User;
@@ -49,23 +48,27 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         [Test]
         public void UserRegistrationService_RegisterAsync_ValidRequestData()
         {
-            var uRepo= new Mock<IUserRepository>();
+            var uRepo = new Mock<IUserRepository>();
             var urv = new Mock<IUserRegistrationRequestValidator>();
             var ep = new Mock<IEventPublisher>();
             var ual = new Mock<IUserActivityLogService>();
             var ah = new Mock<AuditHelper>(null);
             var us = new Mock<UserSettings>();
-
-            var urs = new UserRegistrationService(uRepo.Object, null, us.Object, urv.Object,ep.Object, null, ual.Object, ah.Object, null);
+            var wc = new Mock<IWorkContext>();
+            wc.Setup(s => s.ClientId).Returns("clientId");
+            wc.Setup(s => s.CurrentUserIpAddress).Returns("CurrentUserIpAddress");
+            var urs = new UserRegistrationService(uRepo.Object, null, us.Object, urv.Object, ep.Object, null,
+                ual.Object, ah.Object, wc.Object);
             var req = new UserRegistrationRequest("un", "eml", "pw", PasswordFormat.Clear, "clientIp");
 
             var res = urs.RegisterAsync(req).Result;
             res.Success.ShouldBeTrue();
             res.Errors.Count.ShouldBe(0);
 
-            ah.Verify(a=>a.PrepareForCreateAudity(It.IsAny<UserModel>()),Times.Once);
-            uRepo.Verify(a=>a.Create(It.IsAny<UserModel>()),Times.Once);
-            ual.Verify(a=>a.AddUserActivityLogAsync(UserActivityType.UserRegistered, It.IsAny<UserModel>()),Times.Once);
+            ah.Verify(a => a.PrepareForCreateAudity(It.IsAny<UserModel>()), Times.Once);
+            uRepo.Verify(a => a.Create(It.IsAny<UserModel>()), Times.Once);
+            ual.Verify(a => a.AddUserActivityLogAsync(UserActivityType.UserRegistered, It.IsAny<UserModel>()),
+                Times.Once);
             ep.Verify(e => e.Publish(It.IsAny<CreatedEvent<UserModel>>()), Times.Once);
         }
     }
