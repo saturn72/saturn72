@@ -23,8 +23,9 @@ namespace Saturn72.Core.Services.Impl.Tests.User
         public void UserActivityLogService_CreateUserActivityLogAsync_AddUserActivityLog()
         {
             var ualRepo = new Mock<IUserActivityLogRepository>();
+            const int actLogId = 123;
             ualRepo.Setup(u => u.AddUserActivityLog(It.IsAny<UserActivityLogModel>()))
-                .Callback<UserActivityLogModel>(c => c.Id = 123);
+                .Callback<UserActivityLogModel>(c => c.Id = actLogId);
             var wc = new Mock<IWorkContext>();
             var clientid = "clientId";
             var ipaddress = "ipaddress";
@@ -32,16 +33,17 @@ namespace Saturn72.Core.Services.Impl.Tests.User
                .Returns(ipaddress);
 
             var srv = new UserActivityLogService(ualRepo.Object);
+            const int userId = 100;
             var user = new UserModel
             {
-                Id = 100,
+                Id = userId,
                 UserGuid = new Guid("EA57D1C7-4575-4961-8A0C-7085E562B4A7"),
                 LastClientAppId = clientid,
                 LastIpAddress = ipaddress
             };
 
             srv.AddUserActivityLogAsync(UserActivityType.UserLoggedIn, user).Wait();
-            user.Id.ShouldBe(123);
+            ualRepo.Verify(u => u.AddUserActivityLog(It.Is<UserActivityLogModel>(ualm => ualm.Id == actLogId)),  Times.Once());
         }
     }
 }
