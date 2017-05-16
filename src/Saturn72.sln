@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Module.ExcelMediaV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.TestUtil", "Tests\Saturn72.TestUtil\Saturn72.TestUtil.csproj", "{2B165EC0-BF20-4B7D-9EF6-00EC9A4175FC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_BUILD", "_BUILD", "{926FDFB4-ACA1-4695-869E-C0F7D698AE5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
