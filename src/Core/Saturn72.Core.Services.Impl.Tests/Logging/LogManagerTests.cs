@@ -22,7 +22,6 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
             lm.SupportedLogLevels.ShouldContain(LogLevel.Error);
             lm.SupportedLogLevels.ShouldContain(LogLevel.Information);
             lm.SupportedLogLevels.ShouldContain(LogLevel.Fatal);
-
         }
 
         [Test]

@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Shouldly;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Infrastructure.DependencyManagement;
 using Saturn72.Core.Tasks;
-using Saturn72.Core.Tests.TestObjects;
+using Shouldly;
 
 #endregion
 
@@ -22,7 +21,7 @@ namespace Saturn72.Core.Tests.Infrastructure
         internal static ICollection<int> StartupTaskIndexes = new List<int>();
 
         [Test]
-        public void RegisterDependencies()
+        public void EngineDriver_RegisterDependencies()
         {
             DependencyIndexes.Clear();
             var config = Saturn72Config.GetConfiguration();
@@ -35,7 +34,7 @@ namespace Saturn72.Core.Tests.Infrastructure
         }
 
         [Test]
-        public void RunStartupTasks()
+        public void EngineDriver_RunStartupTasks()
         {
             StartupTaskIndexes.Clear();
 
@@ -50,10 +49,7 @@ namespace Saturn72.Core.Tests.Infrastructure
 
         internal class TestDependencyRegistrar1 : IDependencyRegistrar
         {
-            public int RegistrationOrder
-            {
-                get { return 1; }
-            }
+            public int RegistrationOrder => 1;
 
             public Action<IIocRegistrator> RegistrationLogic(ITypeFinder typeFinder, Saturn72Config config)
             {
@@ -63,10 +59,7 @@ namespace Saturn72.Core.Tests.Infrastructure
 
         public class TestDependencyRegistrar2 : IDependencyRegistrar
         {
-            public int RegistrationOrder
-            {
-                get { return 2; }
-            }
+            public int RegistrationOrder => 2;
 
             public Action<IIocRegistrator> RegistrationLogic(ITypeFinder typeFinder, Saturn72Config config)
             {
@@ -83,10 +76,7 @@ namespace Saturn72.Core.Tests.Infrastructure
                 StartupTaskIndexes.Add(ExecutionIndex);
             }
 
-            public int ExecutionIndex
-            {
-                get { return 1; }
-            }
+            public int ExecutionIndex => 1;
         }
 
         public class TestStartupTask2 : IStartupTask
@@ -97,10 +87,7 @@ namespace Saturn72.Core.Tests.Infrastructure
                 StartupTaskIndexes.Add(ExecutionIndex);
             }
 
-            public int ExecutionIndex
-            {
-                get { return 2; }
-            }
+            public int ExecutionIndex => 2;
         }
     }
 }

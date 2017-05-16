@@ -10,29 +10,12 @@ namespace Saturn72.Core.Tests.TestObjects
 {
     public class DummyIocContainerManager : IIocContainerManager
     {
+        private readonly IDictionary<Type, ICollection<Func<object>>> _registrations =
+            new Dictionary<Type, ICollection<Func<object>>>();
+
         public int RegisterCounter { get; set; }
 
-        public TService Resolve<TService>(object key = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public object Resolve(Type type, object key = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TService[] ResolveAll<TService>(object key = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T ResolveUnregistered<T>() where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ResolveUnregistered(Type type)
         {
             throw new NotImplementedException();
         }
@@ -41,7 +24,12 @@ namespace Saturn72.Core.Tests.TestObjects
         public IocRegistrationRecord RegisterInstance<TService>(TService implementer, object key = null,
             Type[] interceptorTypes = null) where TService : class
         {
-            throw new NotImplementedException();
+            var serviceType = typeof(TService);
+            if (!_registrations.ContainsKey(typeof(TService)))
+                _registrations[serviceType] = new List<Func<object>>();
+
+            _registrations[serviceType].Add(() => implementer);
+            return new IocRegistrationRecord();
         }
 
         public IocRegistrationRecord RegisterType<TServiceImpl, TService>(LifeCycle lifecycle, object key = null,
@@ -95,13 +83,34 @@ namespace Saturn72.Core.Tests.TestObjects
             throw new NotImplementedException();
         }
 
-        public IocRegistrationRecord RegisterGeneric(Type implementerType, Type serviceType, LifeCycle lifeCycle, object key = null,
+        public IocRegistrationRecord RegisterGeneric(Type implementerType, Type serviceType, LifeCycle lifeCycle,
+            object key = null,
             Type[] interceptorTypes = null)
         {
             throw new NotImplementedException();
         }
 
         public void ExecuteInNewScope(Action action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TService Resolve<TService>(object key = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TService[] ResolveAll<TService>(object key = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T ResolveUnregistered<T>() where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public object ResolveUnregistered(Type type)
         {
             throw new NotImplementedException();
         }
