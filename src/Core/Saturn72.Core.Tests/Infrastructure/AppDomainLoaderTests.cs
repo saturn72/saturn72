@@ -40,7 +40,7 @@ namespace Saturn72.Core.Tests.Infrastructure
         }
 
         [Test]
-        [Category("non_deterministic")]
+        //[Category("non_deterministic")]
         public void LoadAppDomain_LoadsModulesToAppDomain()
         {
             var moduleRoot = FileSystemUtil.RelativePathToAbsolutePath("Modules");

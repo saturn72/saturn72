@@ -38,7 +38,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Tasks
         [Test]
         [Ignore("failed test")]
         [NUnit.Framework.Category("ignored")]
-        public void Executes_Throws()
+        public void BackgroundTask_Executes_Throws()
         {
             //no event publishing here since tha task was not start execution
             var task1 = new NotImplementedStartInfoBgTask();
