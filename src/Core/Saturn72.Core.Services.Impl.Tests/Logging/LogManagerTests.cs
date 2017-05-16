@@ -15,77 +15,83 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
         [Test]
         public void LogManager_LoadsAllLogLevels()
         {
-            var logger1 = new Mock<ILogger>();
-            logger1.Setup(l => l.IsEnabled(It.IsAny<LogLevel>()))
-                .Returns<LogLevel>(ll => ll == LogLevel.Debug || ll == LogLevel.Error || ll == LogLevel.Information);
-            var logger2 = new Mock<ILogger>();
+            var loggers = new ILogger[] { new DummyLogger1(), new DummyLogger2() };
+            var lm = new LogManager(loggers);
+            lm.SupportedLogLevels.Length.ShouldBe(4);
+            lm.SupportedLogLevels.ShouldContain(LogLevel.Debug);
+            lm.SupportedLogLevels.ShouldContain(LogLevel.Error);
+            lm.SupportedLogLevels.ShouldContain(LogLevel.Information);
+            lm.SupportedLogLevels.ShouldContain(LogLevel.Fatal);
+
         }
 
         [Test]
         public void LogManager_LoadsAllLoggersInAppDomain()
         {
-            var logManager = new LogManager();
-            logManager.AllLoggers.Count().ShouldBe(2);
-            logManager.AllLoggers.ElementAt(0).ShouldNotBeNull();
-            logManager.AllLoggers.ElementAt(1).ShouldNotBeNull();
+            var loggers = new ILogger[] {new DummyLogger1(), new DummyLogger2()};
+            var allLoggers = new LogManager(loggers).AllLoggers;
+            allLoggers.Count().ShouldBe(2);
+            allLoggers.ElementAt(0).ShouldNotBeNull();
+            allLoggers.ElementAt(1).ShouldNotBeNull();
 
         }
+    }
 
-        internal class DummyLogger1:ILogger
+    public class DummyLogger1 : ILogger
+    {
+        public LogLevel[] SupportedLogLevels => new[]
         {
-            public LogLevel[] SupportedLogLevels => new[]
-            {
-                LogLevel.Debug, LogLevel.Error, LogLevel.Information
-            };
+            LogLevel.Debug, LogLevel.Error, LogLevel.Information
+        };
 
-            public void DeleteLogRecord(LogRecordModel logRecord)
-            {
-                throw new NotImplementedException();
-            }
-
-            public IEnumerable<LogRecordModel> GetAllLogRecords()
-            {
-                throw new NotImplementedException();
-            }
-
-            public LogRecordModel GetLogById(long logRecordId)
-            {
-                throw new NotImplementedException();
-            }
-
-            public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
-                Guid contextId = new Guid())
-            {
-                throw new NotImplementedException();
-            }
+        public void DeleteLogRecord(LogRecordModel logRecord)
+        {
+            throw new NotImplementedException();
         }
-        internal class DummyLogger2 : ILogger
+
+        public IEnumerable<LogRecordModel> GetAllLogRecords()
         {
-            public LogLevel[] SupportedLogLevels => new[]
-            {
-                LogLevel.Debug ,LogLevel.Error ,LogLevel.Information,LogLevel.Fatal
-            };
+            throw new NotImplementedException();
+        }
 
-            public void DeleteLogRecord(LogRecordModel logRecord)
-            {
-                throw new NotImplementedException();
-            }
+        public LogRecordModel GetLogById(long logRecordId)
+        {
+            throw new NotImplementedException();
+        }
 
-            public IEnumerable<LogRecordModel> GetAllLogRecords()
-            {
-                throw new NotImplementedException();
-            }
+        public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+            Guid contextId = new Guid())
+        {
+            throw new NotImplementedException();
+        }
+    }
 
-            public LogRecordModel GetLogById(long logRecordId)
-            {
-                throw new NotImplementedException();
-            }
+    public class DummyLogger2 : ILogger
+    {
+        public LogLevel[] SupportedLogLevels => new[]
+        {
+            LogLevel.Debug, LogLevel.Error, LogLevel.Information, LogLevel.Fatal
+        };
 
-            public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
-                Guid contextId = new Guid())
-            {
-                throw new NotImplementedException();
-            }
+        public void DeleteLogRecord(LogRecordModel logRecord)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<LogRecordModel> GetAllLogRecords()
+        {
+            throw new NotImplementedException();
+        }
+
+        public LogRecordModel GetLogById(long logRecordId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LogRecordModel InsertLog(LogLevel logLevel, string shortMessage, string fullMessage = "",
+            Guid contextId = new Guid())
+        {
+            throw new NotImplementedException();
         }
     }
 }

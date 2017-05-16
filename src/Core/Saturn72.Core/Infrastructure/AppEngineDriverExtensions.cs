@@ -16,8 +16,6 @@ namespace Saturn72.Core.Infrastructure
             return appDriver.IocContainerManager.ResolveAll<TService>();
         }
 
-
-
         public static TService TryResolve<TService>(this IAppEngineDriver appDriver, Type type) where TService : class
         {
             return appDriver.IocContainerManager.TryResolve<TService>(type);
