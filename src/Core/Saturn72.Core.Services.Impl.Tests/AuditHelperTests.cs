@@ -126,12 +126,14 @@ namespace Saturn72.Core.Services.Impl.Tests
             aHelper.PrepareForUpdateAudity(audit);
             audit.CreatedByUserId.ShouldBe(userId);
             audit.CreatedOnUtc.ShouldNotBe(default(DateTime));
+            Thread.Sleep(5);
             audit.CreatedOnUtc.ShouldBeLessThan(DateTime.Now);
 
             audit.UpdatedByUserId.ShouldBe(userId);
             audit.UpdatedOnUtc.HasValue.ShouldBeTrue();
-            (audit.UpdatedOnUtc.Value >= audit.CreatedOnUtc).ShouldBeTrue();
-            (audit.UpdatedOnUtc.Value <= DateTime.Now).ShouldBeTrue();
+            audit.UpdatedOnUtc.Value.ShouldBeGreaterThanOrEqualTo(audit.CreatedOnUtc);
+            audit.UpdatedOnUtc.HasValue.ShouldBeTrue();
+            audit.UpdatedOnUtc.Value.ShouldBeLessThanOrEqualTo(DateTime.Now);
 
         }
 
@@ -154,12 +156,12 @@ namespace Saturn72.Core.Services.Impl.Tests
             aHelper.PrepareForUpdateAudity(audit);
             audit.CreatedByUserId.ShouldBe(userId);
             audit.CreatedOnUtc.ShouldNotBe(default(DateTime));
+            Thread.Sleep(5);
             audit.CreatedOnUtc.ShouldBeLessThan(DateTime.Now);
 
             audit.UpdatedByUserId.ShouldBe(userId);
-            audit.UpdatedOnUtc.HasValue.ShouldBeTrue();
-            (audit.UpdatedOnUtc.Value>= audit.CreatedOnUtc).ShouldBeTrue();
-            (audit.UpdatedOnUtc.Value<=DateTime.Now).ShouldBeTrue();
+            (audit.UpdatedOnUtc>=audit.CreatedOnUtc).ShouldBeTrue();
+            (audit.UpdatedOnUtc<=DateTime.Now).ShouldBeTrue();
 
             audit.LastBrowsedOnUtc.ShouldBeLessThanOrEqualTo(DateTime.Now);
             audit.LastClientAppId.ShouldBe(clientId);
