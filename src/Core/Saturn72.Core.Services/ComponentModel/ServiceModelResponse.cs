@@ -7,7 +7,7 @@ namespace Saturn72.Core.Services.ComponentModel
     {
         public override bool HasErrors
         {
-            get { return base.HasErrors ||  Model == null; }
+            get { return base.HasErrors || Model == null; }
             set { base.HasErrors = value; }
         }
 

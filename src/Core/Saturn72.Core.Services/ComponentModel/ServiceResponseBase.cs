@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.ComponentModel
 {
     public abstract class ServiceResponseBase
     {
+        private bool _authorized = true;
         private IEnumerable<string> _errorMessages;
         private bool _hasErrors;
-        private bool _authorized = true;
 
         public virtual bool HasErrors
         {
@@ -35,7 +34,7 @@ namespace Saturn72.Core.Services.ComponentModel
 
         public void AddErrorMessage(string errorMessage)
         {
-            ((ICollection<string>)ErrorMessages).Add(errorMessage);
+            ((ICollection<string>) ErrorMessages).Add(errorMessage);
         }
     }
 }
