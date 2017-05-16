@@ -19,6 +19,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
 {
     public class SettingServiceTests
     {
+        private const string SettingsPatternKey = "Saturn72.setting.";
+
         [Test]
         public void SettingService_SavesSettings_throwsOnNull()
         {
@@ -43,6 +45,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             var settingList = new List<SettingEntryModel>();
 
             var cacheManager = new Mock<ICacheManager>();
+            cacheManager.Setup(c => c.Keys).Returns(new[] {SettingsPatternKey});
             var ePublisher = new Mock<IEventPublisher>();
 
             var repo = new Mock<ISettingEntryRepository>();
@@ -74,7 +77,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             settingList.ElementAt(2).Value.ShouldBe(string.Empty);
 
             //flow assertion
-            cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
+            cacheManager.Verify(c => c.Remove(It.IsAny<string>()), Times.Once);
             ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryModel>>()), Times.Exactly(3));
         }
 
@@ -90,6 +93,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             var settingList = new List<SettingEntryModel>();
 
             var cacheManager = new Mock<ICacheManager>();
+            cacheManager.Setup(cm => cm.Keys).Returns(new[] {SettingsPatternKey});
+
             var ePublisher = new Mock<IEventPublisher>();
 
             var repo = new Mock<ISettingEntryRepository>();
@@ -125,7 +130,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Configuration
             settingList.ElementAt(2).Value.ShouldBe(string.Empty);
 
             //flow assertion
-            cacheManager.Verify(c => c.RemoveByPattern(It.IsAny<string>()));
+            cacheManager.Verify(c => c.Remove(It.IsAny<string>()));
             ePublisher.Verify(e => e.Publish(It.IsAny<CreatedEvent<SettingEntryModel>>()), Times.Exactly(3));
             ePublisher.Verify(e => e.Publish(It.IsAny<UpdatedEvent<SettingEntryModel>>()),Times.Exactly(3));
         }
