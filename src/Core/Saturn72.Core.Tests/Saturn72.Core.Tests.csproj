@@ -110,7 +110,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\ShouldBeLoaded.dll">
+    <Content Include="Modules\DummyModule\ShouldBeLoaded.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config\ConfigMap1.xml">

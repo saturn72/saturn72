@@ -13,6 +13,7 @@ namespace Saturn72.Core.Tests.Configuration
     public class Saturn72ConfigTests
     {
         [Test]
+        [Category("non_deterministic")]
         public void GetConfiguration_GetDefaultConfig()
         {
             var tmp = AppDomain.CurrentDomain.GetData("APP_CONFIG_FILE").ToString();
@@ -29,8 +30,7 @@ namespace Saturn72.Core.Tests.Configuration
         }
 
         [Test]
-        [Ignore("non-deterministic test")]
-        [Category("ignored")]
+        [Category("non_deterministic")]
         public void GetConfiguration_ShouldReturnConfigSectionValues()
         {
             var tmp = AppDomain.CurrentDomain.GetData("APP_CONFIG_FILE").ToString();

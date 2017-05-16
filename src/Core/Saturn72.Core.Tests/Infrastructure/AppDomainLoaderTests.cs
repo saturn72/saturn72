@@ -40,12 +40,11 @@ namespace Saturn72.Core.Tests.Infrastructure
         }
 
         [Test]
-        [Ignore("Non deterministic test. To get true result it must run in new ApDomain.")]
-        [Category("ignored")]
+        [Category("non_deterministic")]
         public void LoadAppDomain_LoadsModulesToAppDomain()
         {
-            var moduleRoot = FileSystemUtil.RelativePathToAbsolutePath("Assemblies");
-            var shadowCopyDirectory = FileSystemUtil.RelativePathToAbsolutePath(@"Assemblies\bin");
+            var moduleRoot = FileSystemUtil.RelativePathToAbsolutePath("Modules");
+            var shadowCopyDirectory = FileSystemUtil.RelativePathToAbsolutePath(@"Modules\bin");
 
             var modulesDynamicLoadData = new DynamicLoadingData(moduleRoot, shadowCopyDirectory, true);
             var pluginsDynamicLoadData = new DynamicLoadingData(
