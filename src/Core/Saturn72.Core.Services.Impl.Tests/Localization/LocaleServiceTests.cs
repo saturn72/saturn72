@@ -78,7 +78,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
         public void LocaleService_GetResource_ReturnsNullOrEmptyOrDefaultValue_OnNotFoundResourceKey()
         {
             var _logger = new Mock<ILogger>();
-            _logger.Setup(l => l.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+            _logger.Setup(l => l.SupportedLogLevels).Returns(LogLevel.AllSystemLogLevels.ToArray());
             var loggerInsertions = 0;
 
             var _cacheManager = BuildCacheManagerMock();
@@ -136,15 +136,6 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
             }
         }
 
-        [Test]
-        public void LocaleService_GetsLocaleResourceUsingCallerMethod()
-        {
-            var srv = new TestLocaleService(null, null, null);
-            var resourceKeySuffix = "Suffix";
-            var expected = "{0}.{1}.{2}".AsFormat(GetType().FullName,
-                "LocaleService_GetsLocaleResourceUsingCallerMethod", resourceKeySuffix);
-            srv.GetLocaleResourceByCallerMethod(resourceKeySuffix).ShouldBe(expected);
-        }
     }
 
     public class TestLocaleService : LocaleService

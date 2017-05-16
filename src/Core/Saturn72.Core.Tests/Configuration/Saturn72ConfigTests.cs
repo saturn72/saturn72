@@ -3,8 +3,8 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Shouldly;
 using Saturn72.Core.Configuration;
+using Shouldly;
 
 #endregion
 
@@ -23,7 +23,7 @@ namespace Saturn72.Core.Tests.Configuration
             actual.ConfigLoader.ShouldBe("Saturn72.Core.Configuration.XmlConfigLoader, Saturn72.Core");
             actual.ConfigLoaderData.ShouldBeNull();
             actual.ContainerManager.ShouldBe(
-                    "Saturn72.Module.Ioc.Autofac.AutofacIocContainerManager, Saturn72.Module.Ioc.Autofac");
+                "Saturn72.Module.Ioc.Autofac.AutofacIocContainerManager, Saturn72.Module.Ioc.Autofac");
             actual.EngineDriver.ShouldBe("Saturn72.Core.Infrastructure.AppEngineDriver, Saturn72.Core");
             SetAppConfig(tmp);
         }

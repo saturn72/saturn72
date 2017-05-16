@@ -11,17 +11,5 @@ namespace Saturn72.Core.Services.Localization
             //get language ID from user context/defaults
             return localeService.GetLocaleResource(resourceKey, languageId);
         }
-
-        private const string LocaleResourceFormat = "{0}.{1}.{2}";
-        public static string GetLocaleResourceByCallerMethod(this ILocaleService localeService, string resourceKeySuffix)
-        {
-            throw new NotImplementedException();
-            //var method = localeService.GetStackTraceFrame(2).GetMethod();
-            //var resourceKey  = LocaleResourceFormat.AsFormat(method.DeclaringType.FullName,
-            //  method.Name, resourceKeySuffix);
-
-            //var languageId = 0;
-            //return localeService.GetLocaleResource(resourceKey, languageId);
-        }
     }
 }
