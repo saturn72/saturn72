@@ -27,7 +27,7 @@ namespace Saturn72.Core.Tests.Configuration
 
         private IDictionary<string, string> GetLoadDataDictionary(string configPath)
         {
-            return new Dictionary<string, string> {{"FilePath", configPath}};
+            return new Dictionary<string, string> {{ "ConfigRootPath", configPath}};
         }
 
         [Test]

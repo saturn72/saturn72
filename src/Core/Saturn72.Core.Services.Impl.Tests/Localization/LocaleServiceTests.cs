@@ -32,8 +32,8 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
         private static ICacheManager BuildCacheManagerMock()
         {
             var cm = new Mock<ICacheManager>();
-            cm.Setup(c => c.IsSet(It.IsAny<string>()))
-                .Returns(false);
+            cm.Setup(c => c.Keys)
+                .Returns(new string[] {});
 
             cm.Setup(c => c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<int>()))
                 .Callback((string key, object o, int i) => _cachedObjects[key] = o);
@@ -75,7 +75,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
         }
 
         [Test]
-        public void GetResource_ReturnsNullOrEmptyOrDefaultValue_OnNotFoundResourceKey()
+        public void LocaleService_GetResource_ReturnsNullOrEmptyOrDefaultValue_OnNotFoundResourceKey()
         {
             var _logger = new Mock<ILogger>();
             _logger.Setup(l => l.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
@@ -115,7 +115,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Localization
         }
 
         [Test]
-        public void GetResource_GetAllLocaleResources_CacheLocaleresources()
+        public void LocaleService_GetResource_GetAllLocaleResources_CacheLocaleresources()
         {
             var cacheManager = BuildCacheManagerMock();
             var repo = BuildLocaleResourceRepositoryMock();

@@ -14,8 +14,7 @@ namespace Saturn72.Core.Services.Impl.Localization
         private readonly ILocaleResourceRespository _localeResourceRespository;
         private readonly ILogger _logger;
 
-        public LocaleService(ILocaleResourceRespository localeResourceRespository, ICacheManager cacheManager,
-            ILogger logger)
+        public LocaleService(ILocaleResourceRespository localeResourceRespository, ICacheManager cacheManager, ILogger logger)
         {
             _localeResourceRespository = localeResourceRespository;
             _cacheManager = cacheManager;

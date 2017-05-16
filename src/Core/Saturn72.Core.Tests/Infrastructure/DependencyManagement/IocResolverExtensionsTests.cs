@@ -49,12 +49,12 @@ namespace Saturn72.Core.Tests.Infrastructure.DependencyManagement
                 .Returns(new DummyService(null));
 
             //Not Registered
-            resolver.Object.TryResolve<IDummyService>(typeof(IDummyService)).GetType().ShouldBeOfType<DummyService>();
+            resolver.Object.TryResolve<IDummyService>(typeof(IDummyService)).GetType().ShouldBe(typeof(DummyService));
 
             IDummyService service;
             resolver.Object.TryResolve(typeof(IDummyService), out service).ShouldBeTrue();
             service.ShouldNotBeNull();
-            service.GetType().ShouldBeOfType<DummyService>();
+            service.GetType().ShouldBe(typeof(DummyService));
         }
 
         [Test]

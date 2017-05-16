@@ -38,10 +38,10 @@ namespace Saturn72.Core.Tests
         }
 
         [Test]
-        public void TryGetTypeFromAppComain_ReturnsaType()
+        public void TryGetTypeFromAppComain_ReturnsType()
         {
-            CommonHelper.TryGetTypeFromAppDomain("string").ShouldBeOfType<string>();
-            CommonHelper.TryGetTypeFromAppDomain("System.String, mscorlib").ShouldBeOfType<string>();
+            CommonHelper.TryGetTypeFromAppDomain("string").ShouldBe(typeof(string));
+            CommonHelper.TryGetTypeFromAppDomain("System.String, mscorlib").ShouldBe(typeof(string));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace Saturn72.Core.Tests
         {
             var typeName = "Saturn72.Core.Tests.TestObjects.TestObject, Saturn72.Core.Tests";
             var t = CommonHelper.GetTypeFromAppDomain(typeName);
-            t.ShouldBeOfType<TestObject>();
+            t.ShouldBe(typeof(TestObject));
         }
 
         [Test]
@@ -94,8 +94,9 @@ namespace Saturn72.Core.Tests
         [Test]
         public void GetTypeFromAppDomain_FromTypeAndAssemblyNames_GetsType()
         {
-            CommonHelper.GetTypeFromAppDomain("Saturn72.Core.Tests.TestObjects.TestObject", "Saturn72.Core.Tests")
-                .ShouldBeOfType<TestObject>();
+            var typeFromAppDomain = CommonHelper.GetTypeFromAppDomain("Saturn72.Core.Tests.TestObjects.TestObject", "Saturn72.Core.Tests");
+
+            typeFromAppDomain.ShouldBe(typeof(TestObject));
         }
 
         [Test]

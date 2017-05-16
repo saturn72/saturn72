@@ -27,8 +27,8 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService1>();
-            regRecord.ImplementedType.ShouldBeOfType<TestService>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService1));
+            regRecord.ImplementedType.ShouldBe(typeof(TestService));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Constractor);
 
             //Now keyed
@@ -37,8 +37,8 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService2>();
-            regRecord.ImplementedType.ShouldBeOfType<TestService2>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService2));
+            regRecord.ImplementedType.ShouldBe(typeof(TestService2));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Constractor);
             regRecord.Keys.Count().ShouldBe(1);
             regRecord.Keys.First().ShouldBe(key);
@@ -49,8 +49,8 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService1>();
-            regRecord.ImplementedType.ShouldBeOfType<TestService>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService1));
+            regRecord.ImplementedType.ShouldBe(typeof(TestService));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Constractor);
 
             //keyed
@@ -58,8 +58,8 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService1>();
-            regRecord.ImplementedType.ShouldBeOfType<TestService>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService1));
+            regRecord.ImplementedType.ShouldBe(typeof(TestService));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Constractor);
             regRecord.Keys.Count().ShouldBe(1);
             regRecord.Keys.First().ShouldBe(key);
@@ -69,18 +69,18 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord = cm.RegisterInstance<ITestService3>(srv3);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService3>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService3));
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
-            regRecord.ImplementedType.ShouldBeOfType<TestService3>();
+            regRecord.ImplementedType.ShouldBe(typeof(TestService3));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Instance);
 
             //keyed
             regRecord = cm.RegisterInstance<ITestService3>(srv3, key);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService3>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService3));
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
-            regRecord.ImplementedType.ShouldBeOfType<TestService3>();
+            regRecord.ImplementedType.ShouldBe(typeof(TestService3));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Instance);
             regRecord.Keys.Count().ShouldBe(1);
             regRecord.Keys.First().ShouldBe(key);
@@ -89,18 +89,18 @@ namespace Saturn72.Module.Ioc.Autofac.Tests
             regRecord = cm.Register<ITestService3>(() => new TestService3(), LifeCycle.PerLifetime);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService3>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService3));
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
-            regRecord.ImplementedType.ShouldBeOfType<ITestService3>();
+            regRecord.ImplementedType.ShouldBe(typeof(ITestService3));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Delegate);
 
             //Keyed
             regRecord = cm.Register<ITestService3>(() => new TestService3(), LifeCycle.PerLifetime, key);
             regRecord.Metadata.ShouldNotBeNull();
             regRecord.ServiceTypes.Count().ShouldBe(1);
-            regRecord.ServiceTypes.First().ShouldBeOfType<ITestService3>();
+            regRecord.ServiceTypes.First().ShouldBe(typeof(ITestService3));
             regRecord.RegistrationId.ShouldNotBe(Guid.Empty.ToString());
-            regRecord.ImplementedType.ShouldBeOfType<ITestService3>();
+            regRecord.ImplementedType.ShouldBe(typeof(ITestService3));
             regRecord.ActivatorType.ShouldBe(ActivatorType.Delegate);
             regRecord.Keys.Count().ShouldBe(1);
             regRecord.Keys.First().ShouldBe(key);
