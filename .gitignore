@@ -560,8 +560,8 @@ SchemaComparisons/
 
 #exclude patterns
 !**/*.Tests/Resources/*
-!**/*.Tests/Plugin*/**/ShouldBeLoaded.dll
-!**/*.Tests/Module*/**/ShouldBeLoaded.dll
+!**/*.Tests/Plugin*/**/*.dll
+!**/*.Tests/Module*/**/*.dll
 #modules libs
 !**/libs/**
 
