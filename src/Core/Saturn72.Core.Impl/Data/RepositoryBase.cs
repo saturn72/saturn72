@@ -3,14 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Saturn72.Core.Data;
 using Saturn72.Core.Domain;
 using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Common.Data
+namespace Saturn72.Core.Services.Impl.Data
 {
     public abstract class RepositoryBase<TDomainModel, TEntity>
         : IRepository<TDomainModel>
