@@ -84,6 +84,9 @@
     <None Include="InstalledPluginFiles\2Plugins-BothSuspended.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="InstalledPluginFiles\ShouldThrowOnDuplicateLoadRequest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="InstalledPluginFiles\SingleSuspendedPlugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -228,7 +228,6 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 throw fail;
             }
         }
-
         private static IEnumerable<PluginDescriptor> GetInstalledAndSuspendedPluginsSystemNames(string pluginConfigFile)
         {
             var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(pluginConfigFile);
@@ -242,6 +241,15 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             }
             result.ForEachItem(s => s.TypeFullName = RemoveDuplicateWhiteSpaces(s.TypeFullName));
 
+            var multipleEntries = result
+                .GroupBy(pd => pd.TypeFullName.ToLower())
+                .Where(c => c.Count() > 1);
+
+            if (multipleEntries.Any())
+            {
+                var dupEntries = string.Join("; ",multipleEntries.Select(i=>i.Key));
+                throw new InvalidOperationException("{0} contains multiple entries for the same plugin. Duplicate plugin types: {1}".AsFormat(pluginConfigFile, dupEntries));
+            }
             return result;
         }
 
@@ -273,10 +281,10 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 "A plugin '{0}' has no system name. Try assigning the plugin a unique name and recompiling.".AsFormat(
                     pluginDescriptor));
 
-            Func<bool> mustCondition = () => !referencedPlugins.Any(
+            Func<bool> pluginWasNotLoadedCondition = () => !referencedPlugins.Any(
                 pd => pd.TypeFullName.Equals(typeFullName, StringComparison.InvariantCultureIgnoreCase));
 
-            Guard.MustFollow(mustCondition,
+            Guard.MustFollow(pluginWasNotLoadedCondition,
                 "A plugin with '{0}' system name is already defined".AsFormat(typeFullName));
         }
 
