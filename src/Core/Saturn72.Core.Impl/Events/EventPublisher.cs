@@ -36,19 +36,20 @@ namespace Saturn72.Core.Services.Impl.Events
             //Async subscribers
             //NOTE: IIS might "fold" the applicaiton pool when threads are in middle of execution
             var asyncSubscribers = _subscriptionService.GetAsyncSubscriptions<TEvent>();
-            var filteredSubscribers = RemoveNotInstalledPlugins(asyncSubscribers);
-            Parallel.ForEach(filteredSubscribers, ParallelOptions,
+            var filteredAsyncSubscribers = RemoveNotInstalledPlugins(asyncSubscribers);
+            Parallel.ForEach(filteredAsyncSubscribers, ParallelOptions,
                 a => PublishAsyncedToConsumer(a.HandleEvent(eventMessage)));
 
             //synced subscribers
             var subscriptions = _subscriptionService.GetSyncedSubscriptions<TEvent>();
-            subscriptions.ForEachItem(x => PublishSyncedToConsumer(() => x.HandleEvent(eventMessage)));
+            var filteredSyncedSubscribers = RemoveNotInstalledPlugins(subscriptions);
+            filteredSyncedSubscribers.ForEachItem(x => PublishSyncedToConsumer(() => x.HandleEvent(eventMessage)));
         }
 
-        private IEnumerable<IEventAsyncSubscriber<TEvent>> RemoveNotInstalledPlugins<TEvent>(
-            IEnumerable<IEventAsyncSubscriber<TEvent>> subscribers) where TEvent : EventBase
+        private IEnumerable<TSubscriber> RemoveNotInstalledPlugins<TSubscriber>(
+            IEnumerable<TSubscriber> subscribers)
         {
-            var result = new List<IEventAsyncSubscriber<TEvent>>();
+            var result = new List<TSubscriber>();
             foreach (var s in subscribers)
             {
                 var plugin = _pluginService.GetPluginDescriptorByType(s.GetType());

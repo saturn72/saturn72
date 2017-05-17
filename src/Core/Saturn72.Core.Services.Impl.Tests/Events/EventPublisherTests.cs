@@ -69,6 +69,25 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
             eventMsg.SyncedFlag.ShouldBeTrue();
         }
 
+
+        [Test]
+        public void EventPublisher_PublishToSubscribers_ActivePlugins()
+        {
+            var subSrv = new Mock<ISubscriptionService>();
+            subSrv.Setup(s => s.GetAsyncSubscriptions<DummyEvent>()).Returns(new[] { new AsyncedSubscriber() });
+            subSrv.Setup(s => s.GetSyncedSubscriptions<DummyEvent>()).Returns(new[] { new SyncedSubscriber() });
+            var pSrv = new Mock<IPluginService>();
+            pSrv.Setup(p => p.GetPluginDescriptorByType(It.IsAny<Type>())).Returns(new PluginDescriptor {State = PluginState.Active});
+            var ep = new EventPublisher(subSrv.Object, pSrv.Object, null);
+            var eventMsg = new DummyEvent();
+            ep.Publish(eventMsg);
+
+            Thread.Sleep(50);
+
+            eventMsg.AsyncedFlag.ShouldBeTrue();
+            eventMsg.SyncedFlag.ShouldBeTrue();
+        }
+
         internal class DummyEvent : EventBase
         {
             public bool AsyncedFlag { get; set; }
