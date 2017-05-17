@@ -44,7 +44,7 @@ namespace Saturn72.Core.Services.Impl.Extensibility
         public PluginDescriptor GetPluginDescriptorByType(Type pluginType)
         {
             Guard.NotNull(pluginType);
-            throw new NotImplementedException();
+            return _pluginManager.GetByType(pluginType);
         }
 
         #region Utilities

@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using Saturn72.Core.Extensibility;
 using Saturn72.Core.Services.Extensibility;
 using Saturn72.Core.Services.Impl.Extensibility;
 using Shouldly;
@@ -21,9 +22,21 @@ namespace Saturn72.Core.Services.Impl.Tests.Extensibility
         {
 
             var pm = new Mock<IPluginManager>();
-            //pm.Setup(p => p.GetByType());
+            var pmResult = new PluginDescriptor();
+            pm.Setup(p => p.GetByType(It.IsAny<Type>())).Returns(pmResult);
+
             var srv = new PluginService(pm.Object);
-            throw new NotImplementedException();
+            srv.GetPluginDescriptorByType(typeof(string)).ShouldBe(pmResult);
+        }
+
+        [Test]
+        public void PluginService_ReturnsNull()
+        {
+            var pm = new Mock<IPluginManager>();
+            pm.Setup(p => p.GetByType(It.IsAny<Type>())).Returns((PluginDescriptor)null);
+
+            var srv = new PluginService(pm.Object);
+            srv.GetPluginDescriptorByType(typeof(string)).ShouldBe(null);
         }
     }
 }
