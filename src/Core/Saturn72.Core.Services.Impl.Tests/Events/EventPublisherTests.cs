@@ -18,7 +18,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
         [Test]
         public void EventPublisher_ThrowsOnNullEvent()
         {
-            var ep = new EventPublisher(null, null);
+            var ep = new EventPublisher(null, null, null);
             Should.Throw<NullReferenceException>(() => ep.Publish((EventBase) null));
         }
 
@@ -37,7 +37,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
                     l => l.InsertLog(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()))
                 .Callback<LogLevel, string, string, Guid>((l, s1, s2, g) => logRecords.Add(s1));
 
-            var ep = new EventPublisher(subSrv.Object, logger.Object);
+            var ep = new EventPublisher(subSrv.Object, null, logger.Object);
             ep.Publish(new DummyEvent());
 
             Thread.Sleep(50);
@@ -53,7 +53,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
             subSrv.Setup(s => s.GetAsyncSubscriptions<DummyEvent>()).Returns(new[] {new AsyncedSubscriber()});
             subSrv.Setup(s => s.GetSyncedSubscriptions<DummyEvent>()).Returns(new[] {new SyncedSubscriber()});
 
-            var ep = new EventPublisher(subSrv.Object, null);
+            var ep = new EventPublisher(subSrv.Object, null, null);
             var eventMsg = new DummyEvent();
             ep.Publish(eventMsg);
 

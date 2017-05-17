@@ -47,8 +47,9 @@ namespace Saturn72.Common.Extensibility
             return AllPlugins;
         }
 
-        public PluginDescriptor GetBySystemName(string systemName)
+        public PluginDescriptor GetByType(Type type)
         {
+
             throw new NotImplementedException();
             //return AllPlugins.FirstOrDefault(p => p.SystemName.EqualsTo(systemName));
         }

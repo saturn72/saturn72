@@ -1,10 +1,13 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Saturn72.Core.Extensibility;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
+using Saturn72.Core.Services.Extensibility;
 using Saturn72.Extensions;
 
 #endregion
@@ -16,11 +19,13 @@ namespace Saturn72.Core.Services.Impl.Events
         private static readonly ParallelOptions ParallelOptions = new ParallelOptions {MaxDegreeOfParallelism = 10};
 
         private readonly ILogger _logger;
+        private readonly IPluginService _pluginService;
         private readonly ISubscriptionService _subscriptionService;
 
-        public EventPublisher(ISubscriptionService subscriptionService, ILogger logger)
+        public EventPublisher(ISubscriptionService subscriptionService, IPluginService pluginService, ILogger logger)
         {
             _subscriptionService = subscriptionService;
+            _pluginService = pluginService;
             _logger = logger;
         }
 
@@ -31,14 +36,29 @@ namespace Saturn72.Core.Services.Impl.Events
             //Async subscribers
             //NOTE: IIS might "fold" the applicaiton pool when threads are in middle of execution
             var asyncSubscribers = _subscriptionService.GetAsyncSubscriptions<TEvent>();
-            Parallel.ForEach(asyncSubscribers, ParallelOptions, a => PublishAsyncedToConsumer(a.HandleEvent(eventMessage)));
+            var filteredSubscribers = RemoveNotInstalledPlugins(asyncSubscribers);
+            Parallel.ForEach(filteredSubscribers, ParallelOptions,
+                a => PublishAsyncedToConsumer(a.HandleEvent(eventMessage)));
 
             //synced subscribers
             var subscriptions = _subscriptionService.GetSyncedSubscriptions<TEvent>();
             subscriptions.ForEachItem(x => PublishSyncedToConsumer(() => x.HandleEvent(eventMessage)));
         }
 
-        protected virtual void  PublishAsyncedToConsumer(Task task)
+        private IEnumerable<IEventAsyncSubscriber<TEvent>> RemoveNotInstalledPlugins<TEvent>(
+            IEnumerable<IEventAsyncSubscriber<TEvent>> subscribers) where TEvent : EventBase
+        {
+            var result = new List<IEventAsyncSubscriber<TEvent>>();
+            foreach (var s in subscribers)
+            {
+                var plugin = _pluginService.GetPluginDescriptorByType(s.GetType());
+                if (plugin.NotNull() && plugin.State == PluginState.Active)
+                    result.Add(s);
+            }
+            return result;
+        }
+
+        protected virtual void PublishAsyncedToConsumer(Task task)
         {
             Action<Task> onAsyncExceptionAction = t =>
             {

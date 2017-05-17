@@ -31,7 +31,7 @@ namespace Saturn72.Core.Services.Impl.Extensibility
         {
             await Task.Run(() =>
             {
-                var pluginDescriptor = _pluginManager.GetBySystemName(pluginSystemName);
+                var pluginDescriptor = _pluginManager.GetByType(pluginSystemName);
                 Guard.NotNull(pluginDescriptor);
 
                 if (pluginDescriptor.State == newState)
@@ -39,6 +39,12 @@ namespace Saturn72.Core.Services.Impl.Extensibility
 
                 _pluginManager.UpdatePluginDescriptor(pluginDescriptor, newState);
             });
+        }
+
+        public PluginDescriptor GetPluginDescriptorByType(Type pluginType)
+        {
+            Guard.NotNull(pluginType);
+            throw new NotImplementedException();
         }
 
         #region Utilities

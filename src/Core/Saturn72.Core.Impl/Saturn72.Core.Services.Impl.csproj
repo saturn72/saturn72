@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditHelper.cs" />
+    <Compile Include="Extensibility\PluginManagerExtensions.cs" />
     <Compile Include="File\IFileUploadRecordRepository.cs" />
     <Compile Include="File\FileUploadManager.cs" />
     <Compile Include="File\FileUploadValidationFactory.cs" />

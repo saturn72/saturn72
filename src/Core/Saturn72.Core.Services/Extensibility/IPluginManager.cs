@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using Saturn72.Core.Extensibility;
 
@@ -11,6 +12,6 @@ namespace Saturn72.Core.Services.Extensibility
     {
         void UpdatePluginDescriptor(PluginDescriptor pluginDescriptor, PluginState newState);
         IEnumerable<PluginDescriptor> GetAll();
-        PluginDescriptor GetBySystemName(string systemName);
+        PluginDescriptor GetByType(Type type);
     }
 }
