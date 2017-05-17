@@ -52,7 +52,7 @@ namespace Saturn72.Core.Services.Impl.Events
             foreach (var s in subscribers)
             {
                 var plugin = _pluginService.GetPluginDescriptorByType(s.GetType());
-                if (plugin.NotNull() && plugin.State == PluginState.Active)
+                if (plugin.IsNull() || plugin.State == PluginState.Active)
                     result.Add(s);
             }
             return result;

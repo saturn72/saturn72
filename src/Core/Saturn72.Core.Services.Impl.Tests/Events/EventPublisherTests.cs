@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using Saturn72.Core.Domain.Logging;
+using Saturn72.Core.Extensibility;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
+using Saturn72.Core.Services.Extensibility;
 using Saturn72.Core.Services.Impl.Events;
 using Shouldly;
 
@@ -31,13 +33,16 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
             subSrv.Setup(s => s.GetAsyncSubscriptions<DummyEvent>()).Returns(new[] {new AsyncedThrowsSubscriber()});
             subSrv.Setup(s => s.GetSyncedSubscriptions<DummyEvent>()).Returns(new[] {new SyncedThrowsSubscriber()});
 
+            var psSrv = new Mock<IPluginService>();
+            psSrv.Setup(p => p.GetPluginDescriptorByType(It.IsAny<Type>())).Returns((PluginDescriptor)null);
+
             var logger = new Mock<ILogger>();
             logger.Setup(l => l.SupportedLogLevels).Returns(new[] {LogLevel.Error});
             logger.Setup(
                     l => l.InsertLog(It.IsAny<LogLevel>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()))
                 .Callback<LogLevel, string, string, Guid>((l, s1, s2, g) => logRecords.Add(s1));
 
-            var ep = new EventPublisher(subSrv.Object, null, logger.Object);
+            var ep = new EventPublisher(subSrv.Object, psSrv.Object, logger.Object);
             ep.Publish(new DummyEvent());
 
             Thread.Sleep(50);
@@ -52,8 +57,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Events
             var subSrv = new Mock<ISubscriptionService>();
             subSrv.Setup(s => s.GetAsyncSubscriptions<DummyEvent>()).Returns(new[] {new AsyncedSubscriber()});
             subSrv.Setup(s => s.GetSyncedSubscriptions<DummyEvent>()).Returns(new[] {new SyncedSubscriber()});
-
-            var ep = new EventPublisher(subSrv.Object, null, null);
+            var pSrv = new Mock<IPluginService>();
+            pSrv.Setup(p => p.GetPluginDescriptorByType(It.IsAny<Type>())).Returns((PluginDescriptor)null);
+            var ep = new EventPublisher(subSrv.Object, pSrv.Object, null);
             var eventMsg = new DummyEvent();
             ep.Publish(eventMsg);
 
