@@ -9,7 +9,7 @@ using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Core.Services.Extensibility
+namespace Saturn72.Core.Services.Impl.Extensibility
 {
     public abstract class PluginBase<TSettings> : IPlugin where TSettings : SettingsBase, new()
     {

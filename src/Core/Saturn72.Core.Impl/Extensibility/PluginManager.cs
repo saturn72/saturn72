@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Saturn72.Core.Extensibility;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
+using Saturn72.Core.Services.Extensibility;
+using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Core.Services.Extensibility
+namespace Saturn72.Core.Services.Impl.Extensibility
 {
     public class PluginManager : IPluginManager
     {
@@ -16,13 +18,8 @@ namespace Saturn72.Core.Services.Extensibility
         private static readonly object LockObject = new object();
         private ICollection<PluginDescriptor> _allPluginDescriptors;
 
-        public ICollection<PluginDescriptor> AllPlugins
-        {
-            get
-            {
-                return _allPluginDescriptors ?? (_allPluginDescriptors = AppDomainLoader.PluginDescriptors.ToList());
-            }
-        }
+        public ICollection<PluginDescriptor> AllPlugins => _allPluginDescriptors ??
+                                                           (_allPluginDescriptors = AppDomainLoader.PluginDescriptors.ToList());
 
 
         public void UpdatePluginDescriptor(PluginDescriptor pluginDescriptor, PluginState newState)
@@ -43,9 +40,8 @@ namespace Saturn72.Core.Services.Extensibility
 
         public PluginDescriptor GetByType(Type type)
         {
-
-            throw new NotImplementedException();
-            //return AllPlugins.FirstOrDefault(p => p.SystemName.EqualsTo(systemName));
+            Guard.NotNull(type);
+            return AllPlugins.FirstOrDefault(p => p.TypeFullName.EqualsTo(CommonHelper.GetCompatibleTypeName(type)));
         }
 
         private static void ModifyPluginState(PluginState newState, IPlugin instance)

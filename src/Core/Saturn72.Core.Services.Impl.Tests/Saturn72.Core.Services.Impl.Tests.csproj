@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AuditHelperTests.cs" />
     <Compile Include="Extensibility\PluginManagerExtensionTests.cs" />
+    <Compile Include="Extensibility\PluginManagerTests.cs" />
     <Compile Include="Extensibility\PluginServiceTests.cs" />
     <Compile Include="File\FileUploadValidationFactoryTests.cs" />
     <Compile Include="Security\AuthenticationServiceTests.cs" />
@@ -80,7 +81,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App_Data\SingleSuspendedPlugin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
+    <None Include="Plugins\DummyPlugin1\descriptor.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Tests\Saturn72.TestUtil\Saturn72.TestUtil.csproj">
@@ -112,6 +119,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Plugins\DummyPlugin1\DummyPlugin1.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\ThrowsException.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

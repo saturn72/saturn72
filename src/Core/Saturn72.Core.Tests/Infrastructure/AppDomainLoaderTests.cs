@@ -39,10 +39,6 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
-
-       
-
-
         [Test]
         public void LoadAppDomain_LoadsModulesToAppDomain()
         {
@@ -95,7 +91,6 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             Should.Throw<InvalidOperationException>(() => AppDomainLoader.Load(data));
         }
-
         [Test]
         public void LoadAppDomain_LoadsPluginsToAppDomain()
         {
