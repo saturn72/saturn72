@@ -78,6 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="InstalledPluginFiles\2Plugins-ActiveAndSuspended.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="InstalledPluginFiles\2Plugins-BothSuspended.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="InstalledPluginFiles\SingleSuspendedPlugin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Config\NonEmptyAppConfig.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -92,7 +101,10 @@
     <None Include="Plugins2\DummyPlugin\description.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Plugins\DummyPlugin\description.json">
+    <None Include="Plugins\DummyPlugin1\descriptor.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Plugins\DummyPlugin2\descriptor.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -140,7 +152,10 @@
     <Content Include="Plugins2\DummyPlugin\ShouldBeLoaded.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Plugins\DummyPlugin\ShouldBeLoaded.dll">
+    <Content Include="Plugins\DummyPlugin1\DummyPlugin1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\DummyPlugin2\DummyPlugin2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -49,7 +49,8 @@ namespace Saturn72.Common.Extensibility
 
         public PluginDescriptor GetBySystemName(string systemName)
         {
-            return AllPlugins.FirstOrDefault(p => p.SystemName.EqualsTo(systemName));
+            throw new NotImplementedException();
+            //return AllPlugins.FirstOrDefault(p => p.SystemName.EqualsTo(systemName));
         }
 
         private static void ModifyPluginState(PluginState newState, IPlugin instance)
@@ -65,7 +66,7 @@ namespace Saturn72.Common.Extensibility
                 case PluginState.Suspended:
                     instance.Suspend();
                     return;
-                case PluginState.Activated:
+                case PluginState.Active:
                     instance.Activate();
                     return;
                 default:
@@ -75,32 +76,34 @@ namespace Saturn72.Common.Extensibility
 
         private void UpdateInstalledPluginFile()
         {
-            var format = "\t{{ \"typeFullName\": \"{0}\", \"systemName\": \"{1}\", \"state\": \"{2}\" }}";
+            throw new NotImplementedException();
 
-            var sb = new StringBuilder();
-            sb.AppendLine("[");
-            AllPlugins.Where(p => p.State != PluginState.Uninstalled)
-                .ForEachItem(p => sb.AppendLine(format.AsFormat(p.TypeFullName, p.SystemName, p.State)));
-            sb.Append("]");
+            //var format = "\t{{ \"typeFullName\": \"{0}\", \"systemName\": \"{1}\", \"state\": \"{2}\" }}";
 
-            var temp = Path.GetTempFileName();
-            var tempBackup = Path.GetTempFileName();
-            var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(AppDomainLoader.InstalledPluginsFile);
+            //var sb = new StringBuilder();
+            //sb.AppendLine("[");
+            //AllPlugins.Where(p => p.State != PluginState.Uninstalled)
+            //    .ForEachItem(p => sb.AppendLine(format.AsFormat(p.TypeFullName, p.SystemName, p.State)));
+            //sb.Append("]");
 
-            try
-            {
-                File.WriteAllText(temp, sb.ToString());
-                File.Replace(temp, installedPluginsFile, tempBackup);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message, ex);
-            }
-            finally
-            {
-                File.Delete(temp);
-                File.Delete(tempBackup);
-            }
+            //var temp = Path.GetTempFileName();
+            //var tempBackup = Path.GetTempFileName();
+            //var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(AppDomainLoader.InstalledPluginsFile);
+
+            //try
+            //{
+            //    File.WriteAllText(temp, sb.ToString());
+            //    File.Replace(temp, installedPluginsFile, tempBackup);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex.Message, ex);
+            //}
+            //finally
+            //{
+            //    File.Delete(temp);
+            //    File.Delete(tempBackup);
+            //}
         }
     }
 }

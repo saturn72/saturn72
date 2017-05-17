@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Web.Compilation;
@@ -21,16 +22,12 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 {
     public class AppDomainLoader
     {
-        private const string PluginDescriptionFile = "description.json";
-        public const string InstalledPluginsFile = "App_Data\\InstalledPlugins.json";
+        private const string PluginDescriptionFile = "descriptor.json";
         private static readonly ReaderWriterLockSlim Locker = new ReaderWriterLockSlim();
         private static ICollection<PluginDescriptor> _pluginDescriptors;
         public static AppDomainLoadData AppDomainLoadData { get; private set; }
 
-        public static IEnumerable<PluginDescriptor> PluginDescriptors
-        {
-            get { return _pluginDescriptors; }
-        }
+        public static IEnumerable<PluginDescriptor> PluginDescriptors => _pluginDescriptors;
 
         /// <summary>
         ///     Loads all components to AppDomain
@@ -79,7 +76,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 if (!PrepareFileSystemForPluginsOrModules(data))
                     return;
 
-                DeployPluginOrModuleDlls(data);
+                DeployModulesDlls(data);
             }
         }
 
@@ -87,8 +84,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
             {
-                Trace.TraceWarning("No PLUGINS were found in modules root directory or unaccessible directory: " +
-                                   data.RootDirectory);
+                Trace.TraceWarning("No PLUGINS were found in root directory or unaccessible directory: " + data.RootDirectory);
                 return;
             }
             using (new WriteLockDisposable(Locker))
@@ -97,22 +93,17 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     return;
 
                 _pluginDescriptors = new List<PluginDescriptor>();
-                var installedOrSuspendedPlugins = GetInstalledAndSuspendedPluginsSystemNames();
+                var installedOrSuspendedPlugins = GetInstalledAndSuspendedPluginsSystemNames(data.ConfigFile);
 
-                foreach (var dfd in GetDescriptionFilesAndDescriptors(data.RootDirectory))
+                var pluginDescriptors = GetPluginDescriptors(data.RootDirectory);
+                foreach (var pd in pluginDescriptors)
                 {
-                    var descriptionFile = dfd.Key;
-                    var pluginDescriptor = dfd.Value;
-                    Guard.NotNull(new object[] {descriptionFile, pluginDescriptor});
-
-                    ValidatePluginBySystemName(dfd, _pluginDescriptors);
-
-                    pluginDescriptor.State = GetPluginState(installedOrSuspendedPlugins, pluginDescriptor.SystemName);
-
-                    _pluginDescriptors.Add(pluginDescriptor);
+                    ValidatePluginBySystemName(pd, _pluginDescriptors);
+                    pd.State = GetPluginState(installedOrSuspendedPlugins, pd.TypeFullName);
+                    _pluginDescriptors.Add(pd);
                 }
 
-                DeployPluginOrModuleDlls(data);
+                DeployPluginsDlls(data);
             }
         }
 
@@ -129,22 +120,72 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             }
         }
 
-        private static PluginState GetPluginState(IEnumerable<PluginDescriptor> plugins, string systemName)
+        private static PluginState GetPluginState(IEnumerable<PluginDescriptor> plugins, string typeFullName)
         {
-            var result = PluginState.Uninstalled;
+            var plugin = plugins.FirstOrDefault(p => p.TypeFullName.EqualsTo(typeFullName));
 
-            var plugin = plugins.FirstOrDefault(p => p.SystemName.EqualsTo(systemName));
-            return plugin.IsNull() || !Enum.TryParse(plugin.State.ToString(), true, out result)
-                ? result
-                : result;
+            return plugin.NotNull() ? plugin.State : PluginState.Uninstalled;
         }
 
-        private static void DeployPluginOrModuleDlls(DynamicLoadingData data)
+        private static void DeployPluginsDlls(DynamicLoadingData data)
         {
             var shadowCopyDirectory = data.ShadowCopyDirectory;
             var binFiles = Directory.Exists(shadowCopyDirectory)
                 ? Directory.GetFiles(shadowCopyDirectory)
-                : new string[] {};
+                : new string[] { };
+            var pluginsToDeploy = _pluginDescriptors.Where(pd => pd.State != PluginState.Uninstalled);
+
+            try
+            {
+                foreach (var pd in pluginsToDeploy)
+                {
+                    var dynamicLoadedFiles =
+                        Directory.GetFiles(pd.DescriptorFile.DirectoryName, "*.dll", SearchOption.AllDirectories)
+                            //Not in the shadow copy
+                            .Where(x => !binFiles.Contains(x))
+                            .ToArray();
+
+                    //load all other referenced assemblies now
+                    foreach (var dlf in dynamicLoadedFiles
+                        .Where(x => !IsAlreadyLoaded(x)))
+                    {
+                        Guard.NotEmpty(dlf);
+                        PerformFileDeploy(new FileInfo(dlf), shadowCopyDirectory);
+                    }
+                }
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var msg = string.Empty;
+                foreach (var exception in ex.LoaderExceptions)
+                    msg = msg + exception.Message + Environment.NewLine;
+
+                var fail = new Exception(msg, ex);
+                Trace.WriteLine(fail.Message);
+                Debug.WriteLine(fail.Message, fail);
+
+                throw fail;
+            }
+            catch (Exception ex)
+            {
+                var msg = string.Empty;
+                for (var e = ex; e != null; e = e.InnerException)
+                    msg += e.Message + Environment.NewLine;
+
+                var fail = new Exception(msg, ex);
+                Trace.WriteLine(fail.Message);
+                Debug.WriteLine(fail.Message, fail);
+
+                throw fail;
+            }
+        }
+
+        private static void DeployModulesDlls(DynamicLoadingData data)
+        {
+            var shadowCopyDirectory = data.ShadowCopyDirectory;
+            var binFiles = Directory.Exists(shadowCopyDirectory)
+                ? Directory.GetFiles(shadowCopyDirectory)
+                : new string[] { };
 
             try
             {
@@ -188,16 +229,20 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             }
         }
 
-        private static IEnumerable<PluginDescriptor> GetInstalledAndSuspendedPluginsSystemNames()
+        private static IEnumerable<PluginDescriptor> GetInstalledAndSuspendedPluginsSystemNames(string pluginConfigFile)
         {
-            var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(InstalledPluginsFile);
+            var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(pluginConfigFile);
             if (!FileSystemUtil.FileExists(installedPluginsFile))
-                return new PluginDescriptor[] {};
+                return new PluginDescriptor[] { };
 
+            IEnumerable<PluginDescriptor> result;
             using (var jReader = new JsonTextReader(File.OpenText(installedPluginsFile)))
             {
-                return new JsonSerializer().Deserialize<PluginDescriptor[]>(jReader);
+                result = new JsonSerializer().Deserialize<PluginDescriptor[]>(jReader);
             }
+            result.ForEachItem(s => s.TypeFullName = RemoveDuplicateWhiteSpaces(s.TypeFullName));
+
+            return result;
         }
 
         private static bool PrepareFileSystemForPluginsOrModules(DynamicLoadingData data)
@@ -210,7 +255,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             var shadowCopyDirectory = data.ShadowCopyDirectory;
             var binFiles = Directory.Exists(shadowCopyDirectory)
                 ? Directory.GetFiles(shadowCopyDirectory)
-                : new string[] {};
+                : new string[] { };
 
             DeleteShadowDirectoryIfRequired(data.DeleteShadowCopyOnStartup, shadowCopyDirectory,
                 binFiles);
@@ -219,48 +264,55 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             return true;
         }
 
-        private static void ValidatePluginBySystemName(KeyValuePair<FileInfo, PluginDescriptor> dfd,
+        private static void ValidatePluginBySystemName(PluginDescriptor pluginDescriptor,
             IEnumerable<PluginDescriptor> referencedPlugins)
         {
-            var pluginDescriptor = dfd.Value;
-            var systemName = pluginDescriptor.SystemName;
+            var typeFullName = pluginDescriptor.TypeFullName;
 
-            Guard.HasValue(systemName,
+            Guard.HasValue(typeFullName,
                 "A plugin '{0}' has no system name. Try assigning the plugin a unique name and recompiling.".AsFormat(
-                    dfd.Key));
+                    pluginDescriptor));
 
             Func<bool> mustCondition = () => !referencedPlugins.Any(
-                pd => pd.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+                pd => pd.TypeFullName.Equals(typeFullName, StringComparison.InvariantCultureIgnoreCase));
 
             Guard.MustFollow(mustCondition,
-                "A plugin with '{0}' system name is already defined".AsFormat(systemName));
+                "A plugin with '{0}' system name is already defined".AsFormat(typeFullName));
         }
 
 
-        private static IEnumerable<KeyValuePair<FileInfo, PluginDescriptor>> GetDescriptionFilesAndDescriptors(
-            string pluginFolder)
+        private static IEnumerable<PluginDescriptor> GetPluginDescriptors(string pluginFolder)
         {
             Guard.HasValue(pluginFolder);
 
             //create list (<file info, parsed plugin descritor>)
-            var result = new List<KeyValuePair<FileInfo, PluginDescriptor>>();
+            var result = new List<PluginDescriptor>();
             var pluginDirInfo = new DirectoryInfo(pluginFolder);
 
             //add display order and path to list
             var descriptionFiles = pluginDirInfo.GetFiles(PluginDescriptionFile, SearchOption.AllDirectories);
 
-            descriptionFiles.ForEachItem(d =>
-                result.Add(new KeyValuePair<FileInfo, PluginDescriptor>(d, ParsePluginDescriptionFile(d.FullName))));
+            descriptionFiles.ForEachItem(pluginDescriptor =>
+                result.Add(ParsePluginDescriptionFile(pluginDescriptor)));
             return result;
         }
 
-        private static PluginDescriptor ParsePluginDescriptionFile(string descriptionFile)
+        private static PluginDescriptor ParsePluginDescriptionFile(FileInfo pluginInfo)
         {
-            using (var file = File.OpenText(descriptionFile))
+            using (var file = File.OpenText(pluginInfo.FullName))
             {
                 var serializer = new JsonSerializer();
-                return (PluginDescriptor) serializer.Deserialize(file, typeof(PluginDescriptor));
+
+                var pluginDescriptor = (PluginDescriptor) serializer.Deserialize(file, typeof(PluginDescriptor));
+                pluginDescriptor.TypeFullName = RemoveDuplicateWhiteSpaces(pluginDescriptor.TypeFullName);
+                pluginDescriptor.DescriptorFile = pluginInfo;
+                return pluginDescriptor;
             }
+        }
+
+        private static string RemoveDuplicateWhiteSpaces(string source)
+        {
+            return Regex.Replace(source, "[ ]{2,}", " ");
         }
 
         private static void DeleteShadowDirectoryIfRequired(bool shouldDeleteShadowCopyDirectories,
@@ -360,8 +412,9 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             Guard.NotNull(componentFileInfo.Directory);
             Guard.NotNull(componentFileInfo.Directory.Parent, () =>
             {
-                var message = "The component directory for the {0} file exists in a folder outside of the allowed saturn72 folder heirarchy"
-                    .AsFormat(componentFileInfo.Name);
+                var message =
+                    "The component directory for the {0} file exists in a folder outside of the allowed saturn72 folder heirarchy"
+                        .AsFormat(componentFileInfo.Name);
                 throw new InvalidOperationException(message);
             });
         }

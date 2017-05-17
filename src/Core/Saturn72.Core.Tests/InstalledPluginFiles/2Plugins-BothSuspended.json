@@ -1,0 +1,10 @@
+﻿[
+  {
+    "TypeFullName": "DummyPlugin1.Plugin,   DummyPlugin1",
+    "State": "Suspended"
+  },
+  {
+    "TypeFullName": "DummyPlugin2.Plugin, DummyPlugin2",
+    "State": "Suspended"
+  }
+]

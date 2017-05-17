@@ -21,11 +21,11 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             var modulesDynamicLoadData = new DynamicLoadingData(
                 SystemDefaults.DefaultModulesRoot, SystemDefaults.DefaultModulesShadowCopyDirectory,
-                SystemDefaults.DeleteModulesShadowDirectoriesOnStartup);
+                SystemDefaults.DeleteModulesShadowDirectoriesOnStartup, SystemDefaults.DefaultModulesConfigFile);
 
             var pluginsDynamicLoadData = new DynamicLoadingData(
                 SystemDefaults.DefaultPluginsRoot, SystemDefaults.DefaultPluginsShadowCopyDirectory,
-                SystemDefaults.DeletePluginsShadowDirectoriesOnStartup);
+                SystemDefaults.DeletePluginsShadowDirectoriesOnStartup, SystemDefaults.DefaultPluginsConfigFile);
 
 
             var data = new AppDomainLoadData(new[] {asm}, modulesDynamicLoadData, pluginsDynamicLoadData, null, null);
@@ -34,37 +34,48 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             var appDomainAsms = AppDomain.CurrentDomain
                 .GetAssemblies()
-                .Select(t => t.GetName().Name).ToArray();
+                .Select(t => t.GetName().Name)
+                .ToArray();
 
             appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
 
         [Test]
-        //[Category("non_deterministic")]
         public void LoadAppDomain_LoadsModulesToAppDomain()
         {
+            var pluginFiles = new[] {"SingleSuspendedPlugin.json", "2Plugins-BothSuspended.json", "2Plugins-ActiveAndSuspended" };
+            var expectedLoadedPlugins = new[] {"DummyPlugin1", "DummyPlugin1,DummyPlugin2", "DummyPlugin1,DummyPlugin2" };
+
             var moduleRoot = FileSystemUtil.RelativePathToAbsolutePath("Modules");
             var shadowCopyDirectory = FileSystemUtil.RelativePathToAbsolutePath(@"Modules\bin");
+            var modulesDynamicLoadData = new DynamicLoadingData(moduleRoot, shadowCopyDirectory, false,
+                SystemDefaults.DefaultModulesConfigFile);
 
-            var modulesDynamicLoadData = new DynamicLoadingData(moduleRoot, shadowCopyDirectory, true);
-            var pluginsDynamicLoadData = new DynamicLoadingData(
-                SystemDefaults.DefaultPluginsRoot, SystemDefaults.DefaultPluginsShadowCopyDirectory,
-                SystemDefaults.DeletePluginsShadowDirectoriesOnStartup);
+            var pluginsRoot = FileSystemUtil.RelativePathToAbsolutePath(SystemDefaults.DefaultPluginsRoot);
+            var pluginsShadow =
+                FileSystemUtil.RelativePathToAbsolutePath(SystemDefaults.DefaultPluginsShadowCopyDirectory);
+            for (var i = 0; i < pluginFiles.Length; i++)
+            {
+                var pluginConfig = FileSystemUtil.RelativePathToAbsolutePath("InstalledPluginFiles\\" + pluginFiles[i]);
+                var pluginsDynamicLoadData = new DynamicLoadingData(pluginsRoot, pluginsShadow, false, pluginConfig);
 
-            var data = new AppDomainLoadData(
-                null,
-                modulesDynamicLoadData,
-                pluginsDynamicLoadData,
-                null,
-                null);
+                var data = new AppDomainLoadData(
+                    null,
+                    modulesDynamicLoadData,
+                    pluginsDynamicLoadData,
+                    null,
+                    null);
 
-            AppDomainLoader.Load(data);
+                AppDomainLoader.Load(data);
 
-            var appDomainAsms = AppDomain.CurrentDomain
-                .GetAssemblies()
-                .Select(t => t.GetName().Name).ToArray();
+                var appDomainAsms = AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .Select(t => t.GetName().Name)
+                    .ToArray();
 
-            appDomainAsms.ShouldContain("ShouldBeLoaded");
+                foreach (var exp in expectedLoadedPlugins[i].Split(','))
+                    appDomainAsms.ShouldContain(exp.Trim());
+            }
         }
 
 
@@ -74,8 +85,13 @@ namespace Saturn72.Core.Tests.Infrastructure
             //mark plugin as installed if in list
             var modulesDynamicLoadData = new DynamicLoadingData(
                 SystemDefaults.DefaultModulesRoot, SystemDefaults.DefaultModulesShadowCopyDirectory,
-                SystemDefaults.DeleteModulesShadowDirectoriesOnStartup);
-            var pluginsDynamicLoadData = new DynamicLoadingData("Plugins", "Plugins\\bin", true);
+                SystemDefaults.DeleteModulesShadowDirectoriesOnStartup, SystemDefaults.DefaultModulesConfigFile);
+
+            var pluginsRoot = FileSystemUtil.RelativePathToAbsolutePath("Plugins");
+            var shadowCopyDirectory = FileSystemUtil.RelativePathToAbsolutePath(@"Plugins\bin");
+
+            var pluginsDynamicLoadData = new DynamicLoadingData(pluginsRoot, shadowCopyDirectory, true,
+                SystemDefaults.DefaultPluginsConfigFile);
 
             var data = new AppDomainLoadData(
                 null,
@@ -88,9 +104,10 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             var appDomainAsms = AppDomain.CurrentDomain
                 .GetAssemblies()
-                .Select(t => t.GetName().Name).ToArray();
+                .Select(t => t.GetName().Name)
+                .ToArray();
 
-            appDomainAsms.ShouldContain("ShouldBeLoaded");
+            appDomainAsms.ShouldContain("DummyPlugin1");
         }
 
         [Test]
@@ -98,9 +115,10 @@ namespace Saturn72.Core.Tests.Infrastructure
         {
             var modulesDynamicLoadData = new DynamicLoadingData(
                 SystemDefaults.DefaultModulesRoot, SystemDefaults.DefaultModulesShadowCopyDirectory,
-                SystemDefaults.DeleteModulesShadowDirectoriesOnStartup);
+                SystemDefaults.DeleteModulesShadowDirectoriesOnStartup, SystemDefaults.DefaultModulesConfigFile);
             var pluginsDynamicLoadData = new DynamicLoadingData(FileSystemUtil.RelativePathToAbsolutePath("Plugins2"),
-                FileSystemUtil.RelativePathToAbsolutePath("Plugins2\\bin"), true);
+                FileSystemUtil.RelativePathToAbsolutePath("Plugins2\\bin"), true,
+                SystemDefaults.DefaultPluginsConfigFile);
 
             var data = new AppDomainLoadData(
                 null,

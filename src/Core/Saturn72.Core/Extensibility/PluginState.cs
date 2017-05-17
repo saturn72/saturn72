@@ -5,6 +5,6 @@
         Installed = 10,
         Uninstalled = 20,
         Suspended = 30,
-        Activated = 40
+        Active = 40
     }
 }

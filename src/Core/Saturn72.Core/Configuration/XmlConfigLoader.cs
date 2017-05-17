@@ -46,14 +46,16 @@ namespace Saturn72.Core.Configuration
                 "modules",
                 SystemDefaults.DeleteModulesShadowDirectoriesOnStartup,
                 SystemDefaults.DefaultModulesRoot,
-                SystemDefaults.DefaultModulesShadowCopyDirectory);
+                SystemDefaults.DefaultModulesShadowCopyDirectory,
+                SystemDefaults.DefaultModulesConfigFile);
 
             var pluginsDynamicLoadData = GetEnvironmentDynamicLoadData(
                 configRoot,
                 "plugins",
                 SystemDefaults.DeletePluginsShadowDirectoriesOnStartup,
                 SystemDefaults.DefaultPluginsRoot,
-                SystemDefaults.DefaultPluginsShadowCopyDirectory);
+                SystemDefaults.DefaultPluginsShadowCopyDirectory,
+                SystemDefaults.DefaultPluginsConfigFile);
 
 
             var moduleInstances = GetModuleInstances(configRoot);
@@ -132,32 +134,36 @@ namespace Saturn72.Core.Configuration
         }
 
         private DynamicLoadingData GetEnvironmentDynamicLoadData(XNode configRoot, string subXPath,
-            bool defaultValueForShaodwDeletion,
-            string defaultValueForBaseDirecotry, string defaultValueForShadowCopyRelativePath)
+            bool defaultValueForShaodwDeletion, string defaultValueForBaseDirecotry, 
+            string defaultValueForShadowCopyRelativePath, string defaultValueForConfigFile)
         {
             const string envConfigNode = "env";
 
             //Module data
             var xPath = "{0}/{1}".AsFormat(envConfigNode, subXPath);
-            var modulesData = configRoot.XPathSelectElement(xPath);
+            var configData = configRoot.XPathSelectElement(xPath);
 
             //Should delete shadow copy on startup
-            var xAtt = modulesData.NotNull() ? modulesData.Attribute("DeleteShadowDirectoryOnStartup") : null;
+            var xAtt = configData.NotNull() ? configData.Attribute("DeleteShadowDirectoryOnStartup") : null;
             var deleteShadowCopyOnStartup = xAtt.IsNull()
                 ? defaultValueForShaodwDeletion
                 : xAtt.Value.ToBoolean();
 
-            xAtt = modulesData.NotNull() ? modulesData.Attribute("Directory") : null;
+            xAtt = configData.NotNull() ? configData.Attribute("Directory") : null;
             var rootDirectory = xAtt.NotNull()
                 ? xAtt.Value
                 : defaultValueForBaseDirecotry;
             rootDirectory = FileSystemUtil.RelativePathToAbsolutePath(rootDirectory);
 
-            xAtt = modulesData.NotNull() ? modulesData.Attribute("ShadowCopyDirectory") : null;
+            xAtt = configData.NotNull() ? configData.Attribute("ShadowCopyDirectory") : null;
             var subDir = xAtt.NotNull() ? xAtt.Value : defaultValueForShadowCopyRelativePath;
             var shadowCopyDirectory = Path.Combine(rootDirectory, subDir);
 
-            return new DynamicLoadingData(rootDirectory, shadowCopyDirectory, deleteShadowCopyOnStartup);
+            xAtt = configData.NotNull() ? configData.Attribute("ConfigFile") : null;
+            var fileName = xAtt.NotNull() ? xAtt.Value : defaultValueForConfigFile;
+            var configFile = FileSystemUtil.RelativePathToAbsolutePath(fileName);
+
+            return new DynamicLoadingData(rootDirectory, shadowCopyDirectory, deleteShadowCopyOnStartup, configFile);
         }
 
         #endregion
