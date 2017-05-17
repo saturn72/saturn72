@@ -2,19 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
-using Saturn72.Core;
 using Saturn72.Core.Extensibility;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
-using Saturn72.Core.Services.Extensibility;
-using Saturn72.Extensions;
 
 #endregion
 
-namespace Saturn72.Common.Extensibility
+namespace Saturn72.Core.Services.Extensibility
 {
     public class PluginManager : IPluginManager
     {

@@ -56,9 +56,6 @@
     <Compile Include="App\IAppVersion.cs" />
     <Compile Include="Data\IUnitOfWork.cs" />
     <Compile Include="Data\RepositoryBase.cs" />
-    <Compile Include="Extensibility\PluginBase.cs" />
-    <Compile Include="Extensibility\PluginManager.cs" />
-    <Compile Include="Extensibility\PluginManagerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App\Saturn72AppBase.cs" />
     <Compile Include="Tasks\FullTrustBackgroundTask.cs" />

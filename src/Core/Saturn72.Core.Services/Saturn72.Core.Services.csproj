@@ -47,6 +47,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensibility\PluginBase.cs" />
+    <Compile Include="Extensibility\PluginManager.cs" />
     <Compile Include="Extensibility\PluginManagerExtensions.cs" />
     <Compile Include="File\IFileUploadValidationFactory.cs" />
     <Compile Include="File\IFileValidator.cs" />
