@@ -1,13 +1,11 @@
 ﻿#region
 
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Saturn72.Core.Domain;
 
 #endregion
 
-namespace Saturn72.Common.Data
+namespace Saturn72.Core.Services.Impl.Data
 {
     public interface IUnitOfWork<TDomainModel>
         where TDomainModel : DomainModelBase

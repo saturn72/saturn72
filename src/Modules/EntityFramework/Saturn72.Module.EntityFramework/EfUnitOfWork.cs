@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
-using Saturn72.Common.Data;
+using Saturn72.Core.Services.Impl.Data;
 using Saturn72.Core.Domain;
 
 #endregion

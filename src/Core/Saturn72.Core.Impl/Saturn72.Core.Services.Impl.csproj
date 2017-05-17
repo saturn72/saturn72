@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditHelper.cs" />
+    <Compile Include="Data\IUnitOfWork.cs" />
+    <Compile Include="Data\RepositoryBase.cs" />
     <Compile Include="Extensibility\PluginBase.cs" />
     <Compile Include="Extensibility\PluginManager.cs" />
     <Compile Include="Extensibility\PluginManagerExtensions.cs" />
