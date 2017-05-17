@@ -7,13 +7,13 @@ using Calculator.Common.Domain.Calculations;
 using Calculator.DB.Model;
 using Calculator.DB.Model.Repositories;
 using Calculator.Server.Services.Calculation;
-using Saturn72.Common.Data;
 using Saturn72.Common.WebApi;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Configuration.Maps;
 using Saturn72.Core.Data;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
 using Saturn72.Core.Infrastructure.DependencyManagement;
+using Saturn72.Core.Services.Impl.Data;
 using Saturn72.Module.EntityFramework;
 
 #endregion

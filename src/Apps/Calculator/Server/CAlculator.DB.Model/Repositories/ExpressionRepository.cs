@@ -1,7 +1,7 @@
 ﻿    #region
 
     using Calculator.Common.Domain.Calculations;
-    using Saturn72.Common.Data;
+    using Saturn72.Core.Services.Impl.Data;
 
 #endregion
 

@@ -77,6 +77,10 @@
       <Project>{6DE3E33E-0B13-4C57-8871-C83E1EEB8470}</Project>
       <Name>Saturn72.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Core\Saturn72.Core.Impl\Saturn72.Core.Services.Impl.csproj">
+      <Project>{BA702041-080D-459A-BCD1-37875D92C626}</Project>
+      <Name>Saturn72.Core.Services.Impl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
