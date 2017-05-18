@@ -8,8 +8,9 @@ namespace HelloWorld
     public class HelloWorldApp : Saturn72AppBase
     {
         private readonly IAppVersion _version = new AppVersion();
+        private const string AppId = "hello_world";
 
-        public HelloWorldApp(string appId) : base(appId)
+        public HelloWorldApp() : base(AppId)
         {
         }
 

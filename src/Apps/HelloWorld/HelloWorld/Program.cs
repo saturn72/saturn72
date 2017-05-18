@@ -8,7 +8,7 @@ namespace HelloWorld
         {
             var consoleTraceListener = new ConsoleTraceListener();
             Trace.Listeners.Add(consoleTraceListener);
-            var app = new HelloWorldApp("hello_world");
+            var app = new HelloWorldApp();
             app.Start();
             Trace.Listeners.Remove(consoleTraceListener);
         }
