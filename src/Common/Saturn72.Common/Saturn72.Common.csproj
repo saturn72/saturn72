@@ -48,8 +48,14 @@
     <Compile Include="App\AppVersionStatus.cs" />
     <Compile Include="App\Events\ApplicationStartedEvent.cs" />
     <Compile Include="App\Events\ApplicationStoppedEvent.cs" />
+    <Compile Include="App\Events\OnApplicationInitializeFinishEvent.cs" />
+    <Compile Include="App\Events\OnApplicationInitializeStartEvent.cs" />
+    <Compile Include="App\Events\OnApplicationStopFinishEvent.cs" />
+    <Compile Include="App\Events\OnApplicationStopStartEvent.cs" />
+    <Compile Include="App\Events\OnApplicationUnexpectedlyStoppedEvent.cs" />
     <Compile Include="App\IApp.cs" />
     <Compile Include="App\IAppVersion.cs" />
+    <Compile Include="DefaultOutput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App\Saturn72AppBase.cs" />
     <Compile Include="Tasks\FullTrustBackgroundTask.cs" />

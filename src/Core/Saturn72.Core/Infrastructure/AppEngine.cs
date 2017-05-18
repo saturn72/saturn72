@@ -25,5 +25,9 @@ namespace Saturn72.Core.Infrastructure
             }
             return Singleton<IAppEngineDriver>.Instance;
         }
+        public static void Dispose()
+        {
+            Current.Dispose();
+        }
     }
 }
