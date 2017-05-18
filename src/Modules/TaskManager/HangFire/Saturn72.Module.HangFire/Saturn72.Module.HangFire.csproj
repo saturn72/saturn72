@@ -79,7 +79,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Core\Saturn72.Core.Impl\Saturn72.Core.Services.Impl.csproj">
+    <ProjectReference Include="..\..\..\..\Core\Saturn72.Core.Services.Impl\Saturn72.Core.Services.Impl.csproj">
       <Project>{BA702041-080D-459A-BCD1-37875D92C626}</Project>
       <Name>Saturn72.Core.Services.Impl</Name>
     </ProjectReference>
