@@ -5,19 +5,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Saturn72.Common.App.Events;
-using Saturn72.Core;
 using Saturn72.Core.Configuration;
 using Saturn72.Core.Extensibility;
 using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Infrastructure.AppDomainManagement;
+using Saturn72.Core.Services.App.Events;
 using Saturn72.Core.Services.Events;
 using Saturn72.Extensions;
-using CommonHelper = Saturn72.Core.CommonHelper;
 
 #endregion
 
-namespace Saturn72.Common.App
+namespace Saturn72.Core.Services.App
 {
     public abstract class Saturn72AppBase : IApp
     {

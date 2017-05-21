@@ -2,7 +2,6 @@
 
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.Tasks;
-using Saturn72.Core.Infrastructure;
 using Saturn72.Core.Services.Events;
 using Saturn72.Extensions;
 
@@ -10,32 +9,26 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.Tasks
 {
-    public class BackgroundTaskEventsEventSubscriber : IEventSubscriber<CreatedEvent<BackgroundTaskExecutionDataDomainModel>>
+    public class BackgroundTaskEventsEventSubscriber : IEventSubscriber<
+        CreatedEvent<BackgroundTaskExecutionDataDomainModel>>
     {
         private const string BackgroundTaskExecutionDataKey =
             "BackgroundTaskEventsConsumer.BackgroundTaskExecutionDataRepository.";
 
         private static ICacheManager _cacheManager;
+        private readonly IBackgroundTaskExecutionDataRepository _backgroundTaskExeDataRepository;
 
-        private static ICacheManager CacheManager
+        public BackgroundTaskEventsEventSubscriber(
+            IBackgroundTaskExecutionDataRepository backgroundTaskExeDataRepository)
         {
-            get { return _cacheManager ?? (_cacheManager = AppEngine.Current.Resolve<ICacheManager>()); }
-        }
-
-        private IBackgroundTaskExecutionDataRepository BackgroundTaskExeDataRepository
-        {
-            get
-            {
-                return CacheManager.Get(BackgroundTaskExecutionDataKey,
-                    () => AppEngine.Current.Resolve<IBackgroundTaskExecutionDataRepository>());
-            }
+            _backgroundTaskExeDataRepository = backgroundTaskExeDataRepository;
         }
 
         public void HandleEvent(CreatedEvent<BackgroundTaskExecutionDataDomainModel> eventMessage)
         {
             Guard.NotNull(new object[] {eventMessage, eventMessage.DomainModel});
 
-            BackgroundTaskExeDataRepository.CreateTaskExecutionData(eventMessage.DomainModel);
+            _backgroundTaskExeDataRepository.CreateTaskExecutionData(eventMessage.DomainModel);
         }
     }
 }

@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace Saturn72.Common.App
+namespace Saturn72.Core.Services.App
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class AppVersionAttribute : Attribute

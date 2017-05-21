@@ -1,10 +1,9 @@
-﻿
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
-using Saturn72.Common.App;
+using Saturn72.Core.Services.App;
 using Shouldly;
 
-namespace Saturn72.Common.Tests.App
+namespace Saturn72.Core.Services.Tests.App
 {
     public class AppExtensionsTests
     {

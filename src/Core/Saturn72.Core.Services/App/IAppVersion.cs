@@ -1,5 +1,5 @@
 ﻿
-namespace Saturn72.Common.App
+namespace Saturn72.Core.Services.App
 {
     /// <summary>
     /// Represents application version

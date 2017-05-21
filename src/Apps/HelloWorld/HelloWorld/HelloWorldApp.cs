@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Saturn72.Common.App;
+using Saturn72.Core.Services.App;
 using Saturn72.Core.Configuration;
 
 namespace HelloWorld

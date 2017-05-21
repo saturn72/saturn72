@@ -47,6 +47,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\AppExtensions.cs" />
+    <Compile Include="App\AppVersionAttribute.cs" />
+    <Compile Include="App\AppVersionStatus.cs" />
+    <Compile Include="App\Events\ApplicationStartedEvent.cs" />
+    <Compile Include="App\Events\ApplicationStoppedEvent.cs" />
+    <Compile Include="App\Events\OnApplicationInitializeFinishEvent.cs" />
+    <Compile Include="App\Events\OnApplicationInitializeStartEvent.cs" />
+    <Compile Include="App\Events\OnApplicationStopFinishEvent.cs" />
+    <Compile Include="App\Events\OnApplicationStopStartEvent.cs" />
+    <Compile Include="App\Events\OnApplicationUnexpectedlyStoppedEvent.cs" />
+    <Compile Include="App\IApp.cs" />
+    <Compile Include="App\IAppVersion.cs" />
+    <Compile Include="App\Saturn72AppBase.cs" />
+    <Compile Include="DefaultOutput.cs" />
     <Compile Include="Extensibility\PluginManagerExtensions.cs" />
     <Compile Include="File\IFileUploadValidationFactory.cs" />
     <Compile Include="File\IFileValidator.cs" />

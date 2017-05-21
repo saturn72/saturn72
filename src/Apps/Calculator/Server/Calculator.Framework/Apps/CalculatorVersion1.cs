@@ -1,8 +1,6 @@
-﻿    
+﻿#region
 
-#region
-
-using Saturn72.Common.App;
+using Saturn72.Core.Services.App;
 
 #endregion
 
@@ -10,29 +8,14 @@ namespace Calculator.Framework.Apps
 {
     public class CalculatorVersion1 : IAppVersion
     {
-        public string Key
-        {
-            get { return "v1"; }
-        }
+        public string Key => "v1";
 
-        public int Index
-        {
-            get { return 1; }
-        }
+        public int Index => 1;
 
-        public bool IsLatest
-        {
-            get { return true; }
-        }
+        public bool IsLatest => true;
 
-        public bool Publish
-        {
-            get { return Status == AppVersionStatusType.Stable || Status == AppVersionStatusType.ReleaseCandidate; }
-        }
+        public bool Publish => Status == AppVersionStatusType.Stable || Status == AppVersionStatusType.ReleaseCandidate;
 
-        public AppVersionStatusType Status
-        {
-            get { return AppVersionStatusType.Alpha; }
-        }
+        public AppVersionStatusType Status => AppVersionStatusType.Alpha;
     }
 }

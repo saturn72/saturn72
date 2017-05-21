@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Saturn72.Common.App
+namespace Saturn72.Core.Services.App
 {
     /// <summary>
     /// Represent applicaiton 

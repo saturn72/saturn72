@@ -11,7 +11,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
-using Saturn72.Common.App;
+using Saturn72.Core.Services.App;
 using Saturn72.Extensions;
 
 #endregion

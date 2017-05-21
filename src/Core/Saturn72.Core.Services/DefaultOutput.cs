@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 
-namespace Saturn72.Common
+namespace Saturn72.Core.Services
 {
     public sealed class DefaultOutput
     {

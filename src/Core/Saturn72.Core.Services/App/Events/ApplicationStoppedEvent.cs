@@ -1,10 +1,10 @@
 ﻿using Saturn72.Core.Services.Events;
 
-namespace Saturn72.Common.App.Events
+namespace Saturn72.Core.Services.App.Events
 {
-    public class ApplicationStartedEvent : EventBase
+    public class ApplicationStoppedEvent : EventBase
     {
-        public ApplicationStartedEvent(IApp app)
+        public ApplicationStoppedEvent(IApp app)
         {
             App = app;
         }

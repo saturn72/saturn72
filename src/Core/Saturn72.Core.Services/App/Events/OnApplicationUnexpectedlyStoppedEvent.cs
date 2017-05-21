@@ -1,6 +1,6 @@
 ﻿using Saturn72.Core.Services.Events;
 
-namespace Saturn72.Common.App.Events
+namespace Saturn72.Core.Services.App.Events
 {
     public class OnApplicationUnexpectedlyStoppedEvent:EventBase
     {

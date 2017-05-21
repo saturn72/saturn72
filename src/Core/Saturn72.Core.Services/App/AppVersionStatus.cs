@@ -1,4 +1,4 @@
-﻿namespace Saturn72.Common.App
+﻿namespace Saturn72.Core.Services.App
 {
     public sealed class AppVersionStatusType
     {
