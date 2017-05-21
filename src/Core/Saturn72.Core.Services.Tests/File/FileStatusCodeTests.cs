@@ -6,10 +6,9 @@ using Shouldly;
 
 #endregion
 
-namespace Saturn72.Core.Services.Tests.Media
+namespace Saturn72.Core.Services.Tests.File
 {
-    public
-        class MediaStatusCodeTests
+    public class FileStatusCodeTests
     {
         [Test]
         public void UploadStatus_StatusCodeAndMessages()

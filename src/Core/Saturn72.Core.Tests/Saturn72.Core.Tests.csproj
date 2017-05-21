@@ -119,10 +119,6 @@
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Modules\Ioc\Autofac\Saturn72.Module.Ioc.Autofac\Saturn72.Module.Ioc.Autofac.csproj">
-      <Project>{E78561F2-234A-43BA-86B8-4F715C47BCD6}</Project>
-      <Name>Saturn72.Module.Ioc.Autofac</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Modules\DummyModule\ShouldBeLoaded.dll">

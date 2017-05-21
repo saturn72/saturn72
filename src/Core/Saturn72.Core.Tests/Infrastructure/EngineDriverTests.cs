@@ -38,15 +38,14 @@ namespace Saturn72.Core.Tests.Infrastructure
         {
             StartupTaskIndexes.Clear();
 
-            new AppEngineDriver().Initialize(Saturn72Config.GetConfiguration());
+            var config = Saturn72Config.GetConfiguration();
+            new AppEngineDriver().Initialize(config);
 
             var indexArray = StartupTaskIndexes.ToArray();
             indexArray.Length.ShouldBe(2);
             indexArray[0].ShouldBe(1);
             indexArray[1].ShouldBe(2);
         }
-
-
         internal class TestDependencyRegistrar1 : IDependencyRegistrar
         {
             public int RegistrationOrder => 1;

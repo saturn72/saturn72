@@ -45,9 +45,10 @@
   <ItemGroup>
     <Compile Include="ComponentModel\ServiceModelResponseTests.cs" />
     <Compile Include="ComponentModel\ServiceResponseBaseTests.cs" />
-    <Compile Include="Media\MediaUploadRequestTests.cs" />
-    <Compile Include="Media\MediaUploadResponseTests.cs" />
-    <Compile Include="Media\MediaStatusCodeTests.cs" />
+    <Compile Include="Events\EventBaseTests.cs" />
+    <Compile Include="File\FileUploadRequestTests.cs" />
+    <Compile Include="File\FileUploadResponseTests.cs" />
+    <Compile Include="File\FileStatusCodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\SystemErrorCodeTests.cs" />
   </ItemGroup>

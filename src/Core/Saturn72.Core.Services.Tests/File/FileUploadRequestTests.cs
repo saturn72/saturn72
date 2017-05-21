@@ -1,8 +1,8 @@
-﻿using System.Linq;
+using System.Linq;
 using NUnit.Framework;
 using Saturn72.Core.Services.File;
 
-namespace Saturn72.Core.Services.Tests.Media
+namespace Saturn72.Core.Services.Tests.File
 {
     public class MediaUploadRequestTests
     {

@@ -3,7 +3,7 @@ using Saturn72.Core.Domain.FileUpload;
 using Saturn72.Core.Services.File;
 using Shouldly;
 
-namespace Saturn72.Core.Services.Tests.Media
+namespace Saturn72.Core.Services.Tests.File
 {
     public class MediaUploadResponseTests
     {

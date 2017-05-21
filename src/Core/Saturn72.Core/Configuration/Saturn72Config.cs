@@ -89,8 +89,7 @@ namespace Saturn72.Core.Configuration
 
         public static Saturn72Config GetConfiguration()
         {
-            return _saturn72Config ?? (_saturn72Config = ConfigurationManager.GetSection("saturn72Config") as Saturn72Config
-                                         ?? new Saturn72Config().DefaultConfig());
+            return _saturn72Config ?? (_saturn72Config = ConfigurationManager.GetSection("saturn72Config") as Saturn72Config ?? new Saturn72Config().DefaultConfig());
         }
     }
 }
