@@ -37,7 +37,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             AppDomainLoadData = data;
             LoadExternalAssemblies(data.Assemblies);
-            LoadAllModules(data.ModulesDynamicLoadingData);
+            LoadAllModules(data);
             LoadAllPlugins(data.PluginsDynamicLoadingData);
         }
 
@@ -62,29 +62,39 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             }
         }
 
-        private static void LoadAllModules(DynamicLoadingData data)
+        private static void LoadAllModules(AppDomainLoadData appDomainLoadData)
         {
-            if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
+            var modulesData = appDomainLoadData.ModulesDynamicLoadingData;
+            if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(modulesData.RootDirectory))
             {
                 Trace.TraceWarning("No Modules were found in modules root directory or unaccessible directory: " +
-                                   data.RootDirectory);
+                                   modulesData.RootDirectory);
                 return;
             }
 
             using (new WriteLockDisposable(Locker))
             {
-                if (!PrepareFileSystemForPluginsOrModules(data))
+                if (!PrepareFileSystemForPluginsOrModules(modulesData))
                     return;
 
-                DeployModulesDlls(data);
+                DeployModulesDlls(modulesData);
             }
+            //Load required modules
+            appDomainLoadData.ModuleInstances.Where(m => m.Active)
+                .ForEachItem(mi =>
+                {
+                    if (mi.Module.IsNull())
+                        mi.SetModule(CommonHelper.CreateInstance<IModule>(mi.Type));
+                    mi.Module.Load();
+                });
         }
 
         private static void LoadAllPlugins(DynamicLoadingData data)
         {
             if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
             {
-                Trace.TraceWarning("No PLUGINS were found in root directory or unaccessible directory: " + data.RootDirectory);
+                Trace.TraceWarning("No PLUGINS were found in root directory or unaccessible directory: " +
+                                   data.RootDirectory);
                 return;
             }
             using (new WriteLockDisposable(Locker))
@@ -228,6 +238,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 throw fail;
             }
         }
+
         private static IEnumerable<PluginDescriptor> GetInstalledAndSuspendedPluginsSystemNames(string pluginConfigFile)
         {
             var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(pluginConfigFile);
@@ -247,8 +258,10 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
             if (multipleEntries.Any())
             {
-                var dupEntries = string.Join("; ",multipleEntries.Select(i=>i.Key));
-                throw new InvalidOperationException("{0} contains multiple entries for the same plugin. Duplicate plugin types: {1}".AsFormat(pluginConfigFile, dupEntries));
+                var dupEntries = string.Join("; ", multipleEntries.Select(i => i.Key));
+                throw new InvalidOperationException(
+                    "{0} contains multiple entries for the same plugin. Duplicate plugin types: {1}".AsFormat(
+                        pluginConfigFile, dupEntries));
             }
             return result;
         }

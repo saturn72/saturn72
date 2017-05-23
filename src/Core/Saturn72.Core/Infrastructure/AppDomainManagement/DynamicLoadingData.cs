@@ -21,7 +21,6 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         }
 
         public string ConfigFile { get;  }
-
         public string RootDirectory { get; }
         public string ShadowCopyDirectory { get; }
         public bool DeleteShadowCopyOnStartup { get; set; }
