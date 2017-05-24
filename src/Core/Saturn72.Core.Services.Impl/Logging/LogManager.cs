@@ -28,11 +28,14 @@ namespace Saturn72.Core.Services.Impl.Logging
             _loggerCollection[logRecord.LogLevel].DeleteLogRecord(logRecord);
         }
 
-        public IEnumerable<LogRecordModel> GetAllLogRecords()
+        public IEnumerable<LogRecordModel> AllLogRecords
         {
-            var result = new List<LogRecordModel>();
-            AllLoggers.ForEachItem(l => result.AddRange(l.GetAllLogRecords()));
-            return result;
+            get
+            {
+                var result = new List<LogRecordModel>();
+                AllLoggers.ForEachItem(l => result.AddRange(l.AllLogRecords));
+                return result;
+            }
         }
 
         public LogRecordModel GetLogById(long logRecordId)

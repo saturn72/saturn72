@@ -61,6 +61,7 @@
     <Compile Include="Extensibility\PluginManagerTests.cs" />
     <Compile Include="Extensibility\PluginServiceTests.cs" />
     <Compile Include="File\FileUploadValidationFactoryTests.cs" />
+    <Compile Include="Logging\MemoryLoggerTests.cs" />
     <Compile Include="Security\AuthenticationServiceTests.cs" />
     <Compile Include="Configuration\SettingServiceTests.cs" />
     <Compile Include="Events\EventPublisherTests.cs" />
