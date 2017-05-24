@@ -80,7 +80,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 DeployModulesDlls(modulesData);
             }
             //Load required modules
-            appDomainLoadData.ModuleInstances.Where(m => m.Active)
+            appDomainLoadData.ModuleInstances?.Where(m => m.Active)
                 .ForEachItem(mi =>
                 {
                     if (mi.Module.IsNull())
