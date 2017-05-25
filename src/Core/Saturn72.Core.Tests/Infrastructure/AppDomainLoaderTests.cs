@@ -39,6 +39,7 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
+
         [Test]
         public void LoadAppDomain_LoadsModulesToAppDomain()
         {
@@ -61,7 +62,8 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             var appDomainAsms = AppDomain.CurrentDomain
                 .GetAssemblies()
-                .Select(t => t.GetName().Name).ToArray();
+                .Select(t => t.GetName().Name)
+                .ToArray();
 
             appDomainAsms.ShouldContain("ShouldBeLoaded");
         }
@@ -79,7 +81,9 @@ namespace Saturn72.Core.Tests.Infrastructure
                 FileSystemUtil.RelativePathToAbsolutePath(SystemDefaults.DefaultPluginsShadowCopyDirectory);
 
 
-            var pluginConfig = FileSystemUtil.RelativePathToAbsolutePath("InstalledPluginFiles\\ShouldThrowOnDuplicateLoadRequest.json");
+            var pluginConfig =
+                FileSystemUtil.RelativePathToAbsolutePath(
+                    "InstalledPluginFiles\\ShouldThrowOnDuplicateLoadRequest.json");
             var pluginsDynamicLoadData = new DynamicLoadingData(pluginsRoot, pluginsShadow, false, pluginConfig);
 
             var data = new AppDomainLoadData(
@@ -91,11 +95,14 @@ namespace Saturn72.Core.Tests.Infrastructure
 
             Should.Throw<InvalidOperationException>(() => AppDomainLoader.Load(data));
         }
+
         [Test]
         public void LoadAppDomain_LoadsPluginsToAppDomain()
         {
-            var pluginFiles = new[] { "SingleSuspendedPlugin.json", "2Plugins-BothSuspended.json", "2Plugins-ActiveAndSuspended" };
-            var expectedLoadedPlugins = new[] { "DummyPlugin1", "DummyPlugin1,DummyPlugin2", "DummyPlugin1,DummyPlugin2" };
+            var pluginFiles = new[]
+                {"SingleSuspendedPlugin.json", "2Plugins-BothSuspended.json", "2Plugins-ActiveAndSuspended"};
+            var expectedLoadedPlugins = new[]
+                {"DummyPlugin1", "DummyPlugin1,DummyPlugin2", "DummyPlugin1,DummyPlugin2"};
 
             var moduleRoot = FileSystemUtil.RelativePathToAbsolutePath("Modules");
             var shadowCopyDirectory = FileSystemUtil.RelativePathToAbsolutePath(@"Modules\bin");
@@ -124,7 +131,8 @@ namespace Saturn72.Core.Tests.Infrastructure
                     .Select(t => t.GetName().Name)
                     .ToArray();
 
-                foreach (var exp in expectedLoadedPlugins[i].Split(','))
+                var expecxtedAssemblies = expectedLoadedPlugins[i].Split(',');
+                foreach (var exp in expecxtedAssemblies)
                     appDomainAsms.ShouldContain(exp.Trim());
             }
         }

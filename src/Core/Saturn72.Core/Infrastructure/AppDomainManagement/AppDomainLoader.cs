@@ -27,7 +27,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         private static ICollection<PluginDescriptor> _pluginDescriptors;
         public static AppDomainLoadData AppDomainLoadData { get; private set; }
 
-        public static IEnumerable<PluginDescriptor> PluginDescriptors => _pluginDescriptors;
+        public static IEnumerable<PluginDescriptor> PluginDescriptors => _pluginDescriptors ?? (_pluginDescriptors = new List<PluginDescriptor>());
 
         /// <summary>
         ///     Loads all components to AppDomain
@@ -102,13 +102,12 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 if (!PrepareFileSystemForPluginsOrModules(data))
                     return;
 
-                _pluginDescriptors = new List<PluginDescriptor>();
                 var installedOrSuspendedPlugins = GetInstalledAndSuspendedPluginsSystemNames(data.ConfigFile);
 
                 var pluginDescriptors = GetPluginDescriptors(data.RootDirectory);
                 foreach (var pd in pluginDescriptors)
                 {
-                    ValidatePluginBySystemName(pd, _pluginDescriptors);
+                    ValidatePluginBySystemName(pd, PluginDescriptors);
                     pd.State = GetPluginState(installedOrSuspendedPlugins, pd.TypeFullName);
                     _pluginDescriptors.Add(pd);
                 }
@@ -143,7 +142,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             var binFiles = Directory.Exists(shadowCopyDirectory)
                 ? Directory.GetFiles(shadowCopyDirectory)
                 : new string[] { };
-            var pluginsToDeploy = _pluginDescriptors.Where(pd => pd.State != PluginState.Uninstalled);
+            var pluginsToDeploy = PluginDescriptors.Where(pd => pd.State != PluginState.Uninstalled);
 
             try
             {
