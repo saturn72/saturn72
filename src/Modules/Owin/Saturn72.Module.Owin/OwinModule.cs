@@ -54,12 +54,7 @@ namespace Saturn72.Module.Owin
             using (WebApp.Start(_baseUri, startupAction))
             {
                 Trace.WriteLine("web server started. uri: " + _baseUri);
-
-                //TODO: remove busy wait from here . replace with HttpServer
-                while (true)
-                {
-                    //Console.ReadLine();
-                }
+                Console.ReadLine();
             }
             Console.WriteLine("web server stopped");
         }
