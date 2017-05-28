@@ -1,8 +1,5 @@
 ﻿#region
 
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Saturn72.Common.WebApi.Models.Account;
@@ -19,13 +16,6 @@ namespace Saturn72.Common.WebApi.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : Saturn72ApiControllerBase
     {
-        #region Fields
-
-        private readonly IUserRegistrationService _userRegistrationService;
-        private readonly IWorkContext _workContext;
-
-        #endregion
-
         #region ctor
 
         public AccountController(IUserRegistrationService userRegistrationService, IWorkContext workContext)
@@ -39,13 +29,13 @@ namespace Saturn72.Common.WebApi.Controllers
         [Route("Register")]
         public async Task<IHttpActionResult> Register(UserRegistrationApiModel model)
         {
-            if(model.IsNull())
+            if (model.IsNull())
                 return BadRequest("Missing or no data for registration");
 
             if (!ModelState.IsValid)
                 return BadRequest(ConvertModelStateErrorsToKeyValuePair());
 
-            var request = new UserRegistrationRequest(model.Username, model.Email, model.Password, 
+            var request = new UserRegistrationRequest(model.Username, model.Email, model.Password,
                 PasswordFormat.Encrypted, _workContext.CurrentUserIpAddress);
             var response = await _userRegistrationService.RegisterAsync(request);
 
@@ -54,5 +44,12 @@ namespace Saturn72.Common.WebApi.Controllers
 
             return BadRequestResult(response.Errors);
         }
+
+        #region Fields
+
+        private readonly IUserRegistrationService _userRegistrationService;
+        private readonly IWorkContext _workContext;
+
+        #endregion
     }
 }

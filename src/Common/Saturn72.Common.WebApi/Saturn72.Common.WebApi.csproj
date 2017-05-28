@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\UiController.cs" />
     <Compile Include="File\FileUploadContent.cs" />
     <Compile Include="File\FileUploadModelBinder.cs" />
     <Compile Include="Models\Account\UserRegistrationApiModel.cs" />
@@ -90,8 +89,6 @@
     <Compile Include="Saturn72AuthorizedApiControllerBase.cs" />
     <Compile Include="Saturn72ApiControllerBase.cs" />
     <Compile Include="Security\Saturn72AuthorizeAttribute.cs" />
-    <Compile Include="Services\HtmlRenderingService.cs" />
-    <Compile Include="Services\IHtmlRenderingService.cs" />
     <Compile Include="Utils\HttpContentType.cs" />
     <Compile Include="Utils\JsonUtil.cs" />
     <Compile Include="Validation\Saturn72ValidatorBase.cs" />
@@ -114,10 +111,6 @@
     <ProjectReference Include="..\..\Modules\Owin\Saturn72.Module.Owin\Saturn72.Module.Owin.csproj">
       <Project>{23AF9C5A-A707-44A5-9D2F-83705BA2B570}</Project>
       <Name>Saturn72.Module.Owin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Saturn72.Common\Saturn72.Common.csproj">
-      <Project>{6DE3E33E-0B13-4C57-8871-C83E1EEB8470}</Project>
-      <Name>Saturn72.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
