@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{8D4E8F9C-D9A7-4B9E-B2F7-FE70F1D23F83}"
 EndProject
@@ -98,6 +98,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyPlugin2", "Tests\DummyPlugin2\DummyPlugin2.csproj", "{2967BA59-2C4D-4E3E-9DF1-FE695EAAAEBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Core.Services.Impl", "Core\Saturn72.Core.Services.Impl\Saturn72.Core.Services.Impl.csproj", "{BA702041-080D-459A-BCD1-37875D92C626}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoDb", "MongoDb", "{F6C776E2-0AB4-4A91-AF29-A21953D1E1B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Modules.MongoDb", "Modules\MongoDb\Saturn72.Modules.MongoDb\Saturn72.Modules.MongoDb.csproj", "{6AF3C4CD-E90C-42B1-817C-9C3E127CD0EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -235,6 +239,10 @@ Global
 		{BA702041-080D-459A-BCD1-37875D92C626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA702041-080D-459A-BCD1-37875D92C626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA702041-080D-459A-BCD1-37875D92C626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AF3C4CD-E90C-42B1-817C-9C3E127CD0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AF3C4CD-E90C-42B1-817C-9C3E127CD0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AF3C4CD-E90C-42B1-817C-9C3E127CD0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AF3C4CD-E90C-42B1-817C-9C3E127CD0EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -283,5 +291,7 @@ Global
 		{CFBB80CE-1958-4545-BE51-C6EC4B4A879F} = {4E26C893-5690-4CF0-81FF-2BA994FE43E9}
 		{2967BA59-2C4D-4E3E-9DF1-FE695EAAAEBF} = {4E26C893-5690-4CF0-81FF-2BA994FE43E9}
 		{BA702041-080D-459A-BCD1-37875D92C626} = {EFCD99E7-1F91-47A1-89A2-FCD68E8A82A4}
+		{F6C776E2-0AB4-4A91-AF29-A21953D1E1B4} = {AB0201BC-9C43-4B4E-AE62-85D25708F51D}
+		{6AF3C4CD-E90C-42B1-817C-9C3E127CD0EE} = {F6C776E2-0AB4-4A91-AF29-A21953D1E1B4}
 	EndGlobalSection
 EndGlobal
