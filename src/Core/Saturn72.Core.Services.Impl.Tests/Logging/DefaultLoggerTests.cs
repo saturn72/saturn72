@@ -73,7 +73,7 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
                 .Returns(expected);
             var logger = new DefaultLogger(lrRepo.Object);
 
-            logger.GetAllLogRecords().Count().ShouldBe(expected.Length);
+            logger.AllLogRecords.Count().ShouldBe(expected.Length);
         }
 
         [Test]

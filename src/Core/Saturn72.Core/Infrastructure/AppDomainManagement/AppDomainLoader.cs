@@ -27,7 +27,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         private static ICollection<PluginDescriptor> _pluginDescriptors;
         public static AppDomainLoadData AppDomainLoadData { get; private set; }
 
-        public static IEnumerable<PluginDescriptor> PluginDescriptors => _pluginDescriptors;
+        public static IEnumerable<PluginDescriptor> PluginDescriptors => _pluginDescriptors ?? (_pluginDescriptors = new List<PluginDescriptor>());
 
         /// <summary>
         ///     Loads all components to AppDomain
@@ -37,7 +37,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         {
             AppDomainLoadData = data;
             LoadExternalAssemblies(data.Assemblies);
-            LoadAllModules(data.ModulesDynamicLoadingData);
+            LoadAllModules(data);
             LoadAllPlugins(data.PluginsDynamicLoadingData);
         }
 
@@ -62,29 +62,39 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             }
         }
 
-        private static void LoadAllModules(DynamicLoadingData data)
+        private static void LoadAllModules(AppDomainLoadData appDomainLoadData)
         {
-            if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
+            var modulesData = appDomainLoadData.ModulesDynamicLoadingData;
+            if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(modulesData.RootDirectory))
             {
                 Trace.TraceWarning("No Modules were found in modules root directory or unaccessible directory: " +
-                                   data.RootDirectory);
+                                   modulesData.RootDirectory);
                 return;
             }
 
             using (new WriteLockDisposable(Locker))
             {
-                if (!PrepareFileSystemForPluginsOrModules(data))
+                if (!PrepareFileSystemForPluginsOrModules(modulesData))
                     return;
 
-                DeployModulesDlls(data);
+                DeployModulesDlls(modulesData);
             }
+            //Load required modules
+            appDomainLoadData.ModuleInstances?.Where(m => m.Active)
+                .ForEachItem(mi =>
+                {
+                    if (mi.Module.IsNull())
+                        mi.SetModule(CommonHelper.CreateInstance<IModule>(mi.Type));
+                    mi.Module.Load();
+                });
         }
 
         private static void LoadAllPlugins(DynamicLoadingData data)
         {
             if (!DirectoryIsAccessibleAndHaveFilesOrDirectories(data.RootDirectory))
             {
-                Trace.TraceWarning("No PLUGINS were found in root directory or unaccessible directory: " + data.RootDirectory);
+                Trace.TraceWarning("No PLUGINS were found in root directory or unaccessible directory: " +
+                                   data.RootDirectory);
                 return;
             }
             using (new WriteLockDisposable(Locker))
@@ -92,13 +102,12 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 if (!PrepareFileSystemForPluginsOrModules(data))
                     return;
 
-                _pluginDescriptors = new List<PluginDescriptor>();
                 var installedOrSuspendedPlugins = GetInstalledAndSuspendedPluginsSystemNames(data.ConfigFile);
 
                 var pluginDescriptors = GetPluginDescriptors(data.RootDirectory);
                 foreach (var pd in pluginDescriptors)
                 {
-                    ValidatePluginBySystemName(pd, _pluginDescriptors);
+                    ValidatePluginBySystemName(pd, PluginDescriptors);
                     pd.State = GetPluginState(installedOrSuspendedPlugins, pd.TypeFullName);
                     _pluginDescriptors.Add(pd);
                 }
@@ -133,7 +142,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
             var binFiles = Directory.Exists(shadowCopyDirectory)
                 ? Directory.GetFiles(shadowCopyDirectory)
                 : new string[] { };
-            var pluginsToDeploy = _pluginDescriptors.Where(pd => pd.State != PluginState.Uninstalled);
+            var pluginsToDeploy = PluginDescriptors.Where(pd => pd.State != PluginState.Uninstalled);
 
             try
             {
@@ -228,6 +237,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 throw fail;
             }
         }
+
         private static IEnumerable<PluginDescriptor> GetInstalledAndSuspendedPluginsSystemNames(string pluginConfigFile)
         {
             var installedPluginsFile = FileSystemUtil.RelativePathToAbsolutePath(pluginConfigFile);
@@ -247,8 +257,10 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
             if (multipleEntries.Any())
             {
-                var dupEntries = string.Join("; ",multipleEntries.Select(i=>i.Key));
-                throw new InvalidOperationException("{0} contains multiple entries for the same plugin. Duplicate plugin types: {1}".AsFormat(pluginConfigFile, dupEntries));
+                var dupEntries = string.Join("; ", multipleEntries.Select(i => i.Key));
+                throw new InvalidOperationException(
+                    "{0} contains multiple entries for the same plugin. Duplicate plugin types: {1}".AsFormat(
+                        pluginConfigFile, dupEntries));
             }
             return result;
         }

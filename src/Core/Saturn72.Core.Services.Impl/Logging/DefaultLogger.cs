@@ -32,9 +32,9 @@ namespace Saturn72.Core.Services.Impl.Logging
         }
 
 
-        public IEnumerable<LogRecordModel> GetAllLogRecords()
+        public IEnumerable<LogRecordModel> AllLogRecords
         {
-            return _logRecordRespository.GetAllLogRecords();
+            get { return _logRecordRespository.GetAllLogRecords(); }
         }
 
         public LogRecordModel GetLogById(long logRecordId)

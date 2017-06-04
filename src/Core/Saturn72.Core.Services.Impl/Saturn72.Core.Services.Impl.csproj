@@ -54,6 +54,7 @@
     <Compile Include="File\FileUploadManager.cs" />
     <Compile Include="File\FileUploadValidationFactory.cs" />
     <Compile Include="File\IFileUploadSessionRepository.cs" />
+    <Compile Include="Logging\MemoryLogger.cs" />
     <Compile Include="Security\ClientAppService.cs" />
     <Compile Include="Security\AuthenticationService.cs" />
     <Compile Include="Security\IClientAppRepository.cs" />

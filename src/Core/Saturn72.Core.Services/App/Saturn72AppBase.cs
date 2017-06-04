@@ -37,6 +37,22 @@ namespace Saturn72.Core.Services.App
             StartAllModules(_data);
 
             _eventPublisher.Publish(new OnApplicationInitializeFinishEvent(this));
+
+            Trace.WriteLine("Press CTRL+C to quit application...");
+
+            var exitEvent = new ManualResetEvent(false);
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
+                eventArgs.Cancel = true;
+                exitEvent.Set();
+            };
+
+            exitEvent.WaitOne();
+
+            Trace.WriteLine("Stop all modules...");
+            StopAllModules(_data);
+            AppEngine.Current.Dispose();
+            DisplayExitCounter();
         }
 
         public virtual void Stop()

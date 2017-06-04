@@ -48,9 +48,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
             throw new NotImplementedException();
         }
 
-        public IEnumerable<LogRecordModel> GetAllLogRecords()
+        public IEnumerable<LogRecordModel> AllLogRecords
         {
-            throw new NotImplementedException();
+            get { throw new NotImplementedException(); }
         }
 
         public LogRecordModel GetLogById(long logRecordId)
@@ -77,9 +77,9 @@ namespace Saturn72.Core.Services.Impl.Tests.Logging
             throw new NotImplementedException();
         }
 
-        public IEnumerable<LogRecordModel> GetAllLogRecords()
+        public IEnumerable<LogRecordModel> AllLogRecords
         {
-            throw new NotImplementedException();
+            get { throw new NotImplementedException(); }
         }
 
         public LogRecordModel GetLogById(long logRecordId)

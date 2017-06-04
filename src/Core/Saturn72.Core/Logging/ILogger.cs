@@ -24,8 +24,9 @@ namespace Saturn72.Core.Logging
         /// <summary>
         ///     Gets all logRecord items
         /// </summary>
-        /// <returns>LogRecord{} <see cref="LogRecord{object}" /></returns>
-        IEnumerable<LogRecordModel> GetAllLogRecords();
+        /// <value>LogRecord{} <see cref="LogRecord{object}" />
+        /// </value>
+        IEnumerable<LogRecordModel> AllLogRecords { get; }
 
         /// <summary>
         ///     Gets a logRecord item
