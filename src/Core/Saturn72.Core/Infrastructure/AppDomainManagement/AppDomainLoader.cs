@@ -497,8 +497,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                     }
                     catch (IOException exc)
                     {
-                        throw new IOException(shadowCopiedPlug.FullName + " rename failed, cannot initialize plugin",
-                            exc);
+                        Debug.WriteLine("Failed to move " + shadowCopiedPlug.FullName + " file wil be overwritten");
                     }
                     //ok, we've made it this far, now retry the shadow copy
                     File.Copy(component.FullName, shadowCopiedPlug.FullName, true);
