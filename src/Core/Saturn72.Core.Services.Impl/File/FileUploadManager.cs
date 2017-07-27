@@ -57,7 +57,7 @@ namespace Saturn72.Core.Services.Impl.File
                 return new FileUploadResponse(request, FileStatusCode.Invalid, null, "Invalid upload request");
 
             if (!IsSupportedExtension(request.Extension))
-                return new FileUploadResponse(request, FileStatusCode.Unsupported, null, "failed to validate");
+                return new FileUploadResponse(request, FileStatusCode.Unsupported, null, "Extension not supportted");
 
             var fileStatusCode = _mediaUploadValidationFactory.Validate(request);
             if (fileStatusCode != FileStatusCode.Valid)
