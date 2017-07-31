@@ -14,6 +14,7 @@
         public static FileStatusCode Uploaded = new FileStatusCode(1400, "The file was uploaded");
         public static FileStatusCode FailedToUpload = new FileStatusCode(1600, "The file faild to upload");
         public static FileStatusCode UnexpectedError = new FileStatusCode(1800, "Unexpected error occured");
+        public static FileStatusCode EmptyFile = new FileStatusCode(2000, "The file is empty");
         private FileStatusCode(int code, string message)
         {
             Code = code;

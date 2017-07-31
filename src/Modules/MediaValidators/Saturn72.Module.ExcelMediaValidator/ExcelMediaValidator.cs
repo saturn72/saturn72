@@ -17,6 +17,9 @@ namespace Saturn72.Module.ExcelMediaValidator
 
         public FileStatusCode Validate(byte[] bytes, string extension)
         {
+            if (bytes.Length == 0)
+                return FileStatusCode.EmptyFile;
+
             if (!SupportedExtensions.Any(x => x.Equals(extension, StringComparison.CurrentCultureIgnoreCase)))
                 return FileStatusCode.Unsupported;
 
@@ -28,9 +31,16 @@ namespace Saturn72.Module.ExcelMediaValidator
                         ? ExcelReaderFactory.CreateBinaryReader(ms)
                         : ExcelReaderFactory.CreateOpenXmlReader(ms);
 
-                    return excel.ExceptionMessage.HasValue()
-                        ? FileStatusCode.Corrupted
-                        : FileStatusCode.Valid;
+                    if(excel.ExceptionMessage.HasValue())
+                        return FileStatusCode.Corrupted;
+
+                    if(!excel.IsValid)
+                        return FileStatusCode.Invalid;
+
+                    if(!excel.Read())
+                        return FileStatusCode.EmptyFile;
+
+                    return FileStatusCode.Valid;
                 }
             }
             catch
