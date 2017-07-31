@@ -53,6 +53,21 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
             }
         }
 
+        [Test]
+        public void ExcelMediaValidator_Validate_ReturnsCurropted()
+        {
+            var excelMediaValidator = new ExcelMediaValidator();
+            var resourcesPath = Path.Combine(GetCurrentAssemblyFolder(), "Resources");
+            var allGoodFiles = Directory.GetFiles(resourcesPath, "corrupted.*");
+            foreach (var f in allGoodFiles)
+            {
+                var ext = Path.GetExtension(f).Replace(".", string.Empty);
+                var fs = File.ReadAllBytes(f);
+                excelMediaValidator.Validate(fs, ext).ShouldBe(FileStatusCode.Corrupted);
+            }
+        }
+
+
         public string GetCurrentAssemblyFolder()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;

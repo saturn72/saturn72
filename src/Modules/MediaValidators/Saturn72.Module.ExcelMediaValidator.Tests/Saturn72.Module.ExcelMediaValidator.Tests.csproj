@@ -67,6 +67,12 @@
     <None Include="Resources\empty.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\corrupted.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\corrupted.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\good.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
