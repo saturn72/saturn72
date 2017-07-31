@@ -58,10 +58,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Saturn72.Common\Saturn72.Common.csproj">
-      <Project>{6de3e33e-0b13-4c57-8871-c83e1eeb8470}</Project>
-      <Name>Saturn72.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Core\Saturn72.Core.Services.Impl\Saturn72.Core.Services.Impl.csproj">
       <Project>{BA702041-080D-459A-BCD1-37875D92C626}</Project>
       <Name>Saturn72.Core.Services.Impl</Name>

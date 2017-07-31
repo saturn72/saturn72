@@ -19,15 +19,15 @@ namespace Saturn72.Core.Services.Impl.File
             return _mediaValidators.Any() &&_mediaValidators.Any(bv => bv.SupportedExtensions.Contains(fileExtension));
         }
 
-        public FileStatusCode Validate(FileUploadRequest mediaUploadRequest)
+        public FileStatusCode Validate(FileUploadRequest fileUploadRequest)
         {
-            if(mediaUploadRequest.IsNull())
+            if(fileUploadRequest.IsNull())
                 return FileStatusCode.Invalid;
 
             var validator =
-                _mediaValidators.FirstOrDefault(bv => bv.SupportedExtensions.Contains(mediaUploadRequest.Extension));
+                _mediaValidators.FirstOrDefault(bv => bv.SupportedExtensions.Contains(fileUploadRequest.Extension));
 
-            return validator?.Validate(mediaUploadRequest.Bytes, mediaUploadRequest.Extension) ??
+            return validator?.Validate(fileUploadRequest.Bytes, fileUploadRequest.Extension) ??
                    FileStatusCode.Unsupported;
         }
     }

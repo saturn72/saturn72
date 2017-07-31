@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using Saturn72.Core.Services.File;
@@ -15,6 +14,7 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
         {
             new ExcelMediaValidator().Validate(null, "ddd").ShouldBe(FileStatusCode.Unsupported);
         }
+
         [Test]
         public void ExcelMediaValidator_Validate_ReturnsCorruptedFileError()
         {
@@ -26,7 +26,7 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
         [Test]
         public void ExcelMediaValidator_Validate_ReturnsValid()
         {
-            var resourcesPath = Path.Combine(GetCurrentAssemblyFolder(),"Resources");
+            var resourcesPath = Path.Combine(GetCurrentAssemblyFolder(), "Resources");
             var allGoodFiles = Directory.GetFiles(resourcesPath, "good.*");
             var nv = new ExcelMediaValidator();
             foreach (var f in allGoodFiles)
