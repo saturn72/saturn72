@@ -85,7 +85,7 @@
     <Compile Include="Extensibility\IPluginService.cs" />
     <Compile Include="Extensibility\PluginLoadMode.cs" />
     <Compile Include="File\FileUploadResponse.cs" />
-    <Compile Include="File\IFileUploadManager.cs" />
+    <Compile Include="File\IFileUploadService.cs" />
     <Compile Include="Localization\ILocaleService.cs" />
     <Compile Include="Localization\LocaleServiceExtensions.cs" />
     <Compile Include="NotificationModule.cs" />

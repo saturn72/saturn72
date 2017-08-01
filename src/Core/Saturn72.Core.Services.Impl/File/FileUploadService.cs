@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.FileUpload;
 using Saturn72.Core.Logging;
 using Saturn72.Core.Services.Events;
@@ -9,22 +10,23 @@ using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.Impl.File
 {
-    public class FileUploadManager : IFileUploadManager
+    public class FileUploadService : IFileUploadService
     {
         private readonly IEventPublisher _eventPublisher;
         private readonly ILogger _logger;
         private readonly IFileUploadRecordRepository _fileUploadRecordRepository;
         private readonly IFileUploadValidationFactory _mediaUploadValidationFactory;
         private readonly IFileUploadSessionRepository _fileUploadSessionRepository;
+        private readonly ICacheManager _cacheManager;
 
-        public FileUploadManager(IFileUploadValidationFactory mediaUploadValidationFactory, ILogger logger,
-            IEventPublisher eventPublisher, IFileUploadRecordRepository fileUploadRecordRepository, IFileUploadSessionRepository fileUploadSessionRepository)
+        public FileUploadService(IFileUploadValidationFactory mediaUploadValidationFactory, ILogger logger, IEventPublisher eventPublisher, IFileUploadRecordRepository fileUploadRecordRepository, IFileUploadSessionRepository fileUploadSessionRepository, ICacheManager cacheManager)
         {
             _mediaUploadValidationFactory = mediaUploadValidationFactory;
             _logger = logger;
             _eventPublisher = eventPublisher;
             _fileUploadRecordRepository = fileUploadRecordRepository;
             _fileUploadSessionRepository = fileUploadSessionRepository;
+            _cacheManager = cacheManager;
         }
 
         public bool IsSupportedExtension(string extension)
@@ -49,6 +51,14 @@ namespace Saturn72.Core.Services.Impl.File
                 requests.ForEachItem(req => fileUploadResponses.Add(Upload(req, us)));
             });
             return fileUploadResponses;
+        }
+
+        public async Task<IEnumerable<FileUploadRecordModel>> GetFileUploadRecordByUploadSessionIdAsync(long uploadSessionId)
+        {
+            Guard.GreaterThan(uploadSessionId, (long)0);
+
+            return await _cacheManager.Get(uploadSessionId.ToString(), 6000,
+                ()=> Task.FromResult(_fileUploadRecordRepository.GetByUploadSessionId(uploadSessionId)));
         }
 
         private FileUploadResponse Upload(FileUploadRequest request, FileUploadSessionModel session)

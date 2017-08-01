@@ -51,7 +51,7 @@
     <Compile Include="Extensibility\PluginManager.cs" />
     <Compile Include="Extensibility\PluginManagerExtensions.cs" />
     <Compile Include="File\IFileUploadRecordRepository.cs" />
-    <Compile Include="File\FileUploadManager.cs" />
+    <Compile Include="File\FileUploadService.cs" />
     <Compile Include="File\FileUploadValidationFactory.cs" />
     <Compile Include="File\IFileUploadSessionRepository.cs" />
     <Compile Include="Logging\MemoryLogger.cs" />
