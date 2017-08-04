@@ -60,6 +60,10 @@
     <Compile Include="App\IApp.cs" />
     <Compile Include="App\IAppVersion.cs" />
     <Compile Include="App\Saturn72AppBase.cs" />
+    <Compile Include="Datastructure\DatasstructureConversionHelper.cs" />
+    <Compile Include="Datastructure\DatastructureType.cs" />
+    <Compile Include="Datastructure\IDatasourceConvertor.cs" />
+    <Compile Include="Datastructure\IDatastructureConversionService.cs" />
     <Compile Include="DefaultOutput.cs" />
     <Compile Include="Extensibility\PluginManagerExtensions.cs" />
     <Compile Include="File\IFileUploadValidationFactory.cs" />

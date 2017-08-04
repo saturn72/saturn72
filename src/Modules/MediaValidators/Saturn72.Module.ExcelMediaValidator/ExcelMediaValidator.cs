@@ -17,11 +17,13 @@ namespace Saturn72.Module.ExcelMediaValidator
 
         public FileStatusCode Validate(byte[] bytes, string extension)
         {
-            if (bytes.Length == 0)
-                return FileStatusCode.EmptyFile;
-
             if (!SupportedExtensions.Any(x => x.Equals(extension, StringComparison.CurrentCultureIgnoreCase)))
                 return FileStatusCode.Unsupported;
+
+            Guard.NotNull(bytes);
+
+            if (bytes.Length == 0)
+                return FileStatusCode.EmptyFile;
 
             try
             {

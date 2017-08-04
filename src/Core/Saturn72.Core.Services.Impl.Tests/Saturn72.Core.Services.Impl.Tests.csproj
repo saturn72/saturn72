@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditHelperTests.cs" />
+    <Compile Include="Datastructure\DatastructureConversionServiceTests.cs" />
     <Compile Include="Extensibility\PluginManagerExtensionTests.cs" />
     <Compile Include="Extensibility\PluginManagerTests.cs" />
     <Compile Include="Extensibility\PluginServiceTests.cs" />

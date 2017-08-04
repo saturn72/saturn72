@@ -41,7 +41,7 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
         public void ExcelMediaValidator_Validate_ReturnsEmpty()
         {
             var excelMediaValidator = new ExcelMediaValidator();
-            excelMediaValidator.Validate(new byte[] { }, "ttt").ShouldBe(FileStatusCode.EmptyFile);
+            excelMediaValidator.Validate(new byte[] { }, "xls").ShouldBe(FileStatusCode.EmptyFile);
 
             var resourcesPath = Path.Combine(GetCurrentAssemblyFolder(), "Resources");
             var allGoodFiles = Directory.GetFiles(resourcesPath, "empty.*");
@@ -67,6 +67,13 @@ namespace Saturn72.Module.ExcelMediaValidator.Tests
             }
         }
 
+        [Test]
+        public void ExcelMediaValidator_Validate_ThrowsOnNullBytes()
+        {
+            var nv = new ExcelMediaValidator();
+            Should.Throw<NullReferenceException>(()=> nv.Validate(null, "xls"));
+
+        }
 
         public string GetCurrentAssemblyFolder()
         {

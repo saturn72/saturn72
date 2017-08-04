@@ -55,6 +55,7 @@
     <Compile Include="App\AppVersionStatusTypeTests.cs" />
     <Compile Include="ComponentModel\ServiceModelResponseTests.cs" />
     <Compile Include="ComponentModel\ServiceResponseBaseTests.cs" />
+    <Compile Include="Datastructure\DatasstructureConversionHelperTests.cs" />
     <Compile Include="Events\EventBaseTests.cs" />
     <Compile Include="File\FileUploadRequestTests.cs" />
     <Compile Include="File\FileUploadResponseTests.cs" />

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuditHelper.cs" />
+    <Compile Include="Datastructure\DatastructureConversionService.cs" />
     <Compile Include="Data\IUnitOfWork.cs" />
     <Compile Include="Data\RepositoryBase.cs" />
     <Compile Include="Extensibility\PluginBase.cs" />
