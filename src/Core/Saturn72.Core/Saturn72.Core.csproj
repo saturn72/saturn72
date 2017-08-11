@@ -36,16 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Saturn72.Extensions.1.2.0\lib\net462\Saturn72.Extensions.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Saturn72.Extensions.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Saturn72.Extensions.Data.1.2.0\lib\net462\Saturn72.Extensions.Data.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -161,6 +158,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>SET sourceDir=$(SolutionDir)packages
+SET destDir=$(MSBuildProjectDirectory)\..\..\packages
+
+ECHO Packages Source: %25sourceDir%25
+ECHO Packages Destination: %25destDir%25 
+
+REM Copy only if difference dirs
+FOR %25%25A IN ("%25sourceDir%25") DO FOR %25%25B IN ("%25destDir%25") DO IF "%25%25~fA"=="%25%25~fB" (ECHO NQL) ELSE (ECHO Paths not equal, CONTINUE)
+
+REM Copy only if exists
+IF NOT EXIST %25sourceDir%25 (ECHO NNNNEXIT)
+REM if not exist %25sourceDir%25 MKDIR %25sourceDir%25
+
+ECHO Create symbolic link ==&gt; Source: %25sourceDir%25, ==&gt; Destination: %25destDir%25
+IF NOT EXIST %25destDir%25 MKLINK /j %25destDir%25 %25sourceDir%25</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

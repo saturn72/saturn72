@@ -33,7 +33,6 @@
   <ItemGroup>
     <Reference Include="NCrontab.Advanced, Version=1.2.3.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NCrontab.Advanced.1.2.3.3\lib\net46\NCrontab.Advanced.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,11 +43,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\Saturn72.Common\Saturn72.Common.csproj">
-      <Project>{6DE3E33E-0B13-4C57-8871-C83E1EEB8470}</Project>
-      <Name>Saturn72.Common</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Core\Saturn72.Core\Saturn72.Core.csproj">
       <Project>{5B21A78B-9BAA-4AC2-929D-3563B9D3C9FC}</Project>
       <Name>Saturn72.Core</Name>

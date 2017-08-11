@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Excel;
+using ExcelDataReader;
 using Saturn72.Core.Services.File;
 using Saturn72.Extensions;
 
@@ -33,11 +33,12 @@ namespace Saturn72.Module.ExcelMediaValidator
                         ? ExcelReaderFactory.CreateBinaryReader(ms)
                         : ExcelReaderFactory.CreateOpenXmlReader(ms);
 
-                    if(excel.ExceptionMessage.HasValue())
-                        return FileStatusCode.Corrupted;
+                    throw new NotImplementedException("Api has changed");
+                    //if(excel.ExceptionMessage.HasValue())
+                    //    return FileStatusCode.Corrupted;
 
-                    if(!excel.IsValid)
-                        return FileStatusCode.Invalid;
+                    //if(!excel.IsValid)
+                    //    return FileStatusCode.Invalid;
 
                     if(!excel.Read())
                         return FileStatusCode.EmptyFile;

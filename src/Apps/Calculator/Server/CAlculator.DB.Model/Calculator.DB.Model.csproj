@@ -33,11 +33,9 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -84,10 +82,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\Saturn72.Common\Saturn72.Common.csproj">
-      <Project>{6DE3E33E-0B13-4C57-8871-C83E1EEB8470}</Project>
-      <Name>Saturn72.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Core\Saturn72.Core.Services.Impl\Saturn72.Core.Services.Impl.csproj">
       <Project>{BA702041-080D-459A-BCD1-37875D92C626}</Project>
       <Name>Saturn72.Core.Services.Impl</Name>
