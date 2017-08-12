@@ -50,6 +50,8 @@ namespace Saturn72.Module.Owin
             while (enm.MoveNext())
             {
                 var xn = (enm.Current as XmlNode);
+                if(xn.NodeType != XmlNodeType.Element)
+                    continue;
 
                 tmp.Add(new OAuthProvider
                 {
