@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Web.Compilation;
-using Newtonsoft.Json;
+using fastJSON;
 using Saturn72.Core.ComponentModel;
 using Saturn72.Core.Exceptions;
 using Saturn72.Core.Extensibility;
@@ -245,10 +245,8 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
                 return new PluginDescriptor[] { };
 
             IEnumerable<PluginDescriptor> result;
-            using (var jReader = new JsonTextReader(File.OpenText(installedPluginsFile)))
-            {
-                result = new JsonSerializer().Deserialize<PluginDescriptor[]>(jReader);
-            }
+            var pluginsJsonData = File.ReadAllText(installedPluginsFile);
+            result = JSON.ToObject<PluginDescriptor[]>(pluginsJsonData);
             result.ForEachItem(s => s.TypeFullName = RemoveDuplicateWhiteSpaces(s.TypeFullName));
 
             var multipleEntries = result
@@ -319,15 +317,11 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         private static PluginDescriptor ParsePluginDescriptionFile(FileInfo pluginInfo)
         {
-            using (var file = File.OpenText(pluginInfo.FullName))
-            {
-                var serializer = new JsonSerializer();
-
-                var pluginDescriptor = (PluginDescriptor) serializer.Deserialize(file, typeof(PluginDescriptor));
-                pluginDescriptor.TypeFullName = RemoveDuplicateWhiteSpaces(pluginDescriptor.TypeFullName);
-                pluginDescriptor.DescriptorFile = pluginInfo;
-                return pluginDescriptor;
-            }
+            var pluginFileContent = File.ReadAllText(pluginInfo.FullName);
+            var pluginDescriptor = (PluginDescriptor)JSON.ToObject(pluginFileContent, typeof(PluginDescriptor));
+            pluginDescriptor.TypeFullName = RemoveDuplicateWhiteSpaces(pluginDescriptor.TypeFullName);
+            pluginDescriptor.DescriptorFile = pluginInfo;
+            return pluginDescriptor;
         }
 
         private static string RemoveDuplicateWhiteSpaces(string source)
