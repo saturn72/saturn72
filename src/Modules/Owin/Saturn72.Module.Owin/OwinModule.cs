@@ -48,10 +48,7 @@ namespace Saturn72.Module.Owin
 
         private void StartWebServer()
         {
-            Action<IAppBuilder> startupAction =
-                appBuilder => new Startup().Configure(appBuilder);
-
-            using (WebApp.Start(_baseUri, startupAction))
+            using (WebApp.Start(_baseUri, appBuilder=> new Startup().Configure(appBuilder)))
             {
                 Trace.WriteLine("web server started. uri: " + _baseUri);
                 Console.ReadLine();
