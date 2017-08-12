@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Newtonsoft.Json;
 using Saturn72.Common.WebApi.Models;
 using Saturn72.Common.WebApi.MultistreamProviders;
 using Saturn72.Common.WebApi.Utils;
@@ -31,7 +30,7 @@ namespace Saturn72.Common.WebApi
 
         protected IHttpActionResult BadRequestResult(object data)
         {
-            return BadRequest(JsonConvert.SerializeObject(data));
+            return BadRequest(JsonUtil.Serialize(data));
         }
 
         protected Task<IHttpActionResult> ValidateModelStateAndRunActionAsync(Action action)

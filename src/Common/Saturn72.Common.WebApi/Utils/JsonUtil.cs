@@ -1,7 +1,8 @@
-﻿#region
+﻿#region Usings
 
 using System.IO;
 using System.Threading.Tasks;
+using fastJSON;
 using Newtonsoft.Json;
 
 #endregion
@@ -12,21 +13,12 @@ namespace Saturn72.Common.WebApi.Utils
     {
         public static T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
-        }
-        public static string Serialize<T>(T obj)
-        {
-            return JsonConvert.SerializeObject(obj);
+            return JSON.ToObject<T>(json);
         }
 
-        public static void Serialize(object value, Stream s)
+        public static string Serialize<T>(T obj)
         {
-            using (var writer = new StreamWriter(s))
-            using (var jsonWriter = new JsonTextWriter(writer))
-            {
-                new JsonSerializer().Serialize(jsonWriter, value);
-                jsonWriter.Flush();
-            }
+            return JSON.ToJSON(obj);
         }
 
         public static T Deserialize<T>(Stream stream)
@@ -37,7 +29,6 @@ namespace Saturn72.Common.WebApi.Utils
                 return new JsonSerializer().Deserialize<T>(jsonReader);
             }
         }
-
 
         public static async Task<T> DeserializeAsync<T>(Task<Stream> stream)
         {
