@@ -39,7 +39,7 @@
       <HintPath>..\..\packages\fastJSON.2.1.26\lib\net40\fastjson.dll</HintPath>
     </Reference>
     <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Saturn72.Extensions.1.2.0\lib\net462\Saturn72.Extensions.dll</HintPath>
+      <HintPath>..\..\..\..\..\src\Application\Janus\packages\Saturn72.Extensions.1.2.1\lib\net462\Saturn72.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Saturn72.Extensions.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Saturn72.Extensions.Data.1.2.0\lib\net462\Saturn72.Extensions.Data.dll</HintPath>

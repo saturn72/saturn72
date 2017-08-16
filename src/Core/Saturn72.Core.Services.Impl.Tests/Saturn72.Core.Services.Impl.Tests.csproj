@@ -45,7 +45,7 @@
       <HintPath>..\..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Saturn72.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Saturn72.Extensions.1.2.0\lib\net462\Saturn72.Extensions.dll</HintPath>
+      <HintPath>..\..\..\..\..\src\Application\Janus\packages\Saturn72.Extensions.1.2.1\lib\net462\Saturn72.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Shouldly, Version=2.8.3.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Shouldly.2.8.3\lib\net451\Shouldly.dll</HintPath>
