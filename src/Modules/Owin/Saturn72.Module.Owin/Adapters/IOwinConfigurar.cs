@@ -1,9 +1,7 @@
-﻿#region
+﻿#region Usings
 
-using System.Collections.Generic;
 using System.Web.Http;
 using Owin;
-using Saturn72.Core.Configuration.Maps;
 
 #endregion
 

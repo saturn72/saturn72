@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ModelBinding.Binders;
 using System.Web.Http.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -44,7 +46,6 @@ namespace Saturn72.Module.Owin
             Trace.WriteLine("Configure Formatters");
             ConfigureFormatters(httpConfig);
             ConfigureOwinCommon(app, httpConfig);
-
             ConfigureOwinModules(app, httpConfig);
             httpConfig.Services.Replace(typeof(ITraceWriter), AppEngine.Current.Resolve<ITraceWriter>());
             app.UseWebApi(httpConfig);
@@ -55,12 +56,15 @@ namespace Saturn72.Module.Owin
         private void ConfigureFormatters(HttpConfiguration httpConfig)
         {
             Trace.WriteLine("Configure Formatters: Add json formatter");
-            var jsonFormatterSettings = httpConfig.Formatters.JsonFormatter.SerializerSettings;
+            var allFormatters = httpConfig.Formatters;
+
+            var jsonMediaTypeFormatter = allFormatters.JsonFormatter;
+            var jsonFormatterSettings = jsonMediaTypeFormatter.SerializerSettings;
             jsonFormatterSettings.Formatting = Formatting.None;
             jsonFormatterSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             Trace.WriteLine("Configure Formatters: Activate Xml Serializer");
-            httpConfig.Formatters.XmlFormatter.UseXmlSerializer = true;
+            allFormatters.XmlFormatter.UseXmlSerializer = true;
         }
 
         private void ConfigureOwinModules(IAppBuilder app, HttpConfiguration httpConfig)
