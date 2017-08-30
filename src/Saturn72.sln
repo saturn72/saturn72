@@ -93,10 +93,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyPlugin2", "Tests\Dummy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Core.Services.Impl", "Core\Saturn72.Core.Services.Impl\Saturn72.Core.Services.Impl.csproj", "{BA702041-080D-459A-BCD1-37875D92C626}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{FB4115B9-8432-44F4-B20C-56458A2C0F40}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saturn72.Module.Identity.IdentityServer3", "Modules\Identity\IdentityServer3\Saturn72.Module.Identity.IdentityServer3\Saturn72.Module.Identity.IdentityServer3.csproj", "{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -287,12 +283,6 @@ Global
 		{BA702041-080D-459A-BCD1-37875D92C626}.Mimas_Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA702041-080D-459A-BCD1-37875D92C626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA702041-080D-459A-BCD1-37875D92C626}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}.Mimas_Debug|Any CPU.ActiveCfg = Mimas_Debug|Any CPU
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}.Mimas_Debug|Any CPU.Build.0 = Mimas_Debug|Any CPU
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -338,7 +328,5 @@ Global
 		{CFBB80CE-1958-4545-BE51-C6EC4B4A879F} = {4E26C893-5690-4CF0-81FF-2BA994FE43E9}
 		{2967BA59-2C4D-4E3E-9DF1-FE695EAAAEBF} = {4E26C893-5690-4CF0-81FF-2BA994FE43E9}
 		{BA702041-080D-459A-BCD1-37875D92C626} = {EFCD99E7-1F91-47A1-89A2-FCD68E8A82A4}
-		{FB4115B9-8432-44F4-B20C-56458A2C0F40} = {AB0201BC-9C43-4B4E-AE62-85D25708F51D}
-		{CAFCF624-4895-4438-8AA3-A6DB261E4FA6} = {FB4115B9-8432-44F4-B20C-56458A2C0F40}
 	EndGlobalSection
 EndGlobal
