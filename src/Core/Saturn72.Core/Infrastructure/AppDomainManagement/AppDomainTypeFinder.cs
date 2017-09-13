@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Saturn72.Extensions;
 
 #endregion
 
@@ -39,7 +40,7 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
 
         /// <summary>Gets the pattern for dlls that we know don'type need to be investigated.</summary>
         public string AssemblySkipLoadingPattern { get; set; } =
-            "^System|^mscorlib|^vshost|^Microsoft|^Autofac|^AutoMapper|^Castle|^EntityFramework|^FluentValidation|^log4net|^Newtonsoft|^nunit|^xunit|^Recaptcha|^Telerik|^MongoDB|^Sqlite|^NLog|^RestSharp|^Antlr|^Owin|^WebGrease"
+            "^System|^mscorlib|^vshost|^Microsoft|^Autofac|^AutoMapper|^Castle|^EntityFramework|^FluentValidation|^log4net|^Newtonsoft|^nunit|^xunit|^Recaptcha|^Telerik|^MongoDB|^Sqlite|^NLog|^RestSharp|^Antlr|^Owin|^WebGrease|^fastJSON|^Identity|^Swashbuckle|^WebActivator"
             ;
 
         /// <summary>
@@ -263,17 +264,19 @@ namespace Saturn72.Core.Infrastructure.AppDomainManagement
         /// <returns></returns>
         protected virtual bool DoesTypeImplementOpenGeneric(Type type, Type openGeneric)
         {
+            var typeBaseType = type.BaseType;
+            if (typeBaseType.NotNull() && typeBaseType.IsGenericType && typeBaseType.GetGenericTypeDefinition() == openGeneric)
+                return true;
             try
             {
-                var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
-
+                var openGenericTypeDefinfition = openGeneric.GetGenericTypeDefinition();
                 //generic interface
                 var implementedInterfaces = type.FindInterfaces((objType, objCriteria) => true, null);
                 foreach (var ii in implementedInterfaces)
                 {
                     if (!ii.IsGenericType)
                         continue;
-                    return genericTypeDefinition.IsAssignableFrom(ii.GetGenericTypeDefinition());
+                    return openGenericTypeDefinfition.IsAssignableFrom(ii.GetGenericTypeDefinition());
                 }
                 return false;
             }
