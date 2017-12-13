@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\submodules\saturn72.extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
+  </ItemGroup>
+</Project>
