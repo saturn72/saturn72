@@ -1,0 +1,4 @@
+[submodule "submodules/saturn72.Extensions"]
+	path = submodules/saturn72.Extensions
+	url = https://github.com/saturn72/saturn72.Extensions.git/
+	branch = master
