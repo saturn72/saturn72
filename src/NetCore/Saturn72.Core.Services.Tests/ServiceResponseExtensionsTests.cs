@@ -14,14 +14,14 @@ namespace Saturn72.Core.Services.Tests
         [Fact]
         public void ServiceResponseExtensions_HasError_ShouldReturnFalse()
         {
-            var res = new ServiceResponse<SomeModel>();
+            var res = new ServiceResponse<SomeModel>(ServiceRequestType.Create);
             res.HasErrors().ShouldBeFalse();
         }
 
         [Fact]
         public void ServiceResponseExtensions_HasError_ShouldReturnTrue()
         {
-            var res = new ServiceResponse<SomeModel> {ErrorMessage = "qwe"};
+            var res = new ServiceResponse<SomeModel>(ServiceRequestType.Create) {ErrorMessage = "qwe"};
             res.HasErrors().ShouldBeTrue();
         }
 

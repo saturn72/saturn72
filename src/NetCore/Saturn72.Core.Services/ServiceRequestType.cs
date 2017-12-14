@@ -2,9 +2,11 @@ namespace Saturn72.Core.Services
 {
     public enum ServiceRequestType
     {
-        Create,
-        Read,
-        Update,
-        Delete
+        Approve = 10,
+        Create = 20,
+        Read = 30,
+        Update = 40,
+        Delete = 50,
+        Command = 60
     }
 }
