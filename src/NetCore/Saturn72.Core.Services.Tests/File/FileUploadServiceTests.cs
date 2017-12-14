@@ -11,7 +11,7 @@ using Saturn72.Core.Domain.FileUpload;
 using System.Linq;
 using System.Threading.Tasks;
 using Saturn72.Core.Services.Events;
-using Saturn72.Core.Services.Caching;
+using Saturn72.Core.Caching;
 using Saturn72.Core.Services.Logging;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Audit;
