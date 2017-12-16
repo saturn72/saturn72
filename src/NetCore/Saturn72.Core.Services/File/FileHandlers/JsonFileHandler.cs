@@ -16,19 +16,24 @@ namespace Saturn72.Core.Services.File.FileHandlers
                 return FileStatusCode.Unsupported;
             try
             {
-                var json = Encoding.UTF8.GetString(bytes);
+                var json = BytesToString(bytes);
                 JToken.Parse(json);
                 return FileStatusCode.Valid;
             }
-            catch (JsonReaderException)
+            catch (JsonReaderException jEx)
             {
                 return FileStatusCode.Invalid;
             }
         }
 
+        private static string BytesToString(byte[] bytes)
+        {
+            return Encoding.UTF8.GetString(bytes).Trim();
+        }
+
         public byte[] Minify(byte[] bytes)
-        { 
-            var str = Encoding.ASCII.GetString(bytes);
+        {
+            var str = BytesToString(bytes);//Encoding.ASCII.GetString(bytes));
             var o = JToken.Parse(str);
             var json = JsonConvert.SerializeObject(o, Formatting.None);
             return Encoding.ASCII.GetBytes(json);
