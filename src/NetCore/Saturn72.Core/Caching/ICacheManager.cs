@@ -18,6 +18,8 @@ namespace Saturn72.Core.Caching
         /// <param name="cacheTime">Cache time</param>
         void Set<TCachedObject>(string key, TCachedObject data, int cacheTime);
 
+        void RemoveByPattern(string pattern);
+
         /// <summary>
         ///     Removes the value with the specified key from the cache
         /// </summary>
