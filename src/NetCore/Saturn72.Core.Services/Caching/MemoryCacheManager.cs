@@ -68,6 +68,7 @@ namespace Saturn72.Core.Services.Caching
                 .SetPriority(CacheItemPriority.Normal)
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(cacheTime));
             options.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
+
             _memoryCache.Set(key, value, options);
             CacheKeys.Add(key);
         }
