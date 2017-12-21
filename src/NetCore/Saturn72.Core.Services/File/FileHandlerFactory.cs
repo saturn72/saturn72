@@ -39,7 +39,7 @@ namespace Saturn72.Core.Services.File
         public byte[] Minify(byte[] bytes, string fileExtension)
         {
             var fileHandler = GetFileHandlerByExtension(fileExtension);
-            return fileHandler.Minify(bytes);
+            return fileHandler.Minify(bytes, fileExtension);
         }
 
         #region Utilities

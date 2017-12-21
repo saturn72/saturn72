@@ -3,10 +3,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
     <PackageReference Include="newtonsoft.json" Version="10.0.3" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
