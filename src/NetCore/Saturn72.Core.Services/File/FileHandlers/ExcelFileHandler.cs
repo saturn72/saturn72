@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using ExcelDataReader;
@@ -55,10 +56,12 @@ namespace Saturn72.Core.Services.File.FileHandlers
         {
             using (var ms = new MemoryStream(bytes))
             using (var excelReader = CreateExcelDataReader(extension, ms))
-            { 
+            {
                 //empty excel
                 if (!excelReader.Read())
                     return new byte[] { };
+                var nonEmptyColumns = GetExcelSheetNonEmptyColumns(excelReader);
+                var nonEmptyRows = GetExcelSheetNonEmptyRows(excelReader);
             }
 
             throw new NotImplementedException();
@@ -69,6 +72,32 @@ namespace Saturn72.Core.Services.File.FileHandlers
 - empty rows are forbidden
 - Single sheet only is allowed and it must be the first (index 0)
         }*/
+        }
+
+        private int GetExcelSheetNonEmptyRows(IDataReader excelReader)
+        {
+            var nonEmptyRows = 0;
+            while (excelReader.Read())
+            {
+                //first col must be non-empty
+                if (excelReader[nonEmptyRows] == null)
+                    break;
+                nonEmptyRows++;
+            }
+            return nonEmptyRows;
+        }
+
+        private int GetExcelSheetNonEmptyColumns(IDataRecord excelReader)
+        {
+            var columnCount = excelReader.FieldCount;
+            var nonEmptyColumns = 1;
+            while (nonEmptyColumns <= columnCount)
+            {
+                if (excelReader[nonEmptyColumns - 1] == null)
+                    break;
+                nonEmptyColumns++;
+            }
+            return nonEmptyColumns;
         }
 
         #region Utilities

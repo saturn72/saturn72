@@ -138,6 +138,17 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
         [Fact]
         public void ExcelFileHandler_Minify_SpaceInColumns()
         {
+            var resourcesPath = Path.Combine("Resources");
+            var allEmptyFiles = Directory.GetFiles(resourcesPath, "space-in-cols.*");
+            allEmptyFiles.Length.ShouldBeGreaterThan(0);
+            var efh = new ExcelFileHandler();
+            foreach (var f in allEmptyFiles)
+            {
+                var ext = Path.GetExtension(f).Replace(".", string.Empty);
+                var fs = System.IO.File.ReadAllBytes(f);
+                efh.Minify(fs, ext).Length.ShouldBe(0);
+            }
+
             throw new NotImplementedException();
             //blank column == >returns until last line
             //blank first column in row ==> returns until this row
