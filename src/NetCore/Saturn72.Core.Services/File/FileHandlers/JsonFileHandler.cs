@@ -20,7 +20,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
                 JToken.Parse(json);
                 return FileStatusCode.Valid;
             }
-            catch (JsonReaderException jEx)
+            catch (JsonReaderException)
             {
                 return FileStatusCode.Invalid;
             }

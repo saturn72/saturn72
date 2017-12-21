@@ -30,32 +30,47 @@ namespace Saturn72.Core.Services.File.FileHandlers
             try
             {
                 using (var ms = new MemoryStream(bytes))
+                using (var excelReader = CreateExcelDataReader(extension, ms))
                 {
-                    var excel = CreateExcelDataReader(extension, ms);
+                    //Get First row
+                    if (!excelReader.Read())
+                        return FileStatusCode.Invalid;
 
-                    if (!excel.Read())
-                        return FileStatusCode.EmptyFile;
+                    //Get first Column
+                    var firstCol = excelReader[0];
+                    if (firstCol == null || !excelReader.GetString(0).HasValue())
+                        return FileStatusCode.Invalid;
+
+
 
                     return FileStatusCode.Valid;
                 }
             }
             catch
             {
-                return FileStatusCode.Corrupted;
+                return FileStatusCode.Invalid;
             }
         }
 
 
         public byte[] Minify(byte[] bytes, string extension)
         {
+            using (var ms = new MemoryStream(bytes))
+            using (var excelReader = CreateExcelDataReader(extension, ms))
+            { 
+                //empty excel
+                if (!excelReader.Read())
+                    return new byte[] { };
+            }
+
             throw new NotImplementedException();
-            /*using (var ms = new MemoryStream(bytes))
-            {
-               - Empty column headers are forbidden
+
+            /*
+           - Empty column headers are forbidden
 - First column must be ID <b>therfore not empty
 - empty rows are forbidden
 - Single sheet only is allowed and it must be the first (index 0)
-            }*/
+        }*/
         }
 
         #region Utilities
