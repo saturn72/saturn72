@@ -41,8 +41,6 @@ namespace Saturn72.Core.Services.File.FileHandlers
                     if (firstCol == null || !excelReader.GetString(0).HasValue())
                         return FileStatusCode.Invalid;
 
-
-
                     return FileStatusCode.Valid;
                 }
             }
