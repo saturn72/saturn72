@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using ExcelDataReader;
+using OfficeOpenXml;
 using Saturn72.Extensions;
 
 namespace Saturn72.Core.Services.File.FileHandlers
@@ -54,53 +55,39 @@ namespace Saturn72.Core.Services.File.FileHandlers
 
         public byte[] Minify(byte[] bytes, string extension)
         {
+            return extension == XlsExtension ? bytes : MinifyXlsx(bytes);
+        }
+
+        private byte[] MinifyXlsx(byte[] bytes)
+        {
             using (var ms = new MemoryStream(bytes))
-            using (var excelReader = CreateExcelDataReader(extension, ms))
+            using (var excelPackage = new ExcelPackage(ms))
             {
-                //empty excel
-                if (!excelReader.Read())
-                    return new byte[] { };
-                var nonEmptyColumns = GetExcelSheetNonEmptyColumns(excelReader);
-                var nonEmptyRows = GetExcelSheetNonEmptyRows(excelReader);
+                var worksheet = excelPackage.Workbook.Worksheets[1];
+                var dimensions = worksheet.Dimension.Columns;
+                var nonEmptyColumns = GetEmptyRowsOrColumn(worksheet, worksheet.Dimension.Columns, false);
+                var nonEmptyRows = GetEmptyRowsOrColumn(worksheet, worksheet.Dimension.Rows, true);
             }
-
-            throw new NotImplementedException();
-
-            /*
-           - Empty column headers are forbidden
-- First column must be ID <b>therfore not empty
-- empty rows are forbidden
-- Single sheet only is allowed and it must be the first (index 0)
-        }*/
-        }
-
-        private int GetExcelSheetNonEmptyRows(IDataReader excelReader)
-        {
-            var nonEmptyRows = 0;
-            while (excelReader.Read())
-            {
-                //first col must be non-empty
-                if (excelReader[nonEmptyRows] == null)
-                    break;
-                nonEmptyRows++;
-            }
-            return nonEmptyRows;
-        }
-
-        private int GetExcelSheetNonEmptyColumns(IDataRecord excelReader)
-        {
-            var columnCount = excelReader.FieldCount;
-            var nonEmptyColumns = 1;
-            while (nonEmptyColumns <= columnCount)
-            {
-                if (excelReader[nonEmptyColumns - 1] == null)
-                    break;
-                nonEmptyColumns++;
-            }
-            return nonEmptyColumns;
+            return null;
         }
 
         #region Utilities
+
+        private IEnumerable<int> GetEmptyRowsOrColumn(ExcelWorksheet worksheet, int rowsOrColumnsCount, bool isRows)
+        {
+            var toSkip = new List<int>();
+            var getCellFunc = isRows
+                ? new Func<ExcelWorksheet, int, ExcelRange>((ws, curIndex) => worksheet.Cells[ curIndex, 1])
+                : (ws, curIndex) => worksheet.Cells[1, curIndex];
+
+            for (var curIndex = 1; curIndex < rowsOrColumnsCount; curIndex++)
+            {
+                var curCellValue = getCellFunc(worksheet, curIndex);
+                if (curCellValue.IsNull() || curCellValue.Value.IsNull() || !curCellValue.Value.ToString().HasValue())
+                    toSkip.Add(curIndex);
+            }
+            return toSkip;
+        }
 
         private static IExcelDataReader CreateExcelDataReader(string extension, MemoryStream ms)
         {

@@ -92,6 +92,7 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
             }
         }
 
+        //TODO: Move To Rhea
         [Fact]
         public void ExcelFileHandler_Validate_OnEmptyFirstRow()
         {
@@ -146,7 +147,7 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
             {
                 var ext = Path.GetExtension(f).Replace(".", string.Empty);
                 var fs = System.IO.File.ReadAllBytes(f);
-                efh.Minify(fs, ext).Length.ShouldBe(0);
+                efh.Minify(fs, ext).Length.ShouldBe(fs.Length);
             }
 
             throw new NotImplementedException();
