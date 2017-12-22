@@ -137,31 +137,27 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
         }
 
         [Fact]
-        public void ExcelFileHandler_Minify_SpaceInColumns()
+        public void ExcelFileHandler_Minify_SpaceInColumnsAndRows()
         {
             var resourcesPath = Path.Combine("Resources");
-            var allEmptyFiles = Directory.GetFiles(resourcesPath, "space-in-cols.*");
-            allEmptyFiles.Length.ShouldBeGreaterThan(0);
+            var xlsFiles = Directory.GetFiles(resourcesPath, "space-in-*.xls");
+            xlsFiles.Length.ShouldBeGreaterThan(0);
             var efh = new ExcelFileHandler();
-            foreach (var f in allEmptyFiles)
+            foreach (var f in xlsFiles)
             {
                 var ext = Path.GetExtension(f).Replace(".", string.Empty);
                 var fs = System.IO.File.ReadAllBytes(f);
                 efh.Minify(fs, ext).Length.ShouldBe(fs.Length);
             }
 
-            throw new NotImplementedException();
-            //blank column == >returns until last line
-            //blank first column in row ==> returns until this row
-            //row has ID but empty ==> retuns empty line
-            //More than one sheet ==> returns first only
-            //first sheet is blank ==> returns empty array
-
-            
-            //foreach (var f in allGoodFiles)
-            //{
-            //   
-            //}
+            var xlsxFiles = Directory.GetFiles(resourcesPath, "space-in-*.xlsx");
+            xlsxFiles.Length.ShouldBeGreaterThan(0);
+            foreach (var f in xlsxFiles)
+            {
+                var ext = Path.GetExtension(f).Replace(".", string.Empty);
+                var fs = System.IO.File.ReadAllBytes(f);
+                efh.Minify(fs, ext).Length.ShouldBeLessThan(fs.Length);
+            }
         }
 
         #endregion

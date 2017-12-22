@@ -55,21 +55,45 @@ namespace Saturn72.Core.Services.File.FileHandlers
 
         public byte[] Minify(byte[] bytes, string extension)
         {
-            return extension == XlsExtension ? bytes : MinifyXlsx(bytes);
+            return extension == XlsExtension ? MinifyXls(bytes) : MinifyXlsx(bytes);
+        }
+
+        private byte[] MinifyXls(byte[] bytes)
+        {
+            using (var ms = new MemoryStream(bytes))
+            using (var excelReader = CreateExcelDataReader(XlsExtension, ms))
+            {
+                return !excelReader.Read() || excelReader[0].IsNull() || !excelReader[0].ToString().HasValue()?
+                    new byte[]{} : bytes;
+            }
         }
 
         private byte[] MinifyXlsx(byte[] bytes)
         {
             using (var ms = new MemoryStream(bytes))
-            using (var excelPackage = new ExcelPackage(ms))
+            using (var existExcelPackage = new ExcelPackage(ms))
+            using (var newExcelPackage = new ExcelPackage())
             {
-                var worksheet = excelPackage.Workbook.Worksheets[1];
-                var dimensions = worksheet.Dimension.Columns;
-                var nonEmptyColumns = GetEmptyRowsOrColumn(worksheet, worksheet.Dimension.Columns, false);
-                var nonEmptyRows = GetEmptyRowsOrColumn(worksheet, worksheet.Dimension.Rows, true);
+                var existWorkbook = existExcelPackage.Workbook;
+                var existWorksheet = existWorkbook.Worksheets[1];
+                if(existWorksheet.Dimension.IsNull())
+                    return new byte[]{};
+
+                var columnsToIgnore = GetEmptyRowsOrColumn(existWorksheet, existWorksheet.Dimension.Columns, false);
+                var rowsToIgnore = GetEmptyRowsOrColumn(existWorksheet, existWorksheet.Dimension.Rows, true);
+
+                newExcelPackage.Workbook.Properties.Title = existWorkbook.Properties?.Title ?? string.Empty;
+                var newWorksheet = newExcelPackage.Workbook.Worksheets.Add(existWorksheet.Name, existWorksheet);
+
+                foreach (var ctd in columnsToIgnore)
+                    newWorksheet.DeleteColumn(ctd);
+
+                foreach (var rtd in rowsToIgnore)
+                    newWorksheet.DeleteRow(rtd);
+                return newExcelPackage.GetAsByteArray();
             }
-            return null;
         }
+
 
         #region Utilities
 
@@ -77,7 +101,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
         {
             var toSkip = new List<int>();
             var getCellFunc = isRows
-                ? new Func<ExcelWorksheet, int, ExcelRange>((ws, curIndex) => worksheet.Cells[ curIndex, 1])
+                ? new Func<ExcelWorksheet, int, ExcelRange>((ws, curIndex) => worksheet.Cells[curIndex, 1])
                 : (ws, curIndex) => worksheet.Cells[1, curIndex];
 
             for (var curIndex = 1; curIndex < rowsOrColumnsCount; curIndex++)
