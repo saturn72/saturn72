@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using ExcelDataReader;
 using OfficeOpenXml;
 using Saturn72.Extensions;
@@ -12,11 +12,16 @@ namespace Saturn72.Core.Services.File.FileHandlers
     public class ExcelFileHandler : IFileHandler
     {
         #region consts
+
         private const string XlsExtension = "xls";
         private const string XlsxExtension = "xlsx";
 
         #endregion
 
+        static ExcelFileHandler()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
         public IEnumerable<string> SupportedExtensions { get; } = new[] { XlsExtension, XlsxExtension };
 
         public FileStatusCode Validate(byte[] bytes, string extension)
@@ -97,7 +102,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
 
         #region Utilities
 
-        private IEnumerable<int> GetEmptyRowsOrColumn(ExcelWorksheet worksheet, int rowsOrColumnsCount, bool isRows)
+        private static IEnumerable<int> GetEmptyRowsOrColumn(ExcelWorksheet worksheet, int rowsOrColumnsCount, bool isRows)
         {
             var toSkip = new List<int>();
             var getCellFunc = isRows
@@ -113,12 +118,11 @@ namespace Saturn72.Core.Services.File.FileHandlers
             return toSkip;
         }
 
-        private static IExcelDataReader CreateExcelDataReader(string extension, MemoryStream ms)
+        private static IExcelDataReader CreateExcelDataReader(string extension, Stream ms)
         {
-            var excel = extension == XlsExtension
+            return extension == XlsExtension
                 ? ExcelReaderFactory.CreateBinaryReader(ms)
                 : ExcelReaderFactory.CreateOpenXmlReader(ms);
-            return excel;
         }
         #endregion
     }

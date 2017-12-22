@@ -31,11 +31,6 @@ namespace Saturn72.Core.Services.File
                    FileStatusCode.Unsupported;
         }
 
-        public byte[] Format(string sourceFormat, string destinationFormat, byte[] sourceBytes)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public byte[] Minify(byte[] bytes, string fileExtension)
         {
             var fileHandler = GetFileHandlerByExtension(fileExtension);

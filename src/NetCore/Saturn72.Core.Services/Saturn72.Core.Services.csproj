@@ -12,6 +12,7 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Saturn72.FileConverters\src\Saturn72.FileConverters\Saturn72.FileConverters.csproj" />
     <ProjectReference Include="..\..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
     <ProjectReference Include="..\Saturn72.Core\Saturn72.Core.csproj" />
   </ItemGroup>
