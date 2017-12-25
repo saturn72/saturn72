@@ -20,7 +20,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
                 JToken.Parse(json);
                 return FileStatusCode.Valid;
             }
-            catch (JsonReaderException jEx)
+            catch (JsonReaderException)
             {
                 return FileStatusCode.Invalid;
             }
@@ -31,7 +31,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
             return Encoding.UTF8.GetString(bytes).Trim();
         }
 
-        public byte[] Minify(byte[] bytes)
+        public byte[] Minify(byte[] bytes, string extension)
         {
             var str = BytesToString(bytes);//Encoding.ASCII.GetString(bytes));
             var o = JToken.Parse(str);

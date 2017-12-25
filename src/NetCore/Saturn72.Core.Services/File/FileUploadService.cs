@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Domain.FileUpload;
-using Saturn72.Core.Caching;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Logging;
 using Saturn72.Extensions;

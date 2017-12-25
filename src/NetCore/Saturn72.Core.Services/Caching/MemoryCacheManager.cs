@@ -1,6 +1,9 @@
 #region
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
@@ -15,6 +18,7 @@ namespace Saturn72.Core.Services.Caching
         #region Fields
         private readonly IMemoryCache _memoryCache;
         private CancellationTokenSource _resetCacheToken;
+        protected static readonly HashSet<string> CacheKeys = new HashSet<string>();
 
         #endregion
         #region ctor
@@ -34,18 +38,28 @@ namespace Saturn72.Core.Services.Caching
             }
 
             _resetCacheToken = new CancellationTokenSource();
+            CacheKeys.Clear();
         }
 
         public TCachedObject Get<TCachedObject>(string key)
         {
-            TCachedObject value;
-            return _memoryCache.TryGetValue(key, out value) ?
+            return _memoryCache.TryGetValue(key, out TCachedObject value) ?
             value : default(TCachedObject);
+        }
+
+        public void RemoveByPattern(string pattern)
+        {
+            var keysToRemove = CacheKeys
+                .Where(k => Regex.IsMatch(k, pattern, RegexOptions.IgnoreCase))
+                .ToArray();
+            foreach (var ktr in keysToRemove)
+                Remove(ktr);
         }
 
         public void Remove(string key)
         {
             _memoryCache.Remove(key);
+            CacheKeys.Remove(key);
         }
 
         public void Set<TCachedObject>(string key, TCachedObject value, int cacheTime)
@@ -56,6 +70,7 @@ namespace Saturn72.Core.Services.Caching
             options.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
 
             _memoryCache.Set(key, value, options);
+            CacheKeys.Add(key);
         }
     }
 }
