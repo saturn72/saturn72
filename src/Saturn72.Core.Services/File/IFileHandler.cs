@@ -6,6 +6,6 @@ namespace Saturn72.Core.Services.File
     {
         IEnumerable<string> SupportedExtensions { get; }
         FileStatusCode Validate(byte[] bytes, string extension, object data);
-        byte[] Minify(byte[] bytes, string extension);
+        byte[] Minify(byte[] bytes, string extension, object data);
     }
 }
