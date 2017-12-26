@@ -27,7 +27,7 @@ namespace Saturn72.Core.Services.File
             var validator =
                 _fileHandlers.FirstOrDefault(bv => bv.SupportedExtensions.Contains(extension));
 
-            return validator?.Validate(bytes, extension) ??
+            return validator?.Validate(bytes, extension, null) ??
                    FileStatusCode.Unsupported;
         }
 

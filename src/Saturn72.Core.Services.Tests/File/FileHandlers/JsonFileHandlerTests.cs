@@ -22,7 +22,7 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
         public void JsonFileValidator_Validate_returns_UnSupported()
         {
             var jfv = new JsonFileHandler();
-            jfv.Validate(null, "fff").ShouldBe(FileStatusCode.Unsupported);
+            jfv.Validate(null, "fff", null).ShouldBe(FileStatusCode.Unsupported);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
         {
             var jfv = new JsonFileHandler();
             var bytes = Encoding.UTF8.GetBytes("bad json");
-            jfv.Validate(bytes, "json").ShouldBe(FileStatusCode.Invalid);
+            jfv.Validate(bytes, "json", null).ShouldBe(FileStatusCode.Invalid);
         }
         public static IEnumerable<object[]> GetJsonArrayIndexes()
         {
@@ -48,7 +48,7 @@ namespace Saturn72.Core.Services.Tests.File.FileHandlers
             var bytes = Encoding.UTF8.GetBytes(jsonArr[i]);
 
             var jfv = new JsonFileHandler();
-            jfv.Validate(bytes, "json").ShouldBe(FileStatusCode.Valid);
+            jfv.Validate(bytes, "json", null).ShouldBe(FileStatusCode.Valid);
         }
     }
 }

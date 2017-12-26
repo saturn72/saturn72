@@ -10,7 +10,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
         private const string JsonExtensionName = "json";
         public IEnumerable<string> SupportedExtensions => new[] {JsonExtensionName};
 
-        public FileStatusCode Validate(byte[] bytes, string extension)
+        public FileStatusCode Validate(byte[] bytes, string extension, object data)
         {
             if (extension != JsonExtensionName)
                 return FileStatusCode.Unsupported;

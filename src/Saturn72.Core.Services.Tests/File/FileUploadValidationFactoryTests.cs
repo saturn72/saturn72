@@ -75,7 +75,7 @@ namespace Saturn72.Core.Services.Tests.File
             var mvMock = new Mock<IFileHandler>();
             mvMock.Setup(m => m.SupportedExtensions).Returns(() => new[] { fileExtension });
             var result = FileStatusCode.Blocked;
-            mvMock.Setup(m => m.Validate(It.IsAny<byte[]>(), It.IsAny<string>()))
+            mvMock.Setup(m => m.Validate(It.IsAny<byte[]>(), It.IsAny<string>(), It.IsAny<object>()))
                 .Returns(result);
             var mv = new List<IFileHandler> { mvMock.Object };
 
