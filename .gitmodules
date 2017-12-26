@@ -2,3 +2,7 @@
 	path = submodules/saturn72.Extensions
 	url = https://github.com/saturn72/saturn72.Extensions.git/
 	branch = master
+[submodule "submodules/Saturn72.FileConverters"]
+	path = submodules/Saturn72.FileConverters
+	url = https://github.com/saturn72/Saturn72.FileConverters.git
+	branch = master
