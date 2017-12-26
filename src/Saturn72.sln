@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Tests", "Satu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", "{EE79FA95-01EE-4666-949C-B1AAB57D68EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions", "..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj", "{EC10E14F-41E5-4EA7-84A1-D6841271C9F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions", "..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj", "{EC10E14F-41E5-4EA7-84A1-D6841271C9F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions.Tests", "..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions.Tests\Saturn72.Extensions.Tests.csproj", "{C9F27DE0-6061-4AB9-ABF9-7B1249D93DD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions.Tests", "..\submodules\saturn72.Extensions\src\Saturn72.Extensions.Tests\Saturn72.Extensions.Tests.csproj", "{C9F27DE0-6061-4AB9-ABF9-7B1249D93DD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.FileConverters.Tests", "..\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters.Tests\Saturn72.FileConverters.Tests.csproj", "{F703789D-099B-45D4-85A4-088BB947C4CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.FileConverters", "..\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters\Saturn72.FileConverters.csproj", "{4D0D76E2-1C20-494F-9911-26B094E616DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,14 @@ Global
 		{C9F27DE0-6061-4AB9-ABF9-7B1249D93DD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9F27DE0-6061-4AB9-ABF9-7B1249D93DD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F27DE0-6061-4AB9-ABF9-7B1249D93DD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F703789D-099B-45D4-85A4-088BB947C4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F703789D-099B-45D4-85A4-088BB947C4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F703789D-099B-45D4-85A4-088BB947C4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F703789D-099B-45D4-85A4-088BB947C4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D0D76E2-1C20-494F-9911-26B094E616DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0D76E2-1C20-494F-9911-26B094E616DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0D76E2-1C20-494F-9911-26B094E616DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0D76E2-1C20-494F-9911-26B094E616DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +66,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EC10E14F-41E5-4EA7-84A1-D6841271C9F3} = {EE79FA95-01EE-4666-949C-B1AAB57D68EA}
 		{C9F27DE0-6061-4AB9-ABF9-7B1249D93DD5} = {EE79FA95-01EE-4666-949C-B1AAB57D68EA}
+		{F703789D-099B-45D4-85A4-088BB947C4CC} = {EE79FA95-01EE-4666-949C-B1AAB57D68EA}
+		{4D0D76E2-1C20-494F-9911-26B094E616DB} = {EE79FA95-01EE-4666-949C-B1AAB57D68EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C1F5DBC-1C92-4DD0-9BC1-74395E1D9022}

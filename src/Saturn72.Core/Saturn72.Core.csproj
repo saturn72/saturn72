@@ -3,6 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
+    <ProjectReference Include="..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
   </ItemGroup>
 </Project>

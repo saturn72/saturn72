@@ -3,8 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="epplus" Version="4.1.1" />
-    <PackageReference Include="ExcelDataReader" Version="3.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
@@ -12,8 +10,8 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Saturn72.FileConverters\src\Saturn72.FileConverters\Saturn72.FileConverters.csproj" />
-    <ProjectReference Include="..\..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
+    <ProjectReference Include="..\..\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
+    <ProjectReference Include="..\..\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters\Saturn72.FileConverters.csproj" />
     <ProjectReference Include="..\Saturn72.Core\Saturn72.Core.csproj" />
   </ItemGroup>
 </Project>
