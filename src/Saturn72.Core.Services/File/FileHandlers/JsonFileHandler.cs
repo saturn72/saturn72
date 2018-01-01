@@ -10,7 +10,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
         private const string JsonExtensionName = "json";
         public IEnumerable<string> SupportedExtensions => new[] {JsonExtensionName};
 
-        public FileStatusCode Validate(byte[] bytes, string extension)
+        public FileStatusCode Validate(byte[] bytes, string extension, object data)
         {
             if (extension != JsonExtensionName)
                 return FileStatusCode.Unsupported;
@@ -31,7 +31,7 @@ namespace Saturn72.Core.Services.File.FileHandlers
             return Encoding.UTF8.GetString(bytes).Trim();
         }
 
-        public byte[] Minify(byte[] bytes, string extension)
+        public byte[] Minify(byte[] bytes, string extension, object data)
         {
             var str = BytesToString(bytes);//Encoding.ASCII.GetString(bytes));
             var o = JToken.Parse(str);
