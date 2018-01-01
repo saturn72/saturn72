@@ -14,5 +14,10 @@ namespace Saturn72.Core.Services
         {
             return response.ErrorMessage.HasValue();
         }
+
+        public static bool IsFullySuccess<TDomainModel>(this ServiceResponse<TDomainModel> response) where TDomainModel : DomainModelBase
+        {
+            return !response.HasErrors() && response.Result == ServiceResponseResult.Success;
+        }
     }
 }
