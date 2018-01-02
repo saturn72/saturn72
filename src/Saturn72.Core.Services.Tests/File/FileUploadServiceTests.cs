@@ -15,7 +15,6 @@ using Saturn72.Core.Caching;
 using Saturn72.Core.Services.Logging;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Audit;
-using Saturn72.Core.Caching;
 
 #endregion
 
@@ -107,7 +106,6 @@ namespace Saturn72.Core.Services.Tests.File
             var ah = new Mock<AuditHelper>(wc.Object);
 
             var vFactory = new Mock<IFileHandlerFactory>();
-            var vFactoryResult = false;
             vFactory.Setup(v => v.IsSupportedExtension(It.IsAny<string>())).Returns(() => false);
 
             var uReq = new FileUploadRequest

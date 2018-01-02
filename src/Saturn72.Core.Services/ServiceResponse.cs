@@ -1,7 +1,7 @@
 
 namespace Saturn72.Core.Services
 {
-    public sealed class ServiceResponse<TDomainModel>
+    public sealed class ServiceResponse<TModel>
     {
         public ServiceResponse(ServiceRequestType serviceRequestType)
         {
@@ -13,6 +13,6 @@ namespace Saturn72.Core.Services
         public ServiceRequestType RequestType { get; }
 
         public ServiceResponseResult Result { get; set; }
-        public TDomainModel Model { get; set; }
+        public TModel Model { get; set; }
     }
 }
