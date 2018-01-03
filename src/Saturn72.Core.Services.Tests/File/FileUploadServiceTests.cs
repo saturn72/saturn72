@@ -9,6 +9,7 @@ using Xunit;
 using Saturn72.Core.Services.File;
 using Saturn72.Core.Domain.FileUpload;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Caching;
@@ -229,9 +230,9 @@ namespace Saturn72.Core.Services.Tests.File
 
             ah.Verify(a => a.PrepareForCreateAudity(It.IsAny<ICreateAudit>()), Times.Once);
             logger.Verify(
-                l =>
-                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(),
-                        It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
+                l => l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
+
+            Thread.Sleep(150);
             ePub.Verify(e => e.Publish(It.IsAny<DomainModelCreatedEvent<FileUploadRecordModel>>()), Times.Once);
         }
 
