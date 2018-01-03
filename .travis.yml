@@ -2,9 +2,11 @@ language: csharp
 solution: src/Saturn72.sln
 mono: none
 dotnet: 2.1.3
+
 script:
  - cd src
  - dotnet restore Saturn72.sln
  - dotnet build Saturn72.sln
   # test
- - dotnet test Saturn72.sln
+ - dotnet test Saturn72.Core.Services.Tests/Saturn72.Core.Services.Tests.csproj
+ - dotnet test Saturn72.Core.Tests/Saturn72.Core.Tests.csproj
