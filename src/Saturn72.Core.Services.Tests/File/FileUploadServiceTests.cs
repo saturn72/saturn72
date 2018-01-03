@@ -192,7 +192,7 @@ namespace Saturn72.Core.Services.Tests.File
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_UploadsFile_ByByteArray()
+        public async Task FileUploadService_UploadFile_UploadsFile_ByByteArray()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -223,7 +223,8 @@ namespace Saturn72.Core.Services.Tests.File
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
 
             var uMgr = new FileUploadService(vFactory.Object, logger.Object, ePub.Object, mRepo.Object, sessionRepo.Object, null, ah.Object);
-            var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var uploadManagerResponse = await uMgr.UploadAsync(new[] {uReq});
+            var res = uploadManagerResponse.First();
 
             res.Status.ShouldBe(FileStatusCode.Uploaded);
             res.WasUploaded.ShouldBeTrue();
@@ -232,7 +233,6 @@ namespace Saturn72.Core.Services.Tests.File
             logger.Verify(
                 l => l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
 
-            Thread.Sleep(150);
             ePub.Verify(e => e.Publish(It.IsAny<DomainModelCreatedEvent<FileUploadRecordModel>>()), Times.Once);
         }
 
