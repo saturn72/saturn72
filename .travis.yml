@@ -3,9 +3,8 @@ solution: src/Saturn72.sln
 mono: none
 dotnet: 2.1.3
 script:
- - git submodule update --init --recursive
  - cd src
- - dotnet restore solution-name.sln
- # test
- - cd ..         
+ - dotnet restore Saturn72.sln
+ - dotnet build Saturn72.sln
+  # test
  - dotnet test Saturn72.sln
