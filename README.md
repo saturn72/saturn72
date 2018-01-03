@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/saturn72/saturn72/badge.svg?branch=master)](https://coveralls.io/github/saturn72/saturn72?branch=master)
 # saturn72
 Saturn Technologies main repository for building microservices
 
