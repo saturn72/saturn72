@@ -15,8 +15,8 @@ namespace Saturn72.Core.Caching
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="data">Data</param>
-        /// <param name="cacheTime">Cache time</param>
-        void Set<TCachedObject>(string key, TCachedObject data, int cacheTime);
+        /// <param name="secondsCacheTime">Cache time in SECONDS</param>
+        void Set<TCachedObject>(string key, TCachedObject data, uint secondsCacheTime);
 
         void RemoveByPattern(string pattern);
 

@@ -320,7 +320,7 @@ namespace Saturn72.Core.Services.Tests.File
 
             var res = await srv.GetFileUploadRecordByUploadSessionIdAsync(123);
             res.ShouldBeNull();
-            cm.Verify(c=>c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<int>()), Times.Never);
+            cm.Verify(c=>c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<uint>()), Times.Never);
         }
 
         [Fact]
@@ -336,7 +336,7 @@ namespace Saturn72.Core.Services.Tests.File
 
             var res = await srv.GetFileUploadRecordByUploadSessionIdAsync(123);
             res.Count().ShouldBe(furResult.Count());
-            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<int>()), Times.Once);
+            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<uint>()), Times.Once);
         }
 
         #endregion
