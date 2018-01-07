@@ -284,6 +284,7 @@ namespace Saturn72.Core.Services.Tests.File
                 l =>
                     l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(),
                         It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
+            Thread.Sleep(100);
             ePub.Verify(e => e.Publish(It.IsAny<DomainModelCreatedEvent<FileUploadRecordModel>>()), Times.Once);
         }
 
