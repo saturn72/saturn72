@@ -9,13 +9,13 @@ using Xunit;
 using Saturn72.Core.Services.File;
 using Saturn72.Core.Domain.FileUpload;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Services.Logging;
 using Saturn72.Core.Domain.Logging;
 using Saturn72.Core.Audit;
-using Saturn72.Core.Caching;
 
 #endregion
 
@@ -40,15 +40,15 @@ namespace Saturn72.Core.Services.Tests.File
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_ReturnsEmptyResult()
+        public async Task FileUploadService_UploadFile_ReturnsEmptyResult()
         {
-            var res = new FileUploadService(null, null, null, null, null, null, null).UploadAsync(new List<FileUploadRequest>())
-                .Result;
+            var service = new FileUploadService(null, null, null, null, null, null, null);
+            var res = await service.UploadAsync(new List<FileUploadRequest>());
             res.Count().ShouldBe(0);
         }
 
         [Fact]
-        public void FileUploadService_ReturnInvalid()
+        public async Task FileUploadService_ReturnInvalid()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -65,19 +65,22 @@ namespace Saturn72.Core.Services.Tests.File
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
 
             var uMgr = new FileUploadService(null, null, null, null, sessionRepo.Object, null, ah.Object);
-            var res1 = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var uMgrResult1 = await uMgr.UploadAsync(new[] {uReq});
+            var res1 = uMgrResult1.First();
 
             res1.Status.ShouldBe(FileStatusCode.Invalid);
             res1.WasUploaded.ShouldBeFalse();
 
             uReq.Bytes = null;
-            var res2 = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var upMgrResult2 = await uMgr.UploadAsync(new[] {uReq});
+            var res2 = upMgrResult2.First();
 
             res2.Status.ShouldBe(FileStatusCode.Invalid);
             res2.WasUploaded.ShouldBeFalse();
 
             uReq.Bytes = new byte[] { };
-            var res3 = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var upMgrResult3 =  await uMgr.UploadAsync(new[] {uReq});
+            var res3 = upMgrResult3.First();
 
             res3.Status.ShouldBe(FileStatusCode.Invalid);
             res3.WasUploaded.ShouldBeFalse();
@@ -99,7 +102,7 @@ namespace Saturn72.Core.Services.Tests.File
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_ReturnsNotSupported()
+        public async Task FileUploadService_UploadFile_ReturnsNotSupported()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -107,7 +110,6 @@ namespace Saturn72.Core.Services.Tests.File
             var ah = new Mock<AuditHelper>(wc.Object);
 
             var vFactory = new Mock<IFileHandlerFactory>();
-            var vFactoryResult = false;
             vFactory.Setup(v => v.IsSupportedExtension(It.IsAny<string>())).Returns(() => false);
 
             var uReq = new FileUploadRequest
@@ -120,14 +122,15 @@ namespace Saturn72.Core.Services.Tests.File
             sessionRepo.Setup(s => s.Create(It.IsAny<FileUploadSessionModel>()))
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
             var uMgr = new FileUploadService(vFactory.Object, null, null, null, sessionRepo.Object, null, ah.Object);
-            var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var upMgrResult = await uMgr.UploadAsync(new[] {uReq});
+            var res = upMgrResult.First();
 
             res.Status.ShouldBe(FileStatusCode.Unsupported);
             res.WasUploaded.ShouldBeFalse();
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_ReturnsCurropted()
+        public async Task FileUploadService_UploadFile_ReturnsCurropted()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -149,14 +152,15 @@ namespace Saturn72.Core.Services.Tests.File
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
 
             var uMgr = new FileUploadService(vFactory.Object, null, null, null, sessionRepo.Object, null, ah.Object);
-            var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var upRes = await uMgr.UploadAsync(new[] {uReq});
+            var res = upRes.First();
 
             res.Status.ShouldBe(FileStatusCode.Corrupted);
             res.WasUploaded.ShouldBeFalse();
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_FailedToUploadByMediaRepository()
+        public async Task FileUploadService_UploadFile_FailedToUploadByMediaRepository()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -181,7 +185,8 @@ namespace Saturn72.Core.Services.Tests.File
             sessionRepo.Setup(s => s.Create(It.IsAny<FileUploadSessionModel>()))
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
             var uMgr = new FileUploadService(vFactory.Object, logger.Object, ePub.Object, mRepo.Object, sessionRepo.Object, null, ah.Object);
-            var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var uMgrRes = await uMgr.UploadAsync(new[] {uReq});
+            var res = uMgrRes.First();
 
             res.Status.ShouldBe(FileStatusCode.FailedToUpload);
             res.WasUploaded.ShouldBeFalse();
@@ -193,7 +198,7 @@ namespace Saturn72.Core.Services.Tests.File
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_UploadsFile_ByByteArray()
+        public async Task FileUploadService_UploadFile_UploadsFile_ByByteArray()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -224,21 +229,21 @@ namespace Saturn72.Core.Services.Tests.File
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
 
             var uMgr = new FileUploadService(vFactory.Object, logger.Object, ePub.Object, mRepo.Object, sessionRepo.Object, null, ah.Object);
-            var res = uMgr.UploadAsync(new[] {uReq}).Result.First();
+            var uploadManagerResponse = await uMgr.UploadAsync(new[] {uReq});
+            var res = uploadManagerResponse.First();
 
             res.Status.ShouldBe(FileStatusCode.Uploaded);
             res.WasUploaded.ShouldBeTrue();
 
             ah.Verify(a => a.PrepareForCreateAudity(It.IsAny<ICreateAudit>()), Times.Once);
             logger.Verify(
-                l =>
-                    l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(),
-                        It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
+                l => l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
+
             ePub.Verify(e => e.Publish(It.IsAny<DomainModelCreatedEvent<FileUploadRecordModel>>()), Times.Once);
         }
 
         [Fact]
-        public void FileUploadService_UploadFile_UploadsFile_FromStream()
+        public async Task FileUploadService_UploadFile_UploadsFile_FromStream()
         {
             var wc = new Mock<IWorkContext>();
             var cId = 123;
@@ -269,8 +274,9 @@ namespace Saturn72.Core.Services.Tests.File
                 .Callback<FileUploadSessionModel>(n => n.Id = 123);
 
             var uMgr = new FileUploadService(vFactory.Object, logger.Object, ePub.Object, mRepo.Object, sessionRepo.Object, null, ah.Object);
-            var res = uMgr.UploadAsync(new[] { uReq }).Result.First();
+            var uploadMgrResponse = await uMgr.UploadAsync(new[] {uReq});
 
+            var res = uploadMgrResponse.First();
             res.Status.ShouldBe(FileStatusCode.Uploaded);
             res.WasUploaded.ShouldBeTrue();
             ah.Verify(a => a.PrepareForCreateAudity(It.IsAny<ICreateAudit>()), Times.Once);
@@ -278,6 +284,7 @@ namespace Saturn72.Core.Services.Tests.File
                 l =>
                     l.InsertLog(It.Is<LogLevel>(ll => ll == LogLevel.Information), It.IsAny<string>(),
                         It.IsAny<string>(), It.IsAny<Guid>()), Times.Exactly(2));
+            Thread.Sleep(100);
             ePub.Verify(e => e.Publish(It.IsAny<DomainModelCreatedEvent<FileUploadRecordModel>>()), Times.Once);
         }
 
@@ -314,7 +321,7 @@ namespace Saturn72.Core.Services.Tests.File
 
             var res = await srv.GetFileUploadRecordByUploadSessionIdAsync(123);
             res.ShouldBeNull();
-            cm.Verify(c=>c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<int>()), Times.Never);
+            cm.Verify(c=>c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<uint>()), Times.Never);
         }
 
         [Fact]
@@ -330,7 +337,7 @@ namespace Saturn72.Core.Services.Tests.File
 
             var res = await srv.GetFileUploadRecordByUploadSessionIdAsync(123);
             res.Count().ShouldBe(furResult.Count());
-            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<int>()), Times.Once);
+            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<uint>()), Times.Once);
         }
 
         #endregion

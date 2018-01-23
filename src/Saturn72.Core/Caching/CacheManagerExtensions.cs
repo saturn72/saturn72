@@ -38,13 +38,12 @@ namespace Saturn72.Core.Caching
         /// <param name="cacheManager"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        /// <param name="cacheTimeInMinutes"></param>
-        public static void SetIfNotExists<TCachedObject>(this ICacheManager cacheManager, string key, TCachedObject value,
-            int cacheTimeInMinutes)
+        /// <param name="cacheTimeInSeconds"></param>
+        public static void SetIfNotExists<TCachedObject>(this ICacheManager cacheManager, string key, TCachedObject value, uint cacheTimeInSeconds)
         {
             if (cacheManager.Get<TCachedObject>(key) != null)
                 return;
-            cacheManager.Set(key, value, cacheTimeInMinutes);
+            cacheManager.Set(key, value, cacheTimeInSeconds);
         }
 
         /// <summary>
@@ -54,9 +53,9 @@ namespace Saturn72.Core.Caching
         /// <param name="cacheManager">Cache manager</param>
         /// <param name="key">Cache key</param>
         /// <param name="acquire">Function to load item if it's not in the cache yet</param>
-        /// <param name="cacheTimeInMinutes">Cacing time in minutes</param>
+        /// <param name="cacheTimeInSeconds">Cacing time in minutes</param>
         /// <returns>Cached item</returns>
-        public static TCachedObject Get<TCachedObject>(this ICacheManager cacheManager, string key, Func<TCachedObject> acquire, int cacheTimeInMinutes)
+        public static TCachedObject Get<TCachedObject>(this ICacheManager cacheManager, string key, Func<TCachedObject> acquire, uint cacheTimeInSeconds)
         {
             var cachedObject = cacheManager.Get<TCachedObject>(key);
             if (cachedObject != null)
@@ -65,7 +64,7 @@ namespace Saturn72.Core.Caching
             if (cachedObject == null)
                 return default(TCachedObject);
 
-            cacheManager.Set(key, cachedObject, cacheTimeInMinutes);
+            cacheManager.Set(key, cachedObject, cacheTimeInSeconds);
             return cachedObject;
         }
 

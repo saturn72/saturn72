@@ -62,11 +62,11 @@ namespace Saturn72.Core.Services.Caching
             CacheKeys.Remove(key);
         }
 
-        public void Set<TCachedObject>(string key, TCachedObject value, int cacheTime)
+        public void Set<TCachedObject>(string key, TCachedObject value, uint secondsCacheTime)
         {
             var options = new MemoryCacheEntryOptions()
                 .SetPriority(CacheItemPriority.Normal)
-                .SetAbsoluteExpiration(TimeSpan.FromSeconds(cacheTime));
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(secondsCacheTime));
             options.AddExpirationToken(new CancellationChangeToken(_resetCacheToken.Token));
 
             _memoryCache.Set(key, value, options);

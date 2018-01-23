@@ -18,7 +18,7 @@ namespace Saturn72.Core.Tests.ComponentModel
             //Get non cached
             conversionManager.Get(typeof(string));
             cm.Verify(c => c.Get<Converter>(It.IsAny<string>()), Times.Once);
-            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<Converter>(), It.IsAny<int>()), Times.Once);
+            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<Converter>(), It.IsAny<uint>()), Times.Once);
 
             //Get cached
             var cvrt = new Converter(new TypeConverter());

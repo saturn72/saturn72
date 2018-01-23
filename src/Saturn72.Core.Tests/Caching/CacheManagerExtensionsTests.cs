@@ -18,7 +18,7 @@ namespace Saturn72.Core.Tests.Caching
             cm.Verify(c => c.Set(
                 It.Is<string>(k => k == key),
                 It.Is<CacheTestObject>(cto => cto == value),
-                It.Is<int>(i => i == CacheManagerExtensions.DefaultCacheTime)), Times.Once);
+                It.Is<uint>(i => i == CacheManagerExtensions.DefaultCacheTime)), Times.Once);
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace Saturn72.Core.Tests.Caching
 
             var key = "key";
             var value = new CacheTestObject();
-            var cacheTime = 123;
+            var cacheTime = 123U;
 
             //object is cached
             cm.Setup(c => c.Get<CacheTestObject>(It.IsAny<string>())).Returns(null as CacheTestObject);
@@ -37,14 +37,14 @@ namespace Saturn72.Core.Tests.Caching
             cm.Verify(c => c.Set(
                     It.Is<string>(k => k == key),
                     It.Is<CacheTestObject>(cto => cto == value),
-                    It.IsAny<int>()),
+                    It.IsAny<uint>()),
                 Times.Once);
 
             //object is not cached
             cm.Reset();
             cm.Setup(c => c.Get<CacheTestObject>(It.IsAny<string>())).Returns(new CacheTestObject());
             CacheManagerExtensions.SetIfNotExists(cm.Object, key, value, cacheTime);
-            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<CacheTestObject>(), It.IsAny<int>()),
+            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<CacheTestObject>(), It.IsAny<uint>()),
                 Times.Never);
         }
 
@@ -53,7 +53,7 @@ namespace Saturn72.Core.Tests.Caching
         {
             var cm = new Mock<ICacheManager>();
             var key = "key";
-            var cacheTime = 123;
+            var cacheTime = 123U;
             var wasAquired = false;
             Func<CacheTestObject> aquireFunc = () =>
             {
