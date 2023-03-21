@@ -1,3 +1,7 @@
+# Saturn72 has changed - we are now focusing on creating messaging infrastructure!
+# checkout our coming pull requests! 🦾 🐱‍🏍
+
+
 [![Coverage Status](https://coveralls.io/repos/github/saturn72/saturn72/badge.svg?branch=master)](https://coveralls.io/github/saturn72/saturn72?branch=master)
 [![Build Status](https://travis-ci.org/saturn72/saturn72.svg?branch=master)](https://travis-ci.org/saturn72/saturn72)
 # saturn72
