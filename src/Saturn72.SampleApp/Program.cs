@@ -10,7 +10,9 @@ services.AddSwaggerGen();
 var config = builder.Configuration;
 services.AddModules(builder.Environment);
 services.AddServices();
-services.AddMessaging(config);
+services.AddDaprClient();
+
+//services.AddMessaging(config);
 
 var app = builder.Build();
 app.UseStaticFiles();

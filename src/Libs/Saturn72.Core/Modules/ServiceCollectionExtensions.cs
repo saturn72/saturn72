@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
         this IServiceCollection services,
         IConfiguration config)
         {
-            services.AddSingleton<IMessager, MassTransitMessager>();
+            services.AddSingleton<IMessager, DaprMessager>();
 
             var host = config["rabbitmq:host"] ?? throw new ArgumentNullException("rabbitmq:host");
             var vhost = config["rabbitmq:vhost"] ?? "/";

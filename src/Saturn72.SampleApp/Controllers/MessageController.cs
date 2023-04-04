@@ -1,3 +1,4 @@
+using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
 using Saturn72.Core.Messaging;
 
@@ -17,7 +18,7 @@ namespace Saturn72.SampleApp.Controllers
     {
         private readonly IMessager _messager;
 
-        public MessageController(IMessager messager)
+        public MessageController(DaprClient messager)
         {
             _messager = messager;
         }
