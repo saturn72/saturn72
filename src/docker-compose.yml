@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+
+  redis:
+    container_name: redis
+    image: "redis"
+
+  rabbitmq:
+    container_name: s72-rabbitmq
+    image: "rabbitmq:3.11.8-management"
+    healthcheck:
+       test: ["CMD", "curl", "-f", "http://localhost:15672"]
+       interval: 30s
+       timeout: 10s
+       retries: 5
+
+  saturn72.sampleapp:
+    container_name: s72-sample
+    image: ${DOCKER_REGISTRY-}saturn72sampleapp
+    build:
+      context: .
+      dockerfile: Saturn72.SampleApp/Dockerfile
+    depends_on:
+      - rabbitmq
