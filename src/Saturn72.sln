@@ -3,23 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.SampleApp", "Saturn72.SampleApp\Saturn72.SampleApp.csproj", "{DAF0B95F-F15C-4532-8F0C-046F918C7FA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core", "Saturn72.Core\Saturn72.Core.csproj", "{D4D6B5DE-2113-430A-8FB7-32333387D049}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F9CD5AE2-CA05-4E92-B48F-88F01AAC55F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions", "Saturn72.Extensions\Saturn72.Extensions.csproj", "{3F9F065E-1A35-4B09-B75B-7213A7EDCA5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleHandler", "Handlers\SampleHandler\SampleHandler.csproj", "{20948354-A42F-484D-AFBD-4DDDF09AC3B7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Handlers", "Handlers", "{94EE6AF3-6A01-4B3F-8A2E-93C960608F5B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{6E16D444-5576-47DE-A1A2-B8C1BF1B91C2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core", "Libs\Saturn72.Core\Saturn72.Core.csproj", "{D4D6B5DE-2113-430A-8FB7-32333387D049}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions", "Libs\Saturn72.Extensions\Saturn72.Extensions.csproj", "{3F9F065E-1A35-4B09-B75B-7213A7EDCA5C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Tests", "Libs\Saturn72.Core.Tests\Saturn72.Core.Tests.csproj", "{30EAF00E-16A1-481F-A109-97B3D8EA52AF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaintenanceHandler", "Handlers\MaintenanceHandler\MaintenanceHandler.csproj", "{5E0F107B-932F-47AA-AB6F-DB9E439F133A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Tests", "Saturn72.Core.Tests\Saturn72.Core.Tests.csproj", "{30EAF00E-16A1-481F-A109-97B3D8EA52AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,18 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DAF0B95F-F15C-4532-8F0C-046F918C7FA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAF0B95F-F15C-4532-8F0C-046F918C7FA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAF0B95F-F15C-4532-8F0C-046F918C7FA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAF0B95F-F15C-4532-8F0C-046F918C7FA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9CD5AE2-CA05-4E92-B48F-88F01AAC55F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9CD5AE2-CA05-4E92-B48F-88F01AAC55F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9CD5AE2-CA05-4E92-B48F-88F01AAC55F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9CD5AE2-CA05-4E92-B48F-88F01AAC55F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20948354-A42F-484D-AFBD-4DDDF09AC3B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20948354-A42F-484D-AFBD-4DDDF09AC3B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20948354-A42F-484D-AFBD-4DDDF09AC3B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20948354-A42F-484D-AFBD-4DDDF09AC3B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D4D6B5DE-2113-430A-8FB7-32333387D049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4D6B5DE-2113-430A-8FB7-32333387D049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4D6B5DE-2113-430A-8FB7-32333387D049}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,20 +27,9 @@ Global
 		{30EAF00E-16A1-481F-A109-97B3D8EA52AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30EAF00E-16A1-481F-A109-97B3D8EA52AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30EAF00E-16A1-481F-A109-97B3D8EA52AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E0F107B-932F-47AA-AB6F-DB9E439F133A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E0F107B-932F-47AA-AB6F-DB9E439F133A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E0F107B-932F-47AA-AB6F-DB9E439F133A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E0F107B-932F-47AA-AB6F-DB9E439F133A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{20948354-A42F-484D-AFBD-4DDDF09AC3B7} = {94EE6AF3-6A01-4B3F-8A2E-93C960608F5B}
-		{D4D6B5DE-2113-430A-8FB7-32333387D049} = {6E16D444-5576-47DE-A1A2-B8C1BF1B91C2}
-		{3F9F065E-1A35-4B09-B75B-7213A7EDCA5C} = {6E16D444-5576-47DE-A1A2-B8C1BF1B91C2}
-		{30EAF00E-16A1-481F-A109-97B3D8EA52AF} = {6E16D444-5576-47DE-A1A2-B8C1BF1B91C2}
-		{5E0F107B-932F-47AA-AB6F-DB9E439F133A} = {94EE6AF3-6A01-4B3F-8A2E-93C960608F5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D8018E2-71D5-46D6-97FD-60F8080148BC}
